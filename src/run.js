@@ -4,7 +4,7 @@ import Anthropic from '@anthropic-ai/sdk'
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const result = await client.messages.create({
-  model: 'sonnet',
+  model: 'claude-haiku-4-5-20251001',
   max_tokens: 1200,
   messages: [
     {
