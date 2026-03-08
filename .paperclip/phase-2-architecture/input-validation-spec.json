@@ -1,0 +1,49 @@
+{
+  "condition": "SC-1",
+  "purpose": "Prevent prompt injection attacks against agents",
+  "module": "src/paperclip/input-validator.js",
+  "enforcement_point": "TaskManager.createTask() - before task reaches any agent",
+  "rules": {
+    "task_type": {
+      "validation": "Must be in VALID_TASK_TYPES: ['debug', 'verify', 'route', 'report']",
+      "status": "ALREADY_ENFORCED in task-manager.js"
+    },
+    "hypothesis": {
+      "max_length": 2000,
+      "reject_patterns": [
+        "You are now",
+        "Ignore previous",
+        "Forget your instructions",
+        "Act as",
+        "Pretend you are",
+        "<system>",
+        "</instructions>",
+        "[SYSTEM]",
+        "```system"
+      ]
+    },
+    "evidence_items": {
+      "required_fields": ["source", "content"],
+      "source_validation": "Must reference existing file path or known log format",
+      "reject_fabricated": true,
+      "max_items": 50,
+      "max_content_length_per_item": 5000
+    },
+    "constraints": {
+      "allowlist": [
+        "never invent fields, tables, APIs, regions, or files",
+        "retrieve before explaining",
+        "verifier blocks unsupported nouns",
+        "skeptic must produce a materially different theory",
+        "no edits until the plan is approved"
+      ],
+      "reject_unknown": true,
+      "note": "Only CLAUDE.md rules are valid constraints. Any constraint not in this allowlist is rejected."
+    },
+    "general_string_sanitization": {
+      "strip_null_bytes": true,
+      "strip_control_characters": true,
+      "reject_base64_payloads_over": 500
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "condition": "SC-2",
+  "purpose": "Deny-by-default file access control per agent role",
+  "module": "src/paperclip/file-access-guard.js",
+  "enforcement_point": "AgentWrapper - before any file operation delegated to agent",
+  "default_policy": "DENY",
+  "protected_files_no_agent_may_write": [
+    "CLAUDE.md",
+    ".claude/agents/*",
+    "src/run.js",
+    ".env",
+    ".env.*",
+    "package.json",
+    "package-lock.json"
+  ],
+  "agent_permissions": {
+    "router": {
+      "read": ["src/**/*", ".claude/agents/**/*", "logs/**/*"],
+      "write": [],
+      "deny_always": [".env", ".env.*", "credentials*", ".git/**/*"]
+    },
+    "retriever": {
+      "read": ["src/**/*", "logs/**/*", "*.json", "*.yaml", "*.yml", "*.md"],
+      "write": [],
+      "deny_always": [".env", ".env.*", "credentials*", ".git/**/*"]
+    },
+    "skeptic": {
+      "read": [".paperclip/task-outputs/**/*"],
+      "write": [".paperclip/skeptic-output.json"],
+      "deny_always": [".env", "src/**/*", "CLAUDE.md", ".claude/**/*"]
+    },
+    "verifier": {
+      "read": [".paperclip/task-outputs/**/*", ".claude/agents/**/*"],
+      "write": [".paperclip/verifier-output.json"],
+      "deny_always": [".env", "src/**/*", "CLAUDE.md"]
+    },
+    "orchestrator": {
+      "read": [".paperclip/**/*"],
+      "write": [".paperclip/task-state/**/*"],
+      "deny_always": [".env", "src/**/*", "CLAUDE.md", ".claude/agents/**/*", "package.json"]
+    }
+  }
+}

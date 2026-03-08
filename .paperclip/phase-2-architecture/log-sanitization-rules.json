@@ -1,0 +1,50 @@
+{
+  "condition": "SC-4",
+  "purpose": "Strip PII and secrets from all logs, audit trails, and agent outputs",
+  "module": "src/paperclip/log-sanitizer.js",
+  "enforcement_point": "AuditLogger.log() - sanitize BEFORE appending to audit trail",
+  "timing": "write-time (not post-hoc)",
+  "unsanitized_data_policy": "NEVER persisted to disk or external systems",
+  "patterns": [
+    {
+      "name": "ANTHROPIC_API_KEY",
+      "regex": "sk-[a-zA-Z0-9]{20,}",
+      "replacement": "[REDACTED:API_KEY]"
+    },
+    {
+      "name": "ENV_KEY_ASSIGNMENT",
+      "regex": "[A-Z_]+_KEY=[^\\s]+",
+      "replacement": "[REDACTED:ENV_VAR]"
+    },
+    {
+      "name": "ENV_SECRET_ASSIGNMENT",
+      "regex": "[A-Z_]+_SECRET=[^\\s]+",
+      "replacement": "[REDACTED:ENV_VAR]"
+    },
+    {
+      "name": "ENV_TOKEN_ASSIGNMENT",
+      "regex": "[A-Z_]+_TOKEN=[^\\s]+",
+      "replacement": "[REDACTED:ENV_VAR]"
+    },
+    {
+      "name": "ENV_PASSWORD_ASSIGNMENT",
+      "regex": "[A-Z_]+_PASSWORD=[^\\s]+",
+      "replacement": "[REDACTED:ENV_VAR]"
+    },
+    {
+      "name": "EMAIL_ADDRESS",
+      "regex": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+      "replacement": "[REDACTED:EMAIL]"
+    },
+    {
+      "name": "IPV4_ADDRESS",
+      "regex": "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b",
+      "replacement": "[REDACTED:IP]"
+    },
+    {
+      "name": "BEARER_TOKEN",
+      "regex": "Bearer [A-Za-z0-9._~+/=-]+",
+      "replacement": "Bearer [REDACTED:TOKEN]"
+    }
+  ]
+}

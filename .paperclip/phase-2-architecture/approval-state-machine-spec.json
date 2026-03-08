@@ -1,0 +1,38 @@
+{
+  "states": ["pending", "skeptic_review", "verifier_review", "awaiting_approver", "approved", "blocked", "escalated", "user_override"],
+  "terminal_states": ["approved", "blocked"],
+  "initial_state": "pending",
+  "timeouts": {
+    "default": "4 hours",
+    "escalated_user_response": "8 hours"
+  },
+  "transitions": [
+    { "from": "pending", "action": "start_review", "to": "skeptic_review" },
+    { "from": "pending", "action": "timeout", "to": "escalated" },
+    { "from": "skeptic_review", "action": "skeptic_verdict:approve", "to": "verifier_review" },
+    { "from": "skeptic_review", "action": "skeptic_verdict:challenge", "to": "verifier_review" },
+    { "from": "skeptic_review", "action": "skeptic_verdict:block", "to": "blocked" },
+    { "from": "skeptic_review", "action": "timeout", "to": "escalated" },
+    { "from": "verifier_review", "action": "verifier_verdict:proceed", "to": "awaiting_approver" },
+    { "from": "verifier_review", "action": "verifier_verdict:unverifiable+skeptic_challenge", "to": "escalated" },
+    { "from": "verifier_review", "action": "verifier_verdict:unverifiable+skeptic_approve", "to": "awaiting_approver" },
+    { "from": "verifier_review", "action": "timeout", "to": "escalated" },
+    { "from": "awaiting_approver", "action": "approver_verdict:approve+skeptic_approve", "to": "approved" },
+    { "from": "awaiting_approver", "action": "approver_verdict:approve+skeptic_challenge", "to": "escalated" },
+    { "from": "awaiting_approver", "action": "approver_verdict:deny", "to": "blocked" },
+    { "from": "awaiting_approver", "action": "timeout", "to": "escalated" },
+    { "from": "escalated", "action": "user_decision:override_approve", "to": "user_override" },
+    { "from": "escalated", "action": "user_decision:reject", "to": "blocked" },
+    { "from": "escalated", "action": "timeout", "to": "blocked" },
+    { "from": "user_override", "action": "finalize", "to": "approved" }
+  ],
+  "canonical_flow": "pending -> skeptic_review -> verifier_review -> awaiting_approver -> approved",
+  "skeptic_ordering": "Skeptic reviews FIRST. No path bypasses skeptic_review. This resolves the BE-1 contradiction.",
+  "test_paths": {
+    "path_1_happy": "pending -> skeptic_review(approve) -> verifier_review(proceed) -> awaiting_approver(approve) -> approved",
+    "path_2_skeptic_block": "pending -> skeptic_review(block) -> blocked",
+    "path_3_verifier_escalation": "pending -> skeptic_review(challenge) -> verifier_review(unverifiable) -> escalated",
+    "path_4_timeout": "pending -> skeptic_review(timeout) -> escalated",
+    "path_5_user_override": "escalated -> user_override(justified) -> approved"
+  }
+}

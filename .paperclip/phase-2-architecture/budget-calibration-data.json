@@ -1,0 +1,34 @@
+{
+  "condition": "BE-3",
+  "purpose": "Data-driven budget thresholds based on actual token consumption",
+  "status": "TEMPLATE - awaiting calibration run",
+  "procedure": {
+    "step_1": "Run 5 sample incidents through existing agents via src/run.js",
+    "step_2": "Record token consumption from Anthropic API response.usage",
+    "step_3": "Calculate mean, p50, p90, p99 per agent",
+    "step_4": "Set per-agent daily budget = p99 + 20% headroom",
+    "step_5": "Set per-incident budget = sum of all agent p99 + 30% headroom",
+    "step_6": "Set daily org budget = expected daily incidents * per-incident budget"
+  },
+  "current_defaults": {
+    "per_agent_daily": 10000,
+    "per_incident": 50000,
+    "daily_org_total": 100000,
+    "per_task_alert": 5000
+  },
+  "calibration_data": {
+    "note": "Populate after running 5 sample incidents",
+    "samples": [],
+    "statistics": {
+      "router": { "mean": null, "p50": null, "p90": null, "p99": null },
+      "retriever": { "mean": null, "p50": null, "p90": null, "p99": null },
+      "skeptic": { "mean": null, "p50": null, "p90": null, "p99": null },
+      "verifier": { "mean": null, "p50": null, "p90": null, "p99": null }
+    },
+    "calibrated_limits": {
+      "per_agent_daily": null,
+      "per_incident": null,
+      "daily_org_total": null
+    }
+  }
+}

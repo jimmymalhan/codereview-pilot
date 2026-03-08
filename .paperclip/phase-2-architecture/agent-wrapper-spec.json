@@ -1,0 +1,58 @@
+{
+  "module": "src/paperclip/agent-wrapper.js",
+  "purpose": "Translate between repo agent format and local Paperclip task system",
+  "agent_mappings": {
+    "router": {
+      "agent_file": ".claude/agents/router.md",
+      "task_type": "route",
+      "input": ["logs", "schema_definitions", "diffs"],
+      "output": "failure classification (top 2 from VALID_FAILURE_CLASSES) + missing evidence",
+      "budget_estimate": 200,
+      "invoked_by": "orchestrator on task creation"
+    },
+    "retriever": {
+      "agent_file": ".claude/agents/retriever.md",
+      "task_type": "debug",
+      "input": ["classification", "repo_path", "query"],
+      "output": "evidence array with sources and timestamps",
+      "budget_estimate": 500,
+      "invoked_by": "orchestrator after classification"
+    },
+    "skeptic": {
+      "agent_file": ".claude/agents/skeptic.md",
+      "task_type": "verify",
+      "input": ["hypothesis", "evidence", "claims"],
+      "output": "competing explanation, contradictions, veto recommendation",
+      "budget_estimate": 300,
+      "invoked_by": "approval state machine at pending -> skeptic_review",
+      "authority": "Mandatory FIRST reviewer. Can BLOCK (veto)."
+    },
+    "verifier": {
+      "agent_file": ".claude/agents/verifier.md",
+      "task_type": "verify",
+      "input": ["claims", "evidence"],
+      "output": "verdict (proceed|unverifiable), rejected_claims, missing_evidence",
+      "budget_estimate": 300,
+      "invoked_by": "approval state machine at skeptic_review -> verifier_review",
+      "authority": "No unilateral block. Can escalate unverifiable claims."
+    }
+  },
+  "execution_flow": [
+    "1. Load agent definition from .claude/agents/<name>.md",
+    "2. InputValidator.validate(input) -- SC-1",
+    "3. FileAccessGuard.checkAccess(agentId, ...) -- SC-2",
+    "4. BudgetEnforcer.reserveBudget(taskId, agentId, estimate)",
+    "5. Construct Anthropic SDK message with agent system prompt",
+    "6. Execute via Anthropic client (same pattern as src/run.js)",
+    "7. LogSanitizer.sanitize(response) -- SC-4",
+    "8. Parse agent output into task schema format",
+    "9. TaskManager._validateOutput(output) for CLAUDE.md contract",
+    "10. BudgetEnforcer.chargeBudget(taskId, agentId, response.usage.output_tokens)"
+  ],
+  "concurrency_rules": {
+    "retriever_and_skeptic": "parallel OK (independent inputs)",
+    "skeptic_and_verifier": "SERIAL (verifier needs skeptic output)",
+    "orchestrator_and_router": "SERIAL (delegation chain)",
+    "conflict_fallback": "Switch to serial after 2+ conflicts/day"
+  }
+}

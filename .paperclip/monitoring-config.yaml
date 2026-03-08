@@ -1,0 +1,383 @@
+# Paperclip Integration - Monitoring Configuration
+# Owner: Operations/DevOps Lead
+# Created: 2026-03-08
+# Purpose: Dashboard definitions, metrics collection, and alerting rules
+# Stack: Configurable (Grafana+Prometheus OR Datadog) - CEO approval required Day 1
+
+---
+# STACK SELECTION (Decision Required Day 1)
+# Option A: Grafana + Prometheus (self-hosted, lower cost, more setup)
+# Option B: Datadog (managed SaaS, faster setup, higher ongoing cost)
+# CEO must approve cost before procurement.
+
+monitoring:
+  stack_selection:
+    status: PENDING_CEO_APPROVAL
+    options:
+      grafana_prometheus:
+        setup_time: "3-4 days"
+        monthly_cost_estimate: "$50-200 (infrastructure)"
+        pros: "Full control, no vendor lock-in, open source"
+        cons: "More setup effort, self-managed infrastructure"
+      datadog:
+        setup_time: "1-2 days"
+        monthly_cost_estimate: "$200-500 (SaaS tier)"
+        pros: "Managed service, faster deployment, built-in alerting"
+        cons: "Vendor lock-in, higher recurring cost"
+    recommendation: "Datadog for Phase 2 speed; migrate to Grafana+Prometheus in Phase 4 if cost is concern"
+
+  # Dependency: Item #1 (Capability Gate) must confirm Paperclip API
+  # exposes metrics endpoints. If not, metrics collection layer needs
+  # custom instrumentation via application-level hooks.
+  dependency_note: "Metrics collection depends on Paperclip API metrics export endpoints (Item #1)"
+
+---
+# DASHBOARD: Agent Health
+dashboards:
+  - name: agent_health
+    title: "Agent Health Overview"
+    refresh_interval: "10s"
+    panels:
+      - id: agent_heartbeat_status
+        title: "Agent Heartbeat Status"
+        type: stat
+        description: "Current heartbeat status for each agent (router, retriever, skeptic, verifier)"
+        metrics:
+          - name: paperclip_agent_heartbeat_last_seen
+            type: gauge
+            unit: seconds
+            labels: ["agent_name", "agent_id"]
+            description: "Seconds since last heartbeat from each agent"
+        thresholds:
+          green: "< 30s"
+          yellow: ">= 30s and < 60s"
+          red: ">= 60s (2 missed heartbeats)"
+
+      - id: agent_response_time
+        title: "Agent Response Time (p50/p95/p99)"
+        type: timeseries
+        description: "Response latency per agent over time"
+        metrics:
+          - name: paperclip_agent_response_duration_seconds
+            type: histogram
+            unit: seconds
+            labels: ["agent_name", "task_type"]
+            buckets: [0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0, 60.0]
+
+      - id: agent_error_rate
+        title: "Agent Error Rate"
+        type: timeseries
+        description: "Error count per agent per 5-minute window"
+        metrics:
+          - name: paperclip_agent_errors_total
+            type: counter
+            labels: ["agent_name", "error_type"]
+            description: "Total errors by agent and error type"
+
+      - id: agent_availability
+        title: "Agent Availability (%)"
+        type: gauge
+        description: "Percentage uptime per agent over rolling 24h window"
+        metrics:
+          - name: paperclip_agent_uptime_ratio
+            type: gauge
+            labels: ["agent_name"]
+            description: "Ratio of time agent was responsive (0.0 to 1.0)"
+
+  # DASHBOARD: Task Flow
+  - name: task_flow
+    title: "Task Flow Metrics"
+    refresh_interval: "15s"
+    panels:
+      - id: task_counts_by_state
+        title: "Tasks by State"
+        type: stat
+        description: "Current count of tasks in each state"
+        metrics:
+          - name: paperclip_tasks_current
+            type: gauge
+            labels: ["state"]
+            # States: pending, classifying, awaiting_skeptic, awaiting_verifier,
+            #         awaiting_approver, approved, rejected, completed, rolled_back
+            description: "Number of tasks currently in each state"
+
+      - id: task_throughput
+        title: "Task Throughput (tasks/hour)"
+        type: timeseries
+        description: "Tasks completed per hour over time"
+        metrics:
+          - name: paperclip_tasks_completed_total
+            type: counter
+            labels: ["result"]
+            description: "Total tasks completed (approved, rejected, rolled_back)"
+
+      - id: task_duration
+        title: "Task Duration (creation to completion)"
+        type: histogram
+        description: "End-to-end task duration distribution"
+        metrics:
+          - name: paperclip_task_duration_seconds
+            type: histogram
+            labels: ["task_type", "result"]
+            buckets: [60, 300, 600, 1800, 3600, 7200, 14400]
+
+  # DASHBOARD: Budget Consumption
+  - name: budget
+    title: "Budget Consumption"
+    refresh_interval: "30s"
+    panels:
+      - id: budget_usage_gauge
+        title: "Organization Budget Usage"
+        type: gauge
+        description: "Current budget consumption as percentage of daily limit"
+        metrics:
+          - name: paperclip_budget_tokens_used
+            type: gauge
+            labels: ["scope"]
+            description: "Tokens consumed (scope: org, per_agent, per_incident)"
+          - name: paperclip_budget_tokens_limit
+            type: gauge
+            labels: ["scope"]
+            description: "Token budget limit (scope: org, per_agent, per_incident)"
+
+      - id: budget_per_agent
+        title: "Budget by Agent"
+        type: bar
+        description: "Token consumption breakdown by agent"
+        metrics:
+          - name: paperclip_budget_tokens_used
+            type: gauge
+            labels: ["agent_name"]
+
+      - id: budget_burn_rate
+        title: "Budget Burn Rate (tokens/hour)"
+        type: timeseries
+        description: "Rate of token consumption over time"
+        metrics:
+          - name: paperclip_budget_tokens_used
+            type: counter
+            labels: ["scope"]
+            description: "Rate derived from counter increment"
+
+  # DASHBOARD: Approval Latency
+  - name: approval_latency
+    title: "Approval Pipeline Latency"
+    refresh_interval: "15s"
+    panels:
+      - id: approval_stage_timing
+        title: "Time per Approval Stage"
+        type: timeseries
+        description: "Duration spent in each approval stage"
+        metrics:
+          - name: paperclip_approval_stage_duration_seconds
+            type: histogram
+            labels: ["stage"]
+            # Stages: skeptic_review, verifier_review, approver_decision
+            buckets: [30, 60, 300, 600, 1800, 3600, 7200]
+
+      - id: approval_bottleneck
+        title: "Approval Bottleneck Indicator"
+        type: stat
+        description: "Longest-waiting task in approval pipeline"
+        metrics:
+          - name: paperclip_approval_longest_wait_seconds
+            type: gauge
+            labels: ["stage", "task_id"]
+
+  # DASHBOARD: Escalation Queue
+  - name: escalation_queue
+    title: "Escalation Queue"
+    refresh_interval: "10s"
+    panels:
+      - id: queue_depth
+        title: "Escalation Queue Depth"
+        type: stat
+        description: "Number of tasks awaiting user/management approval"
+        metrics:
+          - name: paperclip_escalation_queue_depth
+            type: gauge
+            labels: ["priority"]
+            description: "Tasks waiting for human escalation"
+
+      - id: queue_age
+        title: "Oldest Item in Queue"
+        type: stat
+        description: "Age of the oldest unresolved escalation"
+        metrics:
+          - name: paperclip_escalation_oldest_age_seconds
+            type: gauge
+            description: "Seconds since oldest escalation was created"
+
+  # DASHBOARD: Audit Trail Status
+  - name: audit_trail
+    title: "Audit Trail Status"
+    refresh_interval: "30s"
+    panels:
+      - id: audit_events_rate
+        title: "Audit Events Logged (per minute)"
+        type: timeseries
+        metrics:
+          - name: paperclip_audit_events_total
+            type: counter
+            labels: ["event_type"]
+            description: "Total audit events logged"
+
+      - id: audit_gap_detector
+        title: "Audit Gap Status"
+        type: stat
+        description: "Whether any gaps exist in the audit trail"
+        metrics:
+          - name: paperclip_audit_gaps_detected
+            type: gauge
+            description: "Number of detected audit trail gaps (0 = healthy)"
+
+      - id: audit_last_verified
+        title: "Last Audit Verification"
+        type: stat
+        description: "Timestamp of last successful audit integrity check"
+        metrics:
+          - name: paperclip_audit_last_verification_timestamp
+            type: gauge
+            unit: unix_timestamp
+
+---
+# ALERTING RULES
+alerts:
+  # CRITICAL: Agent heartbeat missed
+  - name: agent_heartbeat_missed
+    severity: critical
+    trigger: "paperclip_agent_heartbeat_last_seen > 120"
+    description: "Agent has missed 4 consecutive heartbeats (2 minutes)"
+    for: "0s"
+    action: "Immediate alert to on-call. See Runbook #1: Agent Timeout/Heartbeat Missed"
+    notification_channels: ["pagerduty", "slack_ops"]
+    runbook: "runbook-01-agent-timeout.md"
+
+  # WARNING: Agent response time degradation
+  - name: agent_response_slow
+    severity: warning
+    trigger: "histogram_quantile(0.95, paperclip_agent_response_duration_seconds) > 30"
+    description: "Agent p95 response time exceeds 30 seconds"
+    for: "5m"
+    action: "Investigate agent performance. Check logs for errors."
+    notification_channels: ["slack_ops"]
+
+  # ESCALATING: Budget thresholds
+  - name: budget_warning_75
+    severity: warning
+    trigger: "paperclip_budget_tokens_used / paperclip_budget_tokens_limit > 0.75"
+    description: "Organization budget at 75% consumption"
+    for: "0s"
+    action: "Notify ops team. Monitor burn rate."
+    notification_channels: ["slack_ops"]
+
+  - name: budget_critical_90
+    severity: critical
+    trigger: "paperclip_budget_tokens_used / paperclip_budget_tokens_limit > 0.90"
+    description: "Organization budget at 90% consumption"
+    for: "0s"
+    action: "Alert on-call. Prepare to pause non-critical tasks. See Runbook #4."
+    notification_channels: ["pagerduty", "slack_ops"]
+    runbook: "runbook-04-budget-exhausted.md"
+
+  - name: budget_exhausted_100
+    severity: critical
+    trigger: "paperclip_budget_tokens_used / paperclip_budget_tokens_limit >= 1.0"
+    description: "Organization budget EXHAUSTED - 100% consumed"
+    for: "0s"
+    action: "IMMEDIATE: Stop new tasks. Execute Runbook #4."
+    notification_channels: ["pagerduty", "slack_ops", "email_management"]
+    runbook: "runbook-04-budget-exhausted.md"
+
+  # WARNING: Approval queue bottleneck
+  - name: approval_queue_bottleneck
+    severity: warning
+    trigger: "paperclip_escalation_queue_depth > 5"
+    description: "Escalation queue depth exceeds 5 tasks - potential bottleneck"
+    for: "5m"
+    action: "Notify approvers. Check for approval deadlock. See Runbook #3."
+    notification_channels: ["slack_ops", "slack_approvers"]
+    runbook: "runbook-03-approval-deadlock.md"
+
+  # CRITICAL: Audit trail gap
+  - name: audit_gap_detected
+    severity: critical
+    trigger: "paperclip_audit_gaps_detected > 0"
+    description: "Gap detected in audit trail - potential data integrity issue"
+    for: "0s"
+    action: "CRITICAL: Investigate immediately. See Runbook #5."
+    notification_channels: ["pagerduty", "slack_ops", "email_security"]
+    runbook: "runbook-05-audit-trail-gap.md"
+
+  # WARNING: Audit verification stale
+  - name: audit_verification_stale
+    severity: warning
+    trigger: "time() - paperclip_audit_last_verification_timestamp > 3600"
+    description: "Audit trail integrity check has not run in over 1 hour"
+    for: "0s"
+    action: "Check audit verification job. May indicate system issue."
+    notification_channels: ["slack_ops"]
+
+---
+# NOTIFICATION CHANNELS
+notification_channels:
+  pagerduty:
+    type: pagerduty
+    description: "On-call engineer immediate alert"
+    config:
+      service_key: "${PAGERDUTY_SERVICE_KEY}"
+      severity_mapping:
+        critical: "critical"
+        warning: "warning"
+
+  slack_ops:
+    type: slack
+    description: "Operations team channel"
+    config:
+      webhook_url: "${SLACK_OPS_WEBHOOK_URL}"
+      channel: "#paperclip-ops"
+
+  slack_approvers:
+    type: slack
+    description: "Approver notification channel"
+    config:
+      webhook_url: "${SLACK_APPROVERS_WEBHOOK_URL}"
+      channel: "#paperclip-approvals"
+
+  email_management:
+    type: email
+    description: "Management escalation"
+    config:
+      recipients: "${MANAGEMENT_EMAIL_LIST}"
+
+  email_security:
+    type: email
+    description: "Security team escalation"
+    config:
+      recipients: "${SECURITY_EMAIL_LIST}"
+
+---
+# METRICS COLLECTION CONFIGURATION
+metrics_collection:
+  # How metrics are collected from Paperclip API
+  # NOTE: Depends on Item #1 (Capability Gate) confirming API metrics endpoints
+  scrape_interval: "15s"
+  evaluation_interval: "15s"
+
+  # Paperclip API metrics endpoint (to be confirmed in Item #1)
+  endpoints:
+    - url: "${PAPERCLIP_API_URL}/metrics"
+      description: "Primary Paperclip metrics endpoint"
+      auth: "Bearer ${PAPERCLIP_API_KEY}"
+
+  # Application-level instrumentation (fallback if Paperclip lacks native metrics)
+  fallback_instrumentation:
+    description: "If Paperclip API does not expose /metrics endpoint, instrument at application level"
+    approach: "Add prometheus-client to src/run.js, export custom metrics on localhost:9090/metrics"
+    effort: "Additional 1-2 days of engineering"
+
+  # Data retention
+  retention:
+    raw_metrics: "30d"
+    aggregated_metrics: "90d"
+    alert_history: "365d"
