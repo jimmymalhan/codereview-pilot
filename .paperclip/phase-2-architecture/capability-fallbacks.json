@@ -1,0 +1,43 @@
+{
+  "gate_result": "FAIL",
+  "gate_date": "2026-03-08",
+  "capabilities_verified": 0,
+  "capabilities_required": 5,
+  "decision": "USE_LOCAL_FALLBACKS",
+  "fallbacks": {
+    "approval_gating": {
+      "external": "Not available (no Paperclip API)",
+      "local": "src/paperclip/approval-state-machine.js",
+      "status": "IMPLEMENTED",
+      "coverage": "8 states, 5 transition paths, 4hr/8hr timeouts"
+    },
+    "budget_enforcement": {
+      "external": "Not available (no Paperclip API)",
+      "local": "src/paperclip/budget-enforcer.js",
+      "status": "IMPLEMENTED",
+      "coverage": "Per-agent, per-incident, org-wide. 75/90/100% thresholds."
+    },
+    "audit_logging": {
+      "external": "Not available (no Paperclip API)",
+      "local": "src/paperclip/audit-logger.js",
+      "status": "IMPLEMENTED",
+      "coverage": "Append-only, immutable, integrity verification, queryable."
+    },
+    "heartbeat_monitoring": {
+      "external": "Not available (no Paperclip API)",
+      "local": "src/paperclip/heartbeat-monitor.js",
+      "status": "IMPLEMENTED",
+      "coverage": "30s interval, 4-tier escalation, circuit breaker at 4 misses."
+    },
+    "file_access_control": {
+      "external": "Not available (no Paperclip API)",
+      "local": "src/paperclip/file-access-guard.js",
+      "status": "TO_BE_IMPLEMENTED",
+      "coverage": "Deny-by-default model per agent role. See file-access-allowlist.json."
+    }
+  },
+  "future_external_integration": {
+    "client_stub": "src/paperclip/paperclip-client.js",
+    "note": "If Paperclip becomes available, wire client into existing modules without changing internal architecture."
+  }
+}

@@ -1,11 +1,14 @@
 {
   "name": "claude-debug-copilot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Evidence-first diagnostic system for backend failures",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
+    "test:ci": "node --experimental-vm-modules node_modules/.bin/jest --coverage --ci --coverageReporters=text --coverageReporters=lcov",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "test:e2e": "node --experimental-vm-modules node_modules/.bin/jest --testPathPattern=e2e --coverage"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +16,9 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
     "dotenv": "^17.3.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0"
   }
 }

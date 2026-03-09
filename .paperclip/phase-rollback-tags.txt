@@ -1,0 +1,108 @@
+# Git Tag Strategy for Phase Rollback
+# Paperclip Integration - Operations Automation
+#
+# Owner: Operations/DevOps Lead
+# Created: 2026-03-08
+#
+# The rollback script (rollback.sh) uses git tags to identify safe rollback
+# points for each phase. This avoids destructive operations like
+# `git reset --hard` and allows rollback to be reversed.
+#
+# IMPORTANT: Tags must be created at each phase completion gate.
+# CI/CD or the phase lead should create these tags as part of the phase
+# sign-off process.
+
+# ============================================================================
+# TAG NAMING CONVENTION
+# ============================================================================
+#
+# Format: paperclip/<phase>
+# Example: paperclip/phase-2
+#
+# Tags are lightweight references to specific commits. They are NOT branches.
+# They represent the exact state of the repo at phase completion.
+
+# ============================================================================
+# REQUIRED TAGS
+# ============================================================================
+
+# Phase 0: Pre-integration baseline
+# Create at: Before any Paperclip work begins
+# Points to: Last commit on main before Paperclip branch
+# Command:
+#   git tag paperclip/phase-0 -m "Pre-Paperclip integration baseline"
+#
+# Rollback to phase-0 = full revert to pre-integration state
+
+# Phase 1: Audit complete
+# Create at: After Phase 1 sign-off (all 10 exit criteria met)
+# Points to: Commit containing PAPERCLIP_AUDIT.md and blocking items resolution
+# Command:
+#   git tag paperclip/phase-1 -m "Phase 1 audit complete - 2026-03-08"
+#
+# Rollback to phase-1 = revert to audit-only state (no design or implementation)
+
+# Phase 2: Design complete
+# Create at: After Phase 2 sign-off (design doc approved, Phase 2.7 tests pass)
+# Points to: Commit containing complete integration design
+# Command:
+#   git tag paperclip/phase-2 -m "Phase 2 design complete - YYYY-MM-DD"
+#
+# Rollback to phase-2 = revert to design-only state (no implementation code)
+
+# Phase 3: Implementation complete (future)
+# Create at: After Phase 3 sign-off (all code implemented, tests pass)
+# Points to: Commit with full implementation but before production rollout
+# Command:
+#   git tag paperclip/phase-3 -m "Phase 3 implementation complete - YYYY-MM-DD"
+#
+# Rollback to phase-3 = revert to pre-rollout state
+
+# Phase 4: Production rollout (future)
+# Create at: After Phase 4 canary period passes
+# Points to: Commit representing stable production state
+# Command:
+#   git tag paperclip/phase-4 -m "Phase 4 production stable - YYYY-MM-DD"
+
+# ============================================================================
+# BACKUP TAGS (created automatically by rollback.sh)
+# ============================================================================
+#
+# Format: backup/rollback-YYYYMMDD-HHMMSS
+# Created by: rollback.sh before executing any rollback
+# Purpose: Allow undoing a rollback if needed
+#
+# To undo a rollback:
+#   git checkout backup/rollback-YYYYMMDD-HHMMSS
+#   git stash pop  # if changes were stashed
+
+# ============================================================================
+# TAG MANAGEMENT COMMANDS
+# ============================================================================
+
+# List all Paperclip tags:
+#   git tag -l 'paperclip/*'
+
+# List all backup tags:
+#   git tag -l 'backup/*'
+
+# View tag details:
+#   git show paperclip/phase-2
+
+# Delete a tag (use with caution):
+#   git tag -d paperclip/phase-2
+
+# Push tags to remote:
+#   git push origin paperclip/phase-2
+
+# Push all Paperclip tags:
+#   git push origin --tags 'paperclip/*'
+
+# ============================================================================
+# CURRENT TAG STATUS
+# ============================================================================
+# paperclip/phase-0  : TO BE CREATED (tag main branch before Phase 2 work)
+# paperclip/phase-1  : TO BE CREATED (tag current state after blocking items)
+# paperclip/phase-2  : TO BE CREATED (after Phase 2 design approval)
+# paperclip/phase-3  : FUTURE
+# paperclip/phase-4  : FUTURE
