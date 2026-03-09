@@ -102,8 +102,9 @@ export class ErrorHandler {
 
     if (this.auditLogger) {
       this.auditLogger.log({
-        event: 'error_escalation',
-        escalation
+        event: 'escalation_triggered',
+        reason: error.message,
+        timestamp: new Date().toISOString()
       });
     }
 
@@ -141,8 +142,9 @@ export class ErrorHandler {
 
     if (this.auditLogger) {
       this.auditLogger.log({
-        event: 'error_occurred',
-        ...entry
+        event: 'governance_override',
+        reason: error.message,
+        timestamp: new Date().toISOString()
       });
     }
   }

@@ -92,11 +92,11 @@ export class AgentWrapper {
       execution.steps.log_result = this._step('log_result', () => {
         if (this.auditLogger) {
           this.auditLogger.log({
-            event: 'agent_execution_complete',
+            event: 'state_transition',
             timestamp: new Date().toISOString(),
-            agentId,
             taskId,
-            status: 'success'
+            fromState: 'executing',
+            toState: 'agent_completed'
           });
         }
       });
@@ -124,11 +124,10 @@ export class AgentWrapper {
       this._releaseLock(taskId);
       if (this.auditLogger) {
         this.auditLogger.log({
-          event: 'agent_execution_failed',
+          event: 'escalation_triggered',
           timestamp: new Date().toISOString(),
-          agentId,
           taskId,
-          error: error.message
+          reason: error.message
         });
       }
     }

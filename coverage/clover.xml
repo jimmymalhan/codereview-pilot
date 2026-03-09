@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1773015439860" clover="3.2.0">
-  <project timestamp="1773015439860" name="All files">
-    <metrics statements="695" coveredstatements="622" conditionals="429" coveredconditionals="346" methods="169" coveredmethods="150" elements="1293" coveredelements="1118" complexity="0" loc="695" ncloc="695" packages="1" files="14" classes="14"/>
+<coverage generated="1773015592543" clover="3.2.0">
+  <project timestamp="1773015592543" name="All files">
+    <metrics statements="695" coveredstatements="647" conditionals="429" coveredconditionals="350" methods="169" coveredmethods="162" elements="1293" coveredelements="1159" complexity="0" loc="695" ncloc="695" packages="1" files="14" classes="14"/>
     <file name="agent-wrapper.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/agent-wrapper.js">
-      <metrics statements="58" coveredstatements="47" conditionals="24" coveredconditionals="17" methods="20" coveredmethods="17"/>
+      <metrics statements="58" coveredstatements="56" conditionals="24" coveredconditionals="19" methods="20" coveredmethods="20"/>
       <line num="13" count="2" type="stmt"/>
       <line num="15" count="2" type="stmt"/>
       <line num="30" count="32" type="stmt"/>
       <line num="31" count="32" type="stmt"/>
       <line num="32" count="32" type="stmt"/>
-      <line num="40" count="13" type="cond" truecount="2" falsecount="0"/>
+      <line num="40" count="14" type="cond" truecount="2" falsecount="0"/>
       <line num="41" count="1" type="stmt"/>
-      <line num="44" count="12" type="stmt"/>
-      <line num="51" count="12" type="stmt"/>
-      <line num="53" count="12" type="stmt"/>
-      <line num="54" count="12" type="stmt"/>
-      <line num="58" count="10" type="stmt"/>
-      <line num="59" count="10" type="stmt"/>
-      <line num="63" count="10" type="stmt"/>
-      <line num="64" count="10" type="stmt"/>
-      <line num="68" count="10" type="stmt"/>
-      <line num="69" count="10" type="stmt"/>
-      <line num="73" count="10" type="stmt"/>
-      <line num="74" count="10" type="stmt"/>
-      <line num="78" count="10" type="stmt"/>
-      <line num="79" count="10" type="stmt"/>
+      <line num="44" count="13" type="stmt"/>
+      <line num="51" count="13" type="stmt"/>
+      <line num="53" count="13" type="stmt"/>
+      <line num="54" count="13" type="stmt"/>
+      <line num="58" count="11" type="stmt"/>
+      <line num="59" count="11" type="stmt"/>
+      <line num="63" count="11" type="stmt"/>
+      <line num="64" count="11" type="stmt"/>
+      <line num="68" count="11" type="stmt"/>
+      <line num="69" count="11" type="stmt"/>
+      <line num="73" count="11" type="stmt"/>
+      <line num="74" count="11" type="stmt"/>
+      <line num="78" count="11" type="stmt"/>
+      <line num="79" count="11" type="stmt"/>
       <line num="83" count="2" type="stmt"/>
       <line num="84" count="2" type="stmt"/>
       <line num="92" count="2" type="stmt"/>
       <line num="93" count="2" type="cond" truecount="1" falsecount="1"/>
       <line num="94" count="2" type="stmt"/>
-      <line num="105" count="0" type="stmt"/>
-      <line num="106" count="0" type="stmt"/>
-      <line num="110" count="0" type="stmt"/>
-      <line num="111" count="0" type="stmt"/>
-      <line num="119" count="0" type="stmt"/>
-      <line num="120" count="0" type="stmt"/>
-      <line num="122" count="12" type="stmt"/>
-      <line num="123" count="12" type="stmt"/>
-      <line num="124" count="12" type="stmt"/>
-      <line num="125" count="12" type="cond" truecount="1" falsecount="1"/>
-      <line num="126" count="12" type="stmt"/>
-      <line num="136" count="0" type="stmt"/>
-      <line num="137" count="0" type="stmt"/>
-      <line num="144" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="151" count="66" type="stmt"/>
-      <line num="152" count="66" type="stmt"/>
-      <line num="153" count="66" type="stmt"/>
-      <line num="154" count="54" type="stmt"/>
-      <line num="160" count="12" type="stmt"/>
-      <line num="169" count="10" type="stmt"/>
-      <line num="170" count="10" type="cond" truecount="4" falsecount="0"/>
-      <line num="180" count="10" type="cond" truecount="1" falsecount="1"/>
-      <line num="181" count="0" type="stmt"/>
-      <line num="183" count="10" type="stmt"/>
-      <line num="190" count="12" type="stmt"/>
-      <line num="198" count="10" type="stmt"/>
-      <line num="210" count="10" type="cond" truecount="3" falsecount="1"/>
-      <line num="211" count="0" type="stmt"/>
-      <line num="214" count="10" type="cond" truecount="4" falsecount="0"/>
-      <line num="216" count="8" type="cond" truecount="1" falsecount="1"/>
-      <line num="217" count="8" type="stmt"/>
-      <line num="226" count="1" type="stmt"/>
+      <line num="105" count="2" type="stmt"/>
+      <line num="106" count="2" type="stmt"/>
+      <line num="110" count="2" type="stmt"/>
+      <line num="111" count="2" type="stmt"/>
+      <line num="119" count="2" type="stmt"/>
+      <line num="120" count="2" type="stmt"/>
+      <line num="122" count="11" type="stmt"/>
+      <line num="123" count="11" type="stmt"/>
+      <line num="124" count="11" type="stmt"/>
+      <line num="125" count="11" type="cond" truecount="1" falsecount="1"/>
+      <line num="126" count="11" type="stmt"/>
+      <line num="135" count="13" type="stmt"/>
+      <line num="136" count="13" type="stmt"/>
+      <line num="143" count="1" type="cond" truecount="2" falsecount="0"/>
+      <line num="150" count="76" type="stmt"/>
+      <line num="151" count="76" type="stmt"/>
+      <line num="152" count="76" type="stmt"/>
+      <line num="153" count="65" type="stmt"/>
+      <line num="159" count="11" type="stmt"/>
+      <line num="168" count="11" type="stmt"/>
+      <line num="169" count="11" type="cond" truecount="4" falsecount="0"/>
+      <line num="179" count="11" type="cond" truecount="1" falsecount="1"/>
+      <line num="180" count="0" type="stmt"/>
+      <line num="182" count="11" type="stmt"/>
+      <line num="189" count="13" type="stmt"/>
+      <line num="197" count="11" type="stmt"/>
+      <line num="209" count="11" type="cond" truecount="3" falsecount="1"/>
+      <line num="210" count="0" type="stmt"/>
+      <line num="213" count="11" type="cond" truecount="4" falsecount="0"/>
+      <line num="215" count="9" type="cond" truecount="1" falsecount="1"/>
+      <line num="216" count="9" type="stmt"/>
+      <line num="225" count="5" type="stmt"/>
     </file>
     <file name="approval-state-machine.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/approval-state-machine.js">
       <metrics statements="96" coveredstatements="94" conditionals="63" coveredconditionals="60" methods="12" coveredmethods="12"/>
       <line num="10" count="3" type="stmt"/>
       <line num="21" count="3" type="stmt"/>
       <line num="22" count="3" type="stmt"/>
-      <line num="26" count="64" type="stmt"/>
-      <line num="27" count="64" type="stmt"/>
-      <line num="28" count="64" type="stmt"/>
-      <line num="29" count="64" type="stmt"/>
-      <line num="30" count="64" type="stmt"/>
-      <line num="31" count="64" type="stmt"/>
+      <line num="26" count="70" type="stmt"/>
+      <line num="27" count="70" type="stmt"/>
+      <line num="28" count="70" type="stmt"/>
+      <line num="29" count="70" type="stmt"/>
+      <line num="30" count="70" type="stmt"/>
+      <line num="31" count="70" type="stmt"/>
       <line num="39" count="41" type="stmt"/>
       <line num="43" count="2" type="stmt"/>
       <line num="47" count="1" type="stmt"/>
@@ -168,13 +168,13 @@
       <line num="10" count="4" type="stmt"/>
       <line num="25" count="135" type="stmt"/>
       <line num="26" count="135" type="stmt"/>
-      <line num="30" count="232" type="cond" truecount="2" falsecount="0"/>
+      <line num="30" count="244" type="cond" truecount="2" falsecount="0"/>
       <line num="31" count="1" type="stmt"/>
-      <line num="34" count="231" type="stmt"/>
-      <line num="36" count="196" type="stmt"/>
-      <line num="43" count="196" type="stmt"/>
-      <line num="44" count="196" type="stmt"/>
-      <line num="46" count="196" type="stmt"/>
+      <line num="34" count="243" type="stmt"/>
+      <line num="36" count="240" type="stmt"/>
+      <line num="43" count="240" type="stmt"/>
+      <line num="44" count="240" type="stmt"/>
+      <line num="46" count="240" type="stmt"/>
       <line num="50" count="17" type="stmt"/>
       <line num="52" count="17" type="cond" truecount="2" falsecount="0"/>
       <line num="53" count="16" type="stmt"/>
@@ -196,11 +196,11 @@
       <line num="91" count="6" type="cond" truecount="1" falsecount="1"/>
       <line num="92" count="0" type="stmt"/>
       <line num="96" count="2" type="stmt"/>
-      <line num="100" count="231" type="stmt"/>
-      <line num="101" count="461" type="cond" truecount="2" falsecount="0"/>
+      <line num="100" count="243" type="stmt"/>
+      <line num="101" count="485" type="cond" truecount="2" falsecount="0"/>
       <line num="102" count="2" type="stmt"/>
-      <line num="106" count="229" type="cond" truecount="2" falsecount="0"/>
-      <line num="107" count="33" type="stmt"/>
+      <line num="106" count="241" type="cond" truecount="2" falsecount="0"/>
+      <line num="107" count="1" type="stmt"/>
     </file>
     <file name="budget-enforcer.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/budget-enforcer.js">
       <metrics statements="52" coveredstatements="50" conditionals="20" coveredconditionals="18" methods="10" coveredmethods="10"/>
@@ -258,52 +258,52 @@
       <line num="129" count="16" type="stmt"/>
     </file>
     <file name="error-handler.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/error-handler.js">
-      <metrics statements="45" coveredstatements="43" conditionals="29" coveredconditionals="25" methods="13" coveredmethods="13"/>
+      <metrics statements="45" coveredstatements="44" conditionals="29" coveredconditionals="26" methods="13" coveredmethods="13"/>
       <line num="7" count="2" type="stmt"/>
       <line num="15" count="2" type="stmt"/>
       <line num="24" count="39" type="stmt"/>
       <line num="25" count="39" type="stmt"/>
-      <line num="33" count="7" type="stmt"/>
-      <line num="35" count="7" type="stmt"/>
-      <line num="36" count="19" type="stmt"/>
-      <line num="37" count="19" type="stmt"/>
-      <line num="38" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="33" count="15" type="stmt"/>
+      <line num="35" count="15" type="stmt"/>
+      <line num="36" count="32" type="stmt"/>
+      <line num="37" count="32" type="stmt"/>
+      <line num="38" count="9" type="cond" truecount="2" falsecount="0"/>
       <line num="39" count="1" type="stmt"/>
-      <line num="45" count="3" type="stmt"/>
-      <line num="47" count="16" type="stmt"/>
-      <line num="48" count="16" type="stmt"/>
-      <line num="50" count="16" type="cond" truecount="2" falsecount="0"/>
-      <line num="51" count="13" type="stmt"/>
-      <line num="52" count="12" type="stmt"/>
-      <line num="58" count="3" type="stmt"/>
-      <line num="65" count="48" type="cond" truecount="1" falsecount="1"/>
-      <line num="67" count="48" type="cond" truecount="4" falsecount="0"/>
-      <line num="68" count="3" type="stmt"/>
-      <line num="70" count="45" type="cond" truecount="4" falsecount="0"/>
+      <line num="45" count="9" type="stmt"/>
+      <line num="47" count="23" type="stmt"/>
+      <line num="48" count="23" type="stmt"/>
+      <line num="50" count="23" type="cond" truecount="2" falsecount="0"/>
+      <line num="51" count="19" type="stmt"/>
+      <line num="52" count="17" type="stmt"/>
+      <line num="58" count="4" type="stmt"/>
+      <line num="65" count="63" type="cond" truecount="1" falsecount="1"/>
+      <line num="67" count="63" type="cond" truecount="4" falsecount="0"/>
+      <line num="68" count="9" type="stmt"/>
+      <line num="70" count="54" type="cond" truecount="4" falsecount="0"/>
       <line num="71" count="12" type="stmt"/>
-      <line num="73" count="33" type="cond" truecount="2" falsecount="0"/>
+      <line num="73" count="42" type="cond" truecount="2" falsecount="0"/>
       <line num="74" count="23" type="stmt"/>
-      <line num="76" count="10" type="cond" truecount="4" falsecount="0"/>
+      <line num="76" count="19" type="cond" truecount="4" falsecount="0"/>
       <line num="77" count="2" type="stmt"/>
-      <line num="79" count="8" type="stmt"/>
-      <line num="86" count="20" type="stmt"/>
-      <line num="87" count="20" type="stmt"/>
+      <line num="79" count="17" type="stmt"/>
+      <line num="86" count="27" type="stmt"/>
+      <line num="87" count="27" type="stmt"/>
       <line num="94" count="4" type="stmt"/>
       <line num="95" count="4" type="stmt"/>
       <line num="103" count="4" type="cond" truecount="1" falsecount="1"/>
       <line num="104" count="0" type="stmt"/>
-      <line num="110" count="4" type="stmt"/>
-      <line num="117" count="2" type="stmt"/>
-      <line num="124" count="1" type="stmt"/>
-      <line num="131" count="16" type="stmt"/>
-      <line num="140" count="16" type="stmt"/>
-      <line num="142" count="16" type="cond" truecount="1" falsecount="1"/>
-      <line num="143" count="0" type="stmt"/>
-      <line num="154" count="2" type="stmt"/>
-      <line num="164" count="13" type="stmt"/>
-      <line num="171" count="3" type="stmt"/>
-      <line num="184" count="4" type="stmt"/>
-      <line num="191" count="4" type="cond" truecount="1" falsecount="1"/>
+      <line num="111" count="4" type="stmt"/>
+      <line num="118" count="2" type="stmt"/>
+      <line num="125" count="1" type="stmt"/>
+      <line num="132" count="23" type="stmt"/>
+      <line num="141" count="23" type="stmt"/>
+      <line num="143" count="23" type="cond" truecount="2" falsecount="0"/>
+      <line num="144" count="7" type="stmt"/>
+      <line num="156" count="2" type="stmt"/>
+      <line num="166" count="19" type="stmt"/>
+      <line num="173" count="4" type="stmt"/>
+      <line num="186" count="4" type="stmt"/>
+      <line num="193" count="4" type="cond" truecount="1" falsecount="1"/>
     </file>
     <file name="extended-agent-framework.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/extended-agent-framework.js">
       <metrics statements="35" coveredstatements="34" conditionals="18" coveredconditionals="12" methods="14" coveredmethods="14"/>
@@ -347,41 +347,41 @@
       <metrics statements="58" coveredstatements="54" conditionals="36" coveredconditionals="24" methods="9" coveredmethods="9"/>
       <line num="11" count="3" type="stmt"/>
       <line num="21" count="3" type="stmt"/>
-      <line num="55" count="55" type="stmt"/>
+      <line num="55" count="56" type="stmt"/>
       <line num="64" count="50" type="stmt"/>
       <line num="65" count="232" type="cond" truecount="2" falsecount="0"/>
       <line num="66" count="40" type="stmt"/>
       <line num="70" count="10" type="stmt"/>
-      <line num="79" count="65" type="cond" truecount="2" falsecount="0"/>
+      <line num="79" count="66" type="cond" truecount="2" falsecount="0"/>
       <line num="80" count="3" type="stmt"/>
-      <line num="83" count="62" type="stmt"/>
-      <line num="86" count="62" type="cond" truecount="3" falsecount="1"/>
-      <line num="87" count="62" type="stmt"/>
-      <line num="88" count="218" type="cond" truecount="2" falsecount="0"/>
+      <line num="83" count="63" type="stmt"/>
+      <line num="86" count="63" type="cond" truecount="3" falsecount="1"/>
+      <line num="87" count="63" type="stmt"/>
+      <line num="88" count="222" type="cond" truecount="2" falsecount="0"/>
       <line num="89" count="18" type="stmt"/>
-      <line num="95" count="44" type="cond" truecount="1" falsecount="1"/>
-      <line num="96" count="44" type="cond" truecount="1" falsecount="1"/>
+      <line num="95" count="45" type="cond" truecount="1" falsecount="1"/>
+      <line num="96" count="45" type="cond" truecount="1" falsecount="1"/>
       <line num="97" count="0" type="stmt"/>
-      <line num="101" count="44" type="stmt"/>
-      <line num="102" count="77" type="cond" truecount="2" falsecount="0"/>
-      <line num="103" count="34" type="stmt"/>
+      <line num="101" count="45" type="stmt"/>
+      <line num="102" count="80" type="cond" truecount="2" falsecount="0"/>
+      <line num="103" count="35" type="stmt"/>
       <line num="108" count="10" type="stmt"/>
-      <line num="118" count="548" type="stmt"/>
-      <line num="119" count="548" type="stmt"/>
-      <line num="122" count="548" type="stmt"/>
-      <line num="125" count="548" type="stmt"/>
-      <line num="126" count="548" type="stmt"/>
-      <line num="127" count="548" type="stmt"/>
-      <line num="129" count="548" type="stmt"/>
-      <line num="130" count="548" type="stmt"/>
-      <line num="131" count="548" type="stmt"/>
-      <line num="134" count="548" type="stmt"/>
-      <line num="138" count="548" type="stmt"/>
-      <line num="142" count="548" type="stmt"/>
-      <line num="143" count="548" type="stmt"/>
-      <line num="144" count="548" type="stmt"/>
-      <line num="146" count="548" type="stmt"/>
-      <line num="147" count="548" type="stmt"/>
+      <line num="118" count="555" type="stmt"/>
+      <line num="119" count="555" type="stmt"/>
+      <line num="122" count="555" type="stmt"/>
+      <line num="125" count="555" type="stmt"/>
+      <line num="126" count="555" type="stmt"/>
+      <line num="127" count="555" type="stmt"/>
+      <line num="129" count="555" type="stmt"/>
+      <line num="130" count="555" type="stmt"/>
+      <line num="131" count="555" type="stmt"/>
+      <line num="134" count="555" type="stmt"/>
+      <line num="138" count="555" type="stmt"/>
+      <line num="142" count="555" type="stmt"/>
+      <line num="143" count="555" type="stmt"/>
+      <line num="144" count="555" type="stmt"/>
+      <line num="146" count="555" type="stmt"/>
+      <line num="147" count="555" type="stmt"/>
       <line num="155" count="3" type="stmt"/>
       <line num="165" count="1" type="stmt"/>
       <line num="166" count="1" type="cond" truecount="1" falsecount="1"/>
@@ -460,38 +460,38 @@
       <line num="8" count="3" type="stmt"/>
       <line num="10" count="3" type="stmt"/>
       <line num="22" count="3" type="stmt"/>
-      <line num="36" count="58" type="cond" truecount="4" falsecount="0"/>
+      <line num="36" count="59" type="cond" truecount="4" falsecount="0"/>
       <line num="37" count="3" type="stmt"/>
-      <line num="41" count="55" type="stmt"/>
-      <line num="44" count="50" type="cond" truecount="2" falsecount="0"/>
-      <line num="45" count="29" type="stmt"/>
-      <line num="49" count="38" type="cond" truecount="4" falsecount="0"/>
-      <line num="50" count="24" type="stmt"/>
-      <line num="54" count="33" type="cond" truecount="4" falsecount="0"/>
+      <line num="41" count="56" type="stmt"/>
+      <line num="44" count="51" type="cond" truecount="2" falsecount="0"/>
+      <line num="45" count="30" type="stmt"/>
+      <line num="49" count="39" type="cond" truecount="4" falsecount="0"/>
+      <line num="50" count="25" type="stmt"/>
+      <line num="54" count="34" type="cond" truecount="4" falsecount="0"/>
       <line num="55" count="10" type="stmt"/>
-      <line num="58" count="31" type="stmt"/>
-      <line num="65" count="55" type="cond" truecount="2" falsecount="0"/>
+      <line num="58" count="32" type="stmt"/>
+      <line num="65" count="56" type="cond" truecount="2" falsecount="0"/>
       <line num="66" count="2" type="stmt"/>
-      <line num="68" count="53" type="cond" truecount="2" falsecount="0"/>
+      <line num="68" count="54" type="cond" truecount="2" falsecount="0"/>
       <line num="69" count="3" type="stmt"/>
-      <line num="80" count="29" type="cond" truecount="1" falsecount="1"/>
+      <line num="80" count="30" type="cond" truecount="1" falsecount="1"/>
       <line num="81" count="0" type="stmt"/>
-      <line num="85" count="29" type="cond" truecount="2" falsecount="0"/>
+      <line num="85" count="30" type="cond" truecount="2" falsecount="0"/>
       <line num="86" count="1" type="stmt"/>
-      <line num="92" count="28" type="cond" truecount="2" falsecount="0"/>
+      <line num="92" count="29" type="cond" truecount="2" falsecount="0"/>
       <line num="93" count="1" type="stmt"/>
-      <line num="97" count="27" type="stmt"/>
-      <line num="98" count="27" type="cond" truecount="2" falsecount="0"/>
+      <line num="97" count="28" type="stmt"/>
+      <line num="98" count="28" type="cond" truecount="2" falsecount="0"/>
       <line num="99" count="1" type="stmt"/>
-      <line num="103" count="26" type="stmt"/>
-      <line num="104" count="26" type="stmt"/>
-      <line num="105" count="198" type="cond" truecount="2" falsecount="0"/>
+      <line num="103" count="27" type="stmt"/>
+      <line num="104" count="27" type="stmt"/>
+      <line num="105" count="207" type="cond" truecount="2" falsecount="0"/>
       <line num="106" count="9" type="stmt"/>
-      <line num="122" count="24" type="cond" truecount="1" falsecount="1"/>
+      <line num="122" count="25" type="cond" truecount="1" falsecount="1"/>
       <line num="123" count="0" type="stmt"/>
-      <line num="126" count="24" type="cond" truecount="2" falsecount="0"/>
+      <line num="126" count="25" type="cond" truecount="2" falsecount="0"/>
       <line num="127" count="1" type="stmt"/>
-      <line num="132" count="23" type="stmt"/>
+      <line num="132" count="24" type="stmt"/>
       <line num="133" count="60" type="cond" truecount="3" falsecount="1"/>
       <line num="134" count="0" type="stmt"/>
       <line num="138" count="60" type="cond" truecount="2" falsecount="0"/>
@@ -528,23 +528,23 @@
     <file name="log-sanitizer.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/log-sanitizer.js">
       <metrics statements="43" coveredstatements="38" conditionals="32" coveredconditionals="23" methods="7" coveredmethods="7"/>
       <line num="8" count="3" type="stmt"/>
-      <line num="57" count="84" type="cond" truecount="2" falsecount="0"/>
+      <line num="57" count="89" type="cond" truecount="2" falsecount="0"/>
       <line num="58" count="3" type="stmt"/>
-      <line num="61" count="81" type="stmt"/>
-      <line num="62" count="81" type="stmt"/>
-      <line num="63" count="648" type="stmt"/>
-      <line num="65" count="81" type="stmt"/>
-      <line num="73" count="100" type="cond" truecount="1" falsecount="1"/>
+      <line num="61" count="86" type="stmt"/>
+      <line num="62" count="86" type="stmt"/>
+      <line num="63" count="688" type="stmt"/>
+      <line num="65" count="86" type="stmt"/>
+      <line num="73" count="108" type="cond" truecount="1" falsecount="1"/>
       <line num="74" count="0" type="stmt"/>
-      <line num="77" count="100" type="cond" truecount="2" falsecount="0"/>
-      <line num="78" count="61" type="stmt"/>
-      <line num="81" count="39" type="cond" truecount="2" falsecount="0"/>
-      <line num="82" count="11" type="stmt"/>
-      <line num="85" count="28" type="cond" truecount="4" falsecount="0"/>
-      <line num="86" count="26" type="stmt"/>
-      <line num="87" count="26" type="stmt"/>
-      <line num="88" count="82" type="stmt"/>
-      <line num="90" count="26" type="stmt"/>
+      <line num="77" count="108" type="cond" truecount="2" falsecount="0"/>
+      <line num="78" count="66" type="stmt"/>
+      <line num="81" count="42" type="cond" truecount="2" falsecount="0"/>
+      <line num="82" count="12" type="stmt"/>
+      <line num="85" count="30" type="cond" truecount="4" falsecount="0"/>
+      <line num="86" count="28" type="stmt"/>
+      <line num="87" count="28" type="stmt"/>
+      <line num="88" count="89" type="stmt"/>
+      <line num="90" count="28" type="stmt"/>
       <line num="93" count="2" type="stmt"/>
       <line num="101" count="9" type="cond" truecount="1" falsecount="1"/>
       <line num="102" count="0" type="stmt"/>
@@ -610,7 +610,7 @@
       <line num="162" count="1" type="stmt"/>
     </file>
     <file name="paperclip-client.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/paperclip-client.js">
-      <metrics statements="35" coveredstatements="9" conditionals="3" coveredconditionals="1" methods="13" coveredmethods="2"/>
+      <metrics statements="35" coveredstatements="24" conditionals="3" coveredconditionals="2" methods="13" coveredmethods="11"/>
       <line num="22" count="18" type="stmt"/>
       <line num="23" count="18" type="stmt"/>
       <line num="24" count="18" type="stmt"/>
@@ -620,32 +620,32 @@
       <line num="29" count="18" type="stmt"/>
       <line num="30" count="18" type="stmt"/>
       <line num="37" count="18" type="stmt"/>
-      <line num="41" count="0" type="stmt"/>
-      <line num="42" count="0" type="stmt"/>
-      <line num="49" count="0" type="stmt"/>
-      <line num="50" count="0" type="stmt"/>
-      <line num="51" count="0" type="stmt"/>
-      <line num="59" count="0" type="stmt"/>
-      <line num="60" count="0" type="stmt"/>
-      <line num="61" count="0" type="stmt"/>
-      <line num="63" count="0" type="stmt"/>
-      <line num="71" count="0" type="stmt"/>
-      <line num="72" count="0" type="stmt"/>
-      <line num="73" count="0" type="stmt"/>
+      <line num="44" count="18" type="stmt"/>
+      <line num="45" count="18" type="stmt"/>
+      <line num="52" count="7" type="stmt"/>
+      <line num="53" count="9" type="stmt"/>
+      <line num="54" count="6" type="stmt"/>
+      <line num="62" count="7" type="stmt"/>
+      <line num="63" count="7" type="stmt"/>
+      <line num="64" count="6" type="stmt"/>
+      <line num="66" count="1" type="stmt"/>
       <line num="74" count="0" type="stmt"/>
-      <line num="79" count="0" type="stmt"/>
-      <line num="81" count="0" type="stmt"/>
-      <line num="89" count="0" type="stmt"/>
-      <line num="90" count="0" type="stmt"/>
-      <line num="91" count="0" type="stmt"/>
-      <line num="99" count="0" type="stmt"/>
-      <line num="106" count="0" type="stmt"/>
-      <line num="107" count="0" type="stmt"/>
-      <line num="114" count="0" type="stmt"/>
-      <line num="121" count="0" type="stmt"/>
-      <line num="133" count="0" type="stmt"/>
-      <line num="134" count="0" type="stmt"/>
-      <line num="135" count="0" type="stmt"/>
+      <line num="75" count="0" type="stmt"/>
+      <line num="76" count="0" type="stmt"/>
+      <line num="77" count="0" type="stmt"/>
+      <line num="83" count="0" type="stmt"/>
+      <line num="85" count="0" type="stmt"/>
+      <line num="93" count="1" type="stmt"/>
+      <line num="94" count="4" type="stmt"/>
+      <line num="95" count="0" type="stmt"/>
+      <line num="103" count="1" type="stmt"/>
+      <line num="110" count="1" type="stmt"/>
+      <line num="111" count="0" type="stmt"/>
+      <line num="118" count="1" type="stmt"/>
+      <line num="125" count="3" type="stmt"/>
+      <line num="137" count="0" type="stmt"/>
+      <line num="138" count="0" type="stmt"/>
+      <line num="139" count="0" type="stmt"/>
     </file>
     <file name="performance-optimizer.js" path="/Users/jimmymalhan/Doc/claude-debug-copilot/src/paperclip/performance-optimizer.js">
       <metrics statements="25" coveredstatements="22" conditionals="16" coveredconditionals="12" methods="9" coveredmethods="9"/>
@@ -684,17 +684,17 @@
       <line num="34" count="65" type="stmt"/>
       <line num="35" count="65" type="stmt"/>
       <line num="36" count="65" type="stmt"/>
-      <line num="40" count="36" type="stmt"/>
-      <line num="42" count="34" type="cond" truecount="2" falsecount="0"/>
-      <line num="43" count="34" type="stmt"/>
-      <line num="68" count="34" type="stmt"/>
-      <line num="70" count="34" type="cond" truecount="2" falsecount="0"/>
-      <line num="71" count="33" type="stmt"/>
-      <line num="79" count="34" type="stmt"/>
-      <line num="83" count="31" type="stmt"/>
-      <line num="84" count="31" type="cond" truecount="2" falsecount="0"/>
-      <line num="85" count="1" type="stmt"/>
-      <line num="87" count="30" type="stmt"/>
+      <line num="40" count="45" type="stmt"/>
+      <line num="42" count="40" type="cond" truecount="2" falsecount="0"/>
+      <line num="43" count="40" type="stmt"/>
+      <line num="68" count="40" type="stmt"/>
+      <line num="70" count="40" type="cond" truecount="2" falsecount="0"/>
+      <line num="71" count="39" type="stmt"/>
+      <line num="79" count="40" type="stmt"/>
+      <line num="83" count="38" type="stmt"/>
+      <line num="84" count="38" type="cond" truecount="2" falsecount="0"/>
+      <line num="85" count="2" type="stmt"/>
+      <line num="87" count="36" type="stmt"/>
       <line num="91" count="3" type="stmt"/>
       <line num="92" count="3" type="stmt"/>
       <line num="93" count="3" type="stmt"/>
@@ -724,8 +724,8 @@
       <line num="149" count="5" type="cond" truecount="2" falsecount="0"/>
       <line num="150" count="2" type="stmt"/>
       <line num="152" count="5" type="stmt"/>
-      <line num="161" count="36" type="cond" truecount="4" falsecount="0"/>
-      <line num="162" count="2" type="stmt"/>
+      <line num="161" count="45" type="cond" truecount="4" falsecount="0"/>
+      <line num="162" count="5" type="stmt"/>
       <line num="167" count="8" type="cond" truecount="4" falsecount="0"/>
       <line num="168" count="2" type="stmt"/>
       <line num="171" count="6" type="stmt"/>
@@ -737,7 +737,7 @@
       <line num="182" count="1" type="stmt"/>
       <line num="186" count="2" type="cond" truecount="2" falsecount="0"/>
       <line num="187" count="1" type="stmt"/>
-      <line num="192" count="11" type="stmt"/>
+      <line num="192" count="17" type="stmt"/>
     </file>
   </project>
 </coverage>

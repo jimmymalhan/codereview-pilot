@@ -35,7 +35,10 @@ export class PaperclipClient {
    */
   async initialize() {
     this.auditLogger.log({
-      event: 'orchestrator_initialized',
+      event: 'state_transition',
+      taskId: 'orchestrator',
+      fromState: 'uninitialized',
+      toState: 'ready',
       timestamp: new Date().toISOString()
     });
     this.isInitialized = true;
@@ -72,9 +75,10 @@ export class PaperclipClient {
       const task = this.taskManager.getTask(taskId);
       task.status = status;
       this.auditLogger.log({
-        event: 'task_status_updated',
+        event: 'state_transition',
         taskId,
-        status
+        toState: status,
+        timestamp: new Date().toISOString()
       });
       return { status: 'success', updated: true };
     } catch (error) {
