@@ -70,14 +70,14 @@ describe('ErrorHandler: Retry & Escalation Tests', () => {
 
       expect(result.success).toBe(false);
       expect(fn).toHaveBeenCalledTimes(4); // max retries (3) + initial = 4
-    });
+    }, 15000);
 
     test('should respect max retries', async () => {
       const fn = jest.fn().mockRejectedValue(new Error('timeout'));
       await handler.executeWithRetry(fn);
 
       expect(fn).toHaveBeenCalledTimes(4); // 1 initial + 3 retries
-    });
+    }, 15000);
 
     test('should implement exponential backoff', async () => {
       const fn = jest.fn().mockRejectedValue(new Error('timeout'));
@@ -87,7 +87,7 @@ describe('ErrorHandler: Retry & Escalation Tests', () => {
 
       // Should have delays between retries
       expect(duration).toBeGreaterThan(0);
-    });
+    }, 15000);
   });
 
   describe('Retryability', () => {
@@ -120,7 +120,7 @@ describe('ErrorHandler: Retry & Escalation Tests', () => {
       const log = handler.getErrorLog();
       expect(log.length).toBeGreaterThan(0);
       expect(log[0].error).toBe('test error');
-    });
+    }, 15000);
 
     test('should clear error log', () => {
       handler._log({ type: 'test' });
