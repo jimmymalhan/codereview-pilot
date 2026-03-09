@@ -39,6 +39,10 @@ export class BudgetEnforcer {
     return [...this.alerts];
   }
 
+  enforceLimit(agentId, taskId, estimatedTokens) {
+    return this.reserveBudget(taskId, agentId, estimatedTokens);
+  }
+
   reserveBudget(taskId, agentId, estimatedTokens) {
     const agentUsage = this._getAgentUsage(agentId);
     const concurrentAgents = Object.keys(this.usage.agents).length || 1;

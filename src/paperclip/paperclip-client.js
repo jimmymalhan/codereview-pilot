@@ -25,6 +25,7 @@ export class PaperclipClient {
     this.heartbeatMonitor = new HeartbeatMonitor(this.auditLogger);
     this.agentWrapper = new AgentWrapper(this.auditLogger);
     this.errorHandler = new ErrorHandler(this.auditLogger);
+    this.approvalStateMachine = new ApprovalStateMachine(this.auditLogger);
 
     this.config = config;
     this.isInitialized = false;
@@ -91,7 +92,8 @@ export class PaperclipClient {
    */
   async sendHeartbeat(agentId, payload) {
     return this.errorHandler.executeWithRetry(async () => {
-      this.heartbeatMonitor.recordHeartbeat(agentId);
+      this.heartbeatMonitor.registerAgent(agentId);
+      this.heartbeatMonitor.receiveHeartbeat(agentId, payload);
       return { status: 'heartbeat_received', agentId };
     });
   }
@@ -100,14 +102,14 @@ export class PaperclipClient {
    * Query audit trail
    */
   async queryAuditTrail(filters = {}) {
-    return this.auditLogger.getAuditTrail(filters);
+    return this.auditLogger.query(filters);
   }
 
   /**
    * Get budget status
    */
   async getBudgetStatus() {
-    const budgetStatus = this.budgetEnforcer.getBudgetStatus();
+    const budgetStatus = this.budgetEnforcer.getUsage();
     return { status: 'success', budget: budgetStatus };
   }
 
@@ -122,12 +124,16 @@ export class PaperclipClient {
    * Get orchestrator stats
    */
   getOrchestrationStats() {
+    const budgetUsage = this.budgetEnforcer.getUsage();
     return {
       isInitialized: this.isInitialized,
       taskCount: this.taskManager.tasks.size,
       agentStats: this.agentWrapper.getExecutionStats(),
-      budgetStatus: this.budgetEnforcer.getBudgetStatus(),
-      heartbeatStatus: this.heartbeatMonitor.getHeartbeatStatus()
+      budgetStatus: {
+        used: (budgetUsage?.orgDaily || 0) + (budgetUsage?.orgReserved || 0),
+        limit: 10000
+      },
+      heartbeatStatus: Object.keys(this.heartbeatMonitor.agents || {}).length
     };
   }
 }

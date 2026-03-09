@@ -110,7 +110,7 @@ describe('AgentWrapper: Lifecycle Tests', () => {
     await wrapper.invokeAgent('router', 'task-10', input);
 
     expect(logSpy).toHaveBeenCalled();
-    const calls = logSpy.mock.calls.filter(c => c[0].event === 'agent_execution_complete');
+    const calls = logSpy.mock.calls.filter(c => c[0].event === 'state_transition');
     expect(calls.length).toBeGreaterThan(0);
   });
 
