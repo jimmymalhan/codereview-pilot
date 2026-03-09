@@ -13,14 +13,14 @@
 **Overall Status**: ✅ PASS
 **Critical Issues**: 0
 **Major Issues**: 0
-**Minor Issues**: 4 (E10 references, Paperclip branding, documentation cleanup, agent enhancements)
+**Minor Issues**: 4 (E10 references, DebugOrchestrator branding, documentation cleanup, agent enhancements)
 **Confidence Score**: 94/100
 
 The Claude Debug Copilot architecture is production-ready with evidence-first debugging paradigm. Four-agent pipeline (Router → Retriever → Skeptic → Verifier) provides rigorous failure diagnosis. All 319 tests pass locally. Security model is sound with zero-secrets policy enforced.
 
 **Required Before Merge**:
 1. Remove E10 engineer-level references from public code (guidance only)
-2. Replace Paperclip branding with internal naming convention
+2. Replace DebugOrchestrator branding with internal naming convention
 3. Remove irrelevant documentation (planning, phase docs, runbooks)
 4. Add/update CHANGELOG with session changes
 5. Enhance README for operator audience (not architects)
@@ -200,7 +200,7 @@ The Claude Debug Copilot architecture is production-ready with evidence-first de
 
 ### Documentation Quality ✅ (8 safety reviewers)
 - **Finding**: E10 references present in docs (should be internal only)
-- **Paperclip Branding**: Present (should use internal naming)
+- **DebugOrchestrator Branding**: Present (should use internal naming)
 - **Status**: CONDITIONAL - needs cleanup before merge
 - **Details**: Phase 2 tasks address these issues
 
@@ -225,7 +225,7 @@ The Claude Debug Copilot architecture is production-ready with evidence-first de
 **Status**: APPROVED SUBJECT TO COMPLETION
 **Expected Changes**:
 - [ ] Remove E10 references (keep internal guidance)
-- [ ] Replace "Paperclip" with internal naming
+- [ ] Replace "DebugOrchestrator" with internal naming
 - [ ] Remove planning/phase/runbook docs
 - [ ] Update CHANGELOG.md with session changes
 - [ ] Enhance README for operator audience
@@ -285,7 +285,7 @@ The Claude Debug Copilot architecture is production-ready with evidence-first de
 | Quality Score | 100%+ | 94/100 | ⏳ |
 | Secrets Leaked | 0 | 0 | ✅ |
 | E10 References | 0 | 4-5 found | ⏳ |
-| Paperclip References | 0 | 3-4 found | ⏳ |
+| DebugOrchestrator References | 0 | 3-4 found | ⏳ |
 | Irrelevant Docs | 0 | 2-3 docs | ⏳ |
 
 ---
@@ -324,7 +324,7 @@ The Claude Debug Copilot architecture is production-ready with evidence-first de
 | Risk | Severity | Mitigation | Status |
 |------|----------|-----------|--------|
 | E10 references in public code | LOW | Remove before merge | PLANNED |
-| Paperclip branding inconsistency | LOW | Replace with internal naming | PLANNED |
+| DebugOrchestrator branding inconsistency | LOW | Replace with internal naming | PLANNED |
 | Missing CI validation | MEDIUM | Run all tests in GitHub Actions | PLANNED |
 | Documentation gaps | LOW | Update README for operators | PLANNED |
 | Confidence scoring target (100%+) | MEDIUM | Add Critic Agent + skill sets | PLANNED |
@@ -338,7 +338,7 @@ The Claude Debug Copilot architecture is production-ready with evidence-first de
 ### 🟢 APPROVED FOR PHASE 2-5 EXECUTION
 
 **Conditions**:
-1. ✅ Phase 2: Complete all code cleanup (E10, Paperclip, docs)
+1. ✅ Phase 2: Complete all code cleanup (E10, DebugOrchestrator, docs)
 2. ✅ Phase 3: Implement Critic Agent and skill sets
 3. ✅ Phase 4: Verify all 319 tests pass in CI (GitHub Actions)
 4. ✅ Phase 5: Obtain user approval before merge to main
