@@ -69,7 +69,7 @@ describe('ErrorHandler: Retry & Escalation Tests', () => {
       const result = await handler.executeWithRetry(fn);
 
       expect(result.success).toBe(false);
-      expect(fn).toHaveBeenCalledTimes(4); // max retries (3) + initial = 4
+      expect(fn).toHaveBeenCalledTimes(1); // non-retryable errors exit immediately without retrying
     }, 15000);
 
     test('should respect max retries', async () => {

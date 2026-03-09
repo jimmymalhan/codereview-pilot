@@ -47,6 +47,11 @@ export class ErrorHandler {
         lastError = error;
         this._logError(error, attempt, context);
 
+        // Don't retry non-retryable errors
+        if (!this.isRetryable(error)) {
+          break;
+        }
+
         if (attempt < RETRY_CONFIG.maxRetries) {
           await this._sleep(delay);
           delay = Math.min(delay * RETRY_CONFIG.backoffMultiplier, RETRY_CONFIG.maxDelay);

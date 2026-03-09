@@ -60,7 +60,7 @@ describe('PaperclipClient: Local Orchestrator Tests', () => {
     });
 
     test('should handle invalid task ID', async () => {
-      expect(() => client.getTask('invalid-id')).toThrow();
+      await expect(client.getTask('invalid-id')).rejects.toThrow();
     });
   });
 
