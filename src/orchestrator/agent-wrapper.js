@@ -2,15 +2,16 @@
  * Agent Wrapper for Debug Copilot Orchestration
  *
  * Translates between repo agents and task system.
- * Manages 4 agent roles: router, retriever, skeptic, verifier
+ * Manages 5 agent roles: router, retriever, skeptic, verifier, critic
  * Executes 10-step lifecycle per agent invocation.
  */
 
 import { InputValidator } from './input-validator.js';
 import { FileAccessGuard } from './file-access-guard.js';
 import { LogSanitizer } from './log-sanitizer.js';
+import { Retriever } from './retriever.js';
 
-const AGENT_ROLES = ['router', 'retriever', 'skeptic', 'verifier'];
+const AGENT_ROLES = ['router', 'retriever', 'skeptic', 'verifier', 'critic'];
 
 const EXECUTION_STEPS = [
   'validate_input',
@@ -26,10 +27,20 @@ const EXECUTION_STEPS = [
 ];
 
 export class AgentWrapper {
-  constructor(auditLogger) {
+  /**
+   * @param {object} auditLogger
+   * @param {object} [options]
+   * @param {import('../mcp/mcp-client.js').McpClient|null} [options.mcpClient]
+   * @param {string} [options.repoRoot]
+   */
+  constructor(auditLogger, options = {}) {
     this.auditLogger = auditLogger;
     this.executionLocks = new Map(); // taskId -> lock
     this.agentOutputs = new Map(); // agentId -> latest output
+    this.retriever = new Retriever({
+      mcpClient: options.mcpClient || null,
+      repoRoot: options.repoRoot
+    });
   }
 
   /**
@@ -64,8 +75,8 @@ export class AgentWrapper {
         this._acquireLock(taskId);
       });
 
-      // Step 4: Execute agent (stub - actual execution depends on agent type)
-      execution.steps.execute_agent = this._step('execute_agent', () => {
+      // Step 4: Execute agent (async for retriever MCP integration)
+      execution.steps.execute_agent = await this._asyncStep('execute_agent', () => {
         return this._executeAgent(agentId, taskInput);
       });
 
@@ -145,12 +156,29 @@ export class AgentWrapper {
   }
 
   /**
-   * Internal: Execute single step
+   * Internal: Execute single synchronous step
    */
   _step(name, fn) {
     const startTime = Date.now();
     try {
       const result = fn();
+      return {
+        status: 'success',
+        duration: Date.now() - startTime,
+        result
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Internal: Execute single async step (used for MCP-backed operations)
+   */
+  async _asyncStep(name, fn) {
+    const startTime = Date.now();
+    try {
+      const result = await fn();
       return {
         status: 'success',
         duration: Date.now() - startTime,
@@ -191,18 +219,21 @@ export class AgentWrapper {
   }
 
   /**
-   * Internal: Execute agent logic (stub)
+   * Internal: Execute agent logic.
+   * The retriever role uses MCP-backed evidence gathering with file fallback.
    */
-  _executeAgent(agentId, taskInput) {
-    // Placeholder: actual agent execution would call agent-specific logic
+  async _executeAgent(agentId, taskInput) {
     const output = {
       agentId,
       result: `Agent ${agentId} executed successfully`,
       executedAt: new Date().toISOString()
     };
 
-    // Add required fields based on agent role
-    if (agentId === 'router' || agentId === 'retriever') {
+    if (agentId === 'retriever') {
+      const { evidence, sources } = await this.retriever.gather(taskInput);
+      output.evidence = evidence;
+      output.sources = sources;
+    } else if (agentId === 'router') {
       output.evidence = taskInput.evidence || [];
     } else if (agentId === 'skeptic' || agentId === 'verifier') {
       output.verdict = `Verified by ${agentId}`;

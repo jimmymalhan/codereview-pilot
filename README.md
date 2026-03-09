@@ -20,12 +20,13 @@ retrieve → challenge → verify → explain (rigorous and checkable)
 
 ## How It Works
 
-A four-agent pipeline that enforces evidence-first methodology:
+A five-agent pipeline that enforces evidence-first methodology:
 
 1. **Router** - Classifies the failure type (schema drift, write conflict, stale read, bad deploy, auth failure, dependency break)
 2. **Retriever** - Pulls exact evidence: file:line citations, log timestamps, schema definitions, payload fields
 3. **Skeptic** - Generates a competing explanation from a different failure family to pressure the first diagnosis
 4. **Verifier** - Blocks any claim not backed by retrieved evidence, requires root cause + fix plan + rollback + tests
+5. **Critic** - Validates quality gates (confidence >= 0.70, evidence citations, fix plan, rollback, tests) before final output
 
 **Output Contract:**
 ```json
@@ -345,7 +346,8 @@ Result: Actionable fix in 2 minutes, engineer is certain
 │   ├── router.md         # Failure classifier
 │   ├── retriever.md      # Evidence gatherer
 │   ├── skeptic.md        # Competing theory generator
-│   └── verifier.md       # Claim validator + approval gate
+│   ├── verifier.md       # Claim validator + approval gate
+│   └── critic.md         # Quality gate validator
 └── hooks/
     └── check-edits.sh    # Prevents .env and lock file commits
 

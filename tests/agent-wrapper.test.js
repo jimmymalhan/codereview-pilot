@@ -116,7 +116,7 @@ describe('AgentWrapper: Lifecycle Tests', () => {
 
   test('should provide execution statistics', () => {
     const stats = wrapper.getExecutionStats();
-    expect(stats.totalAgents).toBe(4);
+    expect(stats.totalAgents).toBe(5);
     expect(stats.agentsWithOutput).toBeGreaterThanOrEqual(0);
     expect(stats.activeExecutions).toBeGreaterThanOrEqual(0);
   });
