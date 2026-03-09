@@ -52,6 +52,8 @@ export class PaperclipClient {
   async submitTask(taskInput) {
     const result = await this.errorHandler.executeWithRetry(async () => {
       const { taskId } = this.taskManager.createTask(taskInput);
+      // Enforce budget limits
+      this.budgetEnforcer.enforceLimit('orchestrator', taskId, 100);
       return this.getTask(taskId);
     });
     // Unwrap and restructure the response
