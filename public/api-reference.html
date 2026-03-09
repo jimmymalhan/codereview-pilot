@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paperclip API Reference</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: white;
+      padding: 32px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .tagline {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #1a1a1a;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 12px;
+    }
+
+    .card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      color: #667eea;
+    }
+
+    .endpoint {
+      background: #f9f9f9;
+      border-left: 4px solid #667eea;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .method {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: 600;
+      margin-right: 8px;
+      font-size: 12px;
+    }
+
+    .post { background: #667eea; color: white; }
+    .get { background: #48a0a0; color: white; }
+    .patch { background: #f39c12; color: white; }
+
+    .path {
+      font-family: 'Courier New', monospace;
+      color: #333;
+      font-size: 13px;
+      margin: 6px 0;
+    }
+
+    .params, .response {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .code {
+      background: #f0f0f0;
+      padding: 8px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+
+    ul {
+      margin: 8px 0 8px 20px;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .feature {
+      background: #f9f9f9;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      border-left: 3px solid #667eea;
+    }
+
+    .feature strong {
+      color: #667eea;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .note {
+      background: #fffacd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+
+    .success {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      padding: 12px;
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+
+    .error {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+      padding: 12px;
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #f5f5f5;
+      font-weight: 600;
+    }
+
+    .workflow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 12px 0;
+      font-size: 12px;
+    }
+
+    .step {
+      background: #667eea;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      flex: 1;
+      text-align: center;
+    }
+
+    .arrow {
+      margin: 0 8px;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #667eea;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 8px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .sidebar a:hover {
+      background: #f0f4ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎯 Paperclip API Reference</h1>
+      <p class="tagline">Complete API documentation for Claude Debug Copilot orchestration platform</p>
+    </header>
+
+    <div style="display: grid; grid-template-columns: 1fr 280px; gap: 24px;">
+      <div>
+        <!-- Core Capabilities -->
+        <div class="card">
+          <h2>📋 Core Capabilities</h2>
+
+          <div class="feature-grid">
+            <div class="feature">
+              <strong>🔍 4-Agent Pipeline</strong><br>
+              Router → Retriever → Skeptic → Verifier<br>
+              Real-time diagnosis
+            </div>
+            <div class="feature">
+              <strong>🛡️ Security</strong><br>
+              SC-1, SC-2, SC-4 Compliance<br>
+              PII protection
+            </div>
+            <div class="feature">
+              <strong>💰 Budget Control</strong><br>
+              Token limits per org/agent<br>
+              Prevent runaway costs
+            </div>
+            <div class="feature">
+              <strong>📊 Audit Logs</strong><br>
+              Immutable event trail<br>
+              Full compliance
+            </div>
+            <div class="feature">
+              <strong>✅ Approval Gates</strong><br>
+              8-state workflow<br>
+              Human approval required
+            </div>
+            <div class="feature">
+              <strong>❤️ Health Monitoring</strong><br>
+              Agent heartbeats<br>
+              Crash detection
+            </div>
+          </div>
+        </div>
+
+        <!-- API Endpoints -->
+        <div class="card">
+          <h2>🔌 API Endpoints</h2>
+
+          <div class="endpoint">
+            <span class="method post">POST</span>
+            <span class="path">/api/diagnose</span>
+            <p class="params"><strong>Submit incident for real-time diagnosis</strong></p>
+            <p class="params"><strong>Request:</strong></p>
+            <div class="code">
+{
+  "incident": "Database connection pool exhausted at 2 AM"
+}
+            </div>
+            <p class="params"><strong>Response (Success):</strong></p>
+            <div class="code">
+{
+  "incident": "...",
+  "router": "Classification output",
+  "retriever": "Evidence gathered",
+  "skeptic": "Alternative theory",
+  "verifier": "Final diagnosis with fix plan"
+}
+            </div>
+            <p class="error"><strong>Response (No Credits):</strong> 402 status with link to add credits</p>
+          </div>
+
+          <h3>Response Structure</h3>
+          <table>
+            <tr>
+              <th>Field</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>incident</td>
+              <td>string</td>
+              <td>Original incident description</td>
+            </tr>
+            <tr>
+              <td>router</td>
+              <td>string</td>
+              <td>Failure classification (schema drift, write conflict, etc.)</td>
+            </tr>
+            <tr>
+              <td>retriever</td>
+              <td>string</td>
+              <td>Exact evidence with file:line citations</td>
+            </tr>
+            <tr>
+              <td>skeptic</td>
+              <td>string</td>
+              <td>Competing theory from different failure family</td>
+            </tr>
+            <tr>
+              <td>verifier</td>
+              <td>string</td>
+              <td>Final verified diagnosis (root cause, evidence, fix, rollback, tests, confidence)</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Diagnosis Output Contract -->
+        <div class="card">
+          <h2>📜 Diagnosis Output Contract</h2>
+          <p>Every diagnosis includes:</p>
+
+          <table>
+            <tr>
+              <th>Component</th>
+              <th>Format</th>
+              <th>Example</th>
+            </tr>
+            <tr>
+              <td><strong>Root Cause</strong></td>
+              <td>Text (backed by evidence)</td>
+              <td>"Pool size 50 insufficient for peak load"</td>
+            </tr>
+            <tr>
+              <td><strong>Evidence</strong></td>
+              <td>Array of citations</td>
+              <td>["src/pool.js:45", "logs/api:15:30", "metrics: 50/50"]</td>
+            </tr>
+            <tr>
+              <td><strong>Fix Plan</strong></td>
+              <td>Step-by-step instructions</td>
+              <td>"1. Increase DB_POOL_SIZE to 200\n2. Add release hook\n3. Deploy"</td>
+            </tr>
+            <tr>
+              <td><strong>Rollback</strong></td>
+              <td>Reversal procedure</td>
+              <td>"Set DB_POOL_SIZE=50, restart servers"</td>
+            </tr>
+            <tr>
+              <td><strong>Tests</strong></td>
+              <td>Validation cases</td>
+              <td>["Load test 500 users", "Monitor metrics"]</td>
+            </tr>
+            <tr>
+              <td><strong>Confidence</strong></td>
+              <td>0.0 - 1.0 score</td>
+              <td>0.92</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 4-Agent Pipeline Details -->
+        <div class="card">
+          <h2>🔄 4-Agent Pipeline Details</h2>
+
+          <h3>Stage 1: Router - Classify</h3>
+          <p><strong>Input:</strong> Your incident description</p>
+          <p><strong>Output:</strong> Failure classification with reasoning</p>
+          <ul>
+            <li>Identifies failure family (schema drift, write conflict, stale read, bad deploy, auth, dependency)</li>
+            <li>Analyzes temporal patterns and impact scope</li>
+            <li>Sets foundation for evidence gathering</li>
+          </ul>
+
+          <h3>Stage 2: Retriever - Gather Evidence</h3>
+          <p><strong>Input:</strong> Incident + router classification</p>
+          <p><strong>Output:</strong> Exact evidence with file:line citations</p>
+          <ul>
+            <li>Pulls code references (src/file.js:line)</li>
+            <li>Extracts log timestamps and snippets</li>
+            <li>Gathers schema definitions</li>
+            <li>No guessing—only verified facts</li>
+          </ul>
+
+          <h3>Stage 3: Skeptic - Challenge</h3>
+          <p><strong>Input:</strong> Incident + router + retriever</p>
+          <p><strong>Output:</strong> Alternative diagnosis from different failure family</p>
+          <ul>
+            <li>Generates competing theory</li>
+            <li>Questions primary diagnosis</li>
+            <li>Forces rigor through healthy skepticism</li>
+          </ul>
+
+          <h3>Stage 4: Verifier - Validate</h3>
+          <p><strong>Input:</strong> All prior outputs</p>
+          <p><strong>Output:</strong> Final verified diagnosis</p>
+          <ul>
+            <li>Rejects unsupported assertions</li>
+            <li>Validates claims against evidence</li>
+            <li>Produces output contract with confidence score</li>
+            <li>Human approval gate before deployment</li>
+          </ul>
+        </div>
+
+        <!-- Security Features -->
+        <div class="card">
+          <h2>🛡️ Security & Compliance</h2>
+
+          <h3>SC-1: Input Validation</h3>
+          <ul>
+            <li>Sanitizes all user inputs</li>
+            <li>Removes injection vectors</li>
+            <li>Validates field types and lengths</li>
+          </ul>
+
+          <h3>SC-2: File Access Guard</h3>
+          <ul>
+            <li>Deny-by-default access control</li>
+            <li>Per-agent whitelisting</li>
+            <li>Blocks unauthorized operations</li>
+          </ul>
+
+          <h3>SC-4: Log Sanitizer</h3>
+          <ul>
+            <li>Removes PII from logs</li>
+            <li>Scrubs emails, IPs, credentials</li>
+            <li>Maintains functionality with privacy</li>
+          </ul>
+
+          <h3>Approval Workflow</h3>
+          <p>8-state machine prevents unapproved deployments:</p>
+          <div class="workflow">
+            <div class="step">pending</div>
+            <div class="arrow">→</div>
+            <div class="step">running</div>
+            <div class="arrow">→</div>
+            <div class="step">analyzing</div>
+            <div class="arrow">→</div>
+            <div class="step">verified</div>
+            <div class="arrow">→</div>
+            <div class="step">approved</div>
+            <div class="arrow">→</div>
+            <div class="step">completed</div>
+          </div>
+
+          <h3>Audit Trail</h3>
+          <ul>
+            <li>Immutable event logs</li>
+            <li>Timestamps on all actions</li>
+            <li>Non-repudiation (proof of action)</li>
+            <li>Queryable by task ID, event type, time range</li>
+          </ul>
+        </div>
+
+        <!-- Budget & Governance -->
+        <div class="card">
+          <h2>💰 Budget & Governance</h2>
+
+          <h3>Token Limits</h3>
+          <table>
+            <tr>
+              <th>Limit Type</th>
+              <th>Default Value</th>
+              <th>Purpose</th>
+            </tr>
+            <tr>
+              <td>Daily Org Limit</td>
+              <td>10,000 tokens/day</td>
+              <td>Prevent daily runaway costs</td>
+            </tr>
+            <tr>
+              <td>Per-Agent Limit</td>
+              <td>2,000 tokens/agent</td>
+              <td>Prevent single agent from exhausting budget</td>
+            </tr>
+            <tr>
+              <td>Reserved Capacity</td>
+              <td>100 tokens min</td>
+              <td>Ensures emergency diagnoses can run</td>
+            </tr>
+          </table>
+
+          <h3>Cost Estimate</h3>
+          <ul>
+            <li><strong>Per diagnosis:</strong> ~5,000-8,000 tokens</li>
+            <li><strong>API pricing:</strong> ~$0.30 per 1M tokens</li>
+            <li><strong>Cost per diagnosis:</strong> ~$0.002-0.003 (less than 1 cent)</li>
+            <li><strong>$5 credit:</strong> ~100+ diagnoses</li>
+          </ul>
+
+          <h3>Agent Health Monitoring</h3>
+          <ul>
+            <li>Heartbeat tracking for all 4 agents</li>
+            <li>Real-time status (idle, processing, failed)</li>
+            <li>Timeout detection (>30 seconds = stale)</li>
+            <li>Automatic failover on crash</li>
+          </ul>
+        </div>
+
+        <!-- Web UI Features -->
+        <div class="card">
+          <h2>🌐 Web UI Features</h2>
+
+          <h3>Incident Submission</h3>
+          <ul>
+            <li>Simple text form for incident description</li>
+            <li>Real-time pipeline processing (16-24 seconds)</li>
+            <li>Clear feedback during each stage</li>
+          </ul>
+
+          <h3>Results Display</h3>
+          <ul>
+            <li>All 4 stages shown with full output</li>
+            <li>Task details (ID, type, status, timestamp)</li>
+            <li>Budget usage breakdown</li>
+            <li>Security compliance checklist</li>
+            <li>Approval workflow state</li>
+          </ul>
+
+          <h3>Error Handling</h3>
+          <ul>
+            <li>Clear error messages</li>
+            <li>Links to resolve issues (e.g., add API credits)</li>
+            <li>No silent failures</li>
+          </ul>
+        </div>
+
+        <!-- Rules & Constraints -->
+        <div class="card full-width">
+          <h2>⚙️ Non-Negotiable Rules</h2>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+            <div class="success">
+              <strong>1. Never invent fields, tables, APIs, regions, or files</strong><br>
+              Everything must be retrieved or provided by user
+            </div>
+            <div class="success">
+              <strong>2. Retrieve before explaining</strong><br>
+              No guessing or inference without evidence
+            </div>
+            <div class="success">
+              <strong>3. Verifier blocks unsupported nouns</strong><br>
+              Every claim must cite specific evidence
+            </div>
+            <div class="success">
+              <strong>4. Skeptic produces materially different theory</strong><br>
+              Not just shade on first answer—genuine alternative
+            </div>
+            <div class="success">
+              <strong>5. No edits until plan is approved</strong><br>
+              All deployments require human gate
+            </div>
+          </div>
+        </div>
+
+        <!-- Getting Started -->
+        <div class="card full-width">
+          <h2>🚀 Getting Started</h2>
+
+          <h3>Step 1: Setup</h3>
+          <div class="code">
+npm install
+export ANTHROPIC_API_KEY=sk-ant-...
+npm start
+          </div>
+
+          <h3>Step 2: Open UI</h3>
+          <p>Visit <strong>http://localhost:3000</strong></p>
+
+          <h3>Step 3: Submit Incident</h3>
+          <p>Describe your backend failure in plain English</p>
+
+          <h3>Step 4: Review Diagnosis</h3>
+          <p>Get real-time 4-stage analysis with fix plan and rollback procedure</p>
+
+          <div class="success">
+            <strong>✓ Real-time API calls:</strong> Each diagnosis makes fresh API calls—no pre-generated responses. Different incidents = different outputs.
+          </div>
+
+          <div class="note">
+            <strong>⚠️ API Credits Required:</strong> Add credits at https://console.anthropic.com/account/billing/overview
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation -->
+      <div class="sidebar">
+        <h3>Quick Links</h3>
+        <a href="/">← Back to Diagnose</a>
+        <hr style="margin: 12px 0; border: none; border-top: 1px solid #eee;">
+        <a href="#core-capabilities">Core Features</a>
+        <a href="#api-endpoints">API Endpoints</a>
+        <a href="#diagnosis-output">Output Format</a>
+        <a href="#4-agent-pipeline">4-Agent Pipeline</a>
+        <a href="#security">Security</a>
+        <a href="#budget">Budget Control</a>
+        <a href="#web-ui">Web UI</a>
+        <a href="#rules">Rules</a>
+        <a href="#getting-started">Getting Started</a>
+        <hr style="margin: 12px 0; border: none; border-top: 1px solid #eee;">
+        <h3 style="margin-top: 16px;">Resources</h3>
+        <a href="https://console.anthropic.com/account/billing/overview" target="_blank">Add API Credits</a>
+        <a href="https://github.com/anthropics/claude-code" target="_blank">Claude Code Docs</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

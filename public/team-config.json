@@ -1,0 +1,292 @@
+{
+  "organization": "Claude Debug Copilot - Enterprise Edition",
+  "team": {
+    "leadership": [
+      {
+        "id": "ceo-001",
+        "name": "Sarah Chen",
+        "role": "Chief Technology Officer",
+        "title": "CTO",
+        "email": "sarah.chen@company.com",
+        "permissions": ["approve_all", "view_all", "manage_team", "create_tickets"],
+        "skills": ["architecture", "strategic_planning", "risk_assessment"],
+        "department": "Executive"
+      }
+    ],
+    "qa_team": [
+      {
+        "id": "qa-001",
+        "name": "Michael Rodriguez",
+        "role": "QA Lead",
+        "title": "Senior QA Engineer",
+        "email": "michael.rodriguez@company.com",
+        "permissions": ["approve_qa", "view_all", "assign_qa", "create_tickets"],
+        "skills": ["testing", "quality_assurance", "automation", "load_testing"],
+        "department": "Quality Assurance"
+      },
+      {
+        "id": "qa-002",
+        "name": "Emily Watson",
+        "role": "QA Engineer",
+        "title": "QA Engineer",
+        "email": "emily.watson@company.com",
+        "permissions": ["execute_qa", "view_assigned"],
+        "skills": ["testing", "automation", "performance_testing"],
+        "department": "Quality Assurance"
+      },
+      {
+        "id": "qa-003",
+        "name": "David Park",
+        "role": "QA Engineer",
+        "title": "QA Engineer",
+        "email": "david.park@company.com",
+        "permissions": ["execute_qa", "view_assigned"],
+        "skills": ["testing", "automation", "security_testing"],
+        "department": "Quality Assurance"
+      }
+    ],
+    "engineers": [
+      {
+        "id": "eng-001",
+        "name": "Alex Kumar",
+        "role": "Staff Engineer",
+        "title": "Backend Engineer - Database Systems",
+        "email": "alex.kumar@company.com",
+        "permissions": ["approve_fix", "view_all", "assign_fix", "create_tickets"],
+        "skills": ["database", "performance", "optimization", "migration", "replication"],
+        "department": "Backend Engineering",
+        "level": "L6"
+      },
+      {
+        "id": "eng-002",
+        "name": "Jessica Liu",
+        "role": "Senior Engineer",
+        "title": "Backend Engineer - API Services",
+        "email": "jessica.liu@company.com",
+        "permissions": ["approve_fix", "view_assigned", "create_tickets"],
+        "skills": ["apis", "microservices", "scaling", "load_balancing", "monitoring"],
+        "department": "Backend Engineering",
+        "level": "L5"
+      },
+      {
+        "id": "eng-003",
+        "name": "Marcus Johnson",
+        "role": "Senior Engineer",
+        "title": "Backend Engineer - Infrastructure",
+        "email": "marcus.johnson@company.com",
+        "permissions": ["approve_fix", "view_assigned", "create_tickets"],
+        "skills": ["infrastructure", "kubernetes", "networking", "security", "devops"],
+        "department": "Infrastructure",
+        "level": "L5"
+      },
+      {
+        "id": "eng-004",
+        "name": "Priya Patel",
+        "role": "Senior Engineer",
+        "title": "Backend Engineer - Reliability",
+        "email": "priya.patel@company.com",
+        "permissions": ["approve_fix", "view_assigned", "create_tickets"],
+        "skills": ["reliability", "monitoring", "alerting", "sre", "incident_response"],
+        "department": "Site Reliability Engineering",
+        "level": "L5"
+      },
+      {
+        "id": "eng-005",
+        "name": "Thomas Chen",
+        "role": "Engineer",
+        "title": "Backend Engineer - Data Systems",
+        "email": "thomas.chen@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["data_pipelines", "analytics", "storage", "performance"],
+        "department": "Data Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-006",
+        "name": "Sophie Martin",
+        "role": "Engineer",
+        "title": "Backend Engineer - API Services",
+        "email": "sophie.martin@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["apis", "caching", "rate_limiting", "performance"],
+        "department": "Backend Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-007",
+        "name": "Daniel O'Brien",
+        "role": "Engineer",
+        "title": "Backend Engineer - Connection Management",
+        "email": "daniel.obrien@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["connection_pooling", "networking", "protocols", "optimization"],
+        "department": "Backend Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-008",
+        "name": "Lisa Wong",
+        "role": "Engineer",
+        "title": "Backend Engineer - Memory Management",
+        "email": "lisa.wong@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["memory_management", "garbage_collection", "profiling", "optimization"],
+        "department": "Backend Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-009",
+        "name": "Carlos Delgado",
+        "role": "Engineer",
+        "title": "Backend Engineer - Query Optimization",
+        "email": "carlos.delgado@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["sql_optimization", "indexing", "query_planning", "statistics"],
+        "department": "Database Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-010",
+        "name": "Anna Kowalski",
+        "role": "Engineer",
+        "title": "Backend Engineer - Authentication",
+        "email": "anna.kowalski@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["authentication", "authorization", "oauth", "security"],
+        "department": "Security Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-011",
+        "name": "Raj Patel",
+        "role": "Engineer",
+        "title": "Backend Engineer - Monitoring",
+        "email": "raj.patel@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["monitoring", "observability", "metrics", "logging", "tracing"],
+        "department": "Site Reliability Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-012",
+        "name": "Nina Sato",
+        "role": "Engineer",
+        "title": "Backend Engineer - Deployment",
+        "email": "nina.sato@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["deployment", "ci_cd", "automation", "configuration_management"],
+        "department": "DevOps Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-013",
+        "name": "James Wilson",
+        "role": "Engineer",
+        "title": "Backend Engineer - Cache Systems",
+        "email": "james.wilson@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["caching", "redis", "memcached", "cache_invalidation"],
+        "department": "Backend Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-014",
+        "name": "Maria Garcia",
+        "role": "Engineer",
+        "title": "Backend Engineer - Message Queues",
+        "email": "maria.garcia@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["messaging", "kafka", "rabbitmq", "async_processing"],
+        "department": "Backend Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-015",
+        "name": "Kevin Lee",
+        "role": "Engineer",
+        "title": "Backend Engineer - Search Systems",
+        "email": "kevin.lee@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["search_engines", "elasticsearch", "indexing", "ranking"],
+        "department": "Search Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-016",
+        "name": "Rebecca Thompson",
+        "role": "Engineer",
+        "title": "Backend Engineer - Transaction Processing",
+        "email": "rebecca.thompson@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["transactions", "acid", "distributed_systems", "consistency"],
+        "department": "Database Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-017",
+        "name": "Hassan Mahfouz",
+        "role": "Engineer",
+        "title": "Backend Engineer - Scaling",
+        "email": "hassan.mahfouz@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["horizontal_scaling", "sharding", "load_balancing", "distribution"],
+        "department": "Infrastructure",
+        "level": "L4"
+      },
+      {
+        "id": "eng-018",
+        "name": "Natasha Ivanov",
+        "role": "Engineer",
+        "title": "Backend Engineer - Security",
+        "email": "natasha.ivanov@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["security", "vulnerability_assessment", "penetration_testing"],
+        "department": "Security Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-019",
+        "name": "Lucas Silva",
+        "role": "Engineer",
+        "title": "Backend Engineer - Performance",
+        "email": "lucas.silva@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["performance", "profiling", "benchmarking", "optimization"],
+        "department": "Backend Engineering",
+        "level": "L4"
+      },
+      {
+        "id": "eng-020",
+        "name": "Yuki Tanaka",
+        "role": "Engineer",
+        "title": "Backend Engineer - Reliability",
+        "email": "yuki.tanaka@company.com",
+        "permissions": ["execute_fix", "view_assigned"],
+        "skills": ["reliability", "failover", "recovery", "disaster_planning"],
+        "department": "Site Reliability Engineering",
+        "level": "L4"
+      }
+    ]
+  },
+  "ticket_workflow": {
+    "states": [
+      "created",
+      "diagnosis_pending",
+      "diagnosis_complete",
+      "engineer_review",
+      "qa_review",
+      "cto_approval",
+      "scheduled",
+      "in_progress",
+      "completed",
+      "verified",
+      "deployed"
+    ],
+    "approvers": {
+      "diagnosis": ["qa-001"],
+      "fix_plan": ["eng-001", "eng-002", "eng-003", "eng-004"],
+      "qa_testing": ["qa-001"],
+      "deployment": ["ceo-001", "eng-001"]
+    }
+  }
+}
