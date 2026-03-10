@@ -2,6 +2,34 @@
 
 All notable changes to Claude Debug Copilot are documented in this file.
 
+## [3.3.0] - 2026-03-10
+
+### Integrate With Your Stack — API Integration Section
+
+**Summary**: Added interactive "Integrate With Your Stack" section to homepage showing all 5 integration paths (REST API, Batch Processing, Webhooks, Export & Audit, All Endpoints) with live curl examples mapped to real backend routes. Every example is copy-pasteable and every endpoint listed is served by `src/server.js`.
+
+### Added
+- **Homepage — Integrate Section** (`src/www/index.html`):
+  - Interactive tabbed panel with 5 tabs: REST API, Batch Processing, Webhooks, Export & Audit, All Endpoints
+  - Syntax-highlighted curl examples for `POST /api/diagnose`, `POST /api/batch-diagnose`, `POST /api/webhooks`, `GET /api/diagnose/:id/export`, `GET /api/audit-log`
+  - Endpoint card grid showing all 10 live API routes with method badges (GET/POST) and descriptions
+  - "View Full API Reference" CTA linking to `/api-reference.html`
+  - Tab switching via `switchIntegrateTab()` with `aria-selected` accessibility
+  - Responsive layout: stacks on mobile, code blocks shrink gracefully
+  - Dark terminal-style panels with One Dark syntax coloring
+
+- **Navigation**:
+  - Added "How It Works" and "Integrate" nav links for direct scroll-to
+  - Updated animation delay timing for 4-item nav
+
+### Verified
+- 24 test suites, 1117 tests pass, 0 failures
+- `http://localhost:3000` returns 200, integrate section present in served HTML
+- All curl examples match live server endpoints in `src/server.js`
+- PR #13 on `feature/integration-website` branch
+
+---
+
 ## [3.2.1] - 2026-03-10
 
 ### Release Verification & Confidence Update
