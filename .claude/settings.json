@@ -1,0 +1,111 @@
+{
+  "version": "1.0",
+  "projectName": "Claude Debug Copilot",
+  "description": "Evidence-first diagnostic system with production-grade reliability",
+
+  "environment": {
+    "NODE_ENV": "development",
+    "PORT": "3000",
+    "TIMEOUT_MS": "60000",
+    "MAX_RETRIES": "2",
+    "COVERAGE_THRESHOLD": "60"
+  },
+
+  "commands": {
+    "build": "npm install",
+    "start": "node src/server.js",
+    "test": "npm test",
+    "test:ci": "npm run test:ci",
+    "test:watch": "npm run test:watch",
+    "test:e2e": "npm run test:e2e"
+  },
+
+  "allowedCommands": [
+    "npm install",
+    "npm test",
+    "npm run test:ci",
+    "npm run test:watch",
+    "npm run test:e2e",
+    "npm start",
+    "npm run diagnose",
+    "git status",
+    "git diff",
+    "git log",
+    "git add",
+    "git commit",
+    "node src/local-pipeline.js",
+    "node src/run.js"
+  ],
+
+  "deniedPaths": [
+    ".env",
+    ".env.local",
+    ".env.production",
+    "secrets.json",
+    "credentials.json",
+    ".aws/credentials",
+    ".ssh/id_rsa",
+    "node_modules/",
+    "coverage/",
+    "dist/",
+    "build/"
+  ],
+
+  "criticalFiles": [
+    "CLAUDE.md",
+    "package.json",
+    "src/server.js",
+    "src/local-pipeline.js",
+    ".claude/rules/",
+    "docs/CONFIDENCE_SCORE.md",
+    "docs/LOCAL_TESTING.md",
+    "docs/GITHUB_TESTING.md"
+  ],
+
+  "hooks": {},
+
+  "mcp": {
+    "enabled": true,
+    "servers": [
+      {
+        "name": "claude-ai-context7",
+        "type": "library-docs",
+        "description": "Fetch up-to-date documentation for libraries"
+      }
+    ]
+  },
+
+  "coverage": {
+    "global": 60,
+    "branches": 60,
+    "functions": 60,
+    "lines": 60,
+    "statements": 60,
+    "exclusions": [
+      "node_modules/",
+      "coverage/",
+      "dist/",
+      "tests/"
+    ]
+  },
+
+  "rules": [
+    "CLAUDE.md - project standards",
+    ".claude/rules/guardrails.md - anti-hallucination",
+    ".claude/rules/confidence.md - scoring system",
+    ".claude/rules/testing.md - test requirements",
+    ".claude/rules/backend.md - reliability standards",
+    ".claude/rules/ui.md - design standards"
+  ],
+
+  "documentation": {
+    "README.md": "Quick start and overview",
+    "CLAUDE.md": "Project standards and expectations",
+    "CHANGELOG.md": "Session-by-session record of changes",
+    "docs/CONFIDENCE_SCORE.md": "Truth ledger for all tasks",
+    "docs/LOCAL_TESTING.md": "Localhost testing guide",
+    "docs/GITHUB_TESTING.md": "GitHub Actions testing proof",
+    "ARCHITECTURE.md": "System design and data flow",
+    ".claude/rules/": "Reusable guardrails by concern"
+  }
+}

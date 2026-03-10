@@ -9,8 +9,7 @@
     "test:ci": "node --experimental-vm-modules node_modules/.bin/jest --coverage --ci --coverageReporters=text --coverageReporters=lcov",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "test:e2e": "node --experimental-vm-modules node_modules/.bin/jest --testPathPattern=e2e --coverage",
-    "demo": "node src/demo-server.js",
-    "start": "node src/demo-server.js"
+    "start": "node src/server.js"
   },
   "keywords": ["debugging", "evidence-first", "backend-failures", "orchestration"],
   "author": "",

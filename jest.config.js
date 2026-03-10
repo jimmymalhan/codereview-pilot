@@ -7,8 +7,6 @@ export default {
   collectCoverageFrom: [
     'src/**/*.js',
     '!src/run.js',
-    '!src/demo-server.js',
-    '!src/demo-server-business.js',
     '!src/www/**',
     '!src/custom-agents/performance-optimizer.js',
     '!node_modules/**'
