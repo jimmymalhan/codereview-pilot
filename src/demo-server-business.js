@@ -490,9 +490,12 @@ app.get('/', (req, res) => {
     <div class="container">
       <!-- HERO SECTION -->
       <section class="hero">
-        <h2>Production incidents solved in minutes, not hours</h2>
-        <p>Stop losing $5,000/minute to downtime. Get AI-powered incident diagnosis that your team can trust.</p>
-        <button class="button" onclick="location.href='/diagnose'">Report an Incident Now</button>
+        <h2>Stop Debugging Wrong. Diagnose in 5 Minutes, Not 90.</h2>
+        <p>Your team spends 90 minutes guessing. We solve it in 5. Evidence-backed. Confidence-rated. Risk-free.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+          <button class="button" onclick="location.href='/roi'" style="background: #10b981;">Calculate Your Annual Savings</button>
+          <button class="button secondary" onclick="location.href='/diagnose'">Report an Incident</button>
+        </div>
       </section>
 
       <!-- KEY METRICS -->
@@ -523,6 +526,26 @@ app.get('/', (req, res) => {
           <div class="metric-change">Trust the diagnosis</div>
         </div>
       </div>
+
+      <!-- VALUE PROP SECTION -->
+      <section style="background: linear-gradient(135deg, #065f46 0%, #047857 100%); color: white; padding: 40px; border-radius: 12px; margin: 40px 0; text-align: center;">
+        <h2 style="color: white; margin-bottom: 15px;">For a 50-person engineering team:</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0;">
+          <div>
+            <div style="font-size: 14px; opacity: 0.9;">Current Cost Per Incident</div>
+            <div style="font-size: 36px; font-weight: bold; margin-top: 10px;">$600,000</div>
+            <div style="font-size: 13px; margin-top: 5px;">90 min diagnosis + wrong fixes</div>
+          </div>
+          <div>
+            <div style="font-size: 14px; opacity: 0.9;">With Incident Commander</div>
+            <div style="font-size: 36px; font-weight: bold; margin-top: 10px;">$65,000</div>
+            <div style="font-size: 13px; margin-top: 5px;">5 min diagnosis + verified fixes</div>
+          </div>
+        </div>
+        <div style="font-size: 16px; font-weight: bold; margin-top: 20px;">
+          <span style="background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 6px;">Save $535,000 per incident</span>
+        </div>
+      </section>
 
       <!-- ROI SECTION -->
       <section class="section-header">
