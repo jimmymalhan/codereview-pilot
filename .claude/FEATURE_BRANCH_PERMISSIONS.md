@@ -81,6 +81,18 @@ WAIT FOR USER APPROVAL - NEVER auto-execute on main
 ✅ NEW: [npm install] → verify success
 ```
 
+### For Committing
+```
+❌ OLD: "Can I commit these changes?"
+✅ NEW: [git commit] → automatically create clean commits
+
+❌ OLD: "Should I clean up before committing?"
+✅ NEW: [rm planning docs] → [git commit] → automated cleanup
+
+❌ OLD: "Do you want me to push?"
+✅ NEW: [Report commit status, await user approval for main branch push]
+```
+
 ### For Dangerous Operations
 ```
 ❌ OLD: "Should I remove this file?"
@@ -118,10 +130,16 @@ Continuing with next task...
 Even on feature branch, I WILL ask permission for:
 1. **Merging to main** - requires your approval
 2. **Pushing to main** - requires your approval
-3. **Deleting critical files** - (but will still execute if critical for task)
-4. **Very destructive operations** - (but will still execute)
+3. **Pushing to origin/feature/integration-website** - report commit status, wait for approval
 
 **Note:** On feature branch, I'll execute and then report, rather than ask first.
+
+### Clean Commits
+- No permission requests for creating commits
+- Commits are automatically cleaned (no planning docs, only project-relevant code)
+- Commit messages are detailed and focused
+- Repository stays clean with zero stale files
+- All dangerous file cleanup happens automatically before commit
 
 ---
 
