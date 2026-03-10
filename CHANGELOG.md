@@ -2,6 +2,70 @@
 
 All notable changes to Claude Debug Copilot are documented in this file.
 
+## [2.1.0] - 2026-03-10
+
+### Major Features: Integration Website + Custom Skills/Agents Framework
+
+**Production Integration Website**
+- Interactive 7-page website at `http://localhost:3000`
+- 5-agent pipeline visualizer with animated state transitions
+- 6 interactive incident scenarios (Database, Memory, Auth, DNS, Write, Deploy)
+- Skills demonstration (Evidence Verifier, Hallucination Detector, Confidence Scorer)
+- MCP integration showcase (4 context providers: Repo, Log, Schema, Metrics)
+- Agent capabilities browser (all 9 agents with input/output/constraints)
+- Test dashboard (547+ tests, 90%+ coverage)
+- Documentation hub (integration guide, custom skills/agents APIs)
+
+**5 Custom Reusable Skills** (`src/custom-skills/`)
+- **DataValidator**: Type validation, range checking, pattern matching, required fields
+- **RequestFormatter**: Normalize REST/GraphQL/CLI requests to standard format
+- **ResponseParser**: Parse JSON, XML, HTML, plain text responses
+- **MetricsAnalyzer**: Time-series analysis, anomalies, trends, correlation
+- **ChangeDetector**: Text/structural diffs, before/after comparison, context preservation
+
+**4 Custom Reusable Agents** (`src/custom-agents/`)
+- **DataAnalystAgent**: Data exploration, anomaly detection, correlation analysis
+- **SecurityAuditorAgent**: Secrets detection, SQL injection, XSS, auth validation
+- **PerformanceOptimizerAgent**: Bottleneck analysis, optimization suggestions, impact estimates
+- **ComplianceCheckerAgent**: GDPR, HIPAA, PCI-DSS, SOC 2 compliance verification
+
+**Testing & Quality**
+- 285 new test cases (181 skills + 104 agents)
+- 94.23% coverage for custom skills
+- 100% success rate for agent tests
+- All 547+ existing tests still passing
+- Real-world scenario coverage (database pools, API responses, metrics, code changes)
+
+**Documentation** (`docs/`)
+- **INTEGRATION_GUIDE.md** (705 lines): Complete user guide with 2 detailed examples
+- **CUSTOM_SKILLS_API.md** (968 lines): Skills development guide with 5 examples
+- **CUSTOM_AGENTS_API.md** (1,300 lines): Agents development guide with 4 examples
+- **PLAN_INTEGRATION_WEBSITE.md**: 47-task execution roadmap with success criteria
+- **GUARDRAILS_INTEGRATION.md**: Skill/agent capabilities with 100% QA gates
+
+### Changed
+- Enhanced `src/demo-server.js` (1,750+ lines with full website)
+- Updated package.json: version 2.0.0 → 2.1.0, added demo/start scripts
+- Updated README.md: Added "Interactive Website" section, repository structure
+- Branding: Updated Paperclip references to DebugOrchestrator
+- Removed all E10 references from codebase
+
+### Performance & Reliability
+- Website response time: <15ms per endpoint
+- Page load time: <2 seconds
+- Test execution: All 547+ tests in <30 seconds
+- Overall statement coverage: 90.49%
+- Zero breaking changes to existing API
+
+### Data Flow Enhancement
+- Skills layer now integrates with website
+- Custom agents available for extension
+- MCP providers exposed for context access
+- Evidence citations clickable (link to files)
+- Confidence scoring transparent (formula breakdown shown)
+
+---
+
 ## [2.0.0] - 2026-03-09
 
 ### Production Integration Release

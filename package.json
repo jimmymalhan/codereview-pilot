@@ -1,16 +1,18 @@
 {
   "name": "claude-debug-copilot",
-  "version": "1.0.0",
-  "description": "Evidence-first diagnostic system for backend failures",
+  "version": "2.1.0",
+  "description": "Evidence-first diagnostic system for backend failures with interactive integration website",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
     "test:ci": "node --experimental-vm-modules node_modules/.bin/jest --coverage --ci --coverageReporters=text --coverageReporters=lcov",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
-    "test:e2e": "node --experimental-vm-modules node_modules/.bin/jest --testPathPattern=e2e --coverage"
+    "test:e2e": "node --experimental-vm-modules node_modules/.bin/jest --testPathPattern=e2e --coverage",
+    "demo": "node src/demo-server.js",
+    "start": "node src/demo-server.js"
   },
-  "keywords": [],
+  "keywords": ["debugging", "evidence-first", "backend-failures", "orchestration"],
   "author": "",
   "license": "MIT",
   "dependencies": {

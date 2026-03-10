@@ -318,31 +318,79 @@ Result: Actionable fix in 2 minutes, engineer is certain
 
 ---
 
+## Interactive Website
+
+Access the production-ready website at **http://localhost:3000** (run `npm start`):
+
+- **Home** - Project overview and feature highlights
+- **Pipeline** - Interactive 5-agent flow with 6 incident scenarios
+- **Skills** - Evidence Verifier, Hallucination Detector, Confidence Scorer demos
+- **MCP** - Context provider integration showcase (4 providers)
+- **Agents** - All 9 agents with capabilities and constraints
+- **Tests** - 547+ tests passing, 90%+ coverage
+- **Docs** - Integration guide, custom skills/agents APIs
+
 ## Repository Structure
 
 ```
 .claude/
 ├── agents/
-│   ├── router.md         # Failure classifier
-│   ├── retriever.md      # Evidence gatherer
-│   ├── skeptic.md        # Competing theory generator
-│   ├── verifier.md       # Claim validator + approval gate
-│   └── critic.md         # Quality gate validator
+│   ├── router.md                # Failure classifier
+│   ├── retriever.md             # Evidence gatherer
+│   ├── skeptic.md               # Competing theory generator
+│   ├── verifier.md              # Claim validator + approval gate
+│   ├── critic.md                # Quality gate validator
+│   ├── data-analyst.md          # Custom: data exploration
+│   ├── security-auditor.md      # Custom: security scanning
+│   ├── performance-optimizer.md # Custom: optimization analysis
+│   └── compliance-checker.md    # Custom: regulatory compliance
 └── hooks/
-    └── check-edits.sh    # Prevents .env and lock file commits
+    └── check-edits.sh           # Prevents .env and lock file commits
 
 src/
 ├── orchestrator/         # Local orchestration framework (14 modules)
-│   ├── orchestrator-client.js    # Main client
-│   ├── task-manager.js           # Task lifecycle
-│   ├── approval-state-machine.js # Approval workflow
-│   └── [11 more modules]         # Security, budget, audit, etc.
-└── run.js               # Demo entry point
+│   ├── orchestrator-client.js       # Main client
+│   ├── task-manager.js              # Task lifecycle
+│   ├── approval-state-machine.js    # Approval workflow
+│   └── [11 more modules]            # Security, budget, audit, etc.
+├── mcp/                  # Model Context Protocol (4 providers)
+│   ├── mcp-client.js
+│   └── context-providers/
+│       ├── repo-context-provider.js
+│       ├── log-context-provider.js
+│       ├── schema-context-provider.js
+│       └── metrics-context-provider.js
+├── skills/              # Quality scoring layer (3 modules)
+│   ├── evidence-verifier.js
+│   ├── hallucination-detector.js
+│   └── confidence-scorer.js
+├── custom-skills/       # Reusable skills (5 modules) [NEW]
+│   ├── data-validator.js
+│   ├── request-formatter.js
+│   ├── response-parser.js
+│   ├── metrics-analyzer.js
+│   ├── change-detector.js
+│   └── index.js
+├── custom-agents/       # Reusable agents (4 modules) [NEW]
+│   ├── data-analyst.js
+│   ├── security-auditor.js
+│   ├── performance-optimizer.js
+│   └── compliance-checker.js
+├── agents/              # Core agent implementations
+│   └── critic.js        # Quality gate enforcer
+└── demo-server.js       # Interactive website + API server
 
-CLAUDE.md               # Project rules and output contracts
-CHANGELOG.md            # Version history
-package.json            # Dependencies: @anthropic-ai/sdk, dotenv
-README.md               # This file
+docs/                    # Documentation [NEW]
+├── INTEGRATION_GUIDE.md # Complete user guide
+├── CUSTOM_SKILLS_API.md # Skills development guide
+└── CUSTOM_AGENTS_API.md # Agents development guide
+
+CLAUDE.md                # Project rules and output contracts
+PLAN_INTEGRATION_WEBSITE.md     # 47-task execution roadmap [NEW]
+GUARDRAILS_INTEGRATION.md       # Skill/agent guardrails [NEW]
+CHANGELOG.md             # Version history
+package.json             # Dependencies: @anthropic-ai/sdk, dotenv
+README.md                # This file
 ```
 
 ## Files Committed vs. Ignored
