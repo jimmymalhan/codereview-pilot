@@ -2,6 +2,17 @@
 
 All notable changes to Claude Debug Copilot are documented in this file.
 
+## [3.2.1] - 2026-03-10
+
+### Release Verification & Confidence Update
+
+- **Verified**: All 24 test suites (1117 tests) pass via `test:ci`
+- **Verified**: All 32 E2E critical-path tests pass
+- **Verified**: Localhost endpoints — health, diagnose, validation, analytics, dashboard, audit-log, export
+- **Verified**: CI green on PR #13 — Node 18, Node 20, GitGuardian Security all SUCCESS
+- **Updated**: `docs/CONFIDENCE_SCORE.md` Session 7 with full evidence (confidence 96/100)
+- **Status**: PR #13 OPEN, MERGEABLE, all checks passing
+
 ## [3.2.0] - 2026-03-10
 
 ### Production UI & Backend Implementation
