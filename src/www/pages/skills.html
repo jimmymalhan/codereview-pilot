@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Skills Demo - Evidence Verifier, Hallucination Detector, Confidence Scorer">
+  <title>Skills Demo - Claude Debug Copilot</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .skill-section {
+      margin: 32px 0;
+    }
+    .result-panel {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    .result-panel--valid {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid var(--accent-green);
+      color: #86efac;
+    }
+    .result-panel--invalid {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 3px solid var(--accent-red);
+      color: #fca5a5;
+    }
+    .result-panel--neutral {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 3px solid var(--accent-blue);
+      color: var(--accent-blue-pale);
+    }
+    .formula-display {
+      background: var(--bg-primary);
+      border: 1px solid var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .formula-display .label {
+      color: var(--text-muted);
+      display: inline-block;
+      min-width: 240px;
+    }
+    .formula-display .value {
+      color: var(--accent-blue-light);
+      font-weight: bold;
+    }
+    .formula-display .separator {
+      border-top: 1px dashed var(--border-primary);
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="/" class="nav-logo">Claude Debug Copilot</a>
+        <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">&#9776;</button>
+        <ul id="nav-links" class="nav-links" role="menubar">
+          <li role="none"><a href="/" role="menuitem">Home</a></li>
+          <li role="none"><a href="/pipeline" role="menuitem">Pipeline</a></li>
+          <li role="none"><a href="/skills" role="menuitem" aria-current="page">Skills</a></li>
+          <li role="none"><a href="/mcp" role="menuitem">MCP</a></li>
+          <li role="none"><a href="/agents" role="menuitem">Agents</a></li>
+          <li role="none"><a href="/tests" role="menuitem">Tests</a></li>
+          <li role="none"><a href="/docs" role="menuitem">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <h1>Skills Demonstrations</h1>
+    <p class="subtitle">Test Evidence Verifier, Hallucination Detector, and Confidence Scorer with live data</p>
+
+    <!-- Evidence Verifier -->
+    <section class="skill-section card" aria-labelledby="skill-evidence">
+      <h2 id="skill-evidence">1. Evidence Verifier</h2>
+      <p>Validates that file:line citations actually exist in the repository. Prevents citing non-existent files or lines.</p>
+
+      <div class="form-group">
+        <label for="evidence-input">Enter file citations (one per line, format: file:line)</label>
+        <textarea id="evidence-input" rows="4" placeholder="src/run.js:1&#10;package.json:10&#10;README.md:50" aria-describedby="evidence-help"></textarea>
+        <small id="evidence-help" class="text-muted">Use file paths relative to repository root. Example: src/run.js:1</small>
+      </div>
+      <button class="btn btn--primary" onclick="testEvidence()" id="btn-verify-evidence">Verify Citations</button>
+
+      <div id="evidence-result" aria-live="polite"></div>
+    </section>
+
+    <!-- Hallucination Detector -->
+    <section class="skill-section card" aria-labelledby="skill-halluc">
+      <h2 id="skill-halluc">2. Hallucination Detector</h2>
+      <p>Detects AI hallucinations by checking if referenced fields and APIs actually exist in the schema.</p>
+
+      <p style="font-size:13px;color:var(--text-muted);margin:8px 0;">Known schema fields: user.id, user.email, user.name, order.id, order.total, order.status</p>
+      <p style="font-size:13px;color:var(--text-muted);margin:8px 0;">Known APIs: GET /api/users, POST /api/orders, GET /api/orders/:id</p>
+
+      <div class="form-group">
+        <label for="halluc-field">Field Check (format: entity.field)</label>
+        <input type="text" id="halluc-field" placeholder="user.phone (non-existent example)" aria-describedby="halluc-field-help">
+        <small id="halluc-field-help" class="text-muted">Check if a schema field exists. Try: user.email (valid) or user.phone (invalid)</small>
+      </div>
+      <div class="form-group">
+        <label for="halluc-api">API Check (format: METHOD /path)</label>
+        <input type="text" id="halluc-api" placeholder="DELETE /api/admin (non-existent example)" aria-describedby="halluc-api-help">
+        <small id="halluc-api-help" class="text-muted">Check if an API endpoint exists. Try: GET /api/users (valid) or DELETE /api/admin (invalid)</small>
+      </div>
+      <button class="btn btn--primary" onclick="testHallucinations()" id="btn-detect-halluc">Detect Hallucinations</button>
+
+      <div id="halluc-result" aria-live="polite"></div>
+    </section>
+
+    <!-- Confidence Scorer -->
+    <section class="skill-section card" aria-labelledby="skill-confidence">
+      <h2 id="skill-confidence">3. Confidence Scorer</h2>
+      <p>Calculates confidence using formula: <code>base + evidence(0.25) - hallucination(0.35) - contradiction(0.20)</code></p>
+
+      <div class="form-group">
+        <label for="score-base">Base Score (0.0 - 1.0)</label>
+        <input type="number" id="score-base" min="0" max="1" step="0.05" value="0.70" aria-describedby="score-base-help">
+        <small id="score-base-help" class="text-muted">Initial confidence before adjustments. Minimum 0.70 required for approval.</small>
+      </div>
+      <div class="form-group">
+        <label for="score-evidence">Evidence Claims (one per line, file:line format)</label>
+        <textarea id="score-evidence" rows="3" placeholder="src/run.js:1&#10;package.json:10"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="score-contradictions">Contradictions (one per line, optional)</label>
+        <textarea id="score-contradictions" rows="2" placeholder="Log shows no errors during incident window"></textarea>
+      </div>
+      <button class="btn btn--primary" onclick="testConfidence()" id="btn-calc-confidence">Calculate Confidence</button>
+
+      <div id="score-result" aria-live="polite"></div>
+      <div id="confidence-meter-display" class="mt-2"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/app.js"></script>
+  <script>
+  (function () {
+    window.testEvidence = function () {
+      var input = document.getElementById('evidence-input').value.trim();
+      if (!input) {
+        App.toast('Enter at least one citation', 'error');
+        return;
+      }
+      var claims = input.split('\n').filter(function (l) { return l.trim(); });
+
+      document.getElementById('evidence-result').innerHTML = '<div class="result-panel result-panel--neutral"><span class="spinner"></span> Verifying...</div>';
+
+      App.api('/api/verify-evidence', 'POST', { claims: claims }).then(function (result) {
+        var html = '';
+        if (result.valid) {
+          html += '<div class="result-panel result-panel--valid">All ' + result.totalClaims + ' citations verified successfully</div>';
+        } else {
+          html += '<div class="result-panel result-panel--invalid">' + result.issues.length + ' invalid citation(s) found out of ' + result.totalClaims + '</div>';
+          for (var i = 0; i < result.issues.length; i++) {
+            html += '<div class="result-panel result-panel--invalid" style="margin-top:4px;">' + App.escapeHtml(result.issues[i]) + '</div>';
+          }
+        }
+        document.getElementById('evidence-result').innerHTML = html;
+        App.toast(result.valid ? 'All citations valid' : result.issues.length + ' issues found', result.valid ? 'success' : 'error');
+      }).catch(function (err) {
+        document.getElementById('evidence-result').innerHTML = '<div class="result-panel result-panel--invalid">Error: ' + App.escapeHtml(err.message) + '</div>';
+      });
+    };
+
+    window.testHallucinations = function () {
+      var field = document.getElementById('halluc-field').value.trim();
+      var api = document.getElementById('halluc-api').value.trim();
+
+      if (!field && !api) {
+        App.toast('Enter at least one field or API to check', 'error');
+        return;
+      }
+
+      var claims = [];
+      if (field) {
+        var parts = field.split('.');
+        if (parts.length !== 2) {
+          App.toast('Field format must be entity.field (e.g., user.email)', 'error');
+          return;
+        }
+        claims.push({ type: 'field', entity: parts[0], field: parts[1] });
+      }
+      if (api) {
+        claims.push({ type: 'api', endpoint: api });
+      }
+
+      document.getElementById('halluc-result').innerHTML = '<div class="result-panel result-panel--neutral"><span class="spinner"></span> Detecting...</div>';
+
+      App.api('/api/detect-hallucinations', 'POST', { claims: claims }).then(function (result) {
+        var riskClass = result.riskScore > 0.5 ? 'invalid' : result.riskScore > 0.2 ? 'neutral' : 'valid';
+        var riskLevel = result.riskScore > 0.5 ? 'HIGH' : result.riskScore > 0.2 ? 'MEDIUM' : 'LOW';
+
+        var html = '<div class="result-panel result-panel--' + riskClass + '">';
+        html += 'Risk Score: ' + result.riskScore.toFixed(2) + ' (' + riskLevel + ')<br>';
+        html += 'Flagged: ' + result.flaggedClaims.length + ' / ' + result.totalClaims + ' claims';
+
+        if (result.flaggedClaims && result.flaggedClaims.length > 0) {
+          html += '<br><br>Flagged items:';
+          for (var i = 0; i < result.flaggedClaims.length; i++) {
+            html += '<br> - ' + App.escapeHtml(JSON.stringify(result.flaggedClaims[i]));
+          }
+        }
+        html += '</div>';
+
+        document.getElementById('halluc-result').innerHTML = html;
+        App.toast('Risk level: ' + riskLevel, riskClass === 'valid' ? 'success' : 'error');
+      }).catch(function (err) {
+        document.getElementById('halluc-result').innerHTML = '<div class="result-panel result-panel--invalid">Error: ' + App.escapeHtml(err.message) + '</div>';
+      });
+    };
+
+    window.testConfidence = function () {
+      var baseScore = parseFloat(document.getElementById('score-base').value);
+      if (isNaN(baseScore) || baseScore < 0 || baseScore > 1) {
+        App.toast('Base score must be between 0.0 and 1.0', 'error');
+        return;
+      }
+
+      var evidenceText = document.getElementById('score-evidence').value.trim();
+      var contradictionText = document.getElementById('score-contradictions').value.trim();
+
+      var claims = evidenceText ? evidenceText.split('\n').filter(function (l) { return l.trim(); }) : [];
+      var contradictions = contradictionText ? contradictionText.split('\n').filter(function (l) { return l.trim(); }) : [];
+
+      document.getElementById('score-result').innerHTML = '<div class="result-panel result-panel--neutral"><span class="spinner"></span> Calculating...</div>';
+
+      App.api('/api/score-confidence', 'POST', {
+        baseScore: baseScore,
+        claims: claims,
+        contradictions: contradictions
+      }).then(function (result) {
+        var html = '<div class="formula-display">';
+        html += '<div><span class="label">Base Score:</span><span class="value">' + result.baseScore.toFixed(3) + '</span></div>';
+        html += '<div><span class="label">Evidence Bonus (+0.25 weight):</span><span class="value text-success">+' + result.evidenceBonus.toFixed(3) + '</span></div>';
+        html += '<div><span class="label">Hallucination Penalty (-0.35 weight):</span><span class="value text-error">-' + result.hallucinationPenalty.toFixed(3) + '</span></div>';
+        html += '<div><span class="label">Contradiction Penalty (-0.20 weight):</span><span class="value text-error">-' + result.contradictionPenalty.toFixed(3) + '</span></div>';
+        html += '<div class="separator"></div>';
+        html += '<div><span class="label">Final Confidence:</span><span class="value" style="font-size:18px;">' + result.finalConfidence.toFixed(3) + '</span></div>';
+        html += '<div style="margin-top:8px;"><span class="label">Decision:</span>';
+        if (result.approved) {
+          html += '<span class="badge badge--success">APPROVED (&gt;= 0.70)</span>';
+        } else {
+          html += '<span class="badge badge--danger">REJECTED (&lt; 0.70)</span>';
+        }
+        html += '</div></div>';
+        document.getElementById('score-result').innerHTML = html;
+
+        App.setConfidence('confidence-meter-display', result.finalConfidence);
+        App.toast(result.approved ? 'Confidence approved!' : 'Confidence below threshold', result.approved ? 'success' : 'error');
+      }).catch(function (err) {
+        document.getElementById('score-result').innerHTML = '<div class="result-panel result-panel--invalid">Error: ' + App.escapeHtml(err.message) + '</div>';
+      });
+    };
+  })();
+  </script>
+</body>
+</html>

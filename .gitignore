@@ -1,7 +1,195 @@
+# ──────────────────────────────────────────────────
+# Environment & Secrets
+# ──────────────────────────────────────────────────
 .env
-node_modules
-logs/*
-data/*
-incidents/*
-coverage/*
+.env.*
+!.env.example
+
+# ──────────────────────────────────────────────────
+# Dependencies
+# ──────────────────────────────────────────────────
+node_modules/
+package-lock.json
+
+# ──────────────────────────────────────────────────
+# Build Artifacts & Coverage
+# ──────────────────────────────────────────────────
+coverage/
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# ──────────────────────────────────────────────────
+# OS & IDE
+# ──────────────────────────────────────────────────
 .DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ──────────────────────────────────────────────────
+# Temp & Logs
+# ──────────────────────────────────────────────────
+*.tmp
+*.log
+tmp/
+logs/
+data/
+incidents/
+
+# ──────────────────────────────────────────────────
+# Media, Recordings, Demos
+# ──────────────────────────────────────────────────
+output/
+recordings/
+demo/
+videos/
+*.mp4
+*.webm
+*.mov
+*.avi
+*.gif
+record*.sh
+demo*.sh
+
+# ──────────────────────────────────────────────────
+# Reference Materials (local planning artifacts)
+# ──────────────────────────────────────────────────
+reference/
+
+# ──────────────────────────────────────────────────
+# Internal Planning & Strategy (NEVER commit)
+#
+# Catch-all patterns for sprint docs, phase docs,
+# research, stakeholder notes, execution plans,
+# audit reports, progress dashboards, feedback,
+# and any other internal customization artifacts.
+# ──────────────────────────────────────────────────
+
+# Sprint / phase docs (A1-*, A2-*, B1-*, E1-*, PHASE_C_*, etc.)
+[A-Z][0-9][-_]*.md
+[A-Z][0-9]_*.md
+PHASE_*.md
+PHASE_*.csv
+
+# Planning, execution, coordination
+*_PLAN.md
+*_PLAN_*.md
+*_CHECKLIST.md
+*_CHECKLIST_*.md
+*_TRACKER.md
+*_TRACKER_*.md
+*_COORDINATION*.md
+*_INFRASTRUCTURE*.md
+EXECUTION_*.md
+MASTER_*.md
+BUCKET*.md
+PROJECT_TRACKER*.md
+
+# Reports, summaries, audits
+*_REPORT.md
+*_REPORT_*.md
+*_SUMMARY.md
+*_SUMMARY_*.md
+*_COMPLETION_*.md
+*_DELIVERY_*.md
+*_EXECUTION_*.md
+AUDIT_*.md
+PROGRESS_DASHBOARD*.md
+
+# Stakeholder, feedback, revenue
+STAKEHOLDER_*.md
+FEEDBACK_*.md
+REVENUE_*.md
+USER_FEEDBACK*.md
+
+# Testing guides & QA docs (not the actual test code)
+TESTING.md
+TESTING_GUIDE.md
+UI_QA_TEST_SUITE.md
+LOCALHOST_TESTING.md
+*_TEST_SUITE*.md
+
+# Implementation & deployment docs at root
+API.md
+DATA_FLOW.md
+DEPLOYMENT.md
+IMPLEMENTATION_GUIDE.md
+LUXURY_*.md
+REFACTORING_*.md
+FRONTEND_UPGRADE_PLAN.md
+FRONTEND_TASK_BREAKDOWN.csv
+
+# Catch remaining internal docs at root (be explicit)
+INCIDENT_SENTINEL*.md
+ULTRA_ADVANCED*.md
+DESKTOP_*.md
+ANALYTICS_*.md
+EXPANDED_TEAM*.md
+GITHUB_ADOPTION*.md
+OPEN_SOURCE*.md
+READY_FOR_GITHUB*.md
+LIVE_*.md
+TEAM_COORDINATION*.md
+
+# ──────────────────────────────────────────────────
+# docs/ — only tracked: CUSTOM_AGENTS_API, CUSTOM_SKILLS_API, INTEGRATION_GUIDE
+# ──────────────────────────────────────────────────
+docs/CONFIDENCE_SCORE.md
+docs/FEEDBACK_LOG*.md
+docs/G[0-9]_*.md
+docs/GITHUB_TESTING.md
+docs/HOMEPAGE_UPGRADE*.md
+docs/INTERNAL_STAKEHOLDER*.md
+docs/LOCAL_TESTING.md
+docs/PHASE_*.md
+docs/Phase-B-Design-Tokens/
+docs/PROJECT_STATUS*.md
+docs/ROADMAP*.md
+docs/STAKEHOLDER_FEEDBACK*.md
+docs/TEST_PLAN*.md
+docs/USER_FEEDBACK*.md
+docs/WEBSITE_GUIDE.md
+docs/examples/
+docs/private/
+docs/**/*.local.md
+docs/**/REVIEW_NOTES*.md
+docs/**/EXECUTION_PLAN*.md
+
+# ──────────────────────────────────────────────────
+# .claude/ — only tracked: CLAUDE.md, settings.json, rules/, skills/, hooks/
+# ──────────────────────────────────────────────────
+.claude/settings.local.json
+.claude/FEATURE_BRANCH_PERMISSIONS.md
+.claude/commands/
+.claude/agents/**
+.claude/skills/**
+.claude/worktrees/
+.claude/local/
+.claude/agent-memory-local/
+.claude/reports/
+.claude/plans/
+.claude/checklists/
+.claude/feedback/
+.claude/tmp/
+.claude/local-docs/
+
+# Re-include tracked .claude skills (overrides the ** above)
+!.claude/skills/backend-reliability/
+!.claude/skills/backend-reliability/SKILL.md
+!.claude/skills/evidence-proof/
+!.claude/skills/evidence-proof/SKILL.md
+!.claude/skills/ui-quality/
+!.claude/skills/ui-quality/SKILL.md
+
+# ──────────────────────────────────────────────────
+# Misc local directories
+# ──────────────────────────────────────────────────
+mcp/
+scripts/
+src/www/styles/how-it-works.css
+tests/testing-coverage-report.md

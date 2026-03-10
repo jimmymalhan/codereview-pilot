@@ -1,0 +1,229 @@
+/**
+ * D3 Sprint: Micro-Interactions Styles
+ * HoverEffect, FocusEffect, TapFeedback, ScrollTrigger, LoadingPulse, ButtonWithFeedback
+ */
+
+/* ============================================================================
+   HoverEffect Component
+   ============================================================================ */
+
+.hover-effect {
+  will-change: transform, box-shadow;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-effect-scale {
+  transform-origin: center center;
+}
+
+.hover-effect-lift {
+  transform-origin: center bottom;
+}
+
+.hover-effect-glow {
+  border-radius: 8px;
+}
+
+.hover-effect-underline {
+  border-bottom: 0px solid transparent;
+  padding-bottom: 4px;
+}
+
+/* ============================================================================
+   FocusEffect Component
+   ============================================================================ */
+
+.focus-effect {
+  position: relative;
+}
+
+.focus-effect input,
+.focus-effect textarea,
+.focus-effect select {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   TapFeedback Component
+   ============================================================================ */
+
+.tap-feedback {
+  will-change: transform;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.6, 1);
+  user-select: none;
+}
+
+/* ============================================================================
+   ScrollTrigger Component
+   ============================================================================ */
+
+.scroll-trigger {
+  position: relative;
+}
+
+/* ============================================================================
+   LoadingPulse Component
+   ============================================================================ */
+
+.loading-pulse {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.loading-pulse p {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+/* ============================================================================
+   ButtonWithFeedback Component
+   ============================================================================ */
+
+.button-with-feedback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow, background-color;
+}
+
+.button-primary {
+  background-color: #0071e3;
+  color: white;
+}
+
+.button-primary:hover:not(:disabled) {
+  background-color: #0066cc;
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+}
+
+.button-primary:active:not(:disabled) {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 113, 227, 0.2);
+}
+
+.button-secondary {
+  background-color: #ffffff;
+  color: #0071e3;
+  border: 1px solid #e5e5e5;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background-color: #f5f5f7;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.button-secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.button-tertiary {
+  background-color: transparent;
+  color: #0071e3;
+}
+
+.button-tertiary:hover:not(:disabled) {
+  color: #0066cc;
+  background-color: rgba(0, 113, 227, 0.05);
+}
+
+.button-tertiary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Size variants */
+.button-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.button-md {
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.button-lg {
+  padding: 14px 20px;
+  font-size: 16px;
+}
+
+/* Disabled state */
+.button-with-feedback:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Focus state */
+.button-with-feedback:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   Interactive Element Transitions
+   ============================================================================ */
+
+a,
+button,
+input[type='button'],
+input[type='submit'],
+input[type='reset'],
+.interactive {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   Touch-Friendly Tap Targets
+   ============================================================================ */
+
+@media (hover: none) and (pointer: coarse) {
+  .hover-effect,
+  .button-with-feedback,
+  .tap-feedback {
+    /* Increase touch target size on mobile */
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ============================================================================
+   Accessibility - Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-effect,
+  .focus-effect,
+  .tap-feedback,
+  .loading-pulse,
+  .button-with-feedback {
+    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+}
+
+/* ============================================================================
+   High Contrast Mode Support
+   ============================================================================ */
+
+@media (prefers-contrast: more) {
+  .button-with-feedback {
+    border: 2px solid currentColor;
+  }
+
+  .button-primary {
+    border: 2px solid white;
+  }
+
+  .button-secondary {
+    border: 2px solid #0071e3;
+  }
+}

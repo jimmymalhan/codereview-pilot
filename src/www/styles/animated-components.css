@@ -1,0 +1,130 @@
+/**
+ * D2 Sprint: Animated Components Styles
+ * AnimatedSection, FadeIn, ZoomIn, ParallaxLayer, SlideIn, StaggeredList
+ */
+
+/* ============================================================================
+   AnimatedSection Component
+   ============================================================================ */
+
+.animated-section {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* ============================================================================
+   FadeIn Component
+   ============================================================================ */
+
+.fade-in {
+  will-change: opacity;
+}
+
+/* ============================================================================
+   ZoomIn Component
+   ============================================================================ */
+
+.zoom-in {
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+/* ============================================================================
+   SlideIn Component
+   ============================================================================ */
+
+.slide-in {
+  will-change: transform, opacity;
+}
+
+.slide-in-left {
+  transform-origin: left center;
+}
+
+.slide-in-right {
+  transform-origin: right center;
+}
+
+.slide-in-top {
+  transform-origin: center top;
+}
+
+.slide-in-bottom {
+  transform-origin: center bottom;
+}
+
+/* ============================================================================
+   ParallaxLayer Component
+   ============================================================================ */
+
+.parallax-layer {
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* ============================================================================
+   StaggeredList Component
+   ============================================================================ */
+
+.staggered-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.staggered-list-item {
+  will-change: transform, opacity;
+}
+
+/* Grid variant for staggered lists */
+.staggered-list.grid-variant {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* ============================================================================
+   Responsive Animations
+   ============================================================================ */
+
+/* Reduce animation intensity on mobile */
+@media (max-width: 768px) {
+  .animated-section,
+  .fade-in,
+  .zoom-in,
+  .slide-in,
+  .parallax-layer,
+  .staggered-list-item {
+    animation-duration: 200ms !important;
+  }
+}
+
+/* ============================================================================
+   Loading State Animations
+   ============================================================================ */
+
+.animate-loading {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================================================
+   Accessibility - Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-section,
+  .fade-in,
+  .zoom-in,
+  .slide-in,
+  .parallax-layer,
+  .staggered-list-item {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .parallax-layer {
+    transform: none !important;
+  }
+}

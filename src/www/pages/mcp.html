@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MCP Integration Dashboard - Model Context Protocol with 4 Context Providers">
+  <title>MCP Integration - Claude Debug Copilot</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .provider-card {
+      position: relative;
+    }
+    .provider-card--selected {
+      border-color: var(--accent-blue);
+      box-shadow: var(--shadow-card);
+    }
+    .provider-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--accent-green);
+    }
+    .provider-status::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .data-display {
+      background: var(--bg-primary);
+      border: 1px solid var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .data-display__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .data-display__title {
+      color: var(--accent-blue-light);
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .data-table {
+      width: 100%;
+    }
+    .data-table td {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 8px 12px;
+    }
+    .data-table td:first-child {
+      color: var(--accent-blue-pale);
+      width: 200px;
+    }
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-list li {
+      padding: 8px 16px;
+      margin: 4px 0;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent-blue);
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="/" class="nav-logo">Claude Debug Copilot</a>
+        <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">&#9776;</button>
+        <ul id="nav-links" class="nav-links" role="menubar">
+          <li role="none"><a href="/" role="menuitem">Home</a></li>
+          <li role="none"><a href="/pipeline" role="menuitem">Pipeline</a></li>
+          <li role="none"><a href="/skills" role="menuitem">Skills</a></li>
+          <li role="none"><a href="/mcp" role="menuitem" aria-current="page">MCP</a></li>
+          <li role="none"><a href="/agents" role="menuitem">Agents</a></li>
+          <li role="none"><a href="/tests" role="menuitem">Tests</a></li>
+          <li role="none"><a href="/docs" role="menuitem">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <h1>Model Context Protocol Integration</h1>
+    <p class="subtitle">4 Context Providers: Repo, Log, Schema, Metrics</p>
+
+    <h2>Context Providers</h2>
+    <div class="grid" id="provider-grid" role="radiogroup" aria-label="Select a context provider">
+      <button class="card provider-card" data-provider="repo" onclick="loadProvider('repo')" aria-label="Repository Context - File structure, recent commits, git branches, code patterns">
+        <h3>Repository Context</h3>
+        <p>File structure, recent commits, git branches, code patterns</p>
+        <div class="provider-status" aria-hidden="true">Available</div>
+      </button>
+
+      <button class="card provider-card" data-provider="log" onclick="loadProvider('log')" aria-label="Log Context - Parse error logs, extract timestamps, sanitize PII, find patterns">
+        <h3>Log Context</h3>
+        <p>Parse error logs, extract timestamps, sanitize PII, find patterns</p>
+        <div class="provider-status" aria-hidden="true">Available</div>
+      </button>
+
+      <button class="card provider-card" data-provider="schema" onclick="loadProvider('schema')" aria-label="Schema Context - Database schema definitions, field names, types, constraints">
+        <h3>Schema Context</h3>
+        <p>Database schema definitions, field names, types, constraints</p>
+        <div class="provider-status" aria-hidden="true">Available</div>
+      </button>
+
+      <button class="card provider-card" data-provider="metrics" onclick="loadProvider('metrics')" aria-label="Metrics Context - CPU, memory, connection metrics with timestamps and trends">
+        <h3>Metrics Context</h3>
+        <p>CPU, memory, connection metrics with timestamps and trends</p>
+        <div class="provider-status" aria-hidden="true">Available</div>
+      </button>
+    </div>
+
+    <!-- Provider data display -->
+    <div id="provider-data" style="display:none;">
+      <div class="data-display">
+        <div class="data-display__header">
+          <span class="data-display__title" id="provider-title">Loading...</span>
+          <button class="btn btn--small btn--secondary" onclick="refreshProvider()">Refresh</button>
+        </div>
+        <div id="provider-content" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <h2>MCP Features</h2>
+    <ul class="feature-list">
+      <li>Graceful degradation if MCP server unavailable</li>
+      <li>5-second timeout per context fetch with retry logic</li>
+      <li>Context caching to prevent duplicate requests</li>
+      <li>Automatic PII sanitization in log contexts</li>
+      <li>Pattern detection across multiple contexts</li>
+      <li>Provider health monitoring and status display</li>
+    </ul>
+
+    <h2>Integration Architecture</h2>
+    <div class="diagram">
+      <pre>
++-------------------+     +------------------+     +------------------+
+|  Debug Pipeline   |     |   MCP Client     |     |  MCP Providers   |
+|                   |     |                  |     |                  |
+|  Router ------+   |     |  fetchContext()  |     |  Repo Context    |
+|  Retriever ---+-&gt;-+-&gt;---+-&gt; getProvider() -+-&gt;---+-&gt; Log Context    |
+|  Skeptic -----+   |     |  cache.get()    |     |  Schema Context  |
+|  Verifier ----+   |     |  timeout(5000)  |     |  Metrics Context |
++-------------------+     +------------------+     +------------------+</pre>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/app.js"></script>
+  <script>
+  (function () {
+    var currentProvider = null;
+
+    var providerDetails = {
+      repo: {
+        title: 'Repository Context Provider',
+        description: 'Provides file structure, recent commits, and code patterns from the repository.',
+        fields: [
+          ['Source Files', 'JavaScript, JSON, SQL, Markdown'],
+          ['Key Directories', 'src/agents/, src/skills/, src/mcp/, src/orchestrator/'],
+          ['Config Files', 'package.json, jest.config.js, CLAUDE.md'],
+          ['Data Files', 'data/schema.sql, data/deploy.diff'],
+          ['Log Files', 'logs/app.log'],
+          ['Incident Files', 'incidents/incident-001.txt']
+        ]
+      },
+      log: {
+        title: 'Log Context Provider',
+        description: 'Parses error logs, extracts timestamps, sanitizes PII, and identifies error patterns.',
+        fields: [
+          ['Log Source', 'logs/app.log'],
+          ['Error Pattern', 'retry duplicate write - detected in 4/6 entries'],
+          ['Time Range', '2026-03-06T15:02:09Z to 2026-03-06T15:02:12Z'],
+          ['Severity Levels', 'INFO, WARN, ERROR'],
+          ['Key Events', 'write start, retry duplicate write, replica lag detected'],
+          ['Affected Region', 'us-east-1']
+        ]
+      },
+      schema: {
+        title: 'Schema Context Provider',
+        description: 'Database schema definitions including tables, fields, types, and constraints.',
+        fields: [
+          ['Table: users', 'id INT PRIMARY KEY, email TEXT'],
+          ['Runtime Schema', 'user: { id: number, email: string, name: string }'],
+          ['Runtime Schema', 'order: { id: number, total: number, status: string }'],
+          ['Known APIs', 'GET /api/users, POST /api/orders, GET /api/orders/:id'],
+          ['Source', 'data/schema.sql']
+        ]
+      },
+      metrics: {
+        title: 'Metrics Context Provider',
+        description: 'CPU, memory, and connection metrics with timestamps and trend analysis.',
+        fields: [
+          ['CPU Usage', '45% avg, 92% peak during incident'],
+          ['Memory', '512MB baseline, 2GB peak (memory leak scenario)'],
+          ['Connections', '10/50 pool used, spike to 50/50 during exhaustion'],
+          ['Error Rate', '0.1% baseline, 15% during incident'],
+          ['Response Time', '200ms p50, 5000ms p99 during incident'],
+          ['Replica Lag', '280ms detected in us-east-1']
+        ]
+      }
+    };
+
+    window.loadProvider = function (name) {
+      currentProvider = name;
+
+      var cards = document.querySelectorAll('.provider-card');
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].classList.toggle('provider-card--selected', cards[i].getAttribute('data-provider') === name);
+      }
+
+      var details = providerDetails[name];
+      if (!details) { return; }
+
+      document.getElementById('provider-data').style.display = 'block';
+      document.getElementById('provider-title').textContent = details.title;
+
+      var html = '<p style="color:var(--text-muted);margin-bottom:16px;">' + App.escapeHtml(details.description) + '</p>';
+      html += '<table class="data-table" role="presentation">';
+      html += '<thead><tr><th scope="col">Field</th><th scope="col">Value</th></tr></thead>';
+      html += '<tbody>';
+      for (var j = 0; j < details.fields.length; j++) {
+        html += '<tr><td>' + App.escapeHtml(details.fields[j][0]) + '</td><td>' + App.escapeHtml(details.fields[j][1]) + '</td></tr>';
+      }
+      html += '</tbody></table>';
+
+      // Also fetch live MCP status
+      html += '<div class="mt-2"><button class="btn btn--primary btn--small" onclick="fetchLiveMCP(\'' + name + '\')">Fetch Live Data</button></div>';
+      html += '<div id="live-mcp-data"></div>';
+
+      document.getElementById('provider-content').innerHTML = html;
+      App.toast('Loaded ' + details.title, 'info');
+
+      document.getElementById('provider-data').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    window.refreshProvider = function () {
+      if (currentProvider) {
+        loadProvider(currentProvider);
+      }
+    };
+
+    window.fetchLiveMCP = function (provider) {
+      var el = document.getElementById('live-mcp-data');
+      el.innerHTML = '<div style="padding:12px;color:var(--accent-yellow);"><span class="spinner"></span> Fetching from MCP server...</div>';
+
+      App.api('/api/mcp-status').then(function (result) {
+        var providerData = null;
+        for (var i = 0; i < result.providers.length; i++) {
+          if (result.providers[i].name.toLowerCase().indexOf(provider) >= 0) {
+            providerData = result.providers[i];
+            break;
+          }
+        }
+
+        var html = '<div class="results-panel mt-1"><pre>';
+        html += App.formatJSON({
+          provider: providerData,
+          supportedFeatures: result.features,
+          timestamp: result.timestamp
+        });
+        html += '</pre></div>';
+        el.innerHTML = html;
+      }).catch(function (err) {
+        el.innerHTML = '<div class="result-panel result-panel--invalid">Error fetching MCP data: ' + App.escapeHtml(err.message) + '</div>';
+      });
+    };
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+# Anti-Hallucination Guardrails
+
+## Proof Requirements
+- **Never invent files** - only read/edit files that exist or are explicitly requested
+- **Never invent APIs** - only call endpoints that are documented in code
+- **Never invent test results** - only claim tests pass after running them
+- **Never invent env vars** - only reference vars set in .env or package.json
+- **Never invent user behavior** - only describe what the UI actually shows
+- **Never invent screenshots** - only reference files on disk
+- **Never assume passing checks** - verify in GitHub Actions before claiming success
+
+## Observed vs Inferred vs Assumed
+- **Observed**: "I ran `npm test` and saw 319 tests pass"
+- **Inferred**: "Based on the passing tests, the retry logic works"
+- **Assumed**: "The API will eventually succeed" (MUST BE MARKED UNKNOWN)
+
+When uncertain, use this format:
+```
+Observed: [what you ran / read / verified]
+Inferred: [conclusion from evidence]
+Assumed: [guess with remaining unknowns]
+Risk: [what could go wrong]
+```
+
+## Confidence Scoring Rules
+- **95-100**: Only when critical workflows pass locally AND in CI
+- **80-94**: Code matches plan, tests pass, minor open items documented
+- **60-79**: Implemented but some flows untested or assumptions present
+- **40-59**: Partial implementation, significant unknowns
+- **0-39**: Guess with no backing evidence
+
+If evidence is missing, confidence MUST drop below 80.
+If critical flow is untested, confidence CANNOT exceed 79.
+
+## Evidence Checklist
+Before claiming "done", verify:
+- [ ] Read the code changes (git diff output)
+- [ ] Tests passed locally (`npm test` output)
+- [ ] Tests passed in GitHub Actions (workflow run result)
+- [ ] Critical workflows tested locally (describe steps)
+- [ ] Error cases handled (retry, validation, permissions)
+- [ ] Rollback path documented and safe
+- [ ] docs/CONFIDENCE_SCORE.md updated with evidence
+- [ ] CHANGELOG.md updated with what changed
+- [ ] No regressions in existing tests
+
+## Forbidden Claims
+❌ "Should work"
+❌ "I believe it will"
+❌ "This looks correct"
+❌ "Tests probably pass"
+❌ "The API endpoint exists" (without checking code)
+❌ "Users will see"  (without testing UI)
+❌ "The fix is complete" (without evidence)
+
+Allowed Claims:
+✅ "Test output shows 319 passing"
+✅ "GitHub Actions workflow passed on commit abc123"
+✅ "Local testing verified error recovery with retry logic"
+✅ "Code diff shows [specific change] to fix [specific issue]"
+✅ "Rollback is safe because [specific reason]"
+
+## Verification Flow
+1. **Read** actual code, test output, GitHub Actions result
+2. **Verify** critical workflow by running it locally
+3. **Score** confidence based on evidence checklist
+4. **Document** findings in docs/CONFIDENCE_SCORE.md
+5. **Mark unknowns** clearly with [UNKNOWN] prefix
+
+## When Uncertain
+If you cannot verify something:
+- Mark it as [UNKNOWN]
+- Lower confidence score
+- Describe what would prove it
+- Do not claim it is done
+
+## Updated Guardrails
+This file is updated when:
+- A mistake, hallucination, or missed test is found
+- A repeated feedback pattern appears
+- A new verification pattern is discovered
+- An assumption turns out wrong
+
+## Examples
+**Bad**: "The pipeline will retry on network failure"
+**Good**: "I tested pipeline retry by simulating network failure with mock and saw 3 retries before success"
+
+**Bad**: "The UI is production-ready"
+**Good**: "Tested locally on localhost:3000 - form submission, loading state, success message, error handling all verified"
+
+**Bad**: "Tests pass in CI"
+**Good**: "GitHub Actions run #123 on commit abc123def passed 319 tests with 89.87% coverage"

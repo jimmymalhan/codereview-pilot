@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Pipeline Visualizer - 5-Agent Diagnosis Flow">
+  <title>Pipeline Visualizer - Claude Debug Copilot</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .controls .status {
+      margin-left: auto;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .scenario-card {
+      background: var(--bg-secondary);
+      border-left: 4px solid var(--accent-red);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .scenario-card:hover,
+    .scenario-card:focus {
+      background: var(--bg-tertiary);
+      outline: none;
+      box-shadow: 0 0 0 2px var(--accent-blue);
+    }
+    .scenario-card--selected {
+      border-left-color: var(--accent-blue);
+      background: var(--bg-tertiary);
+    }
+    .scenario-card h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+    .scenario-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .evidence-flow {
+      margin: 24px 0;
+    }
+    .evidence-flow__stage {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 12px 0;
+      transition: all var(--transition-med);
+      opacity: 0.4;
+    }
+    .evidence-flow__stage--active {
+      opacity: 1;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+    }
+    .evidence-flow__stage--done {
+      opacity: 1;
+      border-color: var(--accent-green);
+    }
+    .evidence-flow__header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .evidence-flow__title {
+      font-weight: bold;
+      color: var(--accent-blue-light);
+    }
+    .evidence-flow__detail {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+    .speed-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .speed-control label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .speed-control input[type="range"] {
+      width: 80px;
+      accent-color: var(--accent-blue);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="/" class="nav-logo">Claude Debug Copilot</a>
+        <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">&#9776;</button>
+        <ul id="nav-links" class="nav-links" role="menubar">
+          <li role="none"><a href="/" role="menuitem">Home</a></li>
+          <li role="none"><a href="/pipeline" role="menuitem" aria-current="page">Pipeline</a></li>
+          <li role="none"><a href="/skills" role="menuitem">Skills</a></li>
+          <li role="none"><a href="/mcp" role="menuitem">MCP</a></li>
+          <li role="none"><a href="/agents" role="menuitem">Agents</a></li>
+          <li role="none"><a href="/tests" role="menuitem">Tests</a></li>
+          <li role="none"><a href="/docs" role="menuitem">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <h1>Interactive Pipeline Visualizer</h1>
+    <p class="subtitle">5-Agent Diagnosis Flow: Router &rarr; Retriever &rarr; Skeptic &rarr; Verifier &rarr; Critic</p>
+
+    <!-- SVG Pipeline -->
+    <div class="svg-pipeline" id="pipeline-svg" aria-label="Pipeline stages visualization"></div>
+
+    <!-- Controls -->
+    <div class="controls" role="toolbar" aria-label="Pipeline controls">
+      <button class="btn btn--success btn--icon" id="btn-play" onclick="handlePlay()" aria-label="Play pipeline">&#9654; Play</button>
+      <button class="btn btn--secondary btn--icon" id="btn-pause" onclick="handlePause()" aria-label="Pause pipeline" disabled>&#10074;&#10074; Pause</button>
+      <button class="btn btn--primary btn--icon" id="btn-step" onclick="handleStep()" aria-label="Step to next stage">&#9654;| Step</button>
+      <button class="btn btn--danger btn--icon" id="btn-reset" onclick="handleReset()" aria-label="Reset pipeline">&#8634; Reset</button>
+      <div class="speed-control">
+        <label for="speed-slider">Speed:</label>
+        <input type="range" id="speed-slider" min="500" max="3000" step="250" value="1500" aria-label="Animation speed" onchange="handleSpeedChange(this.value)">
+      </div>
+      <div class="status" id="pipeline-status" aria-live="polite">Select a scenario to begin</div>
+    </div>
+
+    <!-- Confidence display -->
+    <div id="confidence-display" style="display:none;">
+      <h2>Confidence Score</h2>
+      <div id="confidence-meter"></div>
+    </div>
+
+    <!-- Scenario selection -->
+    <h2>Incident Scenarios</h2>
+    <div class="scenario-grid" id="scenarios" role="listbox" aria-label="Select an incident scenario"></div>
+
+    <!-- Evidence Flow Detail -->
+    <div id="evidence-section" style="display:none;">
+      <h2>Evidence Flow</h2>
+      <div class="evidence-flow" id="evidence-flow" aria-live="polite"></div>
+
+      <h2>Stage Details</h2>
+      <div class="results-panel">
+        <pre id="stage-output"></pre>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/app.js"></script>
+  <script>
+  (function () {
+    var scenarios = [
+      {
+        id: 'pool',
+        title: 'Database Connection Pool Exhaustion',
+        description: 'API latency spike, connections maxed at 50',
+        classification: 'Resource Contention',
+        evidence: ['src/db/connection-pool.js:42', 'logs/api.log:2024-03-09 15:30'],
+        rootCause: 'DEFAULT_POOL_SIZE set to 10, insufficient for peak traffic of 50 concurrent requests',
+        alternative: 'Slow query causing held connections (rejected: query times normal)',
+        validation: 'Pool size increase from 10 to 50 resolves latency under load test',
+        fixPlan: 'Increase DEFAULT_POOL_SIZE from 10 to 50 in src/db/connection-pool.js:42',
+        rollback: 'Revert pool size to 10 and restart service',
+        tests: ['Verify pool accepts 50 connections', 'Load test with 60 concurrent requests'],
+        approval: 'APPROVED - Confidence 0.89',
+        confidence: 0.89
+      },
+      {
+        id: 'memory',
+        title: 'Memory Leak in Event Listener',
+        description: 'Memory growth from 256MB to 2GB over 6 hours',
+        classification: 'Memory Leak',
+        evidence: ['src/services/events.js:87', 'metrics/memory.json:peak'],
+        rootCause: 'Event listeners registered in loop without cleanup, causing retained references',
+        alternative: 'Unbounded cache growth (rejected: cache has TTL)',
+        validation: 'Heap dump shows event listeners retained after handler removal',
+        fixPlan: 'Add removeEventListener in cleanup function at src/services/events.js:92',
+        rollback: 'Revert event handler changes, restart with memory limit flag',
+        tests: ['Run for 2 hours and verify memory stays under 512MB', 'Verify event count stays bounded'],
+        approval: 'APPROVED - Deploy fix immediately',
+        confidence: 0.92
+      },
+      {
+        id: 'auth',
+        title: 'Authentication Failure - OAuth Flow',
+        description: '403 errors for valid JWT tokens after key rotation',
+        classification: 'Configuration Error',
+        evidence: ['src/middleware/auth.js:15', 'logs/security.log:timestamp'],
+        rootCause: 'JWT public key not updated after rotation, old key still cached in middleware',
+        alternative: 'Token revocation service failure (rejected: revocation service healthy)',
+        validation: 'Replace cached public key with rotated key, verify token validation passes',
+        fixPlan: 'Update JWT_PUBLIC_KEY in config and clear key cache in src/middleware/auth.js:15',
+        rollback: 'Restore previous public key and restart auth service',
+        tests: ['Verify valid JWT tokens return 200', 'Verify expired tokens return 401'],
+        approval: 'APPROVED - Confidence 0.92',
+        confidence: 0.92
+      },
+      {
+        id: 'dns',
+        title: 'DNS Cache TTL Issue',
+        description: 'Connections fail to cache server after IP change',
+        classification: 'DNS Resolution',
+        evidence: ['src/cache-client.js:23', 'logs/network.log'],
+        rootCause: 'DNS TTL set to 86400s (24h), stale IP cached after infrastructure migration',
+        alternative: 'Connection pool holding stale IPs (rejected: pool recreated on error)',
+        validation: 'Reduce DNS TTL to 300s, verify reconnection after IP change',
+        fixPlan: 'Set DNS TTL to 300s in src/cache-client.js:23, add DNS refresh on connection failure',
+        rollback: 'Revert TTL to 86400s if DNS load increases',
+        tests: ['Simulate IP change and verify reconnection within 5 minutes', 'Monitor DNS query volume'],
+        approval: 'APPROVED - Add cache invalidation',
+        confidence: 0.85
+      },
+      {
+        id: 'conflict',
+        title: 'Database Write Conflict',
+        description: 'Duplicate rows during concurrent batch inserts',
+        classification: 'Concurrency Issue',
+        evidence: ['src/db/batch.js:56', 'logs/db.log:deadlock'],
+        rootCause: 'Batch insert uses READ COMMITTED isolation, allowing duplicate key races',
+        alternative: 'Unique constraint not enforced (rejected: constraint exists but race window)',
+        validation: 'Switch to SERIALIZABLE isolation for batch operations',
+        fixPlan: 'Set transaction isolation to SERIALIZABLE in src/db/batch.js:56, add retry logic',
+        rollback: 'Revert to READ COMMITTED and add application-level dedup check',
+        tests: ['Run 100 concurrent batch inserts and verify zero duplicates', 'Verify retry handles deadlocks'],
+        approval: 'APPROVED - Add retry logic',
+        confidence: 0.87
+      },
+      {
+        id: 'rollout',
+        title: 'Deployment Rollout Failure',
+        description: '50% of traffic fails during canary deployment to new version',
+        classification: 'Deployment Error',
+        evidence: ['logs/deploy.log:stage', 'metrics/errors.json'],
+        rootCause: 'Health check endpoint not updated in new version, canary marked unhealthy',
+        alternative: 'Canary deployment missed health checks (rejected: checks ran but failed)',
+        validation: 'Fix health endpoint response format, redeploy canary',
+        fixPlan: 'Update /healthz endpoint to return { status: "ok" } in new version format',
+        rollback: 'Rollback canary to previous version, restore traffic to stable pods',
+        tests: ['Verify /healthz returns 200 with correct format', 'Run canary with 10% traffic for 15 min'],
+        approval: 'APPROVED - Rollback initiated',
+        confidence: 0.94
+      }
+    ];
+
+    // Render scenario cards
+    var grid = document.getElementById('scenarios');
+    var html = '';
+    for (var i = 0; i < scenarios.length; i++) {
+      var sc = scenarios[i];
+      html += '<div class="scenario-card" role="option" tabindex="0" data-id="' + sc.id + '" onclick="selectScenario(\'' + sc.id + '\')" onkeydown="if(event.key===\'Enter\')selectScenario(\'' + sc.id + '\')">' +
+        '<h3>' + App.escapeHtml(sc.title) + '</h3>' +
+        '<p>' + App.escapeHtml(sc.description) + '</p>' +
+        '<span class="badge badge--danger" style="margin-top:8px;display:inline-block;">' + App.escapeHtml(sc.classification) + '</span>' +
+      '</div>';
+    }
+    grid.innerHTML = html;
+
+    // Pipeline update handler
+    App.Pipeline.onUpdate = function (state) {
+      App.renderPipelineSVG('pipeline-svg', state);
+      updateControls(state);
+      updateEvidenceFlow(state);
+      updateConfidence(state);
+    };
+
+    // Initial render
+    App.renderPipelineSVG('pipeline-svg', App.Pipeline.getState());
+
+    window.selectScenario = function (id) {
+      var sc = null;
+      for (var i = 0; i < scenarios.length; i++) {
+        if (scenarios[i].id === id) { sc = scenarios[i]; break; }
+      }
+      if (!sc) { return; }
+
+      App.Pipeline.setScenario(sc);
+
+      // Update card selection visual
+      var cards = document.querySelectorAll('.scenario-card');
+      for (var j = 0; j < cards.length; j++) {
+        cards[j].classList.toggle('scenario-card--selected', cards[j].getAttribute('data-id') === id);
+        cards[j].setAttribute('aria-selected', cards[j].getAttribute('data-id') === id ? 'true' : 'false');
+      }
+
+      document.getElementById('evidence-section').style.display = 'block';
+      document.getElementById('confidence-display').style.display = 'block';
+      document.getElementById('pipeline-status').textContent = 'Scenario: ' + sc.title + ' - Press Play or Step';
+      App.toast('Loaded scenario: ' + sc.title, 'info');
+    };
+
+    window.handlePlay = function () {
+      if (!App.Pipeline.scenario) {
+        App.toast('Select a scenario first', 'error');
+        return;
+      }
+      App.Pipeline.play();
+    };
+
+    window.handlePause = function () {
+      App.Pipeline.pause();
+    };
+
+    window.handleStep = function () {
+      if (!App.Pipeline.scenario) {
+        App.toast('Select a scenario first', 'error');
+        return;
+      }
+      App.Pipeline.step();
+    };
+
+    window.handleReset = function () {
+      App.Pipeline.reset();
+      document.getElementById('stage-output').textContent = '';
+    };
+
+    window.handleSpeedChange = function (val) {
+      App.Pipeline.speed = parseInt(val, 10);
+      if (App.Pipeline.playing) {
+        App.Pipeline.pause();
+        App.Pipeline.play();
+      }
+    };
+
+    function updateControls(state) {
+      document.getElementById('btn-play').disabled = state.playing;
+      document.getElementById('btn-pause').disabled = !state.playing;
+      document.getElementById('btn-step').disabled = state.playing || state.currentStage >= state.stages.length - 1;
+
+      var statusText = '';
+      if (state.currentStage < 0) {
+        statusText = state.scenario ? 'Ready - Press Play or Step' : 'Select a scenario to begin';
+      } else if (state.currentStage >= state.stages.length - 1) {
+        statusText = 'Pipeline Complete';
+      } else {
+        statusText = (state.playing ? 'Running' : 'Paused') + ' - Stage ' + (state.currentStage + 1) + '/' + state.stages.length;
+      }
+      document.getElementById('pipeline-status').textContent = statusText;
+    }
+
+    function updateEvidenceFlow(state) {
+      if (!state.scenario) { return; }
+      var sc = state.scenario;
+      var stageData = [
+        { name: 'Router', label: 'Classify', detail: sc.classification },
+        { name: 'Retriever', label: 'Gather Evidence', detail: sc.evidence.join(', ') },
+        { name: 'Skeptic', label: 'Challenge Theory', detail: sc.alternative },
+        { name: 'Verifier', label: 'Validate Evidence', detail: sc.validation },
+        { name: 'Critic', label: 'Quality Gate', detail: sc.approval }
+      ];
+
+      var flowHtml = '';
+      for (var i = 0; i < stageData.length; i++) {
+        var d = stageData[i];
+        var cls = '';
+        if (i < state.currentStage) { cls = 'evidence-flow__stage--done'; }
+        else if (i === state.currentStage) { cls = 'evidence-flow__stage--active'; }
+
+        var statusBadge = '';
+        if (i < state.currentStage) {
+          statusBadge = '<span class="badge badge--success">Done</span>';
+        } else if (i === state.currentStage) {
+          statusBadge = '<span class="badge badge--info">Active</span>';
+        }
+
+        flowHtml += '<div class="evidence-flow__stage ' + cls + '">' +
+          '<div class="evidence-flow__header">' +
+            '<span class="evidence-flow__title">' + (i + 1) + '. ' + App.escapeHtml(d.name) + ' - ' + App.escapeHtml(d.label) + '</span>' +
+            statusBadge +
+          '</div>' +
+          '<div class="evidence-flow__detail">' + App.escapeHtml(d.detail) + '</div>' +
+        '</div>';
+      }
+      document.getElementById('evidence-flow').innerHTML = flowHtml;
+
+      // Stage output detail
+      if (state.currentStage >= 0 && state.currentStage < stageData.length) {
+        var curr = stageData[state.currentStage];
+        var detail = {
+          stage: curr.name,
+          action: curr.label,
+          output: curr.detail,
+          rootCause: sc.rootCause,
+          evidence: sc.evidence,
+          fixPlan: sc.fixPlan,
+          rollback: sc.rollback,
+          tests: sc.tests
+        };
+        document.getElementById('stage-output').textContent = JSON.stringify(detail, null, 2);
+      }
+    }
+
+    function updateConfidence(state) {
+      if (!state.scenario) { return; }
+      if (state.currentStage >= 0) {
+        var progress = (state.currentStage + 1) / state.stages.length;
+        var conf = state.scenario.confidence * progress;
+        App.setConfidence('confidence-meter', conf);
+      } else {
+        App.setConfidence('confidence-meter', 0);
+      }
+    }
+  })();
+  </script>
+</body>
+</html>

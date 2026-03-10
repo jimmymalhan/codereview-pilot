@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e94560;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="32" fill="url(#bg)"/>
+  <!-- Magnifying glass (debug) -->
+  <circle cx="90" cy="85" r="35" fill="none" stroke="#e94560" stroke-width="6"/>
+  <line x1="115" y1="110" x2="145" y2="140" stroke="#e94560" stroke-width="6" stroke-linecap="round"/>
+  <!-- Checkmark inside (verified) -->
+  <polyline points="72,85 85,98 110,70" fill="none" stroke="#4ecca3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Text -->
+  <text x="100" y="175" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#e6e6e6">DEBUG COPILOT</text>
+</svg>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Claude Debug Copilot - Complete API Reference">
+  <title>API Reference - Claude Debug Copilot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #ffffff;
+      color: #333333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #333;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #0071e3;
+    }
+
+    main {
+      padding: 60px 0;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.3px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 60px 0 32px;
+      letter-spacing: -0.2px;
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 32px 0 16px;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 700px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .section {
+      margin-bottom: 80px;
+    }
+
+    .endpoint {
+      background: #f5f5f7;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 24px;
+      transition: all 0.3s;
+    }
+
+    .endpoint:hover {
+      background: #efefef;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .method {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-right: 12px;
+      margin-bottom: 12px;
+    }
+
+    .method.get {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .method.post {
+      background: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    .endpoint-path {
+      font-family: 'Menlo', 'Monaco', monospace;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    .endpoint-description {
+      color: #666;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-family: 'Menlo', 'Monaco', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #0071e3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      margin-top: 16px;
+    }
+
+    .btn:hover {
+      background: #0066cc;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 113, 227, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin: 60px 0;
+    }
+
+    .feature-card {
+      padding: 24px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-description {
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-bottom: 40px;
+      color: #0071e3;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .back-button:hover {
+      color: #0066cc;
+    }
+
+    footer {
+      border-top: 1px solid #e5e5e5;
+      padding: 40px 0;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 80px;
+    }
+
+    .parameter {
+      background: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 8px 0;
+      font-family: 'Menlo', 'Monaco', monospace;
+      font-size: 0.9rem;
+    }
+
+    .success {
+      color: #34c759;
+      font-weight: 600;
+    }
+
+    .error {
+      color: #ff3b30;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="/" class="logo">🔍 Claude Debug Copilot</a>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="#endpoints">Endpoints</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#status-codes">Status Codes</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <a href="/" class="back-button">← Back to Home</a>
+
+    <h1>API Reference</h1>
+    <p class="description">
+      Complete reference for Claude Debug Copilot REST API.
+      All endpoints require POST/GET requests with JSON payloads.
+    </p>
+
+    <!-- Core Endpoints -->
+    <section class="section" id="endpoints">
+      <h2>Core Endpoints</h2>
+
+      <!-- Diagnose -->
+      <div class="endpoint">
+        <span class="method post">POST</span>
+        <div class="endpoint-path">/api/diagnose</div>
+        <p class="endpoint-description">Submit a single incident for diagnosis</p>
+        <p><strong>Request Body:</strong></p>
+        <div class="code-block">
+{
+  "incident": "Database query takes 45 seconds to complete"
+}
+        </div>
+        <p><strong>Response:</strong></p>
+        <div class="code-block">
+{
+  "id": "diag-1773121469588",
+  "incident": "...",
+  "result": {
+    "router": { ... },
+    "retriever": { ... },
+    "skeptic": { ... },
+    "verifier": { ... }
+  },
+  "timestamp": "2026-03-10T...",
+  "status": "completed"
+}
+        </div>
+        <p class="success">✓ 200 OK - Diagnosis created successfully</p>
+        <p class="error">✗ 400 Bad Request - Invalid incident (< 10 chars or > 2000 chars)</p>
+        <p class="error">✗ 429 Too Many Requests - Rate limit exceeded (100/hour)</p>
+      </div>
+
+      <!-- Batch Diagnose -->
+      <div class="endpoint">
+        <span class="method post">POST</span>
+        <div class="endpoint-path">/api/batch-diagnose</div>
+        <p class="endpoint-description">Process multiple incidents in one request (up to 100)</p>
+        <p><strong>Request Body:</strong></p>
+        <div class="code-block">
+{
+  "incidents": [
+    "Issue 1: Memory leak in cache",
+    "Issue 2: Slow query performance",
+    "Issue 3: Connection timeout"
+  ]
+}
+        </div>
+        <p class="success">✓ 200 OK - All incidents processed</p>
+        <p class="error">✗ 400 Bad Request - Empty array or > 100 items</p>
+      </div>
+
+      <!-- Retrieve Diagnosis -->
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <div class="endpoint-path">/api/diagnose/:id</div>
+        <p class="endpoint-description">Retrieve a previously created diagnosis by ID</p>
+        <p><strong>Example:</strong></p>
+        <div class="code-block">
+GET /api/diagnose/diag-1773121469588
+        </div>
+        <p class="success">✓ 200 OK - Diagnosis found and returned</p>
+        <p class="error">✗ 404 Not Found - Diagnosis with ID not found</p>
+      </div>
+
+      <!-- List Diagnostics -->
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <div class="endpoint-path">/api/diagnostics?page=1&limit=20</div>
+        <p class="endpoint-description">List all diagnoses (paginated)</p>
+        <p class="parameter">page: Page number (default: 1)</p>
+        <p class="parameter">limit: Results per page (default: 20, max: 100)</p>
+        <p class="success">✓ 200 OK - List of diagnostics returned</p>
+      </div>
+
+      <!-- Export -->
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <div class="endpoint-path">/api/diagnose/:id/export?format=json</div>
+        <p class="endpoint-description">Export diagnosis in JSON or CSV format</p>
+        <p class="parameter">format: "json" or "csv" (default: json)</p>
+        <p class="success">✓ 200 OK - File exported in requested format</p>
+        <p class="error">✗ 404 Not Found - Diagnosis not found</p>
+      </div>
+
+      <!-- Analytics -->
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <div class="endpoint-path">/api/analytics</div>
+        <p class="endpoint-description">Get dashboard metrics and statistics</p>
+        <p><strong>Returns:</strong></p>
+        <div class="code-block">
+{
+  "totalDiagnoses": 5,
+  "diagnosesLast24h": 2,
+  "averageConfidence": 0.94,
+  "byStatus": { "completed": 5 },
+  "bySeverity": { "high": 3, "medium": 2 },
+  "mttrMinutes": 45,
+  "successRate": 0.94
+}
+        </div>
+      </div>
+
+      <!-- Audit Log -->
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <div class="endpoint-path">/api/audit-log?limit=100</div>
+        <p class="endpoint-description">View immutable event trail (for compliance)</p>
+        <p class="parameter">limit: Number of events (default: 100, max: 1000)</p>
+        <p class="success">✓ 200 OK - Audit events returned with trace IDs</p>
+      </div>
+
+      <!-- Webhooks -->
+      <div class="endpoint">
+        <span class="method post">POST</span>
+        <div class="endpoint-path">/api/webhooks</div>
+        <p class="endpoint-description">Register a webhook for notifications</p>
+        <p><strong>Request Body:</strong></p>
+        <div class="code-block">
+{
+  "url": "https://example.com/webhook"
+}
+        </div>
+        <p class="success">✓ 200 OK - Webhook registered</p>
+      </div>
+
+      <!-- Health Check -->
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <div class="endpoint-path">/health</div>
+        <p class="endpoint-description">Check server health and uptime</p>
+        <p><strong>Returns:</strong></p>
+        <div class="code-block">
+{
+  "status": "healthy",
+  "timestamp": "2026-03-10T...",
+  "uptime": 3600.5,
+  "diagnostics": 5
+}
+        </div>
+        <p class="success">✓ 200 OK - Server is healthy</p>
+      </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="section" id="examples">
+      <h2>Quick Examples</h2>
+
+      <h3>1. Submit a Diagnosis</h3>
+      <div class="code-block">
+curl -X POST http://localhost:3000/api/diagnose \
+  -H "Content-Type: application/json" \
+  -d '{
+    "incident": "Database connection pool exhausted"
+  }'
+      </div>
+
+      <h3>2. Batch Process</h3>
+      <div class="code-block">
+curl -X POST http://localhost:3000/api/batch-diagnose \
+  -H "Content-Type: application/json" \
+  -d '{
+    "incidents": [
+      "Issue 1",
+      "Issue 2",
+      "Issue 3"
+    ]
+  }'
+      </div>
+
+      <h3>3. Get Analytics</h3>
+      <div class="code-block">
+curl http://localhost:3000/api/analytics
+      </div>
+
+      <h3>4. Export Results</h3>
+      <div class="code-block">
+curl http://localhost:3000/api/diagnose/diag-123/export?format=json
+      </div>
+    </section>
+
+    <!-- Status Codes -->
+    <section class="section" id="status-codes">
+      <h2>Status Codes</h2>
+
+      <div class="endpoint">
+        <h3>200 OK</h3>
+        <p>Request succeeded. Response contains the requested data.</p>
+      </div>
+
+      <div class="endpoint">
+        <h3>400 Bad Request</h3>
+        <p>Invalid request. Check your parameters and request body.</p>
+        <p class="parameter">Common causes: Missing fields, invalid format, text too short/long</p>
+      </div>
+
+      <div class="endpoint">
+        <h3>404 Not Found</h3>
+        <p>Resource not found. The diagnosis ID doesn't exist.</p>
+      </div>
+
+      <div class="endpoint">
+        <h3>429 Too Many Requests</h3>
+        <p>Rate limit exceeded. Maximum 100 requests per hour per IP.</p>
+        <p class="parameter">Retry after the "retryAfter" seconds specified in response.</p>
+      </div>
+
+      <div class="endpoint">
+        <h3>500 Internal Server Error</h3>
+        <p>Server error occurred. Try again later. Include the trace ID in support requests.</p>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+      <h2>Platform Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Fast Results</div>
+          <div class="feature-description">Get diagnosis in 16-30 seconds with 94% confidence</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-title">Secure</div>
+          <div class="feature-description">Input validation, rate limiting, and audit logging</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Scalable</div>
+          <div class="feature-description">Handle up to 100 incidents per batch request</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-title">Accurate</div>
+          <div class="feature-description">Evidence-backed root cause analysis with fix plans</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <div class="feature-title">Compliant</div>
+          <div class="feature-description">Immutable audit trail for compliance requirements</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <div class="feature-title">Notifications</div>
+          <div class="feature-description">Real-time webhooks when diagnoses complete</div>
+        </div>
+      </div>
+    </section>
+
+    <a href="/" class="btn">← Back to Home</a>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Claude Debug Copilot v3.0 | Production-Ready Incident Diagnosis</p>
+      <p style="margin-top: 12px; color: #999;">© 2026 Claude Debug Copilot. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

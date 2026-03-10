@@ -74,7 +74,7 @@ export class MonitoringDashboard {
         status: status ? 'healthy' : 'unavailable',
         lastHeartbeat: new Date().toISOString(),
         tasksCompleted: this._getAgentTaskCount(agentId),
-        averageResponseTime: Math.random() * 1000 // Simulated
+        averageResponseTime: 0
       };
     });
 

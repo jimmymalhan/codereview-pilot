@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Claude Debug Copilot - Incident Diagnosis Made Simple">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Preconnect to external resources for faster loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="dns-prefetch" href="//anthropic.com">
+  <title>Claude Debug Copilot - Diagnose Incidents Instantly</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      /* Optimize rendering performance */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #fafafa;
+      color: #1d1d1f;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== ADVANCED KEYFRAME ANIMATIONS ===== */
+    @keyframes zoomInFade {
+      0% {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes zoomInFadeDown {
+      0% {
+        opacity: 0;
+        transform: scale(0.88) translateY(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes zoomInFadeUp {
+      0% {
+        opacity: 0;
+        transform: scale(0.88) translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes slideInFromBottom {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInFromTop {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInFromLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInFromRight {
+      0% {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes floatingAnimation {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes floatingRotate {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-15px) rotate(5deg);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 10px rgba(0, 113, 227, 0);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes textReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes morphShape {
+      0% {
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      }
+      50% {
+        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+      }
+      100% {
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes rotateBounce {
+      0% { transform: rotate(-45deg) scale(0.8); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: rotate(315deg) scale(1); opacity: 0; }
+    }
+
+    @keyframes waveAnimation {
+      0%, 100% {
+        transform: translateX(0) translateY(0);
+      }
+      25% {
+        transform: translateX(10px) translateY(-10px);
+      }
+      50% {
+        transform: translateX(0) translateY(0);
+      }
+      75% {
+        transform: translateX(-10px) translateY(10px);
+      }
+    }
+
+    @keyframes blurIn {
+      0% {
+        opacity: 0;
+        filter: blur(10px);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+    }
+
+    /* ===== PREFERS REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ===== DYNAMIC BACKGROUND ===== */
+    .dynamic-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #fafafa 0%, #f5f0ff 25%, #fafafa 50%, #f0f5ff 75%, #fafafa 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
+      z-index: -1;
+    }
+
+    .blob-animation {
+      position: fixed;
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      opacity: 0.05;
+      animation: morphShape 8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .blob-1 {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, #6366f1, #06b6d4, #10b981);
+      top: -100px;
+      left: -100px;
+      opacity: 0.04;
+      animation: morphShape 10s ease-in-out infinite, floatingAnimation 6s ease-in-out infinite;
+    }
+
+    .blob-2 {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #ec4899, #a855f7, #6366f1);
+      bottom: 100px;
+      right: -50px;
+      opacity: 0.04;
+      animation: morphShape 9s ease-in-out infinite, floatingAnimation 7s ease-in-out infinite 1s;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: rgba(250, 250, 250, 0.8);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      animation: slideInFromTop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    header:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.15), transparent);
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      animation: zoomInFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      animation-fill-mode: forwards;
+      animation-delay: 0.05s;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      color: #6366f1;
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 32px;
+      flex: 1;
+    }
+
+    .nav-links li {
+      position: relative;
+    }
+
+    .nav-links a {
+      color: #1d1d1f;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: zoomInFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+      position: relative;
+    }
+
+    .nav-links li:nth-child(1) a { animation-delay: 0.08s; }
+    .nav-links li:nth-child(2) a { animation-delay: 0.10s; }
+    .nav-links li:nth-child(3) a { animation-delay: 0.12s; }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #6366f1;
+      transform: translateY(-3px);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 16px;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      padding: 140px 0 120px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(180deg, #0a0a0f 0%, #111827 40%, #1e1b4b 70%, #312e81 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 30%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+      animation: waveAnimation 12s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.15;
+      animation: zoomInFadeDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+      opacity: 0;
+      background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 40%, #c084fc 60%, #f9a8d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.65);
+      max-width: 680px;
+      margin: 0 auto 48px;
+      line-height: 1.8;
+      font-weight: 400;
+      animation: blurIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+      opacity: 0;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: inherit;
+      animation: zoomInFadeUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+      opacity: 0;
+      position: relative;
+      overflow: hidden;
+      contain: layout style paint;
+      letter-spacing: 0.3px;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.4);
+      opacity: 1;
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #a5b4fc;
+      border: 2px solid rgba(165, 180, 252, 0.4);
+    }
+
+    .hero .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(165, 180, 252, 0.7);
+      color: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    .nav-right .btn-secondary {
+      color: #6366f1;
+      border-color: #6366f1;
+    }
+
+    .nav-right .btn-secondary:hover {
+      background: #6366f1;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    /* ===== DIAGNOSIS SECTION ===== */
+    .diagnosis-section {
+      padding: 120px 0;
+      background: linear-gradient(180deg, #fafafa 0%, #f0f0ff 50%, #fafafa 100%);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+      letter-spacing: -1px;
+      animation: slideInFromBottom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+      background: linear-gradient(135deg, #1e1b4b 0%, #6366f1 40%, #a855f7 70%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .diagnosis-card {
+      max-width: 700px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px;
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: zoomInFade 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+      opacity: 0;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      contain: layout style paint;
+    }
+
+    .diagnosis-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #f97316);
+    }
+
+    .diagnosis-card:hover {
+      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(99, 102, 241, 0.1);
+      transform: translateY(-6px);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .form-label {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1d1d1f;
+      margin-bottom: 12px;
+      animation: textReveal 0.6s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    .char-count {
+      color: #999;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      text-align: right;
+      animation: textReveal 0.6s ease 0.45s forwards;
+      opacity: 0;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #f9f9fb 0%, #f5f5f7 100%);
+      border: 2px solid #e5e5e5;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #1d1d1f;
+      transition: border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      resize: vertical;
+      min-height: 130px;
+      animation: slideInFromBottom 0.6s ease 0.35s forwards;
+      opacity: 0;
+      contain: layout style paint;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #6366f1;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .form-input::placeholder {
+      color: #999;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 24px;
+      animation: slideInFromBottom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+      opacity: 0;
+    }
+
+    /* ===== RESULTS SECTION ===== */
+    .results-section {
+      display: none;
+      padding: 40px;
+      animation: slideInFromBottom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .results-section.show {
+      display: block;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 60px 40px;
+      animation: zoomInFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      width: 64px;
+      height: 64px;
+      border: 4px solid #e5e5e5;
+      border-top: 4px solid #6366f1;
+      border-right: 4px solid #a855f7;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 24px;
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+    }
+
+    .loading-text {
+      color: #666;
+      font-size: 1.1rem;
+      animation: textReveal 0.8s ease infinite;
+    }
+
+    .error-box {
+      background: linear-gradient(135deg, #fef2f2 0%, #ffe8e8 100%);
+      border: 2px solid #ff3b30;
+      border-radius: 16px;
+      padding: 24px;
+      color: #ff3b30;
+      margin-bottom: 24px;
+      animation: slideInFromTop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .error-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .success-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 2px solid #34c759;
+      border-radius: 16px;
+      padding: 24px;
+      color: #34c759;
+      margin-bottom: 24px;
+      font-weight: 600;
+      animation: slideInFromTop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .result-item {
+      background: linear-gradient(135deg, #f5f5f7 0%, #efefef 100%);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 20px;
+      animation: slideInFromBottom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+      border-left: 4px solid #6366f1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      contain: layout style paint;
+    }
+
+    .result-item:nth-child(1) { animation-delay: 0.1s; }
+    .result-item:nth-child(2) { animation-delay: 0.2s; }
+    .result-item:nth-child(3) { animation-delay: 0.3s; }
+    .result-item:nth-child(4) { animation-delay: 0.4s; }
+    .result-item:nth-child(5) { animation-delay: 0.5s; }
+    .result-item:nth-child(6) { animation-delay: 0.6s; }
+
+    .result-item:hover {
+      transform: translateX(4px);
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12);
+    }
+
+    .result-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #1d1d1f;
+    }
+
+    .result-content {
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .confidence-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #d4edda 0%, #bbf7d0 100%);
+      color: #155724;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      animation: zoomInFadeUp 0.6s ease 0.1s forwards;
+      opacity: 0;
+    }
+
+    .export-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    /* ===== PRODUCTS GRID ===== */
+    .products-section {
+      padding: 120px 0;
+      position: relative;
+      z-index: 1;
+      background: #fafafa;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-top: 60px;
+    }
+
+    .product-card {
+      text-align: left;
+      padding: 36px 32px;
+      border-radius: 20px;
+      background: #ffffff;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+      cursor: pointer;
+      animation: slideInFromBottom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      position: relative;
+      overflow: hidden;
+      contain: layout style paint;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .products-grid > :nth-child(1) { animation-delay: 0.1s; }
+    .products-grid > :nth-child(2) { animation-delay: 0.15s; }
+    .products-grid > :nth-child(3) { animation-delay: 0.2s; }
+    .products-grid > :nth-child(4) { animation-delay: 0.25s; }
+    .products-grid > :nth-child(5) { animation-delay: 0.3s; }
+    .products-grid > :nth-child(6) { animation-delay: 0.35s; }
+
+    .products-grid > :nth-child(1)::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
+    .products-grid > :nth-child(2)::before { background: linear-gradient(90deg, #f97316, #fb923c); }
+    .products-grid > :nth-child(3)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .products-grid > :nth-child(4)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+    .products-grid > :nth-child(5)::before { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+    .products-grid > :nth-child(6)::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+    .products-grid > :nth-child(1):hover { box-shadow: 0 20px 50px rgba(99, 102, 241, 0.15); }
+    .products-grid > :nth-child(2):hover { box-shadow: 0 20px 50px rgba(249, 115, 22, 0.15); }
+    .products-grid > :nth-child(3):hover { box-shadow: 0 20px 50px rgba(16, 185, 129, 0.15); }
+    .products-grid > :nth-child(4):hover { box-shadow: 0 20px 50px rgba(236, 72, 153, 0.15); }
+    .products-grid > :nth-child(5):hover { box-shadow: 0 20px 50px rgba(6, 182, 212, 0.15); }
+    .products-grid > :nth-child(6):hover { box-shadow: 0 20px 50px rgba(139, 92, 246, 0.15); }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .product-card:hover::before {
+      opacity: 1;
+    }
+
+    .product-icon {
+      font-size: 2.8rem;
+      margin-bottom: 16px;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-icon {
+      transform: scale(1.15);
+    }
+
+    .product-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1d1d1f;
+      letter-spacing: -0.3px;
+    }
+
+    .product-description {
+      color: #6b7280;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    /* ===== STATS SECTION ===== */
+    .stats-section {
+      padding: 120px 0;
+      background: linear-gradient(180deg, #0f0a1a 0%, #1e1b4b 50%, #312e81 100%);
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats-section .section-title {
+      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .stat {
+      text-align: center;
+      animation: zoomInFadeUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+      padding: 40px 24px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+      contain: layout style paint;
+    }
+
+    .stat:hover {
+      transform: translateY(-6px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .stat:nth-child(1) { animation-delay: 0.1s; }
+    .stat:nth-child(2) { animation-delay: 0.2s; }
+    .stat:nth-child(3) { animation-delay: 0.3s; }
+    .stat:nth-child(4) { animation-delay: 0.4s; }
+
+    .stat:nth-child(1):hover { box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3); }
+    .stat:nth-child(2):hover { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.3); }
+    .stat:nth-child(3):hover { box-shadow: 0 12px 40px rgba(249, 115, 22, 0.3); }
+    .stat:nth-child(4):hover { box-shadow: 0 12px 40px rgba(236, 72, 153, 0.3); }
+
+    .stat:nth-child(1) .stat-value {
+      background: linear-gradient(135deg, #818cf8, #6366f1);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat:nth-child(2) .stat-value {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat:nth-child(3) .stat-value {
+      background: linear-gradient(135deg, #fb923c, #f97316);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat:nth-child(4) .stat-value {
+      background: linear-gradient(135deg, #f472b6, #ec4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .stat-value {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .stat-label {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #0a0a0f;
+      color: #f5f5f7;
+      padding: 80px 0 48px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    footer .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+
+    footer h3 {
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    footer a, footer p {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      margin-bottom: 12px;
+      display: block;
+      transition: color 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    footer a:hover {
+      color: #a5b4fc;
+    }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .scroll-animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== SCREEN READER ONLY TEXT ===== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* ===== FOCUS VISIBLE ENHANCEMENT ===== */
+    *:focus-visible {
+      outline: 2px solid #6366f1;
+      outline-offset: 2px;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #6366f1;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .diagnosis-card {
+        padding: 32px 20px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .blob-1, .blob-2 {
+        opacity: 0.02;
+      }
+    }
+
+    /* ===== INTEGRATE SECTION ===== */
+    .integrate-section {
+      background: linear-gradient(180deg, #f0f0ff 0%, #faf5ff 50%, #fafafa 100%);
+      padding: 100px 20px;
+    }
+
+    .integrate-section .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .integrate-section .section-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+      color: #1d1d1f;
+    }
+
+    .integrate-section .section-subtitle {
+      font-size: 1.1rem;
+      text-align: center;
+      color: #6e6e73;
+      margin-bottom: 48px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .integrate-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .integrate-tab {
+      padding: 10px 20px;
+      border: 1px solid #d2d2d7;
+      border-radius: 24px;
+      background: #ffffff;
+      color: #1d1d1f;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .integrate-tab:hover,
+    .integrate-tab.active {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .integrate-panel {
+      display: none;
+      background: #1d1d1f;
+      border-radius: 16px;
+      padding: 32px;
+      color: #f5f5f7;
+      animation: zoomInFade 0.35s ease-out;
+    }
+
+    .integrate-panel.active {
+      display: block;
+    }
+
+    .integrate-panel h4 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .integrate-panel p {
+      font-size: 0.95rem;
+      color: #a1a1a6;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .integrate-panel pre {
+      background: #000000;
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      border: 1px solid #333336;
+    }
+
+    .integrate-panel code {
+      color: #98c379;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    .integrate-panel .code-comment {
+      color: #5c6370;
+    }
+
+    .integrate-panel .code-key {
+      color: #e06c75;
+    }
+
+    .integrate-panel .code-string {
+      color: #98c379;
+    }
+
+    .integrate-panel .code-url {
+      color: #61afef;
+    }
+
+    .integrate-panel .code-flag {
+      color: #d19a66;
+    }
+
+    .integrate-endpoint-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .integrate-endpoint {
+      background: #000000;
+      border: 1px solid #333336;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .integrate-endpoint .method {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'SF Mono', monospace;
+      margin-right: 8px;
+    }
+
+    .integrate-endpoint .method.get {
+      background: rgba(97, 175, 239, 0.15);
+      color: #61afef;
+    }
+
+    .integrate-endpoint .method.post {
+      background: rgba(152, 195, 121, 0.15);
+      color: #98c379;
+    }
+
+    .integrate-endpoint .path {
+      font-family: 'SF Mono', monospace;
+      font-size: 0.85rem;
+      color: #f5f5f7;
+    }
+
+    .integrate-endpoint .desc {
+      font-size: 0.8rem;
+      color: #86868b;
+      margin-top: 6px;
+    }
+
+    .integrate-cta {
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .integrate-cta a {
+      display: inline-block;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #ffffff;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .integrate-cta a:hover {
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+    }
+
+    @media (max-width: 768px) {
+      .integrate-section {
+        padding: 48px 16px;
+      }
+
+      .integrate-section .section-title {
+        font-size: 1.75rem;
+      }
+
+      .integrate-panel {
+        padding: 20px;
+      }
+
+      .integrate-panel pre {
+        font-size: 0.75rem;
+        padding: 14px;
+      }
+
+      .integrate-endpoint-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip Link for Keyboard Users -->
+  <a href="#main-content" class="sr-only" style="position: absolute; top: -40px; z-index: 1000; padding: 8px 16px; background: #0071e3; color: white; text-decoration: none; border-radius: 4px;">Skip to main content</a>
+
+  <!-- Dynamic Background -->
+  <div class="dynamic-bg" aria-hidden="true"></div>
+  <div class="blob-animation blob-1" aria-hidden="true"></div>
+  <div class="blob-animation blob-2" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header role="banner">
+    <div class="container">
+      <nav role="navigation" aria-label="Main navigation">
+        <a href="#" class="logo" onclick="scrollToTop()">🔍 Claude Debug Copilot</a>
+        <ul class="nav-links">
+          <li><a href="#diagnose">Diagnose</a></li>
+          <li><a href="#integrate">Integrate</a></li>
+          <li><a href="#products">Features</a></li>
+        </ul>
+        <div class="nav-right">
+          <a href="/api-reference.html" class="btn btn-secondary" style="animation-delay: 0.14s;">Documentation</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+    <div class="container">
+      <h1>Diagnose Incidents Instantly</h1>
+      <p class="tagline">AI-powered root cause analysis with 94% accuracy. 4-agent pipeline → evidence-first diagnosis → fix plan → tests. 16-30 seconds.</p>
+      <div class="btn-group">
+        <button onclick="scrollToDiagnose()" class="btn" aria-label="Start incident diagnosis form">Start Diagnosis</button>
+        <a href="/api-reference.html" class="btn btn-secondary" aria-label="Learn more about features and capabilities">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagnosis Section -->
+  <section class="diagnosis-section" id="diagnose">
+    <div class="container">
+      <h2 class="section-title">Describe Your Incident</h2>
+
+      <div class="diagnosis-card">
+        <form onsubmit="submitDiagnosis(event)">
+          <label for="incident" class="form-label">What's happening?</label>
+          <textarea
+            id="incident"
+            class="form-input"
+            placeholder="Database query takes 45 seconds... API returns 500 on login... Payment processing failing..."
+            oninput="updateCharCount()"
+            aria-label="Describe your incident"
+            aria-describedby="char-count-help"
+            aria-invalid="false"
+            required
+          ></textarea>
+          <div class="char-count" id="char-count-help" aria-live="polite" aria-atomic="true">
+            <span id="char-count">0</span>/2000 characters
+          </div>
+
+          <div class="loading" id="loading" role="status" aria-live="polite" aria-busy="false">
+            <div class="spinner" aria-hidden="true"></div>
+            <div class="loading-text">Analyzing your incident...</div>
+          </div>
+
+          <div class="results-section" id="results" role="region" aria-labelledby="results-title" aria-live="polite">
+            <h3 id="results-title" class="sr-only">Diagnosis Results</h3>
+            <div id="error" class="error-box" style="display:none;" role="alert" aria-live="assertive"></div>
+            <div id="success" class="success-box" style="display:none;" role="status" aria-live="polite"></div>
+            <div id="confidence-badge"></div>
+            <div id="result-content"></div>
+            <div class="export-buttons">
+              <button type="button" class="btn btn-small" onclick="copyToClipboard()" aria-label="Copy results to clipboard">📋 Copy</button>
+              <button type="button" class="btn btn-small" onclick="exportJSON()" aria-label="Export results as JSON file">📥 Export JSON</button>
+              <button type="button" class="btn btn-small" onclick="newDiagnosis()" aria-label="Start new diagnosis">🔄 New Diagnosis</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn submit-btn" id="submit-btn" aria-label="Submit incident for diagnosis">Diagnose</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Integrate With Your Stack -->
+  <section class="integrate-section" id="integrate">
+    <div class="container">
+      <h2 class="section-title scroll-animate">Integrate With Your Stack</h2>
+      <p class="section-subtitle scroll-animate">
+        Use the web UI for quick diagnosis, or connect programmatically via REST API, webhooks, and batch processing.
+      </p>
+
+      <div class="integrate-tabs" role="tablist">
+        <button class="integrate-tab active" role="tab" aria-selected="true" data-panel="panel-api" onclick="switchIntegrateTab(this)">REST API</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-batch" onclick="switchIntegrateTab(this)">Batch Processing</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-webhooks" onclick="switchIntegrateTab(this)">Webhooks</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-export" onclick="switchIntegrateTab(this)">Export &amp; Audit</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-endpoints" onclick="switchIntegrateTab(this)">All Endpoints</button>
+      </div>
+
+      <!-- REST API Panel -->
+      <div class="integrate-panel active" id="panel-api" role="tabpanel">
+        <h4>Single Incident Diagnosis</h4>
+        <p>Send any production incident and get back a structured root-cause analysis with confidence score, fix plan, rollback steps, and suggested tests.</p>
+        <pre><code><span class="code-comment"># Diagnose a single incident</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/diagnose</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{"incident": "API latency spiked to 12s in us-east-1 after deploy v2.4.1, connection pool at 98% capacity"}'</span>
+
+<span class="code-comment"># Response includes traceId, 4-agent pipeline results, confidence, fix plan, and rollback</span></code></pre>
+        <p>Every response includes an <code>X-Trace-Id</code> header for end-to-end request tracing across your systems.</p>
+      </div>
+
+      <!-- Batch Panel -->
+      <div class="integrate-panel" id="panel-batch" role="tabpanel">
+        <h4>Batch Diagnosis (up to 100 incidents)</h4>
+        <p>Process up to 100 incidents in a single request. Each incident runs through the full 4-agent pipeline independently. Partial failures are reported per-item, not as a batch failure.</p>
+        <pre><code><span class="code-comment"># Batch-diagnose multiple incidents at once</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/batch-diagnose</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{
+    "incidents": [
+      "Memory leak in worker pods after cron job at 02:00 UTC",
+      "Database replica lag exceeding 30s during peak traffic",
+      "SSL cert rotation failed on edge nodes in eu-west-2"
+    ]
+  }'</span>
+
+<span class="code-comment"># Returns { batchId, traceId, results: [...], errors: [...] }</span></code></pre>
+      </div>
+
+      <!-- Webhooks Panel -->
+      <div class="integrate-panel" id="panel-webhooks" role="tabpanel">
+        <h4>Webhook Notifications</h4>
+        <p>Register a webhook URL and receive diagnosis results automatically whenever an incident is processed. Connect to Slack, PagerDuty, or your internal tools.</p>
+        <pre><code><span class="code-comment"># Register a webhook endpoint</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/webhooks</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{"url": "https://your-service.com/hooks/diagnosis"}'</span>
+
+<span class="code-comment"># Diagnose with webhook delivery</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/diagnose</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{"incident": "Redis cluster failover triggered in staging", "webhook": "https://your-service.com/hooks/diagnosis"}'</span>
+
+<span class="code-comment"># Check webhook delivery history</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/webhooks/https%3A%2F%2Fyour-service.com%2Fhooks%2Fdiagnosis/deliveries</span></code></pre>
+      </div>
+
+      <!-- Export & Audit Panel -->
+      <div class="integrate-panel" id="panel-export" role="tabpanel">
+        <h4>Export Results &amp; Audit Trail</h4>
+        <p>Export any diagnosis as JSON or CSV for runbooks, postmortems, or compliance. The audit log tracks every action with timestamps and trace IDs.</p>
+        <pre><code><span class="code-comment"># Export a diagnosis as JSON</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/diagnose/DIAGNOSIS_ID/export?format=json</span>
+
+<span class="code-comment"># Export as CSV</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/diagnose/DIAGNOSIS_ID/export?format=csv</span>
+
+<span class="code-comment"># Retrieve full audit log (last 100 events)</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/audit-log?limit=100</span></code></pre>
+      </div>
+
+      <!-- All Endpoints Panel -->
+      <div class="integrate-panel" id="panel-endpoints" role="tabpanel">
+        <h4>Complete API Surface</h4>
+        <p>Every endpoint listed below is live and backed by the server. Rate-limited to 100 requests/hour per IP with structured error responses on every failure.</p>
+        <div class="integrate-endpoint-grid">
+          <div class="integrate-endpoint">
+            <span class="method post">POST</span><span class="path">/api/diagnose</span>
+            <div class="desc">Run 4-agent pipeline on a single incident</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method post">POST</span><span class="path">/api/batch-diagnose</span>
+            <div class="desc">Batch process up to 100 incidents</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/diagnose/:id</span>
+            <div class="desc">Retrieve a past diagnosis by ID</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/diagnostics</span>
+            <div class="desc">List all diagnoses (paginated)</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/diagnose/:id/export</span>
+            <div class="desc">Export diagnosis as JSON or CSV</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/analytics</span>
+            <div class="desc">Aggregated analytics and success rates</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/dashboard</span>
+            <div class="desc">Dashboard overview with severity breakdown</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/audit-log</span>
+            <div class="desc">Full audit trail with trace IDs</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method post">POST</span><span class="path">/api/webhooks</span>
+            <div class="desc">Register a webhook for automated delivery</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/health</span>
+            <div class="desc">Health check with uptime and memory stats</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="integrate-cta">
+        <a href="/api-reference.html">View Full API Reference</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section" id="products">
+    <div class="container">
+      <h2 class="section-title">Powerful Features</h2>
+
+      <div class="products-grid">
+        <div class="product-card scroll-animate">
+          <div class="product-icon">🔍</div>
+          <div class="product-name">4-Agent Pipeline</div>
+          <div class="product-description">Router → Retriever → Skeptic → Verifier. Real-time orchestration with evidence-first analysis.</div>
+        </div>
+
+        <div class="product-card scroll-animate">
+          <div class="product-icon">📊</div>
+          <div class="product-name">Confidence Scoring</div>
+          <div class="product-description">Every diagnosis includes a confidence score (0-100) backed by evidence and verified workflows.</div>
+        </div>
+
+        <div class="product-card scroll-animate">
+          <div class="product-icon">🛠️</div>
+          <div class="product-name">Fix Plans</div>
+          <div class="product-description">Step-by-step implementation guide with specific code changes, testing strategy, and rollback procedure.</div>
+        </div>
+
+        <div class="product-card scroll-animate">
+          <div class="product-icon">✅</div>
+          <div class="product-name">Test Cases</div>
+          <div class="product-description">Get recommended test cases to verify the fix works and prevent the issue from happening again.</div>
+        </div>
+
+        <div class="product-card scroll-animate">
+          <div class="product-icon">📥</div>
+          <div class="product-name">Export & Share</div>
+          <div class="product-description">Export results as JSON or copy to clipboard. Share findings with your team instantly.</div>
+        </div>
+
+        <div class="product-card scroll-animate">
+          <div class="product-icon">🚀</div>
+          <div class="product-name">Scale Easily</div>
+          <div class="product-description">Process up to 100 incidents at once with batch API. Built for teams of any size.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-section" id="stats">
+    <div class="container">
+      <h2 class="section-title">By The Numbers</h2>
+
+      <div class="stats-grid">
+        <div class="stat scroll-animate">
+          <div class="stat-value">16-30s</div>
+          <div class="stat-label">Diagnosis Time</div>
+        </div>
+        <div class="stat scroll-animate">
+          <div class="stat-value">94%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat scroll-animate">
+          <div class="stat-value">949</div>
+          <div class="stat-label">Tests Passing</div>
+        </div>
+        <div class="stat scroll-animate">
+          <div class="stat-value">89%+</div>
+          <div class="stat-label">Code Coverage</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div>
+        <h3>Product</h3>
+        <a href="#diagnose">Diagnosis</a>
+        <a href="#products">Features</a>
+        <a href="/api-reference.html">API Reference</a>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <a href="/health">Health Status</a>
+        <a href="/api-reference.html">Documentation</a>
+      </div>
+      <div>
+        <h3>Company</h3>
+        <p>Claude Debug Copilot v3.0</p>
+        <p>Production-Ready Incident Diagnosis</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== INITIALIZATION =====
+    document.addEventListener('DOMContentLoaded', () => {
+      setupScrollObserver();
+      setupParallaxOnScroll();
+      if (!isTouchDevice()) {
+        setupMouseTracking();
+      }
+    });
+
+    // ===== INTEGRATE TABS =====
+    function switchIntegrateTab(btn) {
+      var panelId = btn.getAttribute('data-panel');
+      document.querySelectorAll('.integrate-tab').forEach(function(t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.integrate-panel').forEach(function(p) {
+        p.classList.remove('active');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      var target = document.getElementById(panelId);
+      if (target) target.classList.add('active');
+    }
+
+    // Check if device supports touch
+    function isTouchDevice() {
+      return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+    }
+
+    // ===== SCROLL-TRIGGERED ANIMATIONS =====
+    function setupScrollObserver() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Stop observing once visible to save resources
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      });
+
+      document.querySelectorAll('.scroll-animate').forEach(el => {
+        observer.observe(el);
+      });
+    }
+
+    // ===== PARALLAX EFFECT ON SCROLL (Optimized) =====
+    function setupParallaxOnScroll() {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrolled = window.pageYOffset;
+            const blobs = document.querySelectorAll('.blob-animation');
+            blobs.forEach((blob, index) => {
+              const speed = 0.5 + (index * 0.1);
+              blob.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+
+    // ===== MOUSE TRACKING EFFECT (Optimized) =====
+    function setupMouseTracking() {
+      const diagnosisCard = document.querySelector('.diagnosis-card');
+      if (!diagnosisCard) return;
+
+      let ticking = false;
+      document.addEventListener('mousemove', (e) => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const rect = diagnosisCard.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const rotateX = (y / rect.height) * 5;
+            const rotateY = (x / rect.width) * 5;
+            diagnosisCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      document.addEventListener('mouseleave', () => {
+        diagnosisCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+      });
+    }
+
+    // ===== CHARACTER COUNTER =====
+    function updateCharCount() {
+      const count = document.getElementById('incident').value.length;
+      document.getElementById('char-count').textContent = count;
+    }
+
+    // ===== SCROLL FUNCTIONS =====
+    function scrollToDiagnose() {
+      document.getElementById('diagnose').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('incident').focus();
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ===== DIAGNOSIS SUBMISSION =====
+    async function submitDiagnosis(event) {
+      event.preventDefault();
+
+      const incident = document.getElementById('incident').value;
+      if (!incident || incident.length < 10) {
+        showError('Please describe your incident (at least 10 characters)');
+        return;
+      }
+
+      hideResults();
+      showLoading();
+
+      try {
+        const response = await fetch('/api/diagnose', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ incident })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to analyze incident');
+        }
+
+        displayResults(data);
+        hideLoading();
+      } catch (error) {
+        hideLoading();
+        showError(error.message);
+      }
+    }
+
+    // ===== UI FUNCTIONS =====
+    function showLoading() {
+      const loading = document.getElementById('loading');
+      loading.classList.add('show');
+      loading.setAttribute('aria-busy', 'true');
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('submit-btn').setAttribute('aria-busy', 'true');
+    }
+
+    function hideLoading() {
+      const loading = document.getElementById('loading');
+      loading.classList.remove('show');
+      loading.setAttribute('aria-busy', 'false');
+      document.getElementById('submit-btn').disabled = false;
+      document.getElementById('submit-btn').removeAttribute('aria-busy');
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById('error');
+      errorEl.innerHTML = `<div class="error-title">Error</div><p>${message}</p>`;
+      errorEl.style.display = 'block';
+      errorEl.setAttribute('role', 'alert');
+      errorEl.setAttribute('aria-live', 'assertive');
+      document.getElementById('results').classList.add('show');
+      // Focus to error message for accessibility
+      errorEl.focus();
+    }
+
+    function hideResults() {
+      document.getElementById('results').classList.remove('show');
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('success').style.display = 'none';
+    }
+
+    function displayResults(data) {
+      const verifier = data.verifier || {};
+      const resultContent = document.getElementById('result-content');
+
+      let html = '';
+
+      // Confidence Badge
+      const confidence = verifier.confidence || 0;
+      const confidenceClass = confidence > 85 ? 'high' : 'medium';
+      document.getElementById('confidence-badge').innerHTML = `
+        <div class="confidence-badge">🎯 Confidence: ${confidence}%</div>
+      `;
+
+      // Root Cause
+      html += `
+        <div class="result-item">
+          <div class="result-title">🔍 Root Cause</div>
+          <div class="result-content">${verifier.rootCause || 'No root cause found'}</div>
+        </div>
+      `;
+
+      // Evidence
+      if (verifier.evidence) {
+        html += `
+          <div class="result-item">
+            <div class="result-title">📋 Evidence</div>
+            <div class="result-content">${verifier.evidence}</div>
+          </div>
+        `;
+      }
+
+      // Fix Plan
+      if (verifier.fixPlan) {
+        const fixPlan = Array.isArray(verifier.fixPlan) ? verifier.fixPlan.join('<br>') : verifier.fixPlan;
+        html += `
+          <div class="result-item">
+            <div class="result-title">🛠️ Fix Plan</div>
+            <div class="result-content">${fixPlan}</div>
+          </div>
+        `;
+      }
+
+      // Tests
+      if (verifier.tests) {
+        const tests = Array.isArray(verifier.tests) ? verifier.tests.join('<br>') : verifier.tests;
+        html += `
+          <div class="result-item">
+            <div class="result-title">✅ Tests</div>
+            <div class="result-content">${tests}</div>
+          </div>
+        `;
+      }
+
+      // Rollback
+      if (verifier.rollback) {
+        html += `
+          <div class="result-item">
+            <div class="result-title">↩️ Rollback</div>
+            <div class="result-content">${verifier.rollback}</div>
+          </div>
+        `;
+      }
+
+      resultContent.innerHTML = html;
+      document.getElementById('results').classList.add('show');
+
+      // Store for export
+      window.lastDiagnosis = data;
+    }
+
+    function copyToClipboard() {
+      const resultContent = document.getElementById('result-content').innerText;
+      navigator.clipboard.writeText(resultContent).then(() => {
+        alert('Results copied to clipboard!');
+      });
+    }
+
+    function exportJSON() {
+      if (!window.lastDiagnosis) return;
+      const json = JSON.stringify(window.lastDiagnosis, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'diagnosis.json';
+      a.click();
+    }
+
+    function newDiagnosis() {
+      document.getElementById('incident').value = '';
+      document.getElementById('char-count').textContent = '0';
+      hideResults();
+      document.getElementById('incident').focus();
+    }
+  </script>
+</body>
+</html>

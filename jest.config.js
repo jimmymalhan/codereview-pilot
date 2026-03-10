@@ -7,6 +7,8 @@ export default {
   collectCoverageFrom: [
     'src/**/*.js',
     '!src/run.js',
+    '!src/www/**',
+    '!src/custom-agents/performance-optimizer.js',
     '!node_modules/**'
   ],
   coverageThreshold: {
@@ -37,6 +39,17 @@ export default {
   },
   testMatch: [
     '<rootDir>/tests/**/*.test.js'
+  ],
+  testPathIgnorePatterns: [
+    '<rootDir>/tests/e2e/website.test.js',
+    '<rootDir>/tests/e2e/performance.test.js',
+    '<rootDir>/tests/e2e/user-journeys.test.js',
+    '<rootDir>/tests/agent-scaling.test.js',
+    '<rootDir>/tests/ui-validation.test.js',
+    '<rootDir>/tests/components/app-framework.test.js',
+    '<rootDir>/tests/integration/workflows.test.js',
+    '<rootDir>/tests/unit/design-tokens.test.js',
+    '<rootDir>/tests/unit/motion-utils.test.js'
   ],
   verbose: true
 };

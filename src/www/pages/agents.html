@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agent Capabilities - 5 Core Agents with specific responsibilities and constraints">
+  <title>Agent Capabilities - Claude Debug Copilot</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .agent-card {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+      border: 2px solid var(--accent-blue);
+      padding: 20px;
+      margin: 16px 0;
+      border-radius: var(--radius-md);
+    }
+    .agent-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .agent-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--accent-blue-light);
+    }
+    .agent-role {
+      background: var(--accent-blue);
+      color: white;
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .agent-detail {
+      margin: 8px 0;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.2);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent-blue);
+    }
+    .agent-detail__label {
+      color: var(--accent-blue-pale);
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .agent-detail__value {
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-size: 14px;
+    }
+    .agent-skills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .contract-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="/" class="nav-logo">Claude Debug Copilot</a>
+        <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation">&#9776;</button>
+        <ul id="nav-links" class="nav-links" role="menubar">
+          <li role="none"><a href="/" role="menuitem">Home</a></li>
+          <li role="none"><a href="/pipeline" role="menuitem">Pipeline</a></li>
+          <li role="none"><a href="/skills" role="menuitem">Skills</a></li>
+          <li role="none"><a href="/mcp" role="menuitem">MCP</a></li>
+          <li role="none"><a href="/agents" role="menuitem" aria-current="page">Agents</a></li>
+          <li role="none"><a href="/tests" role="menuitem">Tests</a></li>
+          <li role="none"><a href="/docs" role="menuitem">Docs</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <h1>Agent Capabilities</h1>
+    <p class="subtitle">5 Core Agents with Specific Responsibilities and Constraints</p>
+
+    <!-- Pipeline overview -->
+    <div class="svg-pipeline" id="agent-pipeline"></div>
+
+    <!-- Agent cards -->
+    <div id="agent-list">
+      <div class="agent-card">
+        <div class="agent-header">
+          <span class="agent-name">1. Router</span>
+          <span class="agent-role">Incident Classifier</span>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Input</div>
+          <div class="agent-detail__value">Raw incident report with symptoms, timestamps, and affected services</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Output</div>
+          <div class="agent-detail__value">Incident type classification (Resource Contention, Memory Leak, Config Error, DNS, Concurrency, Deployment)</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Constraint</div>
+          <div class="agent-detail__value">Must classify to known incident types only. Cannot invent new categories without evidence.</div>
+        </div>
+        <div class="agent-skills">
+          <span class="badge badge--info">Pattern Matching</span>
+          <span class="badge badge--purple">Classification</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <span class="agent-name">2. Retriever</span>
+          <span class="agent-role">Evidence Gatherer</span>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Input</div>
+          <div class="agent-detail__value">Incident classification and timestamp from Router</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Output</div>
+          <div class="agent-detail__value">List of relevant files, logs, and metrics with file:line citations</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Constraint</div>
+          <div class="agent-detail__value">Must cite actual files in repository using file:line format. Never invent file paths or line numbers.</div>
+        </div>
+        <div class="agent-skills">
+          <span class="badge badge--info">Evidence Verifier</span>
+          <span class="badge badge--purple">MCP Integration</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <span class="agent-name">3. Skeptic</span>
+          <span class="agent-role">Theory Challenger</span>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Input</div>
+          <div class="agent-detail__value">Initial root cause hypothesis with supporting evidence</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Output</div>
+          <div class="agent-detail__value">Alternative theories with equal or competing evidence</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Constraint</div>
+          <div class="agent-detail__value">Must produce materially different theories, not minor variations. Each alternative must cite evidence.</div>
+        </div>
+        <div class="agent-skills">
+          <span class="badge badge--info">Hallucination Detector</span>
+          <span class="badge badge--purple">Counter-Analysis</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <span class="agent-name">4. Verifier</span>
+          <span class="agent-role">Evidence Validator</span>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Input</div>
+          <div class="agent-detail__value">Root cause hypothesis with evidence citations from Retriever and Skeptic</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Output</div>
+          <div class="agent-detail__value">Verified evidence with file locations, validated schema references, confirmed API endpoints</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Constraint</div>
+          <div class="agent-detail__value">Must block unsupported nouns (invented fields, APIs, functions). All claims must be verifiable.</div>
+        </div>
+        <div class="agent-skills">
+          <span class="badge badge--info">Evidence Verifier</span>
+          <span class="badge badge--info">Hallucination Detector</span>
+          <span class="badge badge--purple">Confidence Scorer</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-header">
+          <span class="agent-name">5. Critic</span>
+          <span class="agent-role">Quality Gate</span>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Input</div>
+          <div class="agent-detail__value">Complete output contract: root cause, evidence, fix plan, rollback plan, tests, confidence score</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Output</div>
+          <div class="agent-detail__value">APPROVED or REJECTED with specific blocking issues listed</div>
+        </div>
+        <div class="agent-detail">
+          <div class="agent-detail__label">Constraint</div>
+          <div class="agent-detail__value">Blocks if confidence &lt; 0.70 or any output contract field is missing. No partial approvals.</div>
+        </div>
+        <div class="agent-skills">
+          <span class="badge badge--info">Confidence Scorer</span>
+          <span class="badge badge--warning">Quality Gate</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>Output Contract</h2>
+    <p style="color:var(--text-secondary);margin-bottom:16px;">Every diagnosis must produce all of these fields to pass the Critic quality gate:</p>
+    <div class="contract-grid">
+      <div class="stat-box">
+        <div class="stat-value" style="font-size:18px;">Root Cause</div>
+        <div class="stat-label">Why the incident occurred</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="font-size:18px;">Evidence</div>
+        <div class="stat-label">File:line citations from repo</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="font-size:18px;">Fix Plan</div>
+        <div class="stat-label">Specific steps to resolve</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="font-size:18px;">Rollback Plan</div>
+        <div class="stat-label">How to undo the fix</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="font-size:18px;">Tests</div>
+        <div class="stat-label">How to verify the fix</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="font-size:18px;">Confidence</div>
+        <div class="stat-label">Score &gt;= 0.70 required</div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/app.js"></script>
+  <script>
+  (function () {
+    // Render static pipeline overview
+    var state = {
+      stageStates: [
+        { name: 'Router', state: 'done' },
+        { name: 'Retriever', state: 'done' },
+        { name: 'Skeptic', state: 'done' },
+        { name: 'Verifier', state: 'done' },
+        { name: 'Critic', state: 'done' }
+      ],
+      scenario: null,
+      currentStage: 4
+    };
+    App.renderPipelineSVG('agent-pipeline', state);
+  })();
+  </script>
+</body>
+</html>
