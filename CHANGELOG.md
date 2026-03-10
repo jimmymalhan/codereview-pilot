@@ -3,6 +3,15 @@
 All notable changes to Claude Debug Copilot are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [Conventional Commits](https://www.conventionalcommits.org/).
 
+## [Unreleased]
+
+### fix(ui): Resolve UI inconsistencies
+
+- **index.html**: Fixed `className` typo → `class` in "What happens after you click" section (line 1613). The fourth step card was not receiving styles.
+- **index.html**: Added FAQ link to main navigation for consistency with footer and content.
+- **index.html**: Applied `btn-primary` to hero "Start Diagnosis" CTA for primary-action consistency.
+- **NavigationBar.jsx**: Updated nav links to match index.html section IDs (`/#products`, `/#integrate`) for correct anchor navigation when React app is used.
+
 ## [3.7.0] - 2026-03-10
 
 ### feat(api): Complete API Resilience Layer — Retry, Error Classification, Timeouts

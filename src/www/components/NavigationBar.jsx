@@ -27,8 +27,8 @@ export default function NavigationBar({
         </div>
 
         <nav className="navbar-nav">
-          <a href="#features" className="nav-link">Features</a>
-          <a href="#how-it-works" className="nav-link">How It Works</a>
+          <a href="/#products" className="nav-link">Features</a>
+          <a href="/#integrate" className="nav-link">How It Works</a>
           <a href="/api-reference.html" className="nav-link">API Reference</a>
         </nav>
 
