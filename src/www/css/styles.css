@@ -208,6 +208,18 @@ h3 {
   cursor: pointer;
 }
 
+.card--link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.card--link:focus-visible {
+  outline: 3px solid var(--accent-blue-light);
+  outline-offset: 2px;
+}
+
 .card[role="button"],
 .provider-card {
   border: none;
@@ -257,6 +269,16 @@ h3 {
 }
 
 .btn:focus-visible {
+  outline: 2px solid var(--accent-blue-light);
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent-blue-light);
+  outline-offset: 2px;
+}
+
+a:focus-visible {
   outline: 2px solid var(--accent-blue-light);
   outline-offset: 2px;
 }
@@ -358,12 +380,20 @@ select {
   transition: border-color var(--transition-fast);
 }
 
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent-blue-light);
+  outline-offset: 2px;
+  border-color: var(--accent-blue-light);
+}
+
 input:focus,
 textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--accent-blue-light);
-  box-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
 }
 
 /* Code blocks and results */
@@ -627,6 +657,11 @@ tr:hover {
   color: var(--accent-blue-light);
 }
 
+.tab:focus-visible {
+  outline: 2px solid var(--accent-blue-light);
+  outline-offset: 2px;
+}
+
 .tab--active {
   color: var(--accent-blue-light);
   border-bottom-color: var(--accent-blue);
@@ -820,9 +855,35 @@ tr:hover {
   .btn-group { flex-direction: column; }
 }
 
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  @keyframes nodePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(0deg); }
+  }
+}
+
 /* Print */
 @media print {
   header { position: static; }
   .btn, button { display: none; }
   body { background: white; color: black; }
+  .skip-link { display: none; }
 }

@@ -52,45 +52,45 @@
 
     <h2>Key Features</h2>
     <div class="grid" id="feature-cards">
-      <div class="card card--clickable" role="link" tabindex="0" onclick="window.location='/pipeline'" onkeydown="if(event.key==='Enter')window.location='/pipeline'">
+      <a href="/pipeline" class="card card--link">
         <h3>Interactive Pipeline</h3>
         <p>Visualize the 5-agent diagnosis process with 6 real incident scenarios. Play, pause, step through, or reset the pipeline flow with SVG animations.</p>
-        <a href="/pipeline" class="btn btn--primary">Explore Pipeline</a>
-      </div>
+        <span class="btn btn--primary" tabindex="-1">Explore Pipeline</span>
+      </a>
 
-      <div class="card card--clickable" role="link" tabindex="0" onclick="window.location='/skills'" onkeydown="if(event.key==='Enter')window.location='/skills'">
+      <a href="/skills" class="card card--link">
         <h3>Skill Demonstrations</h3>
         <p>Test Evidence Verifier, Hallucination Detector, and Confidence Scorer with interactive forms and real-time validation against repository data.</p>
-        <a href="/skills" class="btn btn--primary">Try Skills</a>
-      </div>
+        <span class="btn btn--primary" tabindex="-1">Try Skills</span>
+      </a>
 
-      <div class="card card--clickable" role="link" tabindex="0" onclick="window.location='/mcp'" onkeydown="if(event.key==='Enter')window.location='/mcp'">
+      <a href="/mcp" class="card card--link">
         <h3>MCP Integration</h3>
         <p>Model Context Protocol with 4 context providers: Repo, Log, Schema, and Metrics. Switch between providers and see real data from your repository.</p>
-        <a href="/mcp" class="btn btn--primary">View MCP</a>
-      </div>
+        <span class="btn btn--primary" tabindex="-1">View MCP</span>
+      </a>
 
-      <div class="card card--clickable" role="link" tabindex="0" onclick="window.location='/agents'" onkeydown="if(event.key==='Enter')window.location='/agents'">
+      <a href="/agents" class="card card--link">
         <h3>Agent Capabilities</h3>
         <p>Explore all 5 core agents and their constraints. Understand which skills each agent uses and what inputs they require.</p>
-        <a href="/agents" class="btn btn--primary">See Agents</a>
-      </div>
+        <span class="btn btn--primary" tabindex="-1">See Agents</span>
+      </a>
 
-      <div class="card card--clickable" role="link" tabindex="0" onclick="window.location='/tests'" onkeydown="if(event.key==='Enter')window.location='/tests'">
+      <a href="/tests" class="card card--link">
         <h3>Test Dashboard</h3>
         <p>View test results, coverage metrics, and test suite breakdown with real-time data from the test runner.</p>
-        <a href="/tests" class="btn btn--primary">View Tests</a>
-      </div>
+        <span class="btn btn--primary" tabindex="-1">View Tests</span>
+      </a>
 
-      <div class="card card--clickable" role="link" tabindex="0" onclick="window.location='/docs'" onkeydown="if(event.key==='Enter')window.location='/docs'">
+      <a href="/docs" class="card card--link">
         <h3>Documentation</h3>
         <p>Complete integration guides, custom skills API, and custom agents API. Learn how to extend the system.</p>
-        <a href="/docs" class="btn btn--primary">Read Docs</a>
-      </div>
+        <span class="btn btn--primary" tabindex="-1">Read Docs</span>
+      </a>
     </div>
 
     <h2>Repository Statistics</h2>
-    <div class="grid-3" id="repo-stats">
+    <div class="grid-3" id="repo-stats" role="region" aria-label="Repository statistics">
       <div class="stat-box">
         <div class="stat-value" id="stat-files">--</div>
         <div class="stat-label">JavaScript Source Files</div>
@@ -127,7 +127,7 @@
     </ol>
   </main>
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <script src="/js/app.js"></script>
   <script>
