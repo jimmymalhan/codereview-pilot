@@ -5,13 +5,13 @@
  */
 
 import { jest } from '@jest/globals';
-import { MonitoringDashboard } from '../src/paperclip/monitoring-dashboard.js';
-import { PerformanceOptimizer } from '../src/paperclip/performance-optimizer.js';
-import { ExtendedAgentFramework } from '../src/paperclip/extended-agent-framework.js';
-import { AuditLogger } from '../src/paperclip/audit-logger.js';
-import { TaskManager } from '../src/paperclip/task-manager.js';
-import { BudgetEnforcer } from '../src/paperclip/budget-enforcer.js';
-import { HeartbeatMonitor } from '../src/paperclip/heartbeat-monitor.js';
+import { MonitoringDashboard } from '../src/orchestrator/monitoring-dashboard.js';
+import { PerformanceOptimizer } from '../src/orchestrator/performance-optimizer.js';
+import { ExtendedAgentFramework } from '../src/orchestrator/extended-agent-framework.js';
+import { AuditLogger } from '../src/orchestrator/audit-logger.js';
+import { TaskManager } from '../src/orchestrator/task-manager.js';
+import { BudgetEnforcer } from '../src/orchestrator/budget-enforcer.js';
+import { HeartbeatMonitor } from '../src/orchestrator/heartbeat-monitor.js';
 
 describe('Phase 4: Advanced Features Tests', () => {
   let dashboard, optimizer, framework, auditLogger, taskManager, budgetEnforcer, monitor;

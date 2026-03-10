@@ -6,7 +6,7 @@
  */
 
 import { jest } from '@jest/globals';
-import { LogSanitizer } from '../src/paperclip/log-sanitizer.js';
+import { LogSanitizer } from '../src/orchestrator/log-sanitizer.js';
 
 describe('LogSanitizer: SC-4 Compliance Tests', () => {
   describe('API Key Sanitization', () => {

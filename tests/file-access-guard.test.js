@@ -11,7 +11,7 @@
  */
 
 import { jest } from '@jest/globals';
-import { FileAccessGuard } from '../src/paperclip/file-access-guard.js';
+import { FileAccessGuard } from '../src/orchestrator/file-access-guard.js';
 
 describe('FileAccessGuard: SC-2 Compliance Tests', () => {
   // ============================================================
@@ -19,7 +19,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
   // ============================================================
   describe('Router Agent Permissions', () => {
     test('router can read src/** files', () => {
-      expect(FileAccessGuard.canRead('router', 'src/paperclip/task-manager.js')).toBe(true);
+      expect(FileAccessGuard.canRead('router', 'src/orchestrator/task-manager.js')).toBe(true);
       expect(FileAccessGuard.canRead('router', 'src/agents/router.js')).toBe(true);
     });
 
@@ -47,7 +47,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
 
     test('router cannot write to any file (write list is empty)', () => {
       expect(FileAccessGuard.canWrite('router', 'src/test.js')).toBe(false);
-      expect(FileAccessGuard.canWrite('router', '.paperclip/output.json')).toBe(false);
+      expect(FileAccessGuard.canWrite('router', '.orchestrator/output.json')).toBe(false);
     });
   });
 
@@ -56,7 +56,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
   // ============================================================
   describe('Retriever Agent Permissions', () => {
     test('retriever can read src/** files', () => {
-      expect(FileAccessGuard.canRead('retriever', 'src/paperclip/task-manager.js')).toBe(true);
+      expect(FileAccessGuard.canRead('retriever', 'src/orchestrator/task-manager.js')).toBe(true);
     });
 
     test('retriever can read logs/** files', () => {
@@ -82,20 +82,20 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
   // Skeptic Agent Permissions
   // ============================================================
   describe('Skeptic Agent Permissions', () => {
-    test('skeptic can read .paperclip/task-outputs/** files', () => {
-      expect(FileAccessGuard.canRead('skeptic', '.paperclip/task-outputs/task-1.json')).toBe(true);
+    test('skeptic can read .orchestrator/task-outputs/** files', () => {
+      expect(FileAccessGuard.canRead('skeptic', '.orchestrator/task-outputs/task-1.json')).toBe(true);
     });
 
-    test('skeptic can write to .paperclip/skeptic-output.json only', () => {
-      expect(FileAccessGuard.canWrite('skeptic', '.paperclip/skeptic-output.json')).toBe(true);
+    test('skeptic can write to .orchestrator/skeptic-output.json only', () => {
+      expect(FileAccessGuard.canWrite('skeptic', '.orchestrator/skeptic-output.json')).toBe(true);
     });
 
-    test('skeptic cannot write to other .paperclip files', () => {
-      expect(FileAccessGuard.canWrite('skeptic', '.paperclip/audit-log.json')).toBe(false);
+    test('skeptic cannot write to other .orchestrator files', () => {
+      expect(FileAccessGuard.canWrite('skeptic', '.orchestrator/audit-log.json')).toBe(false);
     });
 
     test('skeptic cannot read src/** files (deny_always)', () => {
-      expect(FileAccessGuard.canRead('skeptic', 'src/paperclip/task-manager.js')).toBe(false);
+      expect(FileAccessGuard.canRead('skeptic', 'src/orchestrator/task-manager.js')).toBe(false);
     });
 
     test('skeptic cannot read CLAUDE.md', () => {
@@ -116,20 +116,20 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
   // Verifier Agent Permissions
   // ============================================================
   describe('Verifier Agent Permissions', () => {
-    test('verifier can read .paperclip/task-outputs/** files', () => {
-      expect(FileAccessGuard.canRead('verifier', '.paperclip/task-outputs/skeptic-review.json')).toBe(true);
+    test('verifier can read .orchestrator/task-outputs/** files', () => {
+      expect(FileAccessGuard.canRead('verifier', '.orchestrator/task-outputs/skeptic-review.json')).toBe(true);
     });
 
     test('verifier can read .claude/agents/** files', () => {
       expect(FileAccessGuard.canRead('verifier', '.claude/agents/verifier.md')).toBe(true);
     });
 
-    test('verifier can write to .paperclip/verifier-output.json only', () => {
-      expect(FileAccessGuard.canWrite('verifier', '.paperclip/verifier-output.json')).toBe(true);
+    test('verifier can write to .orchestrator/verifier-output.json only', () => {
+      expect(FileAccessGuard.canWrite('verifier', '.orchestrator/verifier-output.json')).toBe(true);
     });
 
     test('verifier cannot read src/** files (deny_always)', () => {
-      expect(FileAccessGuard.canRead('verifier', 'src/paperclip/task-manager.js')).toBe(false);
+      expect(FileAccessGuard.canRead('verifier', 'src/orchestrator/task-manager.js')).toBe(false);
     });
 
     test('verifier cannot read CLAUDE.md', () => {
@@ -146,17 +146,17 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
   // Orchestrator Agent Permissions
   // ============================================================
   describe('Orchestrator Agent Permissions', () => {
-    test('orchestrator can read .paperclip/** files', () => {
-      expect(FileAccessGuard.canRead('orchestrator', '.paperclip/task-state/state.json')).toBe(true);
-      expect(FileAccessGuard.canRead('orchestrator', '.paperclip/audit-log.json')).toBe(true);
+    test('orchestrator can read .orchestrator/** files', () => {
+      expect(FileAccessGuard.canRead('orchestrator', '.orchestrator/task-state/state.json')).toBe(true);
+      expect(FileAccessGuard.canRead('orchestrator', '.orchestrator/audit-log.json')).toBe(true);
     });
 
-    test('orchestrator can write to .paperclip/task-state/** files', () => {
-      expect(FileAccessGuard.canWrite('orchestrator', '.paperclip/task-state/new-state.json')).toBe(true);
+    test('orchestrator can write to .orchestrator/task-state/** files', () => {
+      expect(FileAccessGuard.canWrite('orchestrator', '.orchestrator/task-state/new-state.json')).toBe(true);
     });
 
     test('orchestrator cannot read src/** files (deny_always)', () => {
-      expect(FileAccessGuard.canRead('orchestrator', 'src/paperclip/task-manager.js')).toBe(false);
+      expect(FileAccessGuard.canRead('orchestrator', 'src/orchestrator/task-manager.js')).toBe(false);
     });
 
     test('orchestrator cannot read CLAUDE.md', () => {
@@ -213,7 +213,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
     });
 
     test('unknown agent cannot write any file', () => {
-      expect(FileAccessGuard.canWrite('unknown-agent', '.paperclip/output.json')).toBe(false);
+      expect(FileAccessGuard.canWrite('unknown-agent', '.orchestrator/output.json')).toBe(false);
     });
   });
 
@@ -228,7 +228,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
     });
 
     test('getAllowedOperations returns correct permissions for skeptic output', () => {
-      const ops = FileAccessGuard.getAllowedOperations('skeptic', '.paperclip/skeptic-output.json');
+      const ops = FileAccessGuard.getAllowedOperations('skeptic', '.orchestrator/skeptic-output.json');
       expect(ops.read).toBe(false);
       expect(ops.write).toBe(true);
     });
@@ -258,7 +258,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
 
     test('getAllowedWritePaths returns skeptic write paths', () => {
       const paths = FileAccessGuard.getAllowedWritePaths('skeptic');
-      expect(paths).toContain('.paperclip/skeptic-output.json');
+      expect(paths).toContain('.orchestrator/skeptic-output.json');
       expect(paths.length).toBe(1);
     });
   });
@@ -291,7 +291,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
   // ============================================================
   describe('Glob Pattern Matching', () => {
     test('matches wildcard patterns correctly', () => {
-      expect(FileAccessGuard.canRead('router', 'src/paperclip/module.js')).toBe(true);
+      expect(FileAccessGuard.canRead('router', 'src/orchestrator/module.js')).toBe(true);
       expect(FileAccessGuard.canRead('router', 'src/deep/nested/module.js')).toBe(true);
       expect(FileAccessGuard.canRead('router', 'logs/2024/app.log')).toBe(true);
     });
@@ -302,7 +302,7 @@ describe('FileAccessGuard: SC-2 Compliance Tests', () => {
     });
 
     test('handles dot files in patterns', () => {
-      expect(FileAccessGuard.canRead('skeptic', '.paperclip/task-outputs/file.json')).toBe(true);
+      expect(FileAccessGuard.canRead('skeptic', '.orchestrator/task-outputs/file.json')).toBe(true);
     });
 
     test('denies paths that do not match any pattern', () => {

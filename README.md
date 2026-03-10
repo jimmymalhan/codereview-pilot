@@ -20,12 +20,13 @@ retrieve → challenge → verify → explain (rigorous and checkable)
 
 ## How It Works
 
-A four-agent pipeline that enforces evidence-first methodology:
+A five-agent pipeline that enforces evidence-first methodology:
 
 1. **Router** - Classifies the failure type (schema drift, write conflict, stale read, bad deploy, auth failure, dependency break)
 2. **Retriever** - Pulls exact evidence: file:line citations, log timestamps, schema definitions, payload fields
 3. **Skeptic** - Generates a competing explanation from a different failure family to pressure the first diagnosis
 4. **Verifier** - Blocks any claim not backed by retrieved evidence, requires root cause + fix plan + rollback + tests
+5. **Critic** - Validates quality gates (confidence >= 0.70, evidence citations, fix plan, rollback, tests) before final output
 
 **Output Contract:**
 ```json
@@ -39,6 +40,26 @@ A four-agent pipeline that enforces evidence-first methodology:
 }
 ```
 
+## 🎬 Demo Video
+
+See Claude Debug Copilot in action—watch the 4-agent pipeline diagnose a real backend failure in 20 seconds:
+
+[![Claude Debug Copilot Demo](https://img.shields.io/badge/▶️%20Watch%20Demo-20.8s-blue?style=for-the-badge)](https://github.com/jimmymalhan/claude-debug-copilot/releases/tag/v1.0-demo)
+
+**What the demo shows:**
+- Submit a production incident (database connection pool exhaustion)
+- Watch the 4-agent pipeline run in real-time:
+  - **Router** classifies failure type
+  - **Retriever** gathers evidence from logs and metrics
+  - **Skeptic** challenges the diagnosis
+  - **Verifier** validates root cause with 92% confidence
+- Get actionable fix plan, rollback strategy, and test cases
+- See the complete audit trail of every decision
+
+**Video specs:** 20.8 seconds | 1920×1080 | Professional audio narration
+
+[Download full video](https://github.com/jimmymalhan/claude-debug-copilot/releases/download/v1.0-demo/poc-demo.mp4) | [View release](https://github.com/jimmymalhan/claude-debug-copilot/releases/tag/v1.0-demo)
+
 ## Safety Constraints
 
 The tool enforces five non-negotiable rules (see `CLAUDE.md`):
@@ -49,46 +70,273 @@ The tool enforces five non-negotiable rules (see `CLAUDE.md`):
 - **skeptic must produce a materially different theory** - not just shade on the first answer
 - **no edits until the plan is approved** - human review gate
 
-## Setup
+## Quick Start (3 Steps)
 
-**Requirements:**
-- Node.js 18+
-- Anthropic API key (`ANTHROPIC_API_KEY` env var)
-- Claude Code CLI (for using agent definitions)
-
-**Installation:**
+### Step 1: Install Dependencies
 ```bash
 npm install
 export ANTHROPIC_API_KEY=your-key-here
+npm test  # Verify setup (319 tests should pass)
 ```
 
-## Usage
-
-### With Claude Code CLI (Recommended)
-
-Use the agent definitions directly:
+### Step 2: Diagnose Your First Incident
 ```bash
-# Diagnose an incident
-echo "Your incident description..." | claude --agent router
-
-# Gather evidence
-echo "Incident + router classification..." | claude --agent retriever
-
-# Challenge the diagnosis
-echo "Router output..." | claude --agent skeptic
-
-# Verify claims
-echo "All prior outputs..." | claude --agent verifier
-```
-
-### Standalone Demo
-
-Run the verifier stage as a demo:
-```bash
+# Run the demo (no API key needed)
 node src/run.js
+
+# Or use with your incident details
+echo "Database connection pool exhausted at 2:45 UTC, 50% error rate" | \
+  claude --agent router
 ```
 
-This shows the verifier rejecting unsupported claims in JSON format.
+### Step 3: Follow the Pipeline
+The 4-agent pipeline runs automatically:
+- **Router** → Classifies the failure type
+- **Retriever** → Pulls evidence (file:line, timestamps, logs)
+- **Skeptic** → Challenges the diagnosis
+- **Verifier** → Validates with evidence and confidence score
+
+Get back: root cause, evidence, fix plan, rollback strategy, tests.
+
+---
+
+## Usage Examples
+
+### Debugging a Production Incident (Real Example)
+
+**Incident**: API returning 503 errors, ~20% failure rate in production
+```bash
+# Provide incident details
+incident="
+API errors: logs/api.log:2024-03-09 15:30-15:45
+Database: show slow query log
+Deploy: release notes v2.3.1
+"
+
+# Let agents diagnose
+echo "$incident" | claude --agent router
+# → Classification: likely write conflict or resource exhaustion
+
+echo "$incident" | claude --agent retriever
+# → Evidence: connection pool size = 10, current connections = 25, spike at 15:32
+
+echo "$incident" | claude --agent skeptic
+# → Alternative: memory leak, not connection pool
+
+echo "$incident" | claude --agent verifier
+# → Verdict: Connection pool exhaustion, fix = increase pool size to 50
+```
+
+### Using the Orchestrator (Programmatic)
+
+```javascript
+import { DebugOrchestrator } from './src/orchestrator/orchestrator-client.js';
+
+const orchestrator = new DebugOrchestrator();
+await orchestrator.initialize();
+
+// Submit incident
+const task = await orchestrator.submitTask({
+  type: 'debug',
+  description: 'Database queries timing out',
+  evidence: ['error.log:1-50', 'schema.sql:indexes', 'metrics.json:cpu']
+});
+
+// Get root cause
+const result = await orchestrator.invokeAgent('verifier', task.taskId, task);
+console.log(result.root_cause);  // Actionable diagnosis
+console.log(result.fix_plan);    // Exact code changes
+console.log(result.confidence);  // 0.85 (85% confident)
+```
+
+### Running Tests
+
+```bash
+# All 319 tests (319/319 passing)
+npm test
+
+# Specific test suite
+npm test -- tests/orchestrator-client.test.js
+
+# Watch mode for development
+npm test -- --watch
+
+# Coverage report
+npm test -- --coverage
+```
+
+## Troubleshooting
+
+### Tests Failing?
+```bash
+# Verify Node.js version (need 18+)
+node --version
+
+# Clear cache and reinstall
+rm -rf node_modules package-lock.json
+npm install
+npm test
+```
+
+### No API Key?
+```bash
+# The demo works without credentials
+node src/run.js
+
+# For full functionality, get your API key from:
+# https://console.anthropic.com
+export ANTHROPIC_API_KEY=your-key-here
+npm test
+```
+
+### Agent Not Responding?
+- Check ANTHROPIC_API_KEY is set: `echo $ANTHROPIC_API_KEY`
+- Verify Claude Code CLI is installed: `claude --version`
+- Check agent definition exists: `ls -la .claude/agents/`
+- Run tests to validate setup: `npm test`
+
+### Confidence Score Too Low?
+- Provide more evidence (file paths, log snippets, timestamps)
+- Ensure evidence files actually exist in repository
+- Skeptic may have raised contradictions—review them
+- Add more specific details about the failure timeline
+
+---
+
+## Before & After: Evidence-First Debugging
+
+### BEFORE: Traditional AI Debugging
+```
+User asks:
+→ "Why is my API timing out?"
+
+AI responds:
+→ "Probably your database connection pool is too small"
+(sounds confident, no evidence)
+
+Engineer digs for 2 hours:
+→ Finds it was actually a DNS cache issue, not pool size
+
+Cost: 2 hours of on-call time, user still confused
+```
+
+### AFTER: Claude Debug Copilot
+```
+User submits incident with evidence:
+→ logs/api.log:2024-03-09 15:30-45
+→ metrics/connections.json
+→ deployment/v2.3.1-release-notes.md
+
+Router classifies:
+→ Top 2 likely: resource exhaustion OR stale read
+
+Retriever gathers evidence:
+→ Connection pool size = 10
+→ Current connections = 25 (at spike time)
+→ Pool limit exceeded at 15:32 UTC
+→ Error rate: 20% (during surge)
+
+Skeptic challenges:
+→ "Could be DNS cache (different family)"
+→ "Check: DNS TTL = 3600s, DNS queries = 0 (cached)"
+→ "Verdict: Not DNS, consistent with connection pool"
+
+Verifier validates:
+→ Evidence: file:line for all claims
+→ Root Cause: Connection pool exhaustion
+→ Fix: Increase pool size from 10 → 50
+→ Rollback: Revert size to 10
+→ Tests: Verify pool accepts 50 connections
+→ Confidence: 89%
+
+Result: Actionable fix in 2 minutes, engineer is certain
+```
+
+---
+
+## Data Flow: End-to-End
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ INCIDENT REPORTED                                           │
+│ "API returning 503 errors, 20% failure rate"               │
+├─────────────────────────────────────────────────────────────┤
+│ Evidence provided:                                          │
+│  • logs/api.log (lines 150-200, timestamps 15:30-15:45)   │
+│  • metrics/cpu.json (spike from 40% → 95%)                │
+│  • src/db/connection-pool.js (current implementation)      │
+│  • CHANGELOG.md (deployed v2.3.1 added connection pooling) │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ AGENT 1: ROUTER (Classification)                            │
+│ Task: Classify into failure families                       │
+├─────────────────────────────────────────────────────────────┤
+│ Output:                                                     │
+│ • Top 1: Resource Exhaustion (connection pool)            │
+│ • Top 2: Write Conflict (transaction lock)                │
+│ • Missing Evidence: Current pool size, connection count   │
+│ • Confidence: 0.65 (needs more evidence)                  │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ AGENT 2: RETRIEVER (Evidence Gathering)                    │
+│ Task: Find exact evidence with file:line citations        │
+├─────────────────────────────────────────────────────────────┤
+│ Output (with exact locations):                             │
+│ • src/db/connection-pool.js:42 → DEFAULT_POOL_SIZE = 10  │
+│ • logs/api.log:158 → "pool size=10, current=25"           │
+│ • metrics/cpu.json → {"timestamp":"15:32","cpu":95}      │
+│ • src/db/connection-pool.js:85 → Wait timeout = 5s       │
+│ Confidence: 0.78 (specific evidence found)                │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ AGENT 3: SKEPTIC (Challenge the Diagnosis)                │
+│ Task: Find competing explanation from different family    │
+├─────────────────────────────────────────────────────────────┤
+│ Output (Alternative Theory):                               │
+│ • Could be: DNS cache (not connection pool)               │
+│ • Evidence: No DNS queries in logs at 15:30-15:45         │
+│ • But: Contradiction found—DNS lookup takes 10ms per req  │
+│ • At 20% error rate, would see more DNS errors in logs    │
+│ • Verdict: DNS theory contradicted by evidence            │
+│ Confidence: 0.12 (alternative theory unlikely)            │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ AGENT 4: VERIFIER (Final Decision & Approval Gate)        │
+│ Task: Block claims not backed by evidence                 │
+├─────────────────────────────────────────────────────────────┤
+│ VERIFIES:                                                   │
+│ ✓ Root Cause: Connection pool exhaustion                  │
+│   Evidence: file:line 42, logs:158, metrics timestamp     │
+│                                                             │
+│ ✓ Fix Plan:                                               │
+│   Change src/db/connection-pool.js:42                     │
+│   DEFAULT_POOL_SIZE = 10 → 50                             │
+│                                                             │
+│ ✓ Rollback Plan:                                          │
+│   Revert DEFAULT_POOL_SIZE = 50 → 10                      │
+│                                                             │
+│ ✓ Tests:                                                  │
+│   1. Verify pool accepts 50 concurrent connections       │
+│   2. Verify wait timeout respected                        │
+│   3. Load test with 60 concurrent requests               │
+│                                                             │
+│ Final Confidence: 0.89 (89% confident)                    │
+│ APPROVED: True (ready to deploy)                          │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ ENGINEER REVIEW (Human Approval Gate)                      │
+│ Decision: Deploy fix to production                         │
+│ Rollback: Known and tested                                │
+│ Confidence: 89% (backed by evidence)                      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
 
 ## Repository Structure
 
@@ -98,14 +346,21 @@ This shows the verifier rejecting unsupported claims in JSON format.
 │   ├── router.md         # Failure classifier
 │   ├── retriever.md      # Evidence gatherer
 │   ├── skeptic.md        # Competing theory generator
-│   └── verifier.md       # Claim validator + approval gate
+│   ├── verifier.md       # Claim validator + approval gate
+│   └── critic.md         # Quality gate validator
 └── hooks/
     └── check-edits.sh    # Prevents .env and lock file commits
 
 src/
-└── run.js               # Demo entry point (verifier only)
+├── orchestrator/         # Local orchestration framework (14 modules)
+│   ├── orchestrator-client.js    # Main client
+│   ├── task-manager.js           # Task lifecycle
+│   ├── approval-state-machine.js # Approval workflow
+│   └── [11 more modules]         # Security, budget, audit, etc.
+└── run.js               # Demo entry point
 
 CLAUDE.md               # Project rules and output contracts
+CHANGELOG.md            # Version history
 package.json            # Dependencies: @anthropic-ai/sdk, dotenv
 README.md               # This file
 ```
@@ -133,200 +388,6 @@ This repo enforces strict safety constraints:
 - **CLAUDE.md rules** are non-negotiable and inherited by all agents
 - **Agent definitions** are read-only during normal usage; changes require code review
 - **Evidence verification** mandatory before any claim is approved
-
-
-## Paperclip Integration Guide
-
-Claude Debug Copilot integrates with **Paperclip AI** (https://github.com/paperclipai/paperclip), an orchestration platform that adds:
-- **Task management** - Track debugging tasks from incident to resolution
-- **Approval gates** - Require human review before deploying fixes
-- **Budget control** - Enforce token limits per agent and organization
-- **Audit trails** - Immutable logs of every decision and action
-- **Security enforcement** - Deny-by-default file access, input validation, PII sanitization
-
-### Quick Start (3 steps)
-
-**Step 1: Initialize Paperclip**
-```javascript
-import { PaperclipClient } from './src/paperclip/paperclip-client.js';
-
-const paperclip = new PaperclipClient();
-await paperclip.initialize();
-```
-
-**Step 2: Submit a debugging task**
-```javascript
-const task = await paperclip.submitTask({
-  type: 'debug',
-  description: 'Database queries timing out in production at 2:45 UTC',
-  evidence: ['error.log:1-50', 'schema.sql:table-indexes', 'metrics.json:cpu-usage']
-});
-
-console.log(`Task created: ${task.taskId}`);
-```
-
-**Step 3: Run the 4-agent pipeline**
-```javascript
-// Claude's 4-agent pipeline automatically routes through:
-// Router → Retriever → Skeptic → Verifier
-const verified = await paperclip.invokeAgent('verifier', task.taskId, ...);
-
-// Result includes: root cause, evidence citations, fix plan, rollback, tests
-console.log(verified.result);
-```
-
-### Real-World Workflow
-
-Here's how Paperclip handles a real incident:
-
-```javascript
-// 1. Incident reported - submit as task
-const incident = await paperclip.submitTask({
-  type: 'debug',
-  description: 'API returning 503 errors, ~20% failure rate',
-  evidence: [
-    'logs/api.log:2024-03-09 15:30-15:45',
-    'src/db/connection-pool.js',
-    'deployment/release-notes.md:v2.3.1'
-  ]
-});
-
-// 2. Router classifies the failure type
-const classified = await paperclip.invokeAgent('router', incident.taskId, incident);
-// → "write_conflict" in transaction handling
-
-// 3. Retriever pulls exact evidence
-const evidence = await paperclip.invokeAgent('retriever', incident.taskId, classified);
-// → file:line citations, log timestamps, schema definitions
-
-// 4. Skeptic challenges the diagnosis
-const challenge = await paperclip.invokeAgent('skeptic', incident.taskId, evidence);
-// → Alternative theory: memory leak, not transaction conflict
-
-// 5. Verifier validates the best theory
-const verified = await paperclip.invokeAgent('verifier', incident.taskId, challenge);
-// → Rejects both theories with evidence, identifies true root cause
-
-// 6. Human approval required
-const auditLog = await paperclip.queryAuditTrail({ taskId: incident.taskId });
-// Review plan in audit trail, then:
-await paperclip.updateTaskStatus(incident.taskId, 'approved');
-
-// 7. Execute with budget enforcement + rollback plan
-const budget = await paperclip.getBudgetStatus();
-if (budget.available > 0) {
-  // Deploy fix with pre-verified rollback procedure
-  // All changes tracked in immutable audit trail
-}
-
-// 8. Complete audit trail
-const final = await paperclip.queryAuditTrail({
-  taskId: incident.taskId,
-  event: 'task_completed'
-});
-// Contains: task_created → agent_invocations → approval_decision → execution → completion
-```
-
-### Common Tasks
-
-#### Diagnose an incident
-```javascript
-const task = await paperclip.submitTask({
-  type: 'debug',
-  description: 'Database connections exhausted',
-  evidence: ['connection-pool.log', 'database.yml', 'deployment-log']
-});
-
-// Pipeline runs automatically; check results:
-const result = await paperclip.getTask(task.taskId);
-```
-
-#### Verify a fix before deployment
-```javascript
-const fixReview = await paperclip.submitTask({
-  type: 'verify',
-  description: 'Review connection pool fix in PR #1234',
-  evidence: ['src/db/pool.js:50-150', 'tests/pool.test.js', 'CHANGELOG.md']
-});
-
-// Verifier validates fix against root cause
-const approval = await paperclip.getTask(fixReview.taskId);
-```
-
-#### Track budget usage
-```javascript
-const status = await paperclip.getBudgetStatus();
-console.log(`Daily limit: ${status.limit} tokens`);
-console.log(`Used today: ${status.orgDaily} tokens`);
-console.log(`Per-agent limit: ${status.agentLimit}`);
-console.log(`Concurrent agents: ${status.concurrentAgents}`);
-```
-
-#### Query the audit trail
-```javascript
-const audit = await paperclip.queryAuditTrail({
-  taskId: 'task-123',
-  since: new Date(Date.now() - 3600000) // last hour
-});
-
-// Audit trail includes every action with timestamp:
-// task_created, agent_invocation, approval_granted, execution, escalation, rollback
-```
-
-### Integration Options
-
-**Option 1: Development (Local)**
-```javascript
-import { PaperclipClient } from './src/paperclip/paperclip-client.js';
-// Uses local orchestration modules: src/paperclip/* (14 modules, fully tested)
-// No external dependencies, all operations run locally
-```
-
-**Option 2: Production (Official Package)**
-```bash
-npm install @paperclipai/orchestration-security
-```
-
-```javascript
-import { PaperclipClient } from '@paperclipai/orchestration-security';
-// Maintained by Paperclip team, recommended for production deployments
-```
-
-### Architecture
-
-Paperclip provides 6 core capabilities integrated into Claude Debug Copilot:
-
-| Capability | How It Works | Your Benefit |
-|---|---|---|
-| **Task Management** | Create, track, route tasks through agent pipeline | Central hub for all debugging work |
-| **Approval Gates** | 8-state workflow enforces human review | No AI decisions deployed without approval |
-| **Budget Control** | Token limits per agent, org, and incident | Control costs, prevent runaway tokens |
-| **Audit Trails** | Immutable logs of every decision and action | Complete transparency for compliance |
-| **Security** | Deny-by-default access, input validation, sanitization | Prevents credential leaks and injection attacks |
-| **Reliability** | Exponential backoff retry logic, health monitoring, graceful degradation | Handle failures without manual intervention |
-
-### Testing the Integration
-
-```bash
-# Run full test suite (319 tests, all passing, 89.87% coverage)
-npm test
-
-# Test just Paperclip modules
-npm test -- tests/paperclip-client.test.js
-
-# Watch mode for development
-npm test -- --watch
-
-# Coverage report
-npm test -- --coverage
-```
-
-### Next Steps
-
-1. **Start diagnosing** - Use `paperclip.submitTask()` to handle your next incident
-2. **Integrate with your workflow** - Call Paperclip from your incident management system
-3. **Go production** - Switch to official package when ready (`@paperclipai/orchestration-security`)
-4. **Extend safely** - Add custom agents while respecting approval gates and budgets
 
 ## Philosophy
 

@@ -4,7 +4,7 @@
  */
 
 import { jest } from '@jest/globals';
-import { ErrorHandler } from '../src/paperclip/error-handler.js';
+import { ErrorHandler } from '../src/orchestrator/error-handler.js';
 
 describe('ErrorHandler: Retry & Escalation Tests', () => {
   let handler;

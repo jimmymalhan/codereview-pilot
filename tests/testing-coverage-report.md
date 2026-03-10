@@ -11,7 +11,7 @@
 
 - **Testing Framework**: Jest 29.7.0
 - **Assertion Library**: Jest built-in (expect)
-- **Mocking**: Jest built-in + custom MockPaperclipApi
+- **Mocking**: Jest built-in + custom MockOrchestratorApi
 - **Coverage**: Jest built-in (Istanbul)
 - **ES Module Support**: `--experimental-vm-modules` flag
 - **CI/CD**: GitHub Actions (`.github/workflows/test.yml`)
@@ -58,11 +58,11 @@ Additional paths: user override with justification, user override without justif
 | audit-logger.js | 95.23% | 89.47% | 100% | 94.59% | 85% | PASS |
 | heartbeat-monitor.js | 93.75% | 68.96% | 100% | 93.75% | 70%* | PASS |
 | task-manager.js | 100% | 97.91% | 100% | 100% | 70% | PASS |
-| paperclip-client.js | 0% | 0% | 0% | 0% | N/A** | N/A |
+| orchestrator-client.js | 0% | 0% | 0% | 0% | N/A** | N/A |
 
 *Heartbeat monitor branch coverage is lower due to the status check for already-unavailable agents (line 46-47) which is a guard clause.
 
-**paperclip-client.js is excluded from coverage targets because it makes real HTTP calls to the Paperclip API. It is tested via MockPaperclipApi in integration tests. Real API testing is deferred to E2E tests against staging.
+**orchestrator-client.js is excluded from coverage targets because it makes real HTTP calls to the Orchestrator API. It is tested via MockOrchestratorApi in integration tests. Real API testing is deferred to E2E tests against staging.
 
 ## CI/CD Pipeline
 
@@ -76,13 +76,13 @@ File: `.github/workflows/test.yml`
 ## Fixtures and Mocks
 
 - `tests/fixtures/sample-incidents.js`: 8 sample task/output fixtures
-- `tests/fixtures/mock-paperclip-api.js`: Full mock Paperclip API with configurable failure modes
+- `tests/fixtures/mock-orchestrator-api.js`: Full mock Orchestrator API with configurable failure modes
 
 ## Staging Environment (E2E)
 
-E2E tests against real Paperclip API are defined as a separate test suite (`npm run test:e2e`). These require:
-- Staging Paperclip API endpoint configured via `PAPERCLIP_API_URL`
-- Staging API key configured via `PAPERCLIP_API_KEY`
+E2E tests against real Orchestrator API are defined as a separate test suite (`npm run test:e2e`). These require:
+- Staging Orchestrator API endpoint configured via `ORCHESTRATOR_API_URL`
+- Staging API key configured via `ORCHESTRATOR_API_KEY`
 - Staging environment setup documented in Phase 2 execution plan
 
 E2E tests are NOT run in CI/CD by default (requires staging credentials).

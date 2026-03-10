@@ -1,5 +1,5 @@
 /**
- * Paperclip Integration Tests
+ * Debug Copilot Integration Tests
  *
  * 10 integration test scenarios covering all Phase 2.7 requirements
  * plus 3 additional scenarios from QA review (error handling,
@@ -19,12 +19,12 @@
  */
 
 import { jest } from '@jest/globals';
-import { ApprovalStateMachine } from '../src/paperclip/approval-state-machine.js';
-import { BudgetEnforcer } from '../src/paperclip/budget-enforcer.js';
-import { AuditLogger } from '../src/paperclip/audit-logger.js';
-import { HeartbeatMonitor, HEARTBEAT_INTERVAL_MS } from '../src/paperclip/heartbeat-monitor.js';
-import { TaskManager, VALID_TASK_TYPES, REQUIRED_OUTPUT_FIELDS } from '../src/paperclip/task-manager.js';
-import { MockPaperclipApi, MockApiError } from './fixtures/mock-paperclip-api.js';
+import { ApprovalStateMachine } from '../src/orchestrator/approval-state-machine.js';
+import { BudgetEnforcer } from '../src/orchestrator/budget-enforcer.js';
+import { AuditLogger } from '../src/orchestrator/audit-logger.js';
+import { HeartbeatMonitor, HEARTBEAT_INTERVAL_MS } from '../src/orchestrator/heartbeat-monitor.js';
+import { TaskManager, VALID_TASK_TYPES, REQUIRED_OUTPUT_FIELDS } from '../src/orchestrator/task-manager.js';
+import { MockOrchestratorApi, MockApiError } from './fixtures/mock-orchestrator-api.js';
 import {
   SAMPLE_TASK_VALID,
   SAMPLE_TASK_ROUTE,
@@ -598,29 +598,29 @@ describe('Scenario 7: Rollback State Consistency', () => {
 // SCENARIO 8: Error/Failure Handling (NEW - QA REVIEW)
 // ============================================================
 describe('Scenario 8: Error/Failure Handling', () => {
-  test('Paperclip API 500 error is caught and surfaced', async () => {
-    const mockApi = new MockPaperclipApi({ shouldFail: true, failStatus: 500 });
+  test('Orchestrator API 500 error is caught and surfaced', async () => {
+    const mockApi = new MockOrchestratorApi({ shouldFail: true, failStatus: 500 });
 
     await expect(mockApi.submitTask({ type: 'debug' }))
       .rejects.toThrow('Mock API error 500');
   });
 
-  test('Paperclip API 400 error for malformed task', async () => {
-    const mockApi = new MockPaperclipApi();
+  test('Orchestrator API 400 error for malformed task', async () => {
+    const mockApi = new MockOrchestratorApi();
 
     await expect(mockApi.submitTask({}))
       .rejects.toThrow('Missing required field: type');
   });
 
-  test('Paperclip API 404 for non-existent task', async () => {
-    const mockApi = new MockPaperclipApi();
+  test('Orchestrator API 404 for non-existent task', async () => {
+    const mockApi = new MockOrchestratorApi();
 
     await expect(mockApi.getTask('nonexistent'))
       .rejects.toThrow('Task not found');
   });
 
   test('API failure mode can be toggled on/off for testing', async () => {
-    const mockApi = new MockPaperclipApi();
+    const mockApi = new MockOrchestratorApi();
 
     // Normal mode works
     const result = await mockApi.submitTask({ type: 'debug', taskId: 'ok-task' });
@@ -638,7 +638,7 @@ describe('Scenario 8: Error/Failure Handling', () => {
   });
 
   test('mock API reset clears all state', async () => {
-    const mockApi = new MockPaperclipApi();
+    const mockApi = new MockOrchestratorApi();
     await mockApi.submitTask({ type: 'debug', taskId: 'to-clear' });
     mockApi.reset();
 

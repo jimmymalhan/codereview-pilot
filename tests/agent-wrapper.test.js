@@ -4,8 +4,8 @@
  */
 
 import { jest } from '@jest/globals';
-import { AgentWrapper } from '../src/paperclip/agent-wrapper.js';
-import { AuditLogger } from '../src/paperclip/audit-logger.js';
+import { AgentWrapper } from '../src/orchestrator/agent-wrapper.js';
+import { AuditLogger } from '../src/orchestrator/audit-logger.js';
 
 describe('AgentWrapper: Lifecycle Tests', () => {
   let wrapper, auditLogger;
@@ -116,7 +116,7 @@ describe('AgentWrapper: Lifecycle Tests', () => {
 
   test('should provide execution statistics', () => {
     const stats = wrapper.getExecutionStats();
-    expect(stats.totalAgents).toBe(4);
+    expect(stats.totalAgents).toBe(5);
     expect(stats.agentsWithOutput).toBeGreaterThanOrEqual(0);
     expect(stats.activeExecutions).toBeGreaterThanOrEqual(0);
   });

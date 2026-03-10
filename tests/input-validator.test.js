@@ -11,7 +11,7 @@
  */
 
 import { jest } from '@jest/globals';
-import { InputValidator } from '../src/paperclip/input-validator.js';
+import { InputValidator } from '../src/orchestrator/input-validator.js';
 
 describe('InputValidator: SC-1 Compliance Tests', () => {
   // ============================================================
