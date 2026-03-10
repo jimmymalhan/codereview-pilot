@@ -248,7 +248,7 @@ export class APIClient {
       }
 
       // Run response interceptors
-      response = await this.runInterceptors(this.responseInterceptors, {
+      const response = await this.runInterceptors(this.responseInterceptors, {
         data: responseData,
         status: fetchResponse.status,
         headers: Object.fromEntries(fetchResponse.headers),
