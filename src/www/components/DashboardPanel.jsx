@@ -3,7 +3,7 @@ import React from 'react'
 export default function DashboardPanel({ data }) {
   if (!data) return null
 
-  const { overview, severity, recentDiagnoses } = data
+  const { overview, severity, recentDiagnoses, orchestration } = data
 
   return (
     <aside className="dashboard-panel">
@@ -46,6 +46,37 @@ export default function DashboardPanel({ data }) {
                   <span className="severity-count">{count}</span>
                 </div>
               ))}
+            </div>
+          </section>
+        )}
+
+        {/* Orchestration Stats */}
+        {orchestration && (
+          <section className="dashboard-section">
+            <h4>Orchestration</h4>
+            <div className="overview-grid">
+              <div className="overview-item">
+                <span className="label">Status</span>
+                <span className={`value orch-status-${orchestration.isInitialized ? 'ready' : 'off'}`}>
+                  {orchestration.isInitialized ? 'Active' : 'Offline'}
+                </span>
+              </div>
+              <div className="overview-item">
+                <span className="label">Tasks</span>
+                <span className="value">{orchestration.taskCount ?? 0}</span>
+              </div>
+              <div className="overview-item">
+                <span className="label">Budget Used</span>
+                <span className="value">
+                  {orchestration.budgetStatus
+                    ? `${orchestration.budgetStatus.used}/${orchestration.budgetStatus.limit}`
+                    : '—'}
+                </span>
+              </div>
+              <div className="overview-item">
+                <span className="label">Agents</span>
+                <span className="value">{orchestration.heartbeatStatus ?? 0}</span>
+              </div>
             </div>
           </section>
         )}

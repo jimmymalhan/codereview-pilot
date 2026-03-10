@@ -6,30 +6,34 @@ All notable changes to Claude Debug Copilot are documented in this file.
 
 ### Paperclip-Style Orchestration Integration
 
-**Backend – Orchestrator seams wired into HTTP API**
-- `src/server.js`: Lazily initializes `DebugOrchestrator` in-process on first request.
-- `POST /api/diagnose`: Best-effort creates a `TaskManager` task per diagnosis and attaches
-  an `orchestration` block (`taskId`, `status`) to every response without changing the existing
-  4-stage pipeline output shape.
-- `GET /api/dashboard`: Enriches the existing analytics payload with an `orchestration` object
-  sourced from `getOrchestrationStats()` (task count, budget status, agent stats, heartbeat
-  status) while preserving the `overview`, `severity`, and `recentDiagnoses` fields consumed
-  by the UI.
+**Backend – Orchestration API endpoints**
+- `src/server.js`: 7 new orchestration endpoints backed by real `DebugOrchestrator` modules:
+  - `GET /api/tasks/:id` — retrieve task with full state machine, governance, and approvals
+  - `PATCH /api/tasks/:id` — update task status (pending, in_progress, completed, failed, cancelled)
+  - `POST /api/tasks/:id/approve` — drive the approval state machine through its lifecycle
+    (pending → skeptic_review → verifier_review → awaiting_approver → approved/blocked/escalated)
+  - `POST /api/heartbeats` — register agent heartbeats with arbitrary payload
+  - `GET /api/budget` — get budget enforcement status (per-agent daily/reserved usage)
+  - `GET /api/orchestration/audit` — query the orchestrator's audit trail
+  - `POST /api/diagnose` — now attaches `orchestration.taskId` and `orchestration.status`
+  - `GET /api/dashboard` — now includes `orchestration` stats (task count, budget, agents)
 
-**Docs – Integration plan, guardrails, and stakeholder feedback**
-- `PAPERCLIP_INTEGRATION_PLAN.md`: Current vs target state, gaps, phases, affected files,
-  rollback and cleanup rules for Paperclip-style orchestration.
-- `EXECUTION_GUARDRAILS.md`: Hard constraints for this integration branch (no weakening of
-  the 4/5-agent pipeline, no fake orchestration claims, tests and docs required for every
-  change, keep changes scoped to shipped behavior).
-- `docs/STAKEHOLDER_FEEDBACK_ORCHESTRATION.md`: Feedback from SRE, product, backend, QA,
-  security, business, and DevEx stakeholders and the actions taken in this branch.
+**Frontend – Orchestration UI rendering**
+- `ResultsDisplay.jsx`: Shows orchestration banner with task ID (monospace code) and
+  color-coded status badge (pending=yellow, in_progress=blue, completed=green, failed=red)
+  below the confidence badge when orchestration metadata is present.
+- `DashboardPanel.jsx`: New "Orchestration" section in the analytics dashboard showing
+  status (Active/Offline), task count, budget used/limit, and agent count from live
+  orchestrator stats.
+- `app.css`: Styles for `.orchestration-banner`, `.orchestration-task-id`,
+  `.orchestration-status` with state-specific colors, and `.orch-status-ready/off` for
+  dashboard indicator.
 
 **Quality**
 - All 1056 tests passing, 0 failed, 2 skipped.
-- test:ci green with coverage maintained.
-- Localhost verified: `/health`, `/api/dashboard` (with orchestration stats), `/api/diagnose`
-  (with orchestration metadata) all returning correct data.
+- Full approval lifecycle verified: pending → skeptic_review → verifier_review →
+  awaiting_approver → approved (via 4 sequential POST /api/tasks/:id/approve calls).
+- All 7 new endpoints returning correct data on localhost.
 
 ## [3.1.0] - 2026-03-10
 

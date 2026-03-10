@@ -16,6 +16,8 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
     }
   }
 
+  const orch = diagnosis.orchestration
+
   return (
     <div className="results-container">
       <div className="results-header">
@@ -28,6 +30,19 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
           <span className="confidence-label">Confidence</span>
         </div>
       </div>
+
+      {orch && orch.taskId && (
+        <div className="orchestration-banner">
+          <div className="orchestration-badge">
+            <span className="orchestration-icon">⚙</span>
+            <span className="orchestration-label">Task</span>
+            <code className="orchestration-task-id">{orch.taskId}</code>
+          </div>
+          <div className={`orchestration-status status-${orch.status || 'unknown'}`}>
+            {orch.status || 'unknown'}
+          </div>
+        </div>
+      )}
 
       <div className="results-sections">
         {/* Pipeline */}

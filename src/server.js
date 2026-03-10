@@ -347,6 +347,134 @@ app.get('/api/webhooks/:url/deliveries', (req, res) => {
   res.json({ url: req.params.url, deliveries: deliveries.length, items: deliveries })
 })
 
+// --- Orchestration API endpoints ---
+
+// Get task by ID
+app.get('/api/tasks/:id', async (req, res) => {
+  try {
+    const orchestrator = await getOrchestrator()
+    const result = await orchestrator.getTask(req.params.id)
+    res.json(result)
+  } catch (error) {
+    const status = error.message?.includes('not found') ? 404 : 500
+    res.status(status).json({
+      error: status === 404 ? 'task_not_found' : 'orchestration_error',
+      message: error.message
+    })
+  }
+})
+
+// Update task status
+app.patch('/api/tasks/:id', async (req, res) => {
+  const { status } = req.body
+  if (!status || typeof status !== 'string') {
+    return res.status(400).json({
+      error: 'invalid_status',
+      message: 'Required: status (string)'
+    })
+  }
+
+  const allowed = ['pending', 'in_progress', 'completed', 'failed', 'cancelled']
+  if (!allowed.includes(status)) {
+    return res.status(400).json({
+      error: 'invalid_status',
+      message: `Status must be one of: ${allowed.join(', ')}`
+    })
+  }
+
+  try {
+    const orchestrator = await getOrchestrator()
+    const result = await orchestrator.updateTaskStatus(req.params.id, status)
+    logAudit('task_status_updated', { taskId: req.params.id, status })
+    res.json(result)
+  } catch (error) {
+    const code = error.message?.includes('not found') ? 404 : 500
+    res.status(code).json({
+      error: code === 404 ? 'task_not_found' : 'orchestration_error',
+      message: error.message
+    })
+  }
+})
+
+// Transition the task's approval state machine
+app.post('/api/tasks/:id/approve', async (req, res) => {
+  try {
+    const orchestrator = await getOrchestrator()
+    const taskResult = await orchestrator.getTask(req.params.id)
+    if (!taskResult?.task) {
+      return res.status(404).json({ error: 'task_not_found', message: 'Task not found' })
+    }
+    const sm = taskResult.task.stateMachine
+    if (!sm || typeof sm.transition !== 'function') {
+      return res.status(400).json({
+        error: 'no_state_machine',
+        message: 'Task does not have an approval state machine'
+      })
+    }
+    const action = {
+      type: req.body.type || 'submit',
+      verdict: req.body.verdict || 'approve',
+      agent: req.body.agent || 'http_api',
+      reason: req.body.reason || 'Approved via API'
+    }
+    sm.transition(action)
+    logAudit('approval_transition', {
+      taskId: req.params.id,
+      action,
+      newState: sm.getState()
+    })
+    res.json({
+      taskId: req.params.id,
+      state: sm.getState(),
+      verdicts: sm.getVerdicts(),
+      history: sm.getHistory()
+    })
+  } catch (error) {
+    res.status(500).json({ error: 'approval_error', message: error.message })
+  }
+})
+
+// Send agent heartbeat
+app.post('/api/heartbeats', async (req, res) => {
+  const { agentId, payload } = req.body
+  if (!agentId || typeof agentId !== 'string') {
+    return res.status(400).json({
+      error: 'invalid_agent_id',
+      message: 'Required: agentId (string)'
+    })
+  }
+
+  try {
+    const orchestrator = await getOrchestrator()
+    const result = await orchestrator.sendHeartbeat(agentId, payload || {})
+    res.json(result)
+  } catch (error) {
+    res.status(500).json({ error: 'heartbeat_error', message: error.message })
+  }
+})
+
+// Get budget status
+app.get('/api/budget', async (req, res) => {
+  try {
+    const orchestrator = await getOrchestrator()
+    const result = await orchestrator.getBudgetStatus()
+    res.json(result)
+  } catch (error) {
+    res.status(500).json({ error: 'budget_error', message: error.message })
+  }
+})
+
+// Orchestration audit trail (filtered to orchestrator events)
+app.get('/api/orchestration/audit', async (req, res) => {
+  try {
+    const orchestrator = await getOrchestrator()
+    const events = await orchestrator.queryAuditTrail(req.query)
+    res.json({ events })
+  } catch (error) {
+    res.status(500).json({ error: 'audit_error', message: error.message })
+  }
+})
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({
@@ -424,6 +552,12 @@ app.use((req, res) => {
       'GET /api/audit-log',
       'POST /api/webhooks',
       'GET /api/webhooks/:url/deliveries',
+      'GET /api/tasks/:id',
+      'PATCH /api/tasks/:id',
+      'POST /api/tasks/:id/approve',
+      'POST /api/heartbeats',
+      'GET /api/budget',
+      'GET /api/orchestration/audit',
       'GET /health'
     ]
   })

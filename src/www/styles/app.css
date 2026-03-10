@@ -533,6 +533,87 @@ body {
   justify-content: center;
 }
 
+/* Orchestration Banner (ResultsDisplay) */
+.orchestration-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+}
+
+.orchestration-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.orchestration-icon {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.orchestration-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.orchestration-task-id {
+  font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.8rem;
+  background: var(--bg-tertiary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+
+.orchestration-status {
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+}
+
+.orchestration-status.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.orchestration-status.status-in_progress {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.orchestration-status.status-completed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.orchestration-status.status-failed {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.orchestration-status.status-unknown {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* Orchestration stats in Dashboard */
+.orch-status-ready {
+  color: var(--success-color) !important;
+}
+
+.orch-status-off {
+  color: var(--error-color) !important;
+}
+
 /* Dashboard */
 .dashboard-panel {
   background: var(--bg-primary);
