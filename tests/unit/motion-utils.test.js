@@ -1,8 +1,8 @@
 /**
  * F1-16 through F1-25: Motion Utilities Unit Tests
- * Phase F - Unit Testing Sprint
+ * Unit Tests — Motion Utilities
  *
- * Tests the motion/animation utility functions created in Phase D
+ * Tests the motion/animation utility functions (easing, stagger, spring)
  * Tests animation generators, timing utilities, and performance hints
  */
 

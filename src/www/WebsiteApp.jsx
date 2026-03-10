@@ -12,6 +12,13 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
 import Features from './components/Features';
+import WhoIsFor from './components/WhoIsFor';
+import UseCases from './components/UseCases';
+import WhyNow from './components/WhyNow';
+import AfterClick from './components/AfterClick';
+import RealTime from './components/RealTime';
+import WhyDifferent from './components/WhyDifferent';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import './styles/layout.css';
 import './styles/header.css';
@@ -35,6 +42,13 @@ export default function WebsiteApp() {
             <Hero />
             <HowItWorks />
             <Features />
+            <WhoIsFor />
+            <UseCases />
+            <WhyNow />
+            <AfterClick />
+            <RealTime />
+            <WhyDifferent />
+            <FAQ />
           </main>
 
           <Footer />

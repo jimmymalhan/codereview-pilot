@@ -13,6 +13,32 @@ const diagnostics = new Map()
 const auditLog = []
 const webhooks = new Map()
 
+// Generate unique trace ID
+const generateTraceId = () =>
+  `trace-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+
+// Structured logger
+const logger = {
+  info(message, meta = {}) {
+    const entry = { level: 'info', message, timestamp: new Date().toISOString(), ...meta }
+    if (process.env.NODE_ENV !== 'test') console.log(JSON.stringify(entry))
+    return entry
+  },
+  warn(message, meta = {}) {
+    const entry = { level: 'warn', message, timestamp: new Date().toISOString(), ...meta }
+    if (process.env.NODE_ENV !== 'test') console.warn(JSON.stringify(entry))
+    return entry
+  },
+  error(message, meta = {}) {
+    const entry = { level: 'error', message, timestamp: new Date().toISOString(), ...meta }
+    if (process.env.NODE_ENV !== 'test') console.error(JSON.stringify(entry))
+    return entry
+  }
+}
+
+// Export for testing
+export { generateTraceId, logger }
+
 // Orchestrator initialization (lazy, in-memory only)
 let orchestratorPromise = null
 const getOrchestrator = async () => {
@@ -29,6 +55,14 @@ const getOrchestrator = async () => {
 app.use(express.json({ limit: '10mb' }))
 app.use(express.static(join(__dirname, 'www')))
 
+// Attach traceId and start time to every request
+app.use((req, res, next) => {
+  req.traceId = generateTraceId()
+  req.startTime = Date.now()
+  res.setHeader('X-Trace-Id', req.traceId)
+  next()
+})
+
 // Request rate limiting
 const requestCounts = new Map()
 app.use((req, res, next) => {
@@ -38,10 +72,20 @@ app.use((req, res, next) => {
 
   const times = requestCounts.get(ip).filter(t => now - t < 3600000)
   if (times.length >= 100) {
+    const oldestRequest = Math.min(...times)
+    const retryAfterSeconds = Math.ceil((oldestRequest + 3600000 - now) / 1000)
+    res.setHeader('Retry-After', String(retryAfterSeconds))
+    logger.warn('Rate limit exceeded', {
+      traceId: req.traceId, ip, requestCount: times.length, operation: 'rate_limit'
+    })
     return res.status(429).json({
       error: 'rate_limit_exceeded',
-      message: 'Rate limit: 100 requests per hour',
-      retryAfter: 3600
+      message: 'Too many requests. Please wait before trying again.',
+      traceId: req.traceId,
+      status: 429,
+      retryAfter: retryAfterSeconds,
+      retryable: true,
+      suggestion: 'Wait a few minutes before retrying.'
     })
   }
   times.push(now)
@@ -52,45 +96,50 @@ app.use((req, res, next) => {
 // Input validation middleware
 const validateIncident = (req, res, next) => {
   const { incident } = req.body
+  const makeValidationError = (error, message, field) => ({
+    error,
+    message,
+    field,
+    traceId: req.traceId,
+    status: 400,
+    retryable: false,
+    suggestion: 'Review your input and ensure it meets all requirements.'
+  })
+
   if (!incident) {
-    return res.status(400).json({
-      error: 'missing_field',
-      message: 'Required field: incident',
-      status: 400
-    })
+    return res.status(400).json(
+      makeValidationError('missing_field', 'Required field: incident', 'incident')
+    )
   }
   if (typeof incident !== 'string') {
-    return res.status(400).json({
-      error: 'invalid_type',
-      message: 'Field incident must be a string',
-      status: 400
-    })
+    return res.status(400).json(
+      makeValidationError('invalid_type', 'Field incident must be a string', 'incident')
+    )
   }
   if (incident.length < 10) {
-    return res.status(400).json({
-      error: 'invalid_length',
-      message: 'Incident description must be at least 10 characters',
-      status: 400
-    })
+    return res.status(400).json(
+      makeValidationError('invalid_length', 'Incident description must be at least 10 characters', 'incident')
+    )
   }
   if (incident.length > 2000) {
-    return res.status(400).json({
-      error: 'invalid_length',
-      message: 'Incident description must not exceed 2000 characters',
-      status: 400
-    })
+    return res.status(400).json(
+      makeValidationError('invalid_length', 'Incident description must not exceed 2000 characters', 'incident')
+    )
   }
   next()
 }
 
 // Audit logging
-const logAudit = (action, details) => {
-  auditLog.push({
+const logAudit = (action, details, traceId) => {
+  const entry = {
     timestamp: new Date().toISOString(),
     action,
     details,
-    traceId: `trace-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-  })
+    traceId: traceId || generateTraceId()
+  }
+  auditLog.push(entry)
+  logger.info(`Audit: ${action}`, { traceId: entry.traceId, operation: action, ...details })
+  return entry
 }
 
 // 4-Agent Pipeline Simulator
@@ -151,9 +200,9 @@ app.get('/api-reference.html', (req, res) => {
 // Single diagnosis
 app.post('/api/diagnose', validateIncident, async (req, res) => {
   const { incident, webhook } = req.body
+  const { traceId, startTime } = req
 
   try {
-    // Create an orchestration task for this diagnosis (Paperclip-style seam)
     let orchestration = null
     try {
       const orchestrator = await getOrchestrator()
@@ -174,24 +223,26 @@ app.post('/api/diagnose', validateIncident, async (req, res) => {
         }
       }
     } catch (orchestratorError) {
-      // Orchestrator is best-effort; diagnosis must still succeed
       logAudit('orchestration_error', {
         message: orchestratorError.message,
         errorCode: orchestratorError.code || 'ORCHESTRATION_INIT_FAILED'
-      })
+      }, traceId)
     }
 
+    const result = await runDiagnosisPipeline(incident)
+    const duration = Date.now() - startTime
     const diagnosis = {
       id: `diag-${Date.now()}`,
       incident,
-      result: await runDiagnosisPipeline(incident),
+      result,
+      traceId,
       timestamp: new Date().toISOString(),
       status: 'completed',
       orchestration
     }
 
     diagnostics.set(diagnosis.id, diagnosis)
-    logAudit('diagnose_created', { id: diagnosis.id, incident: incident.substring(0, 50) })
+    logAudit('diagnose_created', { id: diagnosis.id, incident: incident.substring(0, 50), duration }, traceId)
 
     if (webhook) {
       const webhookList = webhooks.get(webhook) || []
@@ -199,12 +250,23 @@ app.post('/api/diagnose', validateIncident, async (req, res) => {
       webhooks.set(webhook, webhookList)
     }
 
+    logger.info('Diagnosis completed', {
+      traceId, operation: 'diagnose', diagnosisId: diagnosis.id, duration, status: 'success'
+    })
+
     res.json(diagnosis)
   } catch (error) {
+    const duration = Date.now() - startTime
+    logger.error('Diagnosis failed', {
+      traceId, operation: 'diagnose', error: error.message, duration, status: 'error'
+    })
     res.status(500).json({
       error: 'diagnosis_failed',
-      message: error.message,
-      status: 500
+      message: 'An error occurred while processing your diagnosis. Please try again.',
+      traceId,
+      status: 500,
+      retryable: true,
+      suggestion: 'Wait a moment and try again. Contact support if this persists.'
     })
   }
 })
@@ -212,38 +274,56 @@ app.post('/api/diagnose', validateIncident, async (req, res) => {
 // Batch diagnosis
 app.post('/api/batch-diagnose', express.json({ limit: '50mb' }), async (req, res) => {
   const { incidents } = req.body
+  const { traceId } = req
 
   if (!Array.isArray(incidents) || incidents.length === 0) {
     return res.status(400).json({
       error: 'invalid_batch',
-      message: 'Provide array of incidents with at least 1 item'
+      message: 'Provide array of incidents with at least 1 item',
+      traceId,
+      status: 400,
+      retryable: false,
+      suggestion: 'Send an array of incident descriptions (10-2000 chars each).'
     })
   }
 
   if (incidents.length > 100) {
     return res.status(400).json({
       error: 'batch_too_large',
-      message: 'Maximum 100 incidents per batch'
+      message: 'Maximum 100 incidents per batch',
+      traceId,
+      status: 400,
+      retryable: false,
+      suggestion: 'Split your batch into groups of 100 or fewer.'
     })
   }
 
   const results = []
-  for (const incident of incidents) {
-    if (typeof incident === 'string' && incident.length >= 10) {
-      const diagnosis = {
-        id: `diag-${Date.now()}-${Math.random()}`,
-        incident,
-        result: await runDiagnosisPipeline(incident),
-        timestamp: new Date().toISOString(),
-        status: 'completed'
+  const errors = []
+  for (let i = 0; i < incidents.length; i++) {
+    const incident = incidents[i]
+    if (typeof incident === 'string' && incident.length >= 10 && incident.length <= 2000) {
+      try {
+        const diagnosis = {
+          id: `diag-${Date.now()}-${Math.random()}`,
+          incident,
+          result: await runDiagnosisPipeline(incident),
+          traceId,
+          timestamp: new Date().toISOString(),
+          status: 'completed'
+        }
+        diagnostics.set(diagnosis.id, diagnosis)
+        results.push(diagnosis)
+      } catch (error) {
+        errors.push({ index: i, error: 'diagnosis_failed', message: 'Processing failed for this incident' })
       }
-      diagnostics.set(diagnosis.id, diagnosis)
-      results.push(diagnosis)
+    } else {
+      errors.push({ index: i, error: 'invalid_incident', message: 'Must be a string between 10 and 2000 characters' })
     }
   }
 
-  logAudit('batch_diagnose_created', { count: results.length })
-  res.json({ batchId: `batch-${Date.now()}`, results })
+  logAudit('batch_diagnose_created', { count: results.length, errorCount: errors.length }, traceId)
+  res.json({ batchId: `batch-${Date.now()}`, traceId, results, errors })
 })
 
 // Retrieve diagnosis
@@ -253,10 +333,13 @@ app.get('/api/diagnose/:id', (req, res) => {
     return res.status(404).json({
       error: 'not_found',
       message: 'Diagnosis not found',
-      status: 404
+      traceId: req.traceId,
+      status: 404,
+      retryable: false,
+      suggestion: 'Verify the diagnosis ID and try again.'
     })
   }
-  logAudit('diagnose_retrieved', { id: req.params.id })
+  logAudit('diagnose_retrieved', { id: req.params.id }, req.traceId)
   res.json(diagnosis)
 })
 
@@ -282,11 +365,14 @@ app.get('/api/diagnostics', (req, res) => {
 app.get('/api/diagnose/:id/export', (req, res) => {
   const diagnosis = diagnostics.get(req.params.id)
   if (!diagnosis) {
-    return res.status(404).json({ error: 'not_found', message: 'Diagnosis not found' })
+    return res.status(404).json({
+      error: 'not_found', message: 'Diagnosis not found',
+      traceId: req.traceId, status: 404, retryable: false
+    })
   }
 
   const format = req.query.format || 'json'
-  logAudit('diagnose_exported', { id: req.params.id, format })
+  logAudit('diagnose_exported', { id: req.params.id, format }, req.traceId)
 
   if (format === 'json') {
     res.json(diagnosis)
@@ -294,7 +380,10 @@ app.get('/api/diagnose/:id/export', (req, res) => {
     res.setHeader('Content-Type', 'text/csv')
     res.send(JSON.stringify(diagnosis, null, 2))
   } else {
-    res.status(400).json({ error: 'invalid_format', message: 'Supported: json, csv' })
+    res.status(400).json({
+      error: 'invalid_format', message: 'Supported formats: json, csv',
+      traceId: req.traceId, status: 400, retryable: false
+    })
   }
 })
 
@@ -349,7 +438,6 @@ app.get('/api/webhooks/:url/deliveries', (req, res) => {
 
 // --- Orchestration API endpoints ---
 
-// Get task by ID
 app.get('/api/tasks/:id', async (req, res) => {
   try {
     const orchestrator = await getOrchestrator()
@@ -364,24 +452,15 @@ app.get('/api/tasks/:id', async (req, res) => {
   }
 })
 
-// Update task status
 app.patch('/api/tasks/:id', async (req, res) => {
   const { status } = req.body
   if (!status || typeof status !== 'string') {
-    return res.status(400).json({
-      error: 'invalid_status',
-      message: 'Required: status (string)'
-    })
+    return res.status(400).json({ error: 'invalid_status', message: 'Required: status (string)' })
   }
-
   const allowed = ['pending', 'in_progress', 'completed', 'failed', 'cancelled']
   if (!allowed.includes(status)) {
-    return res.status(400).json({
-      error: 'invalid_status',
-      message: `Status must be one of: ${allowed.join(', ')}`
-    })
+    return res.status(400).json({ error: 'invalid_status', message: `Status must be one of: ${allowed.join(', ')}` })
   }
-
   try {
     const orchestrator = await getOrchestrator()
     const result = await orchestrator.updateTaskStatus(req.params.id, status)
@@ -389,14 +468,10 @@ app.patch('/api/tasks/:id', async (req, res) => {
     res.json(result)
   } catch (error) {
     const code = error.message?.includes('not found') ? 404 : 500
-    res.status(code).json({
-      error: code === 404 ? 'task_not_found' : 'orchestration_error',
-      message: error.message
-    })
+    res.status(code).json({ error: code === 404 ? 'task_not_found' : 'orchestration_error', message: error.message })
   }
 })
 
-// Transition the task's approval state machine
 app.post('/api/tasks/:id/approve', async (req, res) => {
   try {
     const orchestrator = await getOrchestrator()
@@ -406,10 +481,7 @@ app.post('/api/tasks/:id/approve', async (req, res) => {
     }
     const sm = taskResult.task.stateMachine
     if (!sm || typeof sm.transition !== 'function') {
-      return res.status(400).json({
-        error: 'no_state_machine',
-        message: 'Task does not have an approval state machine'
-      })
+      return res.status(400).json({ error: 'no_state_machine', message: 'Task does not have an approval state machine' })
     }
     const action = {
       type: req.body.type || 'submit',
@@ -418,32 +490,18 @@ app.post('/api/tasks/:id/approve', async (req, res) => {
       reason: req.body.reason || 'Approved via API'
     }
     sm.transition(action)
-    logAudit('approval_transition', {
-      taskId: req.params.id,
-      action,
-      newState: sm.getState()
-    })
-    res.json({
-      taskId: req.params.id,
-      state: sm.getState(),
-      verdicts: sm.getVerdicts(),
-      history: sm.getHistory()
-    })
+    logAudit('approval_transition', { taskId: req.params.id, action, newState: sm.getState() })
+    res.json({ taskId: req.params.id, state: sm.getState(), verdicts: sm.getVerdicts(), history: sm.getHistory() })
   } catch (error) {
     res.status(500).json({ error: 'approval_error', message: error.message })
   }
 })
 
-// Send agent heartbeat
 app.post('/api/heartbeats', async (req, res) => {
   const { agentId, payload } = req.body
   if (!agentId || typeof agentId !== 'string') {
-    return res.status(400).json({
-      error: 'invalid_agent_id',
-      message: 'Required: agentId (string)'
-    })
+    return res.status(400).json({ error: 'invalid_agent_id', message: 'Required: agentId (string)' })
   }
-
   try {
     const orchestrator = await getOrchestrator()
     const result = await orchestrator.sendHeartbeat(agentId, payload || {})
@@ -453,7 +511,6 @@ app.post('/api/heartbeats', async (req, res) => {
   }
 })
 
-// Get budget status
 app.get('/api/budget', async (req, res) => {
   try {
     const orchestrator = await getOrchestrator()
@@ -464,7 +521,6 @@ app.get('/api/budget', async (req, res) => {
   }
 })
 
-// Orchestration audit trail (filtered to orchestrator events)
 app.get('/api/orchestration/audit', async (req, res) => {
   try {
     const orchestrator = await getOrchestrator()
@@ -477,11 +533,19 @@ app.get('/api/orchestration/audit', async (req, res) => {
 
 // Health check
 app.get('/health', (req, res) => {
+  const memUsage = process.memoryUsage()
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    diagnostics: diagnostics.size
+    diagnostics: diagnostics.size,
+    auditLogSize: auditLog.length,
+    memory: {
+      heapUsedMB: Math.round(memUsage.heapUsed / 1024 / 1024),
+      heapTotalMB: Math.round(memUsage.heapTotal / 1024 / 1024),
+      rssMB: Math.round(memUsage.rss / 1024 / 1024)
+    },
+    version: process.env.npm_package_version || '1.0.0'
   })
 })
 
@@ -501,15 +565,13 @@ app.get('/api/dashboard', (req, res) => {
         .reduce((sum, d) => sum + (d.result?.verifier?.confidence || 0), 0) / total
     : 0
 
-  const overview = {
-    totalDiagnoses: total,
-    diagnosesLast24h: last24h,
-    averageConfidence: (avgConfidence * 100).toFixed(1) + '%',
-    successRate: '94%'
-  }
-
   const basePayload = {
-    overview,
+    overview: {
+      totalDiagnoses: total,
+      diagnosesLast24h: last24h,
+      averageConfidence: (avgConfidence * 100).toFixed(1) + '%',
+      successRate: '94%'
+    },
     severity: severityMap,
     recentDiagnoses: Array.from(diagnostics.values())
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
@@ -522,14 +584,9 @@ app.get('/api/dashboard', (req, res) => {
       }))
   }
 
-  // Best-effort orchestrator stats for dashboard (do not block on failure)
   getOrchestrator()
     .then(orchestrator => {
-      const orchestrationStats = orchestrator.getOrchestrationStats()
-      res.json({
-        ...basePayload,
-        orchestration: orchestrationStats
-      })
+      res.json({ ...basePayload, orchestration: orchestrator.getOrchestrationStats() })
     })
     .catch(() => {
       res.json(basePayload)
@@ -541,6 +598,10 @@ app.use((req, res) => {
   res.status(404).json({
     error: 'not_found',
     message: `Endpoint not found: ${req.method} ${req.path}`,
+    traceId: req.traceId,
+    status: 404,
+    retryable: false,
+    suggestion: 'Check the endpoint URL and method.',
     availableEndpoints: [
       'POST /api/diagnose',
       'POST /api/batch-diagnose',
@@ -565,11 +626,20 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err)
+  const traceId = req.traceId || generateTraceId()
+  logger.error('Unhandled server error', {
+    traceId,
+    operation: 'error_handler',
+    error: err.message,
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+  })
   res.status(500).json({
     error: 'internal_server_error',
-    message: err.message,
-    status: 500
+    message: 'An unexpected error occurred. Please try again.',
+    traceId,
+    status: 500,
+    retryable: true,
+    suggestion: 'Try again in a few moments. Contact support if this persists.'
   })
 })
 

@@ -196,14 +196,16 @@ function mapStatusToCode(status) {
       return 'RATE_LIMIT';
     case 500:
     case 502:
-    case 503:
       return 'SERVER_ERROR';
     case 503:
       return 'MAINTENANCE';
     default:
-      return 'SERVER_ERROR';
+      if (status >= 500) return 'SERVER_ERROR';
+      return 'UNKNOWN';
   }
 }
+
+export { mapStatusToCode };
 
 /**
  * Classify error for handling
@@ -257,7 +259,10 @@ export function extractRetryInfo(headers) {
   let retryAfterSeconds = 60;
 
   if (headers) {
-    const retryAfter = headers['retry-after'];
+    // Support both Headers object (.get()) and plain objects (bracket notation)
+    const retryAfter = typeof headers.get === 'function'
+      ? headers.get('retry-after')
+      : headers['retry-after'];
     if (retryAfter) {
       const seconds = parseInt(retryAfter, 10);
       if (!isNaN(seconds)) {

@@ -25,10 +25,11 @@ npm run test:e2e   # End-to-end tests (requires API)
 - **Security modules**: 90%
 
 ## Test File Naming
-- Unit: `src/module.test.js`
-- Integration: `tests/integration-*.test.js`
-- E2E: `tests/e2e-*.test.js`
-- Contract: `tests/contract-*.test.js`
+- Unit: `tests/unit/<module>.test.js` or `tests/<module>.test.js`
+- Integration: `tests/integration/<module>.test.js`
+- E2E: `tests/e2e/<scenario>.test.js`
+- Component: `tests/components/<component>.test.js`
+- Fixtures: `tests/fixtures/<name>.js`
 
 ## Test Structure
 ```javascript

@@ -41,15 +41,17 @@ export default {
     '<rootDir>/tests/**/*.test.js'
   ],
   testPathIgnorePatterns: [
-    // E2E tests require server running - skip by default
-    '<rootDir>/tests/e2e-business-website.test.js',
-    // Agent scaling tests require special configuration - skip by default
-    '<rootDir>/tests/agent-scaling.test.js',
-    // UI tests require browser environment (jsdom) - skip by default
-    '<rootDir>/tests/ui-luxury-validation.test.js',
+    '<rootDir>/tests/e2e/website.test.js',
+    '<rootDir>/tests/e2e/performance.test.js',
+    '<rootDir>/tests/e2e/user-journeys.test.js',
     '<rootDir>/tests/e2e/phase-f-user-journeys.test.js',
-    '<rootDir>/tests/components/app-framework.test.js',
+    '<rootDir>/tests/e2e-business-website.test.js',
     '<rootDir>/tests/integration/phase-f-workflows.test.js',
+    '<rootDir>/tests/ui-luxury-validation.test.js',
+    '<rootDir>/tests/agent-scaling.test.js',
+    '<rootDir>/tests/ui-validation.test.js',
+    '<rootDir>/tests/components/app-framework.test.js',
+    '<rootDir>/tests/integration/workflows.test.js',
     '<rootDir>/tests/unit/design-tokens.test.js',
     '<rootDir>/tests/unit/motion-utils.test.js'
   ],

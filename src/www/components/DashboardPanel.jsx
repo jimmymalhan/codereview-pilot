@@ -12,7 +12,6 @@ export default function DashboardPanel({ data }) {
       </div>
 
       <div className="dashboard-sections">
-        {/* Overview */}
         <section className="dashboard-section">
           <h4>Overview</h4>
           <div className="overview-grid">
@@ -35,7 +34,6 @@ export default function DashboardPanel({ data }) {
           </div>
         </section>
 
-        {/* Severity Breakdown */}
         {Object.keys(severity).length > 0 && (
           <section className="dashboard-section">
             <h4>Severity Breakdown</h4>
@@ -50,7 +48,6 @@ export default function DashboardPanel({ data }) {
           </section>
         )}
 
-        {/* Orchestration Stats */}
         {orchestration && (
           <section className="dashboard-section">
             <h4>Orchestration</h4>
@@ -81,7 +78,6 @@ export default function DashboardPanel({ data }) {
           </section>
         )}
 
-        {/* Recent Diagnoses */}
         {recentDiagnoses && recentDiagnoses.length > 0 && (
           <section className="dashboard-section">
             <h4>Recent Diagnoses</h4>
@@ -90,9 +86,7 @@ export default function DashboardPanel({ data }) {
                 <div key={diag.id} className="recent-item">
                   <div className="recent-incident">
                     <p className="incident-text">{diag.incident}</p>
-                    <p className="incident-time">
-                      {new Date(diag.timestamp).toLocaleTimeString()}
-                    </p>
+                    <p className="incident-time">{new Date(diag.timestamp).toLocaleTimeString()}</p>
                   </div>
                   <div className={`recent-confidence confidence-${diag.confidence > 85 ? 'high' : 'medium'}`}>
                     {diag.confidence}%

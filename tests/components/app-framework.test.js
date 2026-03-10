@@ -1,6 +1,6 @@
 /**
  * F2-01 through F2-15: App Framework Component Tests
- * Phase F - Component Testing Sprint
+ * Component Tests — App Framework
  *
  * Tests the main App framework (src/www/js/app.js)
  * Tests navigation, state management, UI interactions, and accessibility

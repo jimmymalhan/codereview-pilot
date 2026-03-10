@@ -198,7 +198,9 @@ Never claim high confidence without evidence.
    - All task criteria met ✓
    - Tests passing ✓
    - Evidence documented ✓
-   - Rollback path safe ✓
+
+## Homepage Premium Standard
+Homepage upgrades are treated as a discrete mini-project. Agents should reference `docs/HOMEPAGE_UPGRADE_CHECKLIST.md` which enumerates sections, copy requirements, visual and motion goals, and QA criteria. New homepage work must be idempotent: checks should detect completed tasks and skip them so repeated prompts do not redo work. Storytelling, performance, and backend alignment are first‑class concerns. Use existing components and design tokens; avoid copycat dashboards or vague marketing language.
 
 ## Cost Optimization Notes
 

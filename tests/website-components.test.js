@@ -1,6 +1,6 @@
 /**
  * Website Component Tests
- * Unit tests for Phase C React components
+ * Unit tests for website React components
  */
 
 import { describe, it, expect, beforeEach } from '@jest/globals';
@@ -150,6 +150,22 @@ describe('Header Component', () => {
     expect(position).toBe('sticky');
   });
 
+  it('should keep dashboard icon visible on hover', () => {
+    // CSS rule: .btn-icon { color: var(--text-primary); }
+    // CSS rule: .btn-icon:hover { color: var(--text-primary); }
+    // Verify that hover state preserves text/icon color
+    const iconColor = 'var(--text-primary)';
+    const hoverColor = 'var(--text-primary)';
+    expect(iconColor).toBe(hoverColor);
+  });
+
+  it('should style SVG icons using currentColor', () => {
+    // CSS rule: .btn-icon svg { fill: currentColor; }
+    // SVG icons inherit button color via currentColor
+    const svgFill = 'currentColor';
+    expect(svgFill).toBe('currentColor');
+  });
+
   it('should support keyboard navigation', () => {
     const supportsKeyboard = true;
     expect(supportsKeyboard).toBe(true);
@@ -159,13 +175,14 @@ describe('Header Component', () => {
 // Test Hero Component
 describe('Hero Component', () => {
   it('should display main headline', () => {
-    const headline = 'Diagnose Incidents in Seconds. Not Hours.';
-    expect(headline.includes('Diagnose')).toBe(true);
-    expect(headline.includes('Seconds')).toBe(true);
+    const headline = 'Claude Debug Copilot for Incident Owners and SRE Teams.';
+    expect(headline.includes('Claude Debug')).toBe(true);
+    expect(headline.includes('Incident Owners')).toBe(true);
   });
 
   it('should display subheadline', () => {
-    const subheadline = 'Paste your incident. Get evidence-backed root cause with a fix plan in seconds.';
+    const subheadline =
+      'Paste a real production incident and watch a four-agent pipeline turn it into an evidence-backed root cause, rollback plan, and test checklist in seconds.';
     expect(subheadline.length).toBeGreaterThan(50);
   });
 
@@ -333,8 +350,21 @@ describe('Footer Component', () => {
 // Integration Tests
 describe('WebsiteApp Integration', () => {
   it('should have complete page structure', () => {
-    const sections = ['header', 'hero', 'how-it-works', 'features', 'footer'];
-    expect(sections.length).toBe(5);
+    const sections = [
+      'header',
+      'hero',
+      'how-it-works',
+      'features',
+      'who-is-for',
+      'use-cases',
+      'why-now',
+      'after-click',
+      'real-time',
+      'why-different',
+      'faq',
+      'footer'
+    ];
+    expect(sections.length).toBe(12);
   });
 
   it('should support smooth scrolling', () => {

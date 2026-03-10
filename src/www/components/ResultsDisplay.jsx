@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PipelineVisualization from './PipelineVisualization'
+
+function getConfidenceLevel(confidence) {
+  if (confidence >= 85) return 'high'
+  if (confidence >= 60) return 'medium'
+  return 'low'
+}
 
 export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
   const [copied, setCopied] = useState(false)
   const { result } = diagnosis
   const confidence = (result.verifier.confidence * 100).toFixed(0)
+  const confidenceLevel = getConfidenceLevel(Number(confidence))
+  const orch = diagnosis.orchestration
 
   const handleCopy = async () => {
     try {
@@ -16,16 +24,18 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
     }
   }
 
-  const orch = diagnosis.orchestration
-
   return (
-    <div className="results-container">
+    <div className="results-container" role="region" aria-label="Diagnosis results">
       <div className="results-header">
         <div className="header-content">
           <h2>Analysis Complete</h2>
           <p className="subtitle">Your incident diagnosis is ready</p>
         </div>
-        <div className={`confidence-badge confidence-${confidence > 85 ? 'high' : 'medium'}`}>
+        <div
+          className={`confidence-badge confidence-${confidenceLevel}`}
+          role="status"
+          aria-label={`Confidence score: ${confidence} percent, ${confidenceLevel} confidence`}
+        >
           <span className="confidence-value">{confidence}%</span>
           <span className="confidence-label">Confidence</span>
         </div>
@@ -45,13 +55,11 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
       )}
 
       <div className="results-sections">
-        {/* Pipeline */}
         <section className="result-section">
           <h3 className="section-title">Analysis Pipeline</h3>
           <PipelineVisualization result={result} />
         </section>
 
-        {/* Root Cause */}
         <section className="result-section">
           <h3 className="section-title">🎯 Root Cause</h3>
           <div className="result-content">
@@ -59,7 +67,6 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
           </div>
         </section>
 
-        {/* Evidence */}
         <section className="result-section">
           <h3 className="section-title">📋 Evidence Found</h3>
           <div className="evidence-list">
@@ -72,7 +79,6 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
           </div>
         </section>
 
-        {/* Fix Plan */}
         <section className="result-section">
           <h3 className="section-title">🔧 Fix Plan</h3>
           <ol className="fix-list">
@@ -85,7 +91,6 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
           </ol>
         </section>
 
-        {/* Rollback */}
         <section className="result-section">
           <h3 className="section-title">↩️ Rollback Plan</h3>
           <div className="result-content">
@@ -93,7 +98,6 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
           </div>
         </section>
 
-        {/* Tests */}
         <section className="result-section">
           <h3 className="section-title">🧪 Recommended Tests</h3>
           <ul className="test-list">
@@ -108,27 +112,12 @@ export default function ResultsDisplay({ diagnosis, onReset, onExport }) {
       </div>
 
       <div className="results-actions">
-        <button
-          className={`btn btn-secondary ${copied ? 'success' : ''}`}
-          onClick={handleCopy}
-          title="Copy to clipboard"
-        >
+        <button className={`btn btn-secondary ${copied ? 'success' : ''}`} onClick={handleCopy} title="Copy to clipboard">
           {copied ? '✓ Copied!' : '📋 Copy Results'}
         </button>
-        <button
-          className="btn btn-secondary"
-          onClick={() => onExport('json')}
-          title="Export as JSON"
-        >
-          📥 Export JSON
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={onReset}
-          title="Start new diagnosis"
-        >
-          🔄 New Diagnosis
-        </button>
+        <button className="btn btn-secondary" onClick={() => onExport('json')} title="Export as JSON">📥 Export JSON</button>
+        <button className="btn btn-secondary" onClick={() => onExport('csv')} title="Export as CSV">📥 Export CSV</button>
+        <button className="btn btn-primary" onClick={onReset} title="Start new diagnosis">🔄 New Diagnosis</button>
       </div>
     </div>
   )

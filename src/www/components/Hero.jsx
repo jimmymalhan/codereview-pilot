@@ -39,12 +39,12 @@ export default function Hero() {
   }, []);
 
   const handleDiagnoseClick = () => {
-    // Navigate to the diagnostic tool
-    window.location.href = '/diagnose';
+    // Scroll to the main diagnosis flow on the core app
+    window.location.href = '/#diagnose';
   };
 
   const handleLearnMore = () => {
-    // Scroll to how-it-works section
+    // Scroll to how-it-works section on the homepage
     const section = document.getElementById('how-it-works');
     section?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -53,15 +53,16 @@ export default function Hero() {
     <section className="hero" id="hero" role="region" aria-label="Hero section">
       <div className="hero-content" ref={contentRef}>
         <h1 className="hero-heading">
-          Diagnose Incidents
+          Claude Debug Copilot
           <br />
-          in Seconds.
+          for Incident Owners
           <br />
-          Not Hours.
+          and SRE Teams.
         </h1>
 
         <p className="hero-subheadline">
-          Paste your incident. Get evidence-backed root cause with a fix plan in seconds.
+          Paste a real production incident and watch a four-agent pipeline turn it into
+          an evidence-backed root cause, rollback plan, and test checklist in seconds.
         </p>
 
         <div className="hero-cta-group">

@@ -31,7 +31,7 @@ export default function Features() {
     {
       icon: '⚡',
       title: 'Lightning Fast',
-      description: 'Get diagnosis in 16-30 seconds, not hours of manual investigation.',
+      description: 'Turn an unstructured incident into an end-to-end diagnosis in seconds, not hours of manual investigation.',
     },
     {
       icon: '🎯',
@@ -50,8 +50,8 @@ export default function Features() {
     },
     {
       icon: '📊',
-      title: 'Instant RCA',
-      description: 'Generate root cause analysis automatically for incident reports and knowledge base.',
+      title: 'What You Can Do',
+      description: 'Paste an incident, batch-diagnose multiple failures, and export results into your runbooks and postmortems.',
     },
     {
       icon: '🛡️',

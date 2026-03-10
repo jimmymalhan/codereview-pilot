@@ -1,5 +1,5 @@
 /**
- * Phase 4 Advanced Features Tests
+ * Orchestrator Advanced Features Tests
  *
  * Monitoring, Performance, Extended Framework, Security, Reporting
  */
@@ -13,7 +13,7 @@ import { TaskManager } from '../src/orchestrator/task-manager.js';
 import { BudgetEnforcer } from '../src/orchestrator/budget-enforcer.js';
 import { HeartbeatMonitor } from '../src/orchestrator/heartbeat-monitor.js';
 
-describe('Phase 4: Advanced Features Tests', () => {
+describe('Orchestrator Advanced Features', () => {
   let dashboard, optimizer, framework, auditLogger, taskManager, budgetEnforcer, monitor;
 
   beforeEach(() => {

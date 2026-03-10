@@ -178,6 +178,15 @@ List anything not yet proven:
 ✅ "[UNKNOWN] Load testing not done yet"
 ✅ "Rollback: git revert abc123def - verified safe"
 
+## Lessons Learned (From Stakeholder Feedback)
+
+1. **Run tests after every rename.** File renames and moves change import paths. Run `npm test` immediately after any git mv to catch breakage early.
+2. **Don't claim sandbox limits — work around them.** If a command can't run in the current environment, provide the exact command for the user to run locally with zero placeholders.
+3. **Verify changes are visible.** After editing UI files, confirm the change appears on `localhost:3000`. Don't assume the browser auto-refreshes or the server auto-reloads.
+4. **Conventional commits are evidence.** Use `type(scope): description` format. The commit log IS the audit trail — sloppy messages erode trust.
+5. **Idempotent checks save tokens.** Before editing, check if the work is already done. Read `CHANGELOG.md` and `git log` to avoid redoing completed tasks.
+6. **Never invent test results.** Only report numbers from actual `npm test` output. "1117 passing" means you ran the command and saw that number.
+
 ## When Blocked
 
 If you cannot gather evidence:

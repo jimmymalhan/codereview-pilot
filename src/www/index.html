@@ -6,8 +6,9 @@
   <meta name="description" content="Claude Debug Copilot - Incident Diagnosis Made Simple">
   <meta name="theme-color" content="#ffffff">
   <!-- Preconnect to external resources for faster loading -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <!-- Performance: Enable resource hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="dns-prefetch" href="//anthropic.com">
   <title>Claude Debug Copilot - Diagnose Incidents Instantly</title>
   <style>
@@ -25,8 +26,8 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #fafafa;
       color: #1d1d1f;
       line-height: 1.6;
       overflow-x: hidden;
@@ -236,9 +237,9 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #ffffff 0%, #f5f5f7 25%, #ffffff 50%, #f9f9fb 75%, #ffffff 100%);
+      background: linear-gradient(135deg, #fafafa 0%, #f5f0ff 25%, #fafafa 50%, #f0f5ff 75%, #fafafa 100%);
       background-size: 400% 400%;
-      animation: gradientShift 8s ease infinite;
+      animation: gradientShift 12s ease infinite;
       z-index: -1;
     }
 
@@ -251,29 +252,32 @@
     }
 
     .blob-1 {
-      width: 400px;
-      height: 400px;
-      background: linear-gradient(135deg, #0071e3, #00d4ff);
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, #6366f1, #06b6d4, #10b981);
       top: -100px;
       left: -100px;
+      opacity: 0.04;
       animation: morphShape 10s ease-in-out infinite, floatingAnimation 6s ease-in-out infinite;
     }
 
     .blob-2 {
-      width: 300px;
-      height: 300px;
-      background: linear-gradient(135deg, #0071e3, #7c3aed);
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #ec4899, #a855f7, #6366f1);
       bottom: 100px;
       right: -50px;
+      opacity: 0.04;
       animation: morphShape 9s ease-in-out infinite, floatingAnimation 7s ease-in-out infinite 1s;
     }
 
     /* ===== HEADER ===== */
     header {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(30px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      padding: 16px 0;
+      background: rgba(250, 250, 250, 0.8);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      padding: 14px 0;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -287,7 +291,7 @@
       left: 0;
       width: 100%;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.15), transparent);
     }
 
     .container {
@@ -318,7 +322,7 @@
     }
 
     .logo:hover {
-      color: #0071e3;
+      color: #6366f1;
       transform: scale(1.05);
     }
 
@@ -345,7 +349,7 @@
     }
 
     .nav-links li:nth-child(1) a { animation-delay: 0.08s; }
-    .nav-links li:nth-child(2) a { animation-delay: 0.1s; }
+    .nav-links li:nth-child(2) a { animation-delay: 0.10s; }
     .nav-links li:nth-child(3) a { animation-delay: 0.12s; }
 
     .nav-links a::after {
@@ -355,12 +359,12 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: #0071e3;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
       transition: width 0.3s ease;
     }
 
     .nav-links a:hover {
-      color: #0071e3;
+      color: #6366f1;
       transform: translateY(-3px);
     }
 
@@ -375,33 +379,54 @@
 
     /* ===== HERO SECTION ===== */
     .hero {
-      padding: 120px 0;
+      padding: 140px 0 120px;
       text-align: center;
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(180deg, #0a0a0f 0%, #111827 40%, #1e1b4b 70%, #312e81 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 30%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+      animation: waveAnimation 12s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .hero .container {
       position: relative;
       z-index: 1;
     }
 
     h1 {
-      font-size: clamp(2.5rem, 8vw, 3.8rem);
-      font-weight: 700;
-      letter-spacing: -1.5px;
+      font-size: clamp(2.8rem, 8vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -2px;
       margin-bottom: 24px;
       max-width: 900px;
       margin-left: auto;
       margin-right: auto;
-      line-height: 1.2;
+      line-height: 1.15;
       animation: zoomInFadeDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
       opacity: 0;
-      background: linear-gradient(135deg, #1d1d1f 0%, #0071e3 50%, #1d1d1f 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 40%, #c084fc 60%, #f9a8d4 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .tagline {
-      font-size: 1.3rem;
-      color: #666;
-      max-width: 700px;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.65);
+      max-width: 680px;
       margin: 0 auto 48px;
       line-height: 1.8;
       font-weight: 400;
@@ -413,21 +438,22 @@
     .btn {
       display: inline-block;
       padding: 14px 32px;
-      background: #0071e3;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
       color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 50px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       font-family: inherit;
       animation: zoomInFadeUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
       opacity: 0;
       position: relative;
       overflow: hidden;
       contain: layout style paint;
+      letter-spacing: 0.3px;
     }
 
     .btn::before {
@@ -437,7 +463,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       transition: left 0.5s;
     }
 
@@ -446,10 +472,11 @@
     }
 
     .btn:hover {
-      background: linear-gradient(135deg, #0071e3 0%, #0066cc 100%);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(0, 113, 227, 0.3);
-      animation: pulseGlow 2s infinite;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.4);
+      opacity: 1;
     }
 
     .btn:active {
@@ -458,14 +485,26 @@
 
     .btn-secondary {
       background: transparent;
-      color: #0071e3;
-      border: 2px solid #0071e3;
+      color: #a5b4fc;
+      border: 2px solid rgba(165, 180, 252, 0.4);
     }
 
-    .btn-secondary:hover {
-      background: #f5f5f7;
-      border-color: #0066cc;
-      transform: translateY(-4px);
+    .hero .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(165, 180, 252, 0.7);
+      color: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    .nav-right .btn-secondary {
+      color: #6366f1;
+      border-color: #6366f1;
+    }
+
+    .nav-right .btn-secondary:hover {
+      background: #6366f1;
+      color: #ffffff;
+      transform: translateY(-2px);
     }
 
     .btn-group {
@@ -473,26 +512,26 @@
       gap: 16px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 32px;
+      margin-top: 40px;
     }
 
     /* ===== DIAGNOSIS SECTION ===== */
     .diagnosis-section {
       padding: 120px 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(0, 113, 227, 0.03) 50%, transparent 100%);
+      background: linear-gradient(180deg, #fafafa 0%, #f0f0ff 50%, #fafafa 100%);
       position: relative;
       z-index: 1;
     }
 
     .section-title {
       font-size: 2.8rem;
-      font-weight: 700;
+      font-weight: 800;
       text-align: center;
       margin-bottom: 60px;
-      letter-spacing: -0.8px;
+      letter-spacing: -1px;
       animation: slideInFromBottom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       opacity: 0;
-      background: linear-gradient(135deg, #1d1d1f 0%, #0071e3 100%);
+      background: linear-gradient(135deg, #1e1b4b 0%, #6366f1 40%, #a855f7 70%, #ec4899 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -521,14 +560,14 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(0, 113, 227, 0.3), transparent);
+      height: 2px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #f97316);
     }
 
     .diagnosis-card:hover {
-      box-shadow: 0 16px 50px rgba(0, 113, 227, 0.15);
-      transform: translateY(-8px);
-      border-color: rgba(0, 113, 227, 0.2);
+      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(99, 102, 241, 0.1);
+      transform: translateY(-6px);
+      border-color: rgba(99, 102, 241, 0.2);
     }
 
     .form-label {
@@ -569,9 +608,9 @@
 
     .form-input:focus {
       outline: none;
-      border-color: #0071e3;
+      border-color: #6366f1;
       background: white;
-      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
       transform: translateY(-2px);
     }
 
@@ -612,11 +651,12 @@
       width: 64px;
       height: 64px;
       border: 4px solid #e5e5e5;
-      border-top: 4px solid #0071e3;
+      border-top: 4px solid #6366f1;
+      border-right: 4px solid #a855f7;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 0.8s linear infinite;
       margin: 0 auto 24px;
-      box-shadow: 0 0 30px rgba(0, 113, 227, 0.2);
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
     }
 
     .loading-text {
@@ -658,7 +698,7 @@
       margin-bottom: 20px;
       animation: slideInFromBottom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       opacity: 0;
-      border-left: 4px solid #0071e3;
+      border-left: 4px solid #6366f1;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       contain: layout style paint;
     }
@@ -672,7 +712,7 @@
 
     .result-item:hover {
       transform: translateX(4px);
-      box-shadow: 0 8px 30px rgba(0, 113, 227, 0.15);
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.12);
     }
 
     .result-title {
@@ -719,25 +759,26 @@
       padding: 120px 0;
       position: relative;
       z-index: 1;
+      background: #fafafa;
     }
 
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
+      gap: 32px;
       margin-top: 60px;
     }
 
     .product-card {
-      text-align: center;
-      padding: 40px 24px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, #f5f5f7 0%, #efefef 100%);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: left;
+      padding: 36px 32px;
+      border-radius: 20px;
+      background: #ffffff;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
       cursor: pointer;
       animation: slideInFromBottom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       opacity: 0;
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.06);
       position: relative;
       overflow: hidden;
       contain: layout style paint;
@@ -749,8 +790,7 @@
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent, rgba(0, 113, 227, 0.05));
+      height: 3px;
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
@@ -763,10 +803,22 @@
     .products-grid > :nth-child(5) { animation-delay: 0.3s; }
     .products-grid > :nth-child(6) { animation-delay: 0.35s; }
 
+    .products-grid > :nth-child(1)::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
+    .products-grid > :nth-child(2)::before { background: linear-gradient(90deg, #f97316, #fb923c); }
+    .products-grid > :nth-child(3)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .products-grid > :nth-child(4)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+    .products-grid > :nth-child(5)::before { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+    .products-grid > :nth-child(6)::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+    .products-grid > :nth-child(1):hover { box-shadow: 0 20px 50px rgba(99, 102, 241, 0.15); }
+    .products-grid > :nth-child(2):hover { box-shadow: 0 20px 50px rgba(249, 115, 22, 0.15); }
+    .products-grid > :nth-child(3):hover { box-shadow: 0 20px 50px rgba(16, 185, 129, 0.15); }
+    .products-grid > :nth-child(4):hover { box-shadow: 0 20px 50px rgba(236, 72, 153, 0.15); }
+    .products-grid > :nth-child(5):hover { box-shadow: 0 20px 50px rgba(6, 182, 212, 0.15); }
+    .products-grid > :nth-child(6):hover { box-shadow: 0 20px 50px rgba(139, 92, 246, 0.15); }
+
     .product-card:hover {
-      background: linear-gradient(135deg, #efefef 0%, #e8e8eb 100%);
-      transform: translateY(-12px);
-      box-shadow: 0 20px 60px rgba(0, 113, 227, 0.15);
+      transform: translateY(-8px);
     }
 
     .product-card:hover::before {
@@ -774,44 +826,48 @@
     }
 
     .product-icon {
-      font-size: 3.5rem;
+      font-size: 2.8rem;
       margin-bottom: 16px;
+      display: inline-block;
       transition: transform 0.3s ease;
-      animation: floatingAnimation 3s ease-in-out infinite;
-      will-change: transform;
-      transform: translateZ(0);
     }
 
     .product-card:hover .product-icon {
-      transform: scale(1.15) rotate(10deg);
-      animation: rotateBounce 0.6s ease;
+      transform: scale(1.15);
     }
 
     .product-name {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 12px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
       color: #1d1d1f;
+      letter-spacing: -0.3px;
     }
 
     .product-description {
-      color: #666;
-      font-size: 0.95rem;
-      line-height: 1.6;
+      color: #6b7280;
+      font-size: 0.92rem;
+      line-height: 1.65;
     }
 
     /* ===== STATS SECTION ===== */
     .stats-section {
       padding: 120px 0;
-      background: linear-gradient(135deg, rgba(0, 113, 227, 0.08) 0%, rgba(124, 58, 237, 0.08) 100%);
+      background: linear-gradient(180deg, #0f0a1a 0%, #1e1b4b 50%, #312e81 100%);
       position: relative;
       z-index: 1;
+    }
+
+    .stats-section .section-title {
+      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
+      gap: 24px;
       margin-top: 60px;
     }
 
@@ -819,19 +875,18 @@
       text-align: center;
       animation: zoomInFadeUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       opacity: 0;
-      padding: 40px;
+      padding: 40px 24px;
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 113, 227, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
       contain: layout style paint;
     }
 
     .stat:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 40px rgba(0, 113, 227, 0.1);
-      background: rgba(255, 255, 255, 0.8);
+      transform: translateY(-6px);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .stat:nth-child(1) { animation-delay: 0.1s; }
@@ -839,28 +894,49 @@
     .stat:nth-child(3) { animation-delay: 0.3s; }
     .stat:nth-child(4) { animation-delay: 0.4s; }
 
+    .stat:nth-child(1):hover { box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3); }
+    .stat:nth-child(2):hover { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.3); }
+    .stat:nth-child(3):hover { box-shadow: 0 12px 40px rgba(249, 115, 22, 0.3); }
+    .stat:nth-child(4):hover { box-shadow: 0 12px 40px rgba(236, 72, 153, 0.3); }
+
+    .stat:nth-child(1) .stat-value {
+      background: linear-gradient(135deg, #818cf8, #6366f1);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat:nth-child(2) .stat-value {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat:nth-child(3) .stat-value {
+      background: linear-gradient(135deg, #fb923c, #f97316);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat:nth-child(4) .stat-value {
+      background: linear-gradient(135deg, #f472b6, #ec4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
     .stat-value {
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #0071e3 0%, #7c3aed 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 2.8rem;
+      font-weight: 800;
       margin-bottom: 8px;
+      letter-spacing: -1px;
     }
 
     .stat-label {
-      color: #666;
-      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.9rem;
       font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     /* ===== FOOTER ===== */
     footer {
-      background: #1d1d1f;
+      background: #0a0a0f;
       color: #f5f5f7;
-      padding: 60px 0 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 80px 0 48px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     footer .container {
@@ -871,19 +947,24 @@
 
     footer h3 {
       margin-bottom: 16px;
-      font-size: 1.1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.4);
     }
 
     footer a, footer p {
-      color: #a1a1a6;
+      color: rgba(255, 255, 255, 0.6);
       text-decoration: none;
       margin-bottom: 12px;
       display: block;
       transition: color 0.3s ease;
+      font-size: 0.95rem;
     }
 
     footer a:hover {
-      color: #0071e3;
+      color: #a5b4fc;
     }
 
     /* ===== SCROLL ANIMATIONS ===== */
@@ -913,13 +994,13 @@
 
     /* ===== FOCUS VISIBLE ENHANCEMENT ===== */
     *:focus-visible {
-      outline: 2px solid #0071e3;
+      outline: 2px solid #6366f1;
       outline-offset: 2px;
     }
 
     button:focus-visible,
     a:focus-visible {
-      outline: 2px solid #0071e3;
+      outline: 2px solid #6366f1;
       outline-offset: 2px;
       border-radius: 6px;
     }
@@ -954,6 +1035,217 @@
         opacity: 0.02;
       }
     }
+
+    /* ===== INTEGRATE SECTION ===== */
+    .integrate-section {
+      background: linear-gradient(180deg, #f0f0ff 0%, #faf5ff 50%, #fafafa 100%);
+      padding: 100px 20px;
+    }
+
+    .integrate-section .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .integrate-section .section-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+      color: #1d1d1f;
+    }
+
+    .integrate-section .section-subtitle {
+      font-size: 1.1rem;
+      text-align: center;
+      color: #6e6e73;
+      margin-bottom: 48px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .integrate-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .integrate-tab {
+      padding: 10px 20px;
+      border: 1px solid #d2d2d7;
+      border-radius: 24px;
+      background: #ffffff;
+      color: #1d1d1f;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .integrate-tab:hover,
+    .integrate-tab.active {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .integrate-panel {
+      display: none;
+      background: #1d1d1f;
+      border-radius: 16px;
+      padding: 32px;
+      color: #f5f5f7;
+      animation: zoomInFade 0.35s ease-out;
+    }
+
+    .integrate-panel.active {
+      display: block;
+    }
+
+    .integrate-panel h4 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .integrate-panel p {
+      font-size: 0.95rem;
+      color: #a1a1a6;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .integrate-panel pre {
+      background: #000000;
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      border: 1px solid #333336;
+    }
+
+    .integrate-panel code {
+      color: #98c379;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    .integrate-panel .code-comment {
+      color: #5c6370;
+    }
+
+    .integrate-panel .code-key {
+      color: #e06c75;
+    }
+
+    .integrate-panel .code-string {
+      color: #98c379;
+    }
+
+    .integrate-panel .code-url {
+      color: #61afef;
+    }
+
+    .integrate-panel .code-flag {
+      color: #d19a66;
+    }
+
+    .integrate-endpoint-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .integrate-endpoint {
+      background: #000000;
+      border: 1px solid #333336;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .integrate-endpoint .method {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'SF Mono', monospace;
+      margin-right: 8px;
+    }
+
+    .integrate-endpoint .method.get {
+      background: rgba(97, 175, 239, 0.15);
+      color: #61afef;
+    }
+
+    .integrate-endpoint .method.post {
+      background: rgba(152, 195, 121, 0.15);
+      color: #98c379;
+    }
+
+    .integrate-endpoint .path {
+      font-family: 'SF Mono', monospace;
+      font-size: 0.85rem;
+      color: #f5f5f7;
+    }
+
+    .integrate-endpoint .desc {
+      font-size: 0.8rem;
+      color: #86868b;
+      margin-top: 6px;
+    }
+
+    .integrate-cta {
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .integrate-cta a {
+      display: inline-block;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #ffffff;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .integrate-cta a:hover {
+      background: linear-gradient(135deg, #4f46e5, #9333ea);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+    }
+
+    @media (max-width: 768px) {
+      .integrate-section {
+        padding: 48px 16px;
+      }
+
+      .integrate-section .section-title {
+        font-size: 1.75rem;
+      }
+
+      .integrate-panel {
+        padding: 20px;
+      }
+
+      .integrate-panel pre {
+        font-size: 0.75rem;
+        padding: 14px;
+      }
+
+      .integrate-endpoint-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -972,8 +1264,8 @@
         <a href="#" class="logo" onclick="scrollToTop()">🔍 Claude Debug Copilot</a>
         <ul class="nav-links">
           <li><a href="#diagnose">Diagnose</a></li>
+          <li><a href="#integrate">Integrate</a></li>
           <li><a href="#products">Features</a></li>
-          <li><a href="/api-reference.html">API</a></li>
         </ul>
         <div class="nav-right">
           <a href="/api-reference.html" class="btn btn-secondary" style="animation-delay: 0.14s;">Documentation</a>
@@ -1038,6 +1330,139 @@
 
           <button type="submit" class="btn submit-btn" id="submit-btn" aria-label="Submit incident for diagnosis">Diagnose</button>
         </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Integrate With Your Stack -->
+  <section class="integrate-section" id="integrate">
+    <div class="container">
+      <h2 class="section-title scroll-animate">Integrate With Your Stack</h2>
+      <p class="section-subtitle scroll-animate">
+        Use the web UI for quick diagnosis, or connect programmatically via REST API, webhooks, and batch processing.
+      </p>
+
+      <div class="integrate-tabs" role="tablist">
+        <button class="integrate-tab active" role="tab" aria-selected="true" data-panel="panel-api" onclick="switchIntegrateTab(this)">REST API</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-batch" onclick="switchIntegrateTab(this)">Batch Processing</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-webhooks" onclick="switchIntegrateTab(this)">Webhooks</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-export" onclick="switchIntegrateTab(this)">Export &amp; Audit</button>
+        <button class="integrate-tab" role="tab" aria-selected="false" data-panel="panel-endpoints" onclick="switchIntegrateTab(this)">All Endpoints</button>
+      </div>
+
+      <!-- REST API Panel -->
+      <div class="integrate-panel active" id="panel-api" role="tabpanel">
+        <h4>Single Incident Diagnosis</h4>
+        <p>Send any production incident and get back a structured root-cause analysis with confidence score, fix plan, rollback steps, and suggested tests.</p>
+        <pre><code><span class="code-comment"># Diagnose a single incident</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/diagnose</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{"incident": "API latency spiked to 12s in us-east-1 after deploy v2.4.1, connection pool at 98% capacity"}'</span>
+
+<span class="code-comment"># Response includes traceId, 4-agent pipeline results, confidence, fix plan, and rollback</span></code></pre>
+        <p>Every response includes an <code>X-Trace-Id</code> header for end-to-end request tracing across your systems.</p>
+      </div>
+
+      <!-- Batch Panel -->
+      <div class="integrate-panel" id="panel-batch" role="tabpanel">
+        <h4>Batch Diagnosis (up to 100 incidents)</h4>
+        <p>Process up to 100 incidents in a single request. Each incident runs through the full 4-agent pipeline independently. Partial failures are reported per-item, not as a batch failure.</p>
+        <pre><code><span class="code-comment"># Batch-diagnose multiple incidents at once</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/batch-diagnose</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{
+    "incidents": [
+      "Memory leak in worker pods after cron job at 02:00 UTC",
+      "Database replica lag exceeding 30s during peak traffic",
+      "SSL cert rotation failed on edge nodes in eu-west-2"
+    ]
+  }'</span>
+
+<span class="code-comment"># Returns { batchId, traceId, results: [...], errors: [...] }</span></code></pre>
+      </div>
+
+      <!-- Webhooks Panel -->
+      <div class="integrate-panel" id="panel-webhooks" role="tabpanel">
+        <h4>Webhook Notifications</h4>
+        <p>Register a webhook URL and receive diagnosis results automatically whenever an incident is processed. Connect to Slack, PagerDuty, or your internal tools.</p>
+        <pre><code><span class="code-comment"># Register a webhook endpoint</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/webhooks</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{"url": "https://your-service.com/hooks/diagnosis"}'</span>
+
+<span class="code-comment"># Diagnose with webhook delivery</span>
+<span class="code-flag">curl</span> <span class="code-flag">-X POST</span> <span class="code-url">http://localhost:3000/api/diagnose</span> \
+  <span class="code-flag">-H</span> <span class="code-string">"Content-Type: application/json"</span> \
+  <span class="code-flag">-d</span> <span class="code-string">'{"incident": "Redis cluster failover triggered in staging", "webhook": "https://your-service.com/hooks/diagnosis"}'</span>
+
+<span class="code-comment"># Check webhook delivery history</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/webhooks/https%3A%2F%2Fyour-service.com%2Fhooks%2Fdiagnosis/deliveries</span></code></pre>
+      </div>
+
+      <!-- Export & Audit Panel -->
+      <div class="integrate-panel" id="panel-export" role="tabpanel">
+        <h4>Export Results &amp; Audit Trail</h4>
+        <p>Export any diagnosis as JSON or CSV for runbooks, postmortems, or compliance. The audit log tracks every action with timestamps and trace IDs.</p>
+        <pre><code><span class="code-comment"># Export a diagnosis as JSON</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/diagnose/DIAGNOSIS_ID/export?format=json</span>
+
+<span class="code-comment"># Export as CSV</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/diagnose/DIAGNOSIS_ID/export?format=csv</span>
+
+<span class="code-comment"># Retrieve full audit log (last 100 events)</span>
+<span class="code-flag">curl</span> <span class="code-url">http://localhost:3000/api/audit-log?limit=100</span></code></pre>
+      </div>
+
+      <!-- All Endpoints Panel -->
+      <div class="integrate-panel" id="panel-endpoints" role="tabpanel">
+        <h4>Complete API Surface</h4>
+        <p>Every endpoint listed below is live and backed by the server. Rate-limited to 100 requests/hour per IP with structured error responses on every failure.</p>
+        <div class="integrate-endpoint-grid">
+          <div class="integrate-endpoint">
+            <span class="method post">POST</span><span class="path">/api/diagnose</span>
+            <div class="desc">Run 4-agent pipeline on a single incident</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method post">POST</span><span class="path">/api/batch-diagnose</span>
+            <div class="desc">Batch process up to 100 incidents</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/diagnose/:id</span>
+            <div class="desc">Retrieve a past diagnosis by ID</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/diagnostics</span>
+            <div class="desc">List all diagnoses (paginated)</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/diagnose/:id/export</span>
+            <div class="desc">Export diagnosis as JSON or CSV</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/analytics</span>
+            <div class="desc">Aggregated analytics and success rates</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/dashboard</span>
+            <div class="desc">Dashboard overview with severity breakdown</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/api/audit-log</span>
+            <div class="desc">Full audit trail with trace IDs</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method post">POST</span><span class="path">/api/webhooks</span>
+            <div class="desc">Register a webhook for automated delivery</div>
+          </div>
+          <div class="integrate-endpoint">
+            <span class="method get">GET</span><span class="path">/health</span>
+            <div class="desc">Health check with uptime and memory stats</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="integrate-cta">
+        <a href="/api-reference.html">View Full API Reference</a>
       </div>
     </div>
   </section>
@@ -1141,11 +1566,26 @@
     document.addEventListener('DOMContentLoaded', () => {
       setupScrollObserver();
       setupParallaxOnScroll();
-      // Only enable mouse tracking on desktop (not touch devices)
       if (!isTouchDevice()) {
         setupMouseTracking();
       }
     });
+
+    // ===== INTEGRATE TABS =====
+    function switchIntegrateTab(btn) {
+      var panelId = btn.getAttribute('data-panel');
+      document.querySelectorAll('.integrate-tab').forEach(function(t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.integrate-panel').forEach(function(p) {
+        p.classList.remove('active');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      var target = document.getElementById(panelId);
+      if (target) target.classList.add('active');
+    }
 
     // Check if device supports touch
     function isTouchDevice() {

@@ -1,6 +1,6 @@
 /**
  * API Client Tests - Complete Test Suite
- * Phase E: API Resilience Layer
+ * API Resilience Layer
  *
  * Comprehensive tests covering:
  * - Error handling and classification
@@ -51,7 +51,7 @@ import {
   createClient
 } from '../src/www/api/client.js';
 
-describe('Phase E: API Resilience Layer', () => {
+describe('API Resilience Layer', () => {
   describe('Error Types and Classification', () => {
     test('should create NetworkError with user message', () => {
       const error = new NetworkError();

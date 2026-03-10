@@ -1,8 +1,8 @@
 /**
  * F1-01 through F1-15: Design Token Unit Tests
- * Phase F - Unit Testing Sprint
+ * Unit Tests — Design Tokens
  *
- * Tests the design token system created in Phase B
+ * Tests the design token system (colors, spacing, typography, motion)
  * Verifies all token groups exist and have valid values
  * Tests color system, typography, spacing, and other design values
  */
