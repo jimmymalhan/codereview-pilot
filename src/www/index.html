@@ -210,6 +210,18 @@
       }
     }
 
+    /* ===== PREFERS REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
     /* ===== DYNAMIC BACKGROUND ===== */
     .dynamic-bg {
       position: fixed;
@@ -873,6 +885,32 @@
       transform: translateY(0);
     }
 
+    /* ===== SCREEN READER ONLY TEXT ===== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* ===== FOCUS VISIBLE ENHANCEMENT ===== */
+    *:focus-visible {
+      outline: 2px solid #0071e3;
+      outline-offset: 2px;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #0071e3;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       h1 {
@@ -906,15 +944,18 @@
   </style>
 </head>
 <body>
+  <!-- Skip Link for Keyboard Users -->
+  <a href="#main-content" class="sr-only" style="position: absolute; top: -40px; z-index: 1000; padding: 8px 16px; background: #0071e3; color: white; text-decoration: none; border-radius: 4px;">Skip to main content</a>
+
   <!-- Dynamic Background -->
-  <div class="dynamic-bg"></div>
-  <div class="blob-animation blob-1"></div>
-  <div class="blob-animation blob-2"></div>
+  <div class="dynamic-bg" aria-hidden="true"></div>
+  <div class="blob-animation blob-1" aria-hidden="true"></div>
+  <div class="blob-animation blob-2" aria-hidden="true"></div>
 
   <!-- Header -->
-  <header>
+  <header role="banner">
     <div class="container">
-      <nav>
+      <nav role="navigation" aria-label="Main navigation">
         <a href="#" class="logo" onclick="scrollToTop()">🔍 Claude Debug Copilot</a>
         <ul class="nav-links">
           <li><a href="#diagnose">Diagnose</a></li>
@@ -928,14 +969,16 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
     <div class="container">
       <h1>Diagnose Incidents Instantly</h1>
       <p class="tagline">AI-powered root cause analysis with 94% accuracy. 4-agent pipeline → evidence-first diagnosis → fix plan → tests. 16-30 seconds.</p>
       <div class="btn-group">
-        <button onclick="scrollToDiagnose()" class="btn">Start Diagnosis</button>
-        <a href="/api-reference.html" class="btn btn-secondary">Learn More</a>
+        <button onclick="scrollToDiagnose()" class="btn" aria-label="Start incident diagnosis form">Start Diagnosis</button>
+        <a href="/api-reference.html" class="btn btn-secondary" aria-label="Learn more about features and capabilities">Learn More</a>
       </div>
     </div>
   </section>
@@ -953,29 +996,34 @@
             class="form-input"
             placeholder="Database query takes 45 seconds... API returns 500 on login... Payment processing failing..."
             oninput="updateCharCount()"
+            aria-label="Describe your incident"
+            aria-describedby="char-count-help"
+            aria-invalid="false"
+            required
           ></textarea>
-          <div class="char-count">
-            <span id="char-count">0</span>/2000
+          <div class="char-count" id="char-count-help" aria-live="polite" aria-atomic="true">
+            <span id="char-count">0</span>/2000 characters
           </div>
 
-          <div class="loading" id="loading">
-            <div class="spinner"></div>
+          <div class="loading" id="loading" role="status" aria-live="polite" aria-busy="false">
+            <div class="spinner" aria-hidden="true"></div>
             <div class="loading-text">Analyzing your incident...</div>
           </div>
 
-          <div class="results-section" id="results">
-            <div id="error" class="error-box" style="display:none;"></div>
-            <div id="success" class="success-box" style="display:none;"></div>
+          <div class="results-section" id="results" role="region" aria-labelledby="results-title" aria-live="polite">
+            <h3 id="results-title" class="sr-only">Diagnosis Results</h3>
+            <div id="error" class="error-box" style="display:none;" role="alert" aria-live="assertive"></div>
+            <div id="success" class="success-box" style="display:none;" role="status" aria-live="polite"></div>
             <div id="confidence-badge"></div>
             <div id="result-content"></div>
             <div class="export-buttons">
-              <button type="button" class="btn btn-small" onclick="copyToClipboard()">📋 Copy</button>
-              <button type="button" class="btn btn-small" onclick="exportJSON()">📥 Export JSON</button>
-              <button type="button" class="btn btn-small" onclick="newDiagnosis()">🔄 New Diagnosis</button>
+              <button type="button" class="btn btn-small" onclick="copyToClipboard()" aria-label="Copy results to clipboard">📋 Copy</button>
+              <button type="button" class="btn btn-small" onclick="exportJSON()" aria-label="Export results as JSON file">📥 Export JSON</button>
+              <button type="button" class="btn btn-small" onclick="newDiagnosis()" aria-label="Start new diagnosis">🔄 New Diagnosis</button>
             </div>
           </div>
 
-          <button type="submit" class="btn submit-btn" id="submit-btn">Diagnose</button>
+          <button type="submit" class="btn submit-btn" id="submit-btn" aria-label="Submit incident for diagnosis">Diagnose</button>
         </form>
       </div>
     </div>
@@ -1051,9 +1099,10 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- Footer -->
-  <footer>
+  <footer role="contentinfo">
     <div class="container">
       <div>
         <h3>Product</h3>
@@ -1186,20 +1235,30 @@
 
     // ===== UI FUNCTIONS =====
     function showLoading() {
-      document.getElementById('loading').classList.add('show');
+      const loading = document.getElementById('loading');
+      loading.classList.add('show');
+      loading.setAttribute('aria-busy', 'true');
       document.getElementById('submit-btn').disabled = true;
+      document.getElementById('submit-btn').setAttribute('aria-busy', 'true');
     }
 
     function hideLoading() {
-      document.getElementById('loading').classList.remove('show');
+      const loading = document.getElementById('loading');
+      loading.classList.remove('show');
+      loading.setAttribute('aria-busy', 'false');
       document.getElementById('submit-btn').disabled = false;
+      document.getElementById('submit-btn').removeAttribute('aria-busy');
     }
 
     function showError(message) {
       const errorEl = document.getElementById('error');
-      errorEl.innerHTML = `<div class="error-title">⚠️ Error</div>${message}`;
+      errorEl.innerHTML = `<div class="error-title">Error</div><p>${message}</p>`;
       errorEl.style.display = 'block';
+      errorEl.setAttribute('role', 'alert');
+      errorEl.setAttribute('aria-live', 'assertive');
       document.getElementById('results').classList.add('show');
+      // Focus to error message for accessibility
+      errorEl.focus();
     }
 
     function hideResults() {
