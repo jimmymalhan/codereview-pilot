@@ -185,7 +185,7 @@ node src/run.js
 
 # For full functionality, get your API key from:
 # https://console.anthropic.com
-export ANTHROPIC_API_KEY=sk-ant-...
+export ANTHROPIC_API_KEY=your-key-here
 npm test
 ```
 
