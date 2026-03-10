@@ -1,30 +1,18 @@
 /**
- * Debug Copilot Integration Tests
+ * Integration Tests — Orchestrator
  *
- * 10 integration test scenarios covering all Phase 2.7 requirements
+ * 10 integration test scenarios covering orchestrator workflows
  * plus 3 additional scenarios from QA review (error handling,
- * concurrent isolation, CLAUDE.md contract enforcement).
- *
- * Scenarios:
- *  1. Task Creation and Schema Validation
- *  2. Router Agent Invocation (task routing)
- *  3. Approval Workflow Sequencing (happy path + all 5 state machine paths)
- *  4. Budget Enforcement
- *  5. Audit Logging
- *  6. Heartbeat Detection
- *  7. Rollback State Consistency
- *  8. Error/Failure Handling (NEW - from QA review)
- *  9. Concurrent Agent Isolation (NEW - from QA review)
- * 10. CLAUDE.md Contract Enforcement (NEW - from QA review)
+ * concurrent isolation, contract enforcement).
  */
 
 import { jest } from '@jest/globals';
-import { ApprovalStateMachine } from '../src/orchestrator/approval-state-machine.js';
-import { BudgetEnforcer } from '../src/orchestrator/budget-enforcer.js';
-import { AuditLogger } from '../src/orchestrator/audit-logger.js';
-import { HeartbeatMonitor, HEARTBEAT_INTERVAL_MS } from '../src/orchestrator/heartbeat-monitor.js';
-import { TaskManager, VALID_TASK_TYPES, REQUIRED_OUTPUT_FIELDS } from '../src/orchestrator/task-manager.js';
-import { MockOrchestratorApi, MockApiError } from './fixtures/mock-orchestrator-api.js';
+import { ApprovalStateMachine } from '../../src/orchestrator/approval-state-machine.js';
+import { BudgetEnforcer } from '../../src/orchestrator/budget-enforcer.js';
+import { AuditLogger } from '../../src/orchestrator/audit-logger.js';
+import { HeartbeatMonitor, HEARTBEAT_INTERVAL_MS } from '../../src/orchestrator/heartbeat-monitor.js';
+import { TaskManager, VALID_TASK_TYPES, REQUIRED_OUTPUT_FIELDS } from '../../src/orchestrator/task-manager.js';
+import { MockOrchestratorApi, MockApiError } from '../fixtures/mock-orchestrator-api.js';
 import {
   SAMPLE_TASK_VALID,
   SAMPLE_TASK_ROUTE,
@@ -34,7 +22,7 @@ import {
   SAMPLE_OUTPUT_MISSING_ROOT_CAUSE,
   SAMPLE_OUTPUT_EMPTY_EVIDENCE,
   SAMPLE_OUTPUT_INVALID_CONFIDENCE
-} from './fixtures/sample-incidents.js';
+} from '../fixtures/sample-incidents.js';
 
 // ============================================================
 // SCENARIO 1: Task Creation and Schema Validation

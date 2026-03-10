@@ -15,6 +15,21 @@ logs/*
 data/*
 incidents/*
 .DS_Store
+mcp/
+
+# Video, Recordings, Demos, Output
+output/
+recordings/
+demo/
+videos/
+*.mp4
+*.webm
+*.mov
+*.avi
+*.gif
+record*.sh
+demo*.sh
+src/www/styles/how-it-works.css
 
 # Custom Planning & Coordination (keep locally, don't commit)
 *_CHECKLIST.md

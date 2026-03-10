@@ -240,6 +240,16 @@ Page shows data with no explanation
 Site breaks on phone with no message
 → ✅ Show clear message: "This tool requires a larger screen"
 
+## Lessons Learned (From Stakeholder Feedback)
+
+1. **Edit the file users actually see.** If the user views `index.html`, don't update React components they'll never load. Verify the served route before editing.
+2. **Dynamic over static.** Always render backend capabilities dynamically. Hard-coded feature lists go stale. Wire real API responses into the UI.
+3. **Hover states must not blend.** Every interactive element needs a visually distinct hover. Never let `opacity`, animation, or gradient cause the element to disappear into the background.
+4. **Restart the server after content changes.** Express may cache static files. After editing HTML/CSS, restart `node src/server.js` and confirm the change is live.
+5. **Premium means deliberate.** Apple-quality polish comes from consistent spacing, font loading, multi-color accents, and dark/light theme coherence — not from adding more sections.
+6. **Remove process artifacts immediately.** Phase docs, sprint checklists, and stakeholder meeting notes must never enter git tracking. Add ignore rules *before* the first commit.
+7. **Show all backend products.** If the backend supports batch diagnosis, webhooks, analytics, audit logs, and exports, the UI must surface every one of them — otherwise the business loses revenue.
+
 ## Before Calling UI "Done"
 
 - [ ] Purpose clear in 1 sentence
@@ -253,3 +263,6 @@ Site breaks on phone with no message
 - [ ] Accessibility checks pass
 - [ ] Error messages are helpful
 - [ ] No confusing terminology
+- [ ] Editing the correct served file (not an unused component)
+- [ ] Server restarted and change verified live
+- [ ] All backend-supported features visible in UI

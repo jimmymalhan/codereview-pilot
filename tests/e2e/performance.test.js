@@ -5,10 +5,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const projectRoot = path.resolve(__dirname, '..');
+const projectRoot = path.resolve(__dirname, '../..');
 
 /**
- * Performance Test Suite for Business Website
+ * Performance Test Suite — Website
  *
  * Measures:
  * - Page load times (HTTP round-trip)

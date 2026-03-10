@@ -1,6 +1,48 @@
 # Changelog
 
 All notable changes to Claude Debug Copilot are documented in this file.
+Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [Conventional Commits](https://www.conventionalcommits.org/).
+
+## [3.5.0] - 2026-03-10
+
+### refactor(tests): industry-standard file organization and naming
+
+**Summary**: Restructured test suite to follow standard directory conventions. Renamed all phase/sprint/luxury references to product-relevant names. Moved misplaced test files into proper directories. Fixed broken imports and ESM compatibility issues.
+
+### Changed
+- `tests/phase-4.test.js` → `tests/orchestrator-advanced.test.js`
+- `tests/e2e-business-website.test.js` → `tests/e2e/website.test.js`
+- `tests/performance-business-website.test.js` → `tests/e2e/performance.test.js`
+- `tests/ui-luxury-validation.test.js` → `tests/ui-validation.test.js`
+- `tests/e2e/phase-f-user-journeys.test.js` → `tests/e2e/user-journeys.test.js`
+- `tests/integration/phase-f-workflows.test.js` → `tests/integration/workflows.test.js`
+- `tests/integration-tests.test.js` → `tests/integration/orchestrator.test.js`
+- All describe blocks updated from "Phase X" to product-relevant names
+- Fixed `module.exports` ESM incompatibility in `tests/ui-validation.test.js`
+- Fixed `projectRoot` path resolution in `tests/e2e/performance.test.js`
+
+### refactor(skills): add lessons-learned from stakeholder feedback
+
+- `evidence-proof/SKILL.md`: Added 6 lessons (run tests after rename, no sandbox excuses, verify visibility, conventional commits, idempotent checks, real test output only)
+- `ui-quality/SKILL.md`: Added 7 lessons (edit correct file, dynamic over static, hover contrast, server restart, deliberate premium, remove artifacts, surface all APIs)
+- `backend-reliability/SKILL.md`: Added 4 lessons (surface every endpoint, restart server, align claims, test error formats E2E)
+
+### refactor(rules): update test naming convention
+
+- `.claude/rules/testing.md`: Updated file naming standard to match `tests/unit/`, `tests/integration/`, `tests/e2e/`, `tests/components/`, `tests/fixtures/` layout
+
+### Removed
+- `src/www/styles/how-it-works.css` — orphaned CSS for removed section
+
+### Added
+- `.gitignore` rules for video, recording, demo, and output artifacts
+
+### Verified
+- 1117 tests pass (same as before renames)
+- All import paths corrected for moved files
+- Zero new lint errors introduced
+
+---
 
 ## [3.4.0] - 2026-03-10
 

@@ -1,9 +1,9 @@
 /**
- * UI Luxury Features - Automated Validation Tests
- * Tests the advanced animations and luxury UI elements load correctly
+ * UI Validation Tests
+ * Tests that advanced animations and premium UI elements load correctly.
  *
  * NOTE: These tests require a running server and are skipped in normal test runs.
- * Run with: npm run test:e2e or start server with npm start then run these tests
+ * Run with: npm run test:e2e or start server with npm start then run these tests.
  */
 
 import http from 'http';
@@ -305,5 +305,3 @@ describe.skip('Luxury UI Features - Automated Validation', () => {
   });
 
 });
-
-module.exports = {};

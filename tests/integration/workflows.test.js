@@ -1,6 +1,5 @@
 /**
- * F3-01 through F3-15: Phase F Integration Tests
- * Phase F - Integration Testing Sprint
+ * Integration Tests — Critical Workflows
  *
  * Tests critical end-to-end workflows:
  * - Form submission and API integration
@@ -10,7 +9,7 @@
  * - Audit logging
  */
 
-describe('Phase F Integration Tests - Critical Workflows', () => {
+describe('Integration Workflows', () => {
   let mockFetch;
   let mockLocalStorage;
 

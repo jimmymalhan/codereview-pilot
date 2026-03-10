@@ -1,12 +1,11 @@
 /**
- * F4-01 through F4-15: Phase F E2E Tests
- * Phase F - End-to-End Testing Sprint
+ * E2E Tests — User Journeys
  *
- * Tests critical user journeys from form to results
- * Includes happy path, error scenarios, and edge cases
+ * Tests critical user journeys from form to results.
+ * Includes happy path, error scenarios, and edge cases.
  */
 
-describe('Phase F E2E Tests - User Journeys', () => {
+describe('E2E User Journeys', () => {
   let mockFetch;
   let mockLocalStorage;
 
