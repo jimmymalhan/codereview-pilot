@@ -89,7 +89,10 @@ docs/LOCAL_TESTING.md
 docs/PHASE_*.md
 docs/USER_FEEDBACK*.md
 docs/Phase-B-Design-Tokens/
+docs/WEBSITE_GUIDE.md
 .claude/FEATURE_BRANCH_PERMISSIONS.md
+FRONTEND_TASK_BREAKDOWN.csv
+scripts/sync-checklist.js
 
 # Local Claude settings (private, not committed)
 .claude/settings.local.json
