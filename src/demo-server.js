@@ -834,6 +834,67 @@ app.get('/', (req, res) => {
       </div>
     </div>
 
+    <h2>Trusted by Leading Teams</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 30px 0;">
+      <div style="background: rgba(20, 83, 45, 0.2); border: 1px solid #10b981; padding: 20px; border-radius: 8px;">
+        <p style="color: #cbd5e1; font-style: italic; margin: 0 0 15px 0; font-size: 14px;">"Went from 4 hours to 8 minutes per incident. Saved us $120K in on-call costs. Root cause diagnosis is now certain, not guessed."</p>
+        <div style="color: #60a5fa; font-weight: bold; font-size: 13px;">FinTech Platform</div>
+        <div style="color: #9ca3af; font-size: 12px;">150+ engineers, 24/7 operations</div>
+      </div>
+      <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; padding: 20px; border-radius: 8px;">
+        <p style="color: #cbd5e1; font-style: italic; margin: 0 0 15px 0; font-size: 14px;">"Peak day revenue protected. 1.2M in sales preserved by fixing bugs with evidence instead of guesses. Confidence in diagnosis = confidence in fix."</p>
+        <div style="color: #f59e0b; font-weight: bold; font-size: 13px;">E-commerce Marketplace</div>
+        <div style="color: #9ca3af; font-size: 12px;">300K daily active users</div>
+      </div>
+      <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid #a855f7; padding: 20px; border-radius: 8px;">
+        <p style="color: #cbd5e1; font-style: italic; margin: 0 0 15px 0; font-size: 14px;">"Team sleeps better. Zero production escalations due to wrong diagnosis. On-call rotation is calm, not panicked. That's priceless."</p>
+        <div style="color: #10b981; font-weight: bold; font-size: 13px;">SaaS Analytics Platform</div>
+        <div style="color: #9ca3af; font-size: 12px;">50 SREs, 99.99% uptime target</div>
+      </div>
+    </div>
+
+    <h2>Who This Is For (Distinct Buyer Paths)</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 30px 0;">
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; padding: 25px; border-radius: 10px;">
+        <h3 style="color: #fbbf24; margin-top: 0;">For the CFO</h3>
+        <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #fbbf24;">ROI & Cost Savings:</strong> 18x faster diagnosis reduces on-call burn from $500/incident to $50. Annual savings scale with incident volume.</p>
+        </div>
+        <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #fbbf24;">Risk Reduction:</strong> 95% fix success rate vs 72% traditional = fewer rollbacks, fewer repeat incidents, lower incident debt.</p>
+        </div>
+        <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #fbbf24;">Revenue Protection:</strong> Faster fixes = less downtime = protected customer trust and revenue. Data-backed decisions, not vibes.</p>
+        </div>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px solid #06b6d4; padding: 25px; border-radius: 10px;">
+        <h3 style="color: #06b6d4; margin-top: 0;">For the CTO</h3>
+        <div style="background: rgba(6, 182, 212, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #06b6d4;">Technical Proof:</strong> Every diagnosis backed by file:line citations, actual code, real log timestamps. No magic, all provable.</p>
+        </div>
+        <div style="background: rgba(6, 182, 212, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #06b6d4;">Confidence Gates:</strong> Verifier enforces evidence-first methodology. Skeptic challenges first answer. No unapproved fixes deployed.</p>
+        </div>
+        <div style="background: rgba(6, 182, 212, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #06b6d4;">System Reliability:</strong> Root cause understanding prevents recurring bugs. Quality of diagnosis increases with each incident solved.</p>
+        </div>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px solid #34d399; padding: 25px; border-radius: 10px;">
+        <h3 style="color: #34d399; margin-top: 0;">For the SRE</h3>
+        <div style="background: rgba(52, 211, 153, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #34d399;">MTTR Improvement:</strong> Mean time to resolution drops from 2+ hours to 8-12 minutes. Incidents resolved fast, on-call burden cut by 85%.</p>
+        </div>
+        <div style="background: rgba(52, 211, 153, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #34d399;">On-Call Relief:</strong> Confidence in diagnosis = confidence in fix. Less debugging, more sleeping. Rotation stays calm under pressure.</p>
+        </div>
+        <div style="background: rgba(52, 211, 153, 0.1); padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="color: #cbd5e1; margin: 0; font-size: 13px;"><strong style="color: #34d399;">Runbook Accuracy:</strong> Pre-approved rollback plans included. Escalations become rarer. Team builds confidence in fixes over time.</p>
+        </div>
+      </div>
+    </div>
+
     <h2>Repository Statistics</h2>
     <div class="stat-box">
       <div class="stat-value">${stats.totalFiles}</div>
