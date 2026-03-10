@@ -73,6 +73,23 @@ E1-*.md
 DATA_FLOW.md
 STAKEHOLDER_FEEDBACK*.md
 FRONTEND_TASK_BREAKDOWN.csv
+API.md
+DEPLOYMENT.md
+TESTING.md
+PROJECT_TRACKER*.md
+
+# Old docs that should stay local
+docs/CONFIDENCE_SCORE.md
+docs/G1_*.md
+docs/G2_*.md
+docs/G3_*.md
+docs/GITHUB_TESTING.md
+docs/INTERNAL_STAKEHOLDER*.md
+docs/LOCAL_TESTING.md
+docs/PHASE_*.md
+docs/USER_FEEDBACK*.md
+docs/Phase-B-Design-Tokens/
+.claude/FEATURE_BRANCH_PERMISSIONS.md
 
 # Local Claude settings (private, not committed)
 .claude/settings.local.json
