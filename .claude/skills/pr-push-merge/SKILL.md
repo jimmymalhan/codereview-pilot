@@ -81,7 +81,7 @@ Phase 4 MUST verify localhost. Phase 5 MUST tell user: "Server running at localh
 5. **Provide** – Localhost URL (working) + PR link
 6. **Wait** – User approval before merge
 7. **Merge** – Only after "merge now" from user
-8. **Cleanup** – Delete branch after merge
+8. **Cleanup** (REQUIRED) – Delete branch after merge; close abandoned PRs; keep branches and PRs tidy. Rule: clean up after done.
 
 ## Output Rules
 

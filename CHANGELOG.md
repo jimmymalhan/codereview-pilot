@@ -5,6 +5,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(rules): Clean up branches and PRs after done
+
+- **CLAUDE.md**: Branch Rules — "Clean up after done"; Done Definition — cleanup checklist item
+- **pr-push-merge**: Step 8 Cleanup marked REQUIRED; explicit "clean up after done" rule
+
 ### docs: Ultra-clear naming conventions everywhere
 
 - **docs/NAMING_CONVENTIONS.md**: New doc — branches (`feature/<kebab-case>`), commits (`feat(scope): desc`), PRs (title/body/comments), code (vars, classes, files), comments; Bad vs Good examples

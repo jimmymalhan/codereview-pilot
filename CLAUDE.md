@@ -90,6 +90,7 @@ npm run test:e2e       # E2E tests (requires API credentials)
 ## Branch Rules (HARD)
 - **All changes through branches** — Never commit directly to main. Create `feature/*` first. Commit there. Merge to main only via PR.
 - **Naming**: `feature/<kebab-case>`, `fix/<kebab-case>`, `docs/<kebab-case>`. See `docs/NAMING_CONVENTIONS.md`.
+- **Clean up after done** — Delete branch after merge. Close or merge abandoned PRs. Keep branches and PRs tidy. No orphan branches.
 - `main` - production; no direct commits. Changes land via PR from feature/*.
 - `feature/*` - all work happens here; auto-accept edits; push to branch; open PR
 - `.claude/worktrees/` - temporary isolation for risky changes
@@ -109,6 +110,7 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - ✓ `CHANGELOG.md` updated with what changed and why
 - ✓ Rollback path documented
 - ✓ Unknowns marked with [UNKNOWN]
+- ✓ **Clean up** — Delete merged branch; close/merge abandoned PRs; keep branches and PRs tidy
 
 ## Confidence Scoring (See .claude/rules/confidence.md)
 - **95-100**: Critical flows verified, unknowns documented, tests passing in CI
