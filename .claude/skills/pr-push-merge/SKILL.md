@@ -44,8 +44,8 @@ argument-hint: [branch or ""]
 
 ## Phase 5: DELIVER
 ### Sub-Agent: `PRPublisher` (model: haiku)
-- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. Merge when CI green (auto-merge). Notify user of server status.
-- **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_approval" }`
+- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. Merge when CI green (auto-merge). **After merge: clean up branch** — `git checkout main && git pull && git branch -d feature/<name> && git push origin --delete feature/<name>`.
+- **Output**: `{ pr_url, localhost_url, server_status, merge_status, branch_cleaned: boolean }`
 - **Gate**: links are real
 
 ## Contingency

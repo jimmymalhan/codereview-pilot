@@ -87,6 +87,7 @@ npm run test:e2e       # E2E tests (requires API credentials)
 
 ## Branch Rules (HARD)
 - **All changes through branches** — Never commit directly to main. Create `feature/*` first. Commit there. Merge to main only via PR.
+- **Clean up after merge** — After PR merges: `git checkout main && git pull`, `git branch -d feature/<name>`, `git push origin --delete feature/<name>`.
 - `main` - production; no direct commits. Changes land via PR from feature/*.
 - `feature/*` - all work happens here; auto-accept edits; push to branch; open PR
 - `.claude/worktrees/` - temporary isolation for risky changes
