@@ -12,48 +12,39 @@
   },
 
   "hooks": {
-    "PreToolUse": {
-      "description": "Branch-aware permissions and protected-file guard",
-      "command": "bash .claude/hooks/branch-aware-permissions.sh",
-      "deniedPaths": [
-        ".env", ".env.local", ".env.production",
-        "secrets.json", "credentials.json",
-        "node_modules/", "coverage/", "dist/", "build/"
-      ],
-      "blockedTools": {
-        "Edit": "Cannot edit .env files or secrets",
-        "Write": "Cannot create files in .env or secrets directories"
-      },
-      "warnings": {
-        "before_commit": "Run 'npm test' before committing code changes",
-        "before_push": "Verify all tests pass and no console.logs in production code"
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/branch-aware-permissions.sh"
+          }
+        ]
       }
-    },
-    "PreCommit": {
-      "description": "Verify staged changes include tests and docs updates",
-      "command": "bash .claude/hooks/check-edits.sh"
-    },
-    "PostTest": {
-      "description": "Remind to update confidence ledger after test runs",
-      "command": "bash .claude/hooks/update-confidence.sh"
-    },
-    "OnSessionEnd": {
-      "description": "Reinject critical context after compaction",
-      "actions": [
-        "Preserve CLAUDE.md and .claude/CLAUDE.md",
-        "Keep docs/CONFIDENCE_SCORE.md in context",
-        "Reload memory from ~/.claude/projects/.../memory/MEMORY.md"
-      ]
-    },
-    "Notification": {
-      "description": "Alert when Claude needs user input",
-      "triggers": [
-        "When blocked and need clarification",
-        "When confidence cannot be scored without evidence",
-        "When code change requires user approval",
-        "When test failure needs investigation"
-      ]
-    }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/update-confidence.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/check-edits.sh"
+          }
+        ]
+      }
+    ]
   },
 
   "subagents": {
