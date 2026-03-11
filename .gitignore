@@ -244,6 +244,8 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/skills/pr-reviewers/SKILL.md
 !.claude/skills/run-the-business/
 !.claude/skills/run-the-business/SKILL.md
+!.claude/skills/roadmap-1.0/
+!.claude/skills/roadmap-1.0/SKILL.md
 !.claude/skills/live-watchdog/
 !.claude/skills/live-watchdog/SKILL.md
 !.claude/skills/error-detector/

@@ -38,8 +38,17 @@ post_comments_on_pr() {
     done
   fi
 }
-OPEN_PRS=$(gh pr list --state open -q '.[].number' 2>/dev/null || true)
+OPEN_PRS=$(gh pr list --state open --json number -q '.[].number' 2>/dev/null || true)
 for pr in $OPEN_PRS; do
   post_comments_on_pr "$pr"
 done
+# Branch cleanup: delete local merged branches (branch-cleanup Phase 3)
+CURRENT=$(git branch --show-current 2>/dev/null)
+if [ "$CURRENT" = "main" ]; then
+  for b in $(gh pr list --state merged --limit 15 --json headRefName -q '.[].headRefName' 2>/dev/null); do
+    if git show-ref --verify --quiet "refs/heads/$b" 2>/dev/null; then
+      git branch -d "$b" 2>/dev/null || true
+    fi
+  done
+fi
 exit 0

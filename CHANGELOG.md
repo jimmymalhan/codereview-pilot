@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(pipeline): Branch/PR cleanup; roadmap skill; hooks
+
+- **Branch cleanup**: Deleted 15+ merged branches (local + remote). Closed PRs #28, #29 (content consolidated).
+- **PRs merged**: #27 (cleanup-after-merge, no-merge-until-100).
+- **open-prs-workflow.sh**: Added branch cleanup — delete local merged branches when on main. Fixed gh pr list -q syntax.
+- **roadmap-1.0 skill**: New skill — references FRONTEND_TASK_BREAKDOWN.csv; pending P0 tasks; phases DT, MU, SF, RC, etc. Integrates with full-cycle-automation.
+- **SKILLSETS.md**: roadmap-1.0 added to skill index.
+
 ### feat(rules): HARD — No merge until 100% (local, CI, QA, confidence)
 
 - **CLAUDE.md**: Branch rule — block merge until local+CI+QA+confidence 100%
