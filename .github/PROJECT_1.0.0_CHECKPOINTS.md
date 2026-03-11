@@ -1,6 +1,6 @@
 # Project 1.0.0 — Checkpoints & Milestones
 
-**Auto-updated**. Source: `FRONTEND_TASK_BREAKDOWN.csv`. Run `npm run status` to refresh README progress bar.
+**Auto-updated**. Source: milestones below. Task breakdown CSV excluded from repo (commit-precheck). Run `npm run status` to refresh README.
 
 ---
 
@@ -66,4 +66,4 @@ Core (v1.0.0):     100% — shipped at 1.0.1
 Premium UI:        (374 - pending) / 374 * 100
 ```
 
-Run: `grep -c ",pending," FRONTEND_TASK_BREAKDOWN.csv` for current pending count.
+Legacy: `grep -c ",pending," FRONTEND_TASK_BREAKDOWN.csv` (file excluded from repo; use milestones).

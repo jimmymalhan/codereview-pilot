@@ -4,7 +4,7 @@
 
 **Non-negotiable**: Skills, agents, subagents NEVER wait for user to run, update, or accept. Execute automatically; report results. No approval gates. **Full authority**: Commit, push, merge—execute. Do NOT claim "requires human authorization." Only ask when credentials missing. **All changes through branches** — never commit to main; create feature/* first; merge via PR only.
 
-**User feedback → skillset (META)**: Everything the user gives goes to the skill set. Keep updating. All user input → update or create skills. Do NOT create new docs. Everything becomes a skill. No exceptions. See `user-feedback-to-skillset` skill.
+**User feedback → skillset (META)**: Everything the user gives goes to the skill set. Keep updating. All user input → update or create skills. Do NOT create new docs. Everything becomes a skill. No exceptions. **Stakeholder feedback** (CTO, VP, Sales, GTM, Founder, PM, business users) → route to target skills per `stakeholder-feedback` skill. **Founder** → market research → features → plan → implement. See `user-feedback-to-skillset` and `stakeholder-feedback` skills.
 
 ---
 
@@ -43,6 +43,11 @@
 | **API Validator** | "What is APIValidator's skill set?" | verifier, backend-reliability — Contract testing, endpoint verification |
 | **ChaosTester** | "What is ChaosTester's skill set?" | chaos-tester, evidence-proof — End-user, internal, engineer personas; random tests; iterate; handoff to FixAgent |
 | **Execution Agent** | (preload) | execution-agent — Dumb checklists, enforced checkpoints, fail loudly; script over AI |
+| **TeamLead** | "What is TeamLead's skill set?" | stack-rank-priorities, sales, cost-guardrails — Review coordinator, stack rank idea→production→GitHub; final call on delivery |
+| **TeamCoordinator** | "What is TeamCoordinator's skill set?" | stack-rank-priorities, sales, cost-guardrails — Review lead, stack rank scope/effort; final call on scope |
+| **MarketResearchAgent** | "What is MarketResearchAgent's skill set?" | market-research, plan-and-execute — Research market, features needed, add to plan, implement automatically |
+| **Org Chart** | "What is the org chart?" | org-chart — 50 roles Junior→Founder; responsibilities, critique styles, agent mapping |
+| **Org Feedback Loop** | "Run org feedback until 1.0.0" | org-feedback-loop — Spawn org roles→critique→pushbacks→resolve→implement; repeat until pending=0 |
 
 ---
 
@@ -92,6 +97,7 @@
 | **cron-awareness** | Off-peak for heavy | Poll interval |
 | **structured-logging** | JSON logs, traceId, agent, phase | All agents |
 | **secrets-scan** | Block commit if secrets in diff | General-Purpose, pr-push-merge |
+| **commit-precheck** | Block commit if task breakdowns, progress docs, implementation reports; only feature/template files | pr-push-merge, guardrails |
 | **reversibility** | Rollback steps for every change | General-Purpose, FixAgent, pr-push-merge |
 | **audit-trail** | Append-only action log | All agents |
 | **auto-merge** | Merge when CI green (opt-in) | Plan, General-Purpose, LiveWatchdog |
@@ -121,7 +127,15 @@
 | **full-cycle-automation** | Branch cleanup → PR comments → merge → learn → upgrade; all skills have agents; all agents 4-5 phases | run-the-business, default loop |
 | **branch-cleanup** | Delete merged branches, close stale PRs; 5 phases, sub-agent owners | full-cycle-automation, pr-push-merge |
 | **roadmap-1.0** | Pending 1.0.x work from FRONTEND_TASK_BREAKDOWN.csv; DT/MU/SF/RC phases; batch by phase | full-cycle-automation, plan-and-execute, repository-audit-to-skillset |
+| **continuous-test-feedback** | Signed agents (API, UI, Backend, E2E) test use cases; critical feedback; iterate without user | run-the-business, APIUseCaseTester, UIUseCaseTester, BackendUseCaseTester, LocalhostE2ETester |
 | **extreme-critique** | No rubber-stamp; BLOCK on real issues; thorough before merge; less context | ten-pass, five-agent, consensus-gates |
+| **stack-rank-priorities** | TeamLead + TeamCoordinator cross-review; stack rank idea→production→GitHub; make final calls | TeamLead, TeamCoordinator |
+| **sales** | Round end-to-end: idea→scope→prioritization→execution→delivery→GitHub; value alignment; minimal credits | Plan, General-Purpose, TeamLead, TeamCoordinator |
+| **stakeholder-feedback** | CTO, VP, Sales, GTM, Founder, business user, PM → route to target skills; every feedback → skill upgrade | Plan, General-Purpose |
+| **market-research** | Research product market; features needed; add to plan; implement automatically. Founder perspective. | MarketResearchAgent, Plan |
+| **org-chart** | 50 roles (Junior→Founder); responsibilities, critique styles, agent mapping; run until 1.0.0 | run-the-business, plan-and-execute |
+| **org-feedback-loop** | Spawn org roles→critique→pushbacks→resolve conflicts→implement; repeat until pending=0 | run-the-business, org-chart |
+| **live-diagnosers** | Users, bots, agents, sub-agents that diagnose and test live system; count in Live System Status UI | continuous-test-feedback, run-the-business |
 
 ---
 
@@ -198,6 +212,9 @@ Skill updates are project-relevant. Commit them.
 | **Performance Optimizer** | (optional) | AlgorithmAnalyzer, CodeProfiler | Optional |
 | **Data Analyst** | (optional) | MetricsAnalyzer, ResponseParser | Optional |
 | **ChaosTester** | (optional) | End-user, internal, engineer personas; random UI+backend tests | Phase 3 |
+| **TeamLead** | (optional) | Stack rank, cross-review coordinator, final call on delivery | Phase 1 |
+| **TeamCoordinator** | (optional) | Stack rank, cross-review lead, final call on scope/effort | Phase 1 |
+| **MarketResearchAgent** | (optional) | Market research for product; features needed; add to plan; implement automatically | Phase 1 |
 
 ## Create → Handle → Run (E2E by Role)
 
@@ -228,7 +245,8 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Project structure, memory layout | `project-structure` | Shared vs local, .gitignore |
 | PR, push, localhost, merge | `pr-push-merge` | Commit→push→CI→localhost+PR links→consensus (multiple comments, 100%)→merge |
 | Don't ask, auto-execute | `push-hard` | No permission prompts, aggressive parallel |
-| Stakeholder feedback | `stakeholder-feedback` | CEO, EM, frustrated user, iterate |
+| Stakeholder feedback | `stakeholder-feedback` | CTO, VP, Sales, GTM, Founder, business user, PM → upgrade target skills; Founder → market research → implement |
+| Org chart + feedback loop | `org-chart`, `org-feedback-loop` | 50 roles → critique → pushbacks → resolve → implement; run until Project 1.0.0 complete |
 | Pull main, resolve conflicts | `conflict-resolution` | Stash, pull, resolve, don't lose changes |
 | Learn from mistakes | `feedback-log` | Common feedback, update guardrails |
 | UI premium, product story | `ui-premium-checklist` | Homepage, frontend-backend alignment |
@@ -271,6 +289,7 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Property-based testing | `property-based-testing` | Generative edge cases |
 | Lint fix before commit | `lint-fixer` | npm run lint --fix, eslint --fix |
 | PR summary with live data | `pr-summary` | gh pr diff; runs in forked Explore |
+| Stack rank, prioritize backlog | `stack-rank-priorities`, `sales` | TeamLead + TeamCoordinator cross-review; push to GitHub |
 
 ## End-to-End Workflow (Break, Agents, Branches, Tests, Feedback, Push, Merge)
 

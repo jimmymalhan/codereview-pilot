@@ -19,28 +19,34 @@ try {
   const lines = csv.trim().split('\n').slice(1);
   total = lines.length;
   pending = lines.filter(l => l.includes(',pending,')).length;
-} catch (e) {
-  console.error('Could not read CSV:', e.message);
-  process.exit(1);
+} catch {
+  // CSV not in repo (commit-precheck excludes task breakdowns). Use milestones.
+  total = 0;
+  pending = 0;
 }
 
 const done = total - pending;
-const pct = total > 0 ? Math.round((done / total) * 100) : 100;
+const premiumPct = total > 0 ? Math.round((done / total) * 100) : 0; // 0 = use milestones when CSV absent
+// Overall: Core = 50% of project, Premium UI = 50%
+const overallPct = Math.round(50 + (premiumPct / 2));
 const barLen = 20;
-const filled = Math.round((pct / 100) * barLen);
+const filled = Math.round((premiumPct / 100) * barLen);
 const bar = '█'.repeat(filled) + '░'.repeat(barLen - filled);
+const overallFilled = Math.round((overallPct / 100) * barLen);
+const overallBar = '█'.repeat(overallFilled) + '░'.repeat(barLen - overallFilled);
 
 const statusSection = `## Project 1.0.0 Status
 
 | Area | Progress | Status |
 |------|----------|--------|
-| **Core** (4-agent, API, webhooks) | 100% | ✅ Shipped in v1.0.1 |
-| **Premium UI roadmap** | ${pct}% | [${bar}] |
-| | | ${done}/${total} tasks done, ${pending} pending |
+| **Overall** | **${overallPct}%** | [${overallBar}] |
+| Core (4-agent, API, webhooks) | 100% | ✅ Shipped in v1.0.1 |
+| Premium UI roadmap | ${total > 0 ? premiumPct + "%" : "See milestones"} | ${total > 0 ? "[" + bar + "] — " + done + "/" + total + " tasks" : "—"} |
 
-**Source:** [FRONTEND_TASK_BREAKDOWN.csv](FRONTEND_TASK_BREAKDOWN.csv) · **Milestones:** [.github/PROJECT_1.0.0_CHECKPOINTS.md](.github/PROJECT_1.0.0_CHECKPOINTS.md)
+**Source:** [.github/PROJECT_1.0.0_CHECKPOINTS.md](.github/PROJECT_1.0.0_CHECKPOINTS.md) · Task breakdown excluded from repo (commit-precheck)
 
-**What's left:** Design tokens (DT), motion utilities (MU), style factory (SF), React migration (RC/RI/CM), loading/error states (LS/ES), dark theme, final checklist.`;
+**Completed:** Core pipeline, API, webhooks, audit trail, orchestration UI.  
+**Left (≈${100 - overallPct}%):** Design tokens (DT), motion utilities (MU), style factory (SF), React migration (RC/RI/CM), loading/error states (LS/ES), dark theme, final checklist.`;
 
 const readme = fs.readFileSync(readmePath, 'utf8');
 const startMarker = '## Project 1.0.0 Status';
@@ -65,4 +71,4 @@ if (startIdx >= 0) {
 }
 
 fs.writeFileSync(readmePath, newReadme);
-console.log(`Updated README: ${pct}% (${done}/${total} done)`);
+console.log(`Updated README: Overall ${overallPct}% | Premium UI ${premiumPct}% (${done}/${total} done)`);

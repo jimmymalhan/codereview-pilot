@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Hook: check-edits.sh
-# Purpose: Verify code changes match approved plan before commit
+# Purpose: Verify code changes match approved plan before commit; block forbidden files
 # Triggers: Before git commit (via settings.json hook)
 
 set -e
@@ -15,6 +15,9 @@ if [ -z "$STAGED_FILES" ]; then
   echo "✓ No staged changes to verify"
   exit 0
 fi
+
+# Commit precheck: block task breakdowns, progress docs, implementation reports
+bash "$(dirname "$0")/commit-precheck.sh" || exit 1
 
 # Check: Rules can be updated anytime
 RULE_CHANGES=$(echo "$STAGED_FILES" | grep -E "^\.claude/rules/" || true)

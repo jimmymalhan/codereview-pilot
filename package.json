@@ -11,6 +11,8 @@
     "test:e2e": "node --experimental-vm-modules node_modules/.bin/jest --testPathPattern=e2e --coverage",
     "load-test": "node scripts/load-test.js",
     "status": "node scripts/update-readme-status.js",
+    "precommit": "bash .claude/hooks/commit-precheck.sh",
+    "test:agents": "node scripts/continuous-test-matrix.js",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },

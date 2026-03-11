@@ -11,6 +11,8 @@ argument-hint: [branch or ""]
 
 **Uses** `secrets-scan`: Before commit, scan staged diff. Block if secrets detected.
 
+**Uses** `commit-precheck`: Before commit, run `bash .claude/hooks/commit-precheck.sh`. Block if task breakdowns, progress docs, or other non-feature files are staged. Only feature code and templates.
+
 **Uses** `reversibility`: PR body must include rollback section.
 
 **Uses** `ten-pass-verification`: Before Phase 4, run 10-pass. **Each pass MUST post** `gh pr comment` with result and push-back. All 10 must pass AND comment. Merge blocked until 10 comments on PR.

@@ -9,6 +9,7 @@
 - **Thorough before merge** — End-to-end checklist. All flows tested. Edge cases. No shortcuts.
 
 ## Hard Rules (Branch Workflow)
+- **Commit precheck** — Before every `git commit`, run `bash .claude/hooks/commit-precheck.sh`. Do NOT commit task breakdowns, progress dashboards, implementation reports, or other non-feature files. Only feature code and templates. See `commit-precheck` skill.
 - **All changes through branches** — Never commit directly to main. If on main, run `git checkout -b feature/<name>` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
 - **Small commits, small PRs** — One small change per commit. Each PR = small iteration of one feature. No big changes. Rollback = revert that feature only, not the whole project.
 - **Product-centric naming** — Branch and commit names must reflect core product and use cases (diagnosis, pipeline, api, evidence, ui). Do NOT use rule/process names (e.g. consensus-gates, ten-pass). See `naming-convention-product` skill.
