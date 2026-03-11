@@ -5,6 +5,25 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(skills): Add 9 watchdog/resilience skills — circuit breaker, retry, time-bounded, etc.
+
+- **circuit-breaker**: N failures → stop, hand off. FixAgent, LiveWatchdog.
+- **retry-with-backoff**: Exponential backoff for 429, 503. FixAgent, LiveWatchdog.
+- **time-bounded-run**: Max duration per phase; save on timeout. Plan, General-Purpose, ChaosTester.
+- **heartbeat-monitor**: Progress every 5 min during long runs.
+- **dead-man-switch**: No progress 15 min → save, notify.
+- **feedback-loop**: Past failures into checklists. Plan, General-Purpose, FixAgent.
+- **confidence-decay**: Stale evidence = lower weight. QA, CodeReviewer.
+- **anomaly-detection**: Baseline deviation (test count, duration). QA, CodeReviewer.
+- **cron-awareness**: Off-peak for heavy runs; poll interval. Plan, LiveWatchdog.
+
+### feat(skills): Add execution-agent — deterministic checklist over reasoning
+
+- **execution-agent skill**: Maximum determinism, minimal ambiguity. Dumb checklists over agentic reasoning.
+- **Principles**: Smallest task; enforced checkpoints; fail before continuing. Never rely on memory.
+- **Architectural rule**: If workflow can be a script, it must be a script. AI only for summarization, reasoning, classification.
+- **Preload**: Explore, Plan, General-Purpose. pr-push-merge, plan-and-execute, fix-pr-creator reference it.
+
 ### feat(docs): Pre-push checklist; replace guess/hidden with evidence-based language
 
 - **docs/PUSH_CHECKLIST.md**: Pre-push verification for tomorrow morning

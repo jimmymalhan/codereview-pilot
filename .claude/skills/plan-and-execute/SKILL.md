@@ -17,6 +17,8 @@ argument-hint: [task description]
 
 **4 phases, 5–10 subagents per phase** — Be very descriptive. See docs/SKILLSETS.md for full subagent prompts.
 
+**Uses** `execution-agent`: Enforced checkpoints at each gate. Never proceed if gate fails. Smallest task; deterministic steps.
+
 **Supporting files** (Agent Skills spec: load when needed):
 - Checklist: `.claude/local/checklists/<task>.md`
 - State: `.claude/local/state/plan-and-execute-state.json`

@@ -262,6 +262,26 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/agents/chaos-tester.md
 !.claude/skills/chaos-tester/
 !.claude/skills/chaos-tester/SKILL.md
+!.claude/skills/execution-agent/
+!.claude/skills/execution-agent/SKILL.md
+!.claude/skills/circuit-breaker/
+!.claude/skills/circuit-breaker/SKILL.md
+!.claude/skills/retry-with-backoff/
+!.claude/skills/retry-with-backoff/SKILL.md
+!.claude/skills/time-bounded-run/
+!.claude/skills/time-bounded-run/SKILL.md
+!.claude/skills/feedback-loop/
+!.claude/skills/feedback-loop/SKILL.md
+!.claude/skills/heartbeat-monitor/
+!.claude/skills/heartbeat-monitor/SKILL.md
+!.claude/skills/dead-man-switch/
+!.claude/skills/dead-man-switch/SKILL.md
+!.claude/skills/confidence-decay/
+!.claude/skills/confidence-decay/SKILL.md
+!.claude/skills/anomaly-detection/
+!.claude/skills/anomaly-detection/SKILL.md
+!.claude/skills/cron-awareness/
+!.claude/skills/cron-awareness/SKILL.md
 
 # ──────────────────────────────────────────────────
 # Misc local directories

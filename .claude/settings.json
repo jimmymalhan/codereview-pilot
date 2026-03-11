@@ -55,7 +55,7 @@
         "model": "haiku",
         "role": "Codebase search and discovery (read-only)",
         "tools": ["Glob", "Grep", "Read"],
-        "skills": ["project-guardrails", "evidence-proof", "router", "retriever", "plan-and-execute", "cost-guardrails"],
+        "skills": ["project-guardrails", "evidence-proof", "router", "retriever", "plan-and-execute", "execution-agent", "cost-guardrails"],
         "capabilities": [
           "Find files by pattern (e.g., 'src/**/*.js')",
           "Search code for keywords (e.g., 'API endpoints')",
@@ -68,7 +68,7 @@
         "model": "sonnet",
         "role": "Research and plan design approaches",
         "tools": ["Glob", "Grep", "Read", "WebFetch", "WebSearch"],
-        "skills": ["project-guardrails", "evidence-proof", "e2e-orchestrator", "plan-and-execute", "project-structure", "idea-to-production", "run-the-business", "multi-pr-coordinator", "cost-guardrails"],
+        "skills": ["project-guardrails", "evidence-proof", "e2e-orchestrator", "plan-and-execute", "execution-agent", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "cron-awareness", "feedback-loop", "project-structure", "idea-to-production", "run-the-business", "multi-pr-coordinator", "cost-guardrails"],
         "capabilities": [
           "Explore codebase during Plan Mode",
           "Design implementation approaches",
@@ -82,7 +82,7 @@
         "model": "haiku",
         "role": "Code writing and test execution",
         "tools": ["All"],
-        "skills": ["evidence-proof", "backend-reliability", "ui-quality", "frontend-engineer", "backend-engineer", "qa-engineer", "pr-push-merge", "feedback-log", "skills-self-update", "five-agent-verification", "self-fix", "conflict-resolution", "multi-pr-coordinator", "cost-guardrails"],
+        "skills": ["evidence-proof", "backend-reliability", "ui-quality", "frontend-engineer", "backend-engineer", "qa-engineer", "pr-push-merge", "execution-agent", "circuit-breaker", "retry-with-backoff", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "feedback-loop", "feedback-log", "skills-self-update", "five-agent-verification", "self-fix", "conflict-resolution", "multi-pr-coordinator", "cost-guardrails"],
         "capabilities": [
           "Implement approved plans",
           "Write and run tests",
@@ -98,7 +98,7 @@
         "model": "sonnet",
         "role": "Code quality, security, performance review",
         "tools": ["Read", "Grep", "Glob"],
-        "skills": ["project-guardrails", "evidence-proof", "critic", "backend-reliability", "ui-quality", "skills-self-update", "five-agent-verification"],
+        "skills": ["project-guardrails", "evidence-proof", "confidence-decay", "anomaly-detection", "critic", "backend-reliability", "ui-quality", "skills-self-update", "five-agent-verification"],
         "use_when": "Need parallel code review while coding",
         "phase": 3
       },
@@ -134,7 +134,7 @@
         "model": "haiku",
         "role": "Test plan and validation specialist",
         "tools": ["Read","Write","Edit","Run","Glob","Grep"],
-        "skills": ["qa-engineer", "evidence-proof", "critic", "pr-push-merge", "feedback-log", "skills-self-update", "five-agent-verification"],
+        "skills": ["qa-engineer", "evidence-proof", "confidence-decay", "anomaly-detection", "critic", "pr-push-merge", "feedback-log", "skills-self-update", "five-agent-verification"],
         "use_when": "Defining or verifying proof plans",
         "phase": 3
       },
@@ -143,7 +143,7 @@
         "model": "haiku",
         "role": "Poll CI, deploy, health. On error → error-detector → fix-pr-creator",
         "tools": ["Bash", "Read", "Grep"],
-        "skills": ["live-watchdog", "error-detector", "fix-pr-creator", "cost-guardrails"],
+        "skills": ["live-watchdog", "error-detector", "fix-pr-creator", "circuit-breaker", "retry-with-backoff", "cron-awareness", "cost-guardrails"],
         "use_when": "Run-the-business mode; live monitoring after execute",
         "phase": 2
       },
@@ -152,7 +152,7 @@
         "model": "haiku",
         "role": "Apply fixes when CI red. Self-fix loop until green.",
         "tools": ["All"],
-        "skills": ["self-fix", "conflict-resolution", "evidence-proof", "backend-reliability", "ui-quality", "cost-guardrails"],
+        "skills": ["self-fix", "conflict-resolution", "circuit-breaker", "retry-with-backoff", "feedback-loop", "evidence-proof", "backend-reliability", "ui-quality", "cost-guardrails"],
         "use_when": "fix-pr-creator spawns; CI red needs fix",
         "phase": 2
       },
@@ -170,7 +170,7 @@
         "model": "haiku",
         "role": "Simulate end users, internal users, engineers. Random tests on UI+backend to generate errors. Iterate on its own; handoff to FixAgent.",
         "tools": ["Bash", "Read", "Grep", "Glob"],
-        "skills": ["chaos-tester", "evidence-proof", "error-detector", "cost-guardrails"],
+        "skills": ["chaos-tester", "evidence-proof", "error-detector", "time-bounded-run", "heartbeat-monitor", "cost-guardrails"],
         "use_when": "Testing UI + backend with random/fuzz tests; finding errors before release",
         "phase": 3
       }

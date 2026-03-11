@@ -2,8 +2,9 @@
 name: fix-pr-creator
 description: Create fix branch (fix/<type>-<short-id>), spawn FixAgent, commit, push, open PR. Use when error-detector outputs type, scope, fixAgent. Invoked by live-watchdog.
 argument-hint: [error-id or type-id]
-description: Create fix branch (fix/<type>-<short-id>), spawn fix agent, commit, push, open PR.
 ---
+
+**Uses** `execution-agent`: Required fields (type, scope, fixAgent). If missing → stop, fix, retry. Do not proceed until validated.
 
 # Fix-PR-Creator Skill
 

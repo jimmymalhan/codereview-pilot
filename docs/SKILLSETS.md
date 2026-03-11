@@ -38,6 +38,7 @@
 | **Code Reviewer** | "What is CodeReviewer's skill set?" | critic, backend-reliability, ui-quality — DRY, quality, efficiency |
 | **API Validator** | "What is APIValidator's skill set?" | verifier, backend-reliability — Contract testing, endpoint verification |
 | **ChaosTester** | "What is ChaosTester's skill set?" | chaos-tester, evidence-proof — End-user, internal, engineer personas; random tests; iterate; handoff to FixAgent |
+| **Execution Agent** | (preload) | execution-agent — Dumb checklists, enforced checkpoints, fail loudly; script over AI |
 
 ---
 
@@ -54,6 +55,37 @@
 **Flow**: Run 5–10 random tests per persona on UI + backend → classify errors → iterate (vary inputs, re-run) → when done, hand off to FixAgent. You come in to fix after ChaosTester surfaces issues.
 
 **Invoke**: When testing UI + backend before release, or when you want to generate errors to verify error handling.
+
+---
+
+## Execution Agent (Deterministic Checklist Over Reasoning)
+
+**Skill**: `execution-agent`. Maximum determinism, minimal ambiguity.
+
+| Principle | Rule |
+|-----------|------|
+| Smallest task | Avoid broad agentic reasoning. Simple deterministic steps. |
+| Enforced checkpoints | Replace memory/guesswork with scripts that enforce required args. |
+| Fail before continuing | If it can fail programmatically, fail and stop before proceeding. |
+| Script over AI | If workflow can be a script, it must be a script. AI only for summarization, reasoning, classification. |
+
+**Preload**: Explore, Plan, General-Purpose. Applied automatically to all execution.
+
+---
+
+## Watchdog & Resilience Skills
+
+| Skill | Pattern | When |
+|-------|---------|------|
+| **circuit-breaker** | N failures → stop, hand off | FixAgent, LiveWatchdog |
+| **retry-with-backoff** | 429, 503 → exponential backoff | API calls, npm, gh |
+| **time-bounded-run** | Max duration per phase | Long runs |
+| **heartbeat-monitor** | Progress every 5 min | Runs > 10 min |
+| **dead-man-switch** | No progress 15 min → save | Stuck detection |
+| **feedback-loop** | Past failures → checklists | Recurring issues |
+| **confidence-decay** | Stale evidence = lower weight | Evidence proof |
+| **anomaly-detection** | Baseline deviation | Test metrics |
+| **cron-awareness** | Off-peak for heavy | Poll interval |
 
 ---
 
@@ -152,6 +184,16 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Live monitoring | `live-watchdog` | Poll CI, deploy, health; on error → fix PR |
 | Fix PR flow | `fix-pr-creator`, `self-fix` | Error → branch fix/X → spawn FixAgent → self-fix until green |
 | Random tests, generate errors | `chaos-tester` | End-user, internal, engineer personas; iterate; handoff to FixAgent |
+| Deterministic execution | `execution-agent` | Dumb checklists, enforced checkpoints; fail loudly; script over AI (preload) |
+| Circuit breaker | `circuit-breaker` | N failures → stop, hand off |
+| Retry with backoff | `retry-with-backoff` | 429, 503 → exponential backoff |
+| Time-bounded | `time-bounded-run` | Max duration per phase; save on timeout |
+| Heartbeat | `heartbeat-monitor` | Progress every 5 min during long runs |
+| Dead man's switch | `dead-man-switch` | No progress 15 min → save, notify |
+| Feedback loop | `feedback-loop` | Past failures → checklists |
+| Confidence decay | `confidence-decay` | Stale evidence = lower weight |
+| Anomaly detection | `anomaly-detection` | Baseline deviation alerts |
+| Cron awareness | `cron-awareness` | Off-peak for heavy runs |
 
 ## End-to-End Workflow (Break, Agents, Branches, Tests, Feedback, Push, Merge)
 
@@ -774,6 +816,16 @@ When creating PR:
 | `multi-pr-coordinator` | Order PRs by dependency; merge in order | Plan, Phase 4 |
 | `cost-guardrails` | Haiku-first; tiered verification; model-agnostic | Plan, General-Purpose |
 | `chaos-tester` | End-user, internal, engineer personas; random tests; iterate; handoff FixAgent | ChaosTester |
+| `execution-agent` | Dumb checklists, enforced checkpoints, fail loudly; script over AI | Explore, Plan, General-Purpose |
+| `circuit-breaker` | N failures → stop, hand off; no runaway retries | FixAgent, LiveWatchdog, General-Purpose |
+| `retry-with-backoff` | Exponential backoff for 429, 503, transient | FixAgent, LiveWatchdog, General-Purpose |
+| `time-bounded-run` | Max duration per phase; save state on timeout | Plan, General-Purpose, ChaosTester |
+| `heartbeat-monitor` | Periodic progress during long runs | Plan, General-Purpose, ChaosTester |
+| `dead-man-switch` | No progress X min → save, notify | Plan, General-Purpose |
+| `feedback-loop` | Feed past failures into checklists | Plan, General-Purpose, FixAgent |
+| `confidence-decay` | Stale evidence = lower weight | QA, CodeReviewer |
+| `anomaly-detection` | Flag baseline deviation (test count, duration) | QA, CodeReviewer |
+| `cron-awareness` | Time-of-day for heavy runs; poll interval | Plan, LiveWatchdog |
 
 ---
 
