@@ -46,7 +46,14 @@ const checks = {
   'LS-006': () => { try { return fs.readdirSync(path.join(root, 'src/www/components')).some(f => /StepProgressBar/i.test(f)); } catch { return false; } },
   'PUI-001': () => fileContains('src/www/WebsiteApp.jsx', 'Skeleton') || fileContains('src/www/App.jsx', 'Skeleton') || fileContains('src/www/components/OrchestrationDashboard.jsx', 'Skeleton'),
   'PUI-002': () => fileContains('src/www/WebsiteApp.jsx', 'StepProgressBar') || fileContains('src/www/App.jsx', 'StepProgressBar') || fileContains('src/www/components/LoadingOverlay.jsx', 'StepProgressBar'),
-  'FC-007': () => false, // Lighthouse - manual check
+  'FC-007': () => {
+    try {
+      const p = path.join(root, '.claude/local/lighthouse-score.json');
+      if (!fs.existsSync(p)) return false;
+      const d = JSON.parse(fs.readFileSync(p, 'utf8'));
+      return Number(d?.performance) >= 90;
+    } catch { return false; }
+  },
   'FC-010': () => exists('src/www/styles/accessibility.css') || fileContains('src/www', 'WCAG'),
 };
 
