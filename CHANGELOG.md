@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(pr-reviewers): Production house workflow - reviewers comment, push back, do not rush
+
+- **docs/reviewers.md**: Reviewer flow; 5 reviewers (Production, Business, Security, Code, QA); iterate on feedback
+- **pr-reviewers skill**: Spawn reviewers, iterate, recommend tests, merge gate
+- **pr-push-merge**: Phase 4.5 ReviewerGate; merge only when reviewers recommend
+- **CLAUDE.md**, **guardrails**: Do NOT rush to merge; reviewers must recommend
+- **settings.json**: pr-reviewers on CodeReviewer, APIValidator
+
 ### feat(branch-only): HARD rule - all changes through branches, never main
 
 - **CLAUDE.md**: Non-negotiable rule #9 — All changes through branches; create feature/* first; merge via PR only
