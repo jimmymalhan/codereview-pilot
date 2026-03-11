@@ -113,6 +113,7 @@ npm test              # Unit + integration
 npm run test:ci       # CI mode (GitHub Actions)
 npm run test:watch    # Watch mode
 npm run test:e2e      # E2E (requires ANTHROPIC_API_KEY)
+npm run load-test     # 20 concurrent diagnose requests (requires server running)
 ```
 
 ### 3. Make Changes
