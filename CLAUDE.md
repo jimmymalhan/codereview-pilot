@@ -70,6 +70,12 @@ npm run test:ci        # CI mode (GitHub Actions)
 npm run test:e2e       # E2E tests (requires API credentials)
 ```
 
+## Design Tokens (DT-010)
+- **Source**: `src/www/design-tokens.js` — single source of truth for colors, typography, spacing, motion, shadows, radius.
+- **Usage**: Import `designTokens`; use tokens, never hardcode hex/spacing values in components.
+- **WCAG AA**: Color contrasts and typography scales are WCAG 2.1 AA compliant. See `.claude/rules/ui.md` for accessibility rules.
+- **Motion**: `src/www/motion-utils.js` — prefersReducedMotion support; respect system preference.
+
 ## Configuration & Rules
 - **User feedback → skillset** — All user input goes to the skill set. Update or create skills. Do NOT create new docs. See `user-feedback-to-skillset` skill.
 - `.claude/SKILLSETS.md` — Skill index; all governance, rules, feedback live in skills

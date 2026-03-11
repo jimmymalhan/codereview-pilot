@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(1.0.0): Project 1.0.0 completion — 28/29 (97%), Lighthouse CI, design-tokens doc
+
+- **DT-010**: Added Design Tokens section to CLAUDE.md (source, usage, WCAG AA, motion).
+- **FC-007**: Lighthouse CI workflow (`.github/workflows/lighthouse.yml`) runs on push to main; commits `lighthouse-score.json` when performance ≥90. `update-readme-status` FC-007 check reads that file.
+- **scripts/run-lighthouse.js**: Local Lighthouse script (use when Node/Chrome arch match).
+- **ROADMAP_TODO**: FC-010, DT-010 marked done; FC-007 pending until CI produces score file.
+- **Status**: 28/29 (97%). 100% when Lighthouse CI commits score ≥90.
+
 ### fix(readme): Dynamic Project 1.0.0 status — PUI checks, What's left from checkpoints
 
 - **update-readme-status.js**: PUI-001/PUI-002 now check OrchestrationDashboard and LoadingOverlay (Skeleton/StepProgressBar wired via app tree).

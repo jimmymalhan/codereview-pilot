@@ -13,13 +13,13 @@
 
 | Area | Progress | Detail |
 |------|----------|--------|
-| **Overall** | **97%** | [███████████████████░] |
+| **Overall** | **99%** | [████████████████████] |
 | Core (4-agent, API, webhooks) | 100% | ✅ Shipped in v1.0.1 |
-| Premium UI checkpoints | **27/29** (93%) | [███████████████████░] |
+| Premium UI checkpoints | **28/29** (97%) | [███████████████████░] |
 
 **What's done:** Core pipeline, API, webhooks, audit trail, orchestration UI. Design tokens (colors, typography, motion). ThemeProvider, UIStateProvider, ThemeContext. AnimatedSection, FadeIn, motion-utils (prefersReducedMotion). Layout, ErrorBoundary, App.jsx. Dark/light themes. Skeleton, StepProgressBar wired in OrchestrationDashboard and LoadingOverlay.
 
-**What's left:** Document design tokens in CLAUDE.md, Lighthouse ≥90.
+**What's left:** Lighthouse ≥90.
 
 ---
 ### Roadmap Features (from [.github/PROJECT_1.0.0_CHECKPOINTS.md](.github/PROJECT_1.0.0_CHECKPOINTS.md))
