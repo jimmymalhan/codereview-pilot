@@ -101,8 +101,8 @@
         "model": "sonnet",
         "role": "Code quality, security, performance review",
         "tools": ["Read", "Grep", "Glob"],
-        "skills": ["project-guardrails", "evidence-proof", "consensus-resolver", "explainability", "confidence-decay", "anomaly-detection", "critic", "backend-reliability", "ui-quality", "skills-self-update", "five-agent-verification", "ten-pass-verification"],
-        "use_when": "Need parallel code review while coding",
+        "skills": ["project-guardrails", "evidence-proof", "consensus-resolver", "explainability", "confidence-decay", "anomaly-detection", "critic", "backend-reliability", "ui-quality", "skills-self-update", "five-agent-verification", "ten-pass-verification", "pr-reviewers"],
+        "use_when": "Need parallel code review while coding; PR reviewer (see docs/reviewers.md)",
         "phase": 3
       },
       {
@@ -110,8 +110,8 @@
         "model": "haiku",
         "role": "API contract testing and endpoint verification",
         "tools": ["Bash", "Read", "Grep"],
-        "skills": ["backend-reliability", "verifier", "evidence-proof", "feedback-log", "five-agent-verification"],
-        "use_when": "Testing API integrations in parallel; Phase 3 5-agent verification",
+        "skills": ["backend-reliability", "verifier", "evidence-proof", "feedback-log", "five-agent-verification", "pr-reviewers"],
+        "use_when": "Testing API integrations in parallel; PR reviewer; Phase 3 5-agent verification",
         "phase": 2
       },
       {

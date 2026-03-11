@@ -103,6 +103,7 @@
 | **graceful-degradation** | Reduce scope under pressure | Plan, General-Purpose |
 | **property-based-testing** | Generative edge case tests | General-Purpose, QA |
 | **ten-pass-verification** | 10 checks: REVIEW.md + five-agent + npm test + lint; user doesn't need to supervise | Phase 3, pr-push-merge |
+| **pr-reviewers** | Reviewers comment, push back, recommend tests; iterate; do NOT rush; merge only when recommend | pr-push-merge Phase 4.5; docs/reviewers.md |
 | **branch-only** | HARD: All changes through feature/*; never commit to main; merge via PR only | project-guardrails, guardrails.md |
 
 ---

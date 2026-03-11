@@ -11,6 +11,7 @@
 | **Branch-only (HARD)** | FEATURE_BRANCH_PERMISSIONS.md, guardrails.md | branch-aware-permissions.sh (feature/* only), settings.json | Active |
 | **Ten-pass verification** | REVIEW.md, ten-pass-verification/SKILL.md | pr-push-merge, e2e-orchestrator, General-Purpose | Active |
 | **Evidence-first diagnosis** | CLAUDE.md, guardrails.md | src/local-pipeline.js, Router/Retriever/Skeptic/Verifier | Core |
+| **PR reviewers** | docs/reviewers.md, pr-reviewers/SKILL.md | pr-push-merge Phase 4.5; CodeReviewer, APIValidator | Active |
 
 ---
 
