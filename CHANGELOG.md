@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(skills): Workflow operator skillsets — 4-phase engine + 22 skills
+
+- **22 workflow-operator skills** added under `.claude/skills/`: workflow-router, repo-intelligence, roadmap-auditor, pr-triage, branch-hygiene, readme-reality-check, roadmap-to-execution, checkpoint-auditor, test-synthesizer, blast-radius, cleanup-until-done, stale-file-cleanup, migration-guard, api-contract-check, end-to-end-verifier, milestone-checkpoint-sync, post-merge-watchdog, rollback-check, security-review, pr-memory, external-feedback-critic, mcp-routing.
+- **workflow-router** as top-level controller: routes all repo activity through DISCOVER → PLAN → IMPLEMENT → VERIFY. No recursive nesting; workers never spawn sub-workers.
+- **SKILLSETS.md**: New "Workflow Operator Skills" section with phase→skill→role mapping. Plan agent wired with workflow-router and phase skills.
+- **MASTER_TODO.json**: Machine-updatable master todo; syncs with ROADMAP_TODO and checkpoints. Consumed by workflow-router, plan-and-execute.
+- **Definition of done** (per phase): code correct, tests pass, docs updated, skills/hooks updated, next workflow prepared.
+
 ### feat(skills): no-direct-main — nothing goes to main without peers
 
 - **no-direct-main skill**: HARD rule—no commits directly to main. Operational and product features go through peers (PR review). Zero exceptions.

@@ -259,7 +259,7 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Idea → Production (handoffs) | `idea-to-production` | Full flow with merge/deploy handoff points |
 | 5-agent verification | `five-agent-verification` | Code review by 5 agents; all must pass before accept |
 | 10-pass verification | `ten-pass-verification` | REVIEW.md + five-agent + npm test + lint; 10 checks so user doesn't need to supervise |
-| Run the business (live) | `run-the-business` | Entry: idea-to-production + live-watchdog; full E2E |
+| Run the business (live) | `run-the-business` | Entry: workflow-router → idea-to-production + live-watchdog; full E2E |
 | Live monitoring | `live-watchdog` | Poll CI, deploy, health; on error → fix PR |
 | Fix PR flow | `fix-pr-creator`, `self-fix` | Error → branch fix/X → spawn FixAgent → self-fix until green |
 | Random tests, generate errors | `chaos-tester` | End-user, internal, engineer personas; iterate; handoff to FixAgent |
@@ -294,6 +294,43 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Lint fix before commit | `lint-fixer` | npm run lint --fix, eslint --fix |
 | PR summary with live data | `pr-summary` | gh pr diff; runs in forked Explore |
 | Stack rank, prioritize backlog | `stack-rank-priorities`, `sales` | TeamLead + TeamCoordinator cross-review; push to GitHub |
+
+---
+
+## Workflow Operator Skills (4-Phase Engine)
+
+**Entry point**: `workflow-router` — Top-level controller. Routes all repo activity through DISCOVER → PLAN → IMPLEMENT → VERIFY. Nothing standalone. No recursive nesting.
+
+| Phase | Skill | Role/Owner | Purpose |
+|-------|-------|------------|---------|
+| **Phase 0 (Meta)** | `workflow-router` | Router | Route all activity; assign workers; no worker spawns sub-workers |
+| **DISCOVER** | `repo-intelligence` | Retriever | Single-pass repo snapshot (branches, PRs, tests, skills, hooks) |
+| **DISCOVER** | `roadmap-auditor` | PM | Audit roadmap vs reality; identify gaps |
+| **DISCOVER** | `pr-triage` | QA | Classify PRs: keep, merge-ready, stale, superseded |
+| **DISCOVER** | `branch-hygiene` | SRE | Classify branches; detect orphans, merged-not-deleted |
+| **DISCOVER** | `readme-reality-check` | PM | README claims vs code reality |
+| **PLAN** | `roadmap-to-execution` | Plan | Convert roadmap items into executable tasks with owners |
+| **PLAN** | `checkpoint-auditor` | PM | Verify checkpoint status vs code |
+| **PLAN** | `test-synthesizer` | QA | Generate tests from specs and acceptance criteria |
+| **PLAN** | `blast-radius` | SRE | Assess impact of changes before implement |
+| **IMPLEMENT** | `cleanup-until-done` | SRE | Loop until remaining_items=0 (branches, PRs, files, docs) |
+| **IMPLEMENT** | `stale-file-cleanup` | SRE | Remove irrelevant/stale files with classification |
+| **IMPLEMENT** | `migration-guard` | SRE | Protect migrations; no breaking schema changes |
+| **IMPLEMENT** | `api-contract-check` | APIValidator | Verify API contracts before merge |
+| **VERIFY** | `end-to-end-verifier` | QA | Full flow verification; localhost + tests |
+| **VERIFY** | `milestone-checkpoint-sync` | PM | Sync milestones, checkpoints with reality |
+| **VERIFY** | `post-merge-watchdog` | SRE | Post-merge checks; branch cleanup, drift |
+| **VERIFY** | `rollback-check` | SRE | Rollback path exists for every change |
+| **VERIFY** | `security-review` | Security Auditor | Pre-merge security scan |
+| **Meta** | `pr-memory` | Plan | PR context and handoff memory |
+| **Meta** | `external-feedback-critic` | QA | Critical/upset feedback from external testers |
+| **Meta** | `mcp-routing` | Router | MCP tool routing for workflow |
+
+**Skill locations**: `.claude/skills/<skill-name>/SKILL.md`
+
+**When to use workflow-router**: Session start, any project instruction, run-the-business, plan-and-execute, PR merge, test failure, skill drift. Do NOT use for single-file edit or "just do X, no workflow".
+
+---
 
 ## End-to-End Workflow (Break, Agents, Branches, Tests, Feedback, Push, Merge)
 
@@ -957,6 +994,7 @@ When creating PR:
 | Agent definitions | `.claude/agents/<agent-name>.md` |
 | Project rules | `.claude/rules/*.md` |
 | This document | `.claude/SKILLSETS.md` |
+| Master todo (machine-updatable) | `.claude/MASTER_TODO.json` |
 | Confidence ledger | `.claude/CONFIDENCE_SCORE.md` (see `confidence-score` skill) |
 | Change log | `CHANGELOG.md` |
 

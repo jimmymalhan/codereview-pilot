@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "updated": "2025-03-10T00:00:00Z",
+  "updated_by": "workflow-router",
+  "phases": ["DISCOVER", "PLAN", "IMPLEMENT", "VERIFY"],
+  "items": [
+    {
+      "id": "FC-007",
+      "phase": "VERIFY",
+      "owner": "end-to-end-verifier",
+      "skill": "end-to-end-verifier",
+      "status": "pending",
+      "proof": "Lighthouse ≥90",
+      "roadmap_ref": ".github/PROJECT_1.0.0_CHECKPOINTS.md"
+    },
+    {
+      "id": "FC-010",
+      "phase": "VERIFY",
+      "owner": "end-to-end-verifier",
+      "skill": "end-to-end-verifier",
+      "status": "pending",
+      "proof": "WCAG AA",
+      "roadmap_ref": ".github/PROJECT_1.0.0_CHECKPOINTS.md"
+    }
+  ],
+  "automation_loop": [
+    "open-prs-workflow",
+    "branch-cleanup",
+    "roadmap-auditor",
+    "plan-and-execute",
+    "npm test",
+    "skills-self-update"
+  ],
+  "source_files": [
+    ".claude/ROADMAP_TODO.md",
+    ".github/PROJECT_1.0.0_CHECKPOINTS.md"
+  ]
+}
