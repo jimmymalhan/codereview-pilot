@@ -249,7 +249,7 @@
 - ✅ Manual testing verified
 - ✅ Focus management tested
 - ✅ Screen reader compatibility verified
-- ⚠️ Runtime axe-core scan pending (requires live server)
+- ✅ axe-core automated scan — `tests/unit/accessibility-axe.test.js` (jsdom, WCAG 2.1 AA rules)
 
 ### Unknowns
 - Dynamic content updates (results display) - needs runtime verification

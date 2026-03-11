@@ -57,7 +57,14 @@ app.use(express.json({ limit: '10mb' }))
 // Redirect product.html to single-page #product anchor
 app.get('/product.html', (_req, res) => res.redirect(301, '/#product'))
 
-app.use(express.static(join(__dirname, 'www')))
+const wwwRoot = join(__dirname, 'www')
+
+// Serve index.html for root (ensures homepage loads)
+app.get('/', (_req, res) => {
+  res.sendFile(join(wwwRoot, 'index.html'))
+})
+
+app.use(express.static(wwwRoot))
 
 // Attach traceId and start time to every request
 app.use((req, res, next) => {

@@ -5,30 +5,76 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
-### feat(ui): Single-page Product, Try It fix, rate-limit E2E (PR)
+### fix(server): Serve homepage at root; complete pending QA tasks
 
-- **Single-page**: Product merged into homepage; `/product.html` redirects to `/#product`; nav links use anchors.
-- **Try It**: Centered subtitle and card; reduced padding; form `text-align: left`.
-- **Rate-limit E2E**: `tests/e2e/rate-limit.test.js` — 429, Retry-After header, response structure.
-- **Server**: `app.get('/product.html')` → 301 redirect to `/#product`.
-- **Links**: orchestration.html, api-reference.html, NavigationBar.jsx → `#product` or `/#product`.
+- **Root 404 fixed**: Added explicit `GET /` route to serve `index.html`; localhost now loads homepage
+- **Accessibility audit**: `tests/unit/accessibility-axe.test.js` — axe-core WCAG 2.1 AA scan
+- **Mobile responsive**: `tests/unit/responsive-viewport.test.js` — viewport meta, breakpoints
+- **Load test script**: `scripts/load-test.js` — 20 concurrent diagnose requests (run: `node scripts/load-test.js`)
+- **Docs**: CONFIDENCE_SCORE.md and G1_ACCESSIBILITY_FIXES.md updated with completed evidence
 
-### feat(orchestration): Paperclip backend tasks visible and testable in UI
+### feat(skills): Add 5-agent verification, code review before accept
 
-- **Server**: Fixed `/api/tasks`, `/api/tasks/:taskId`, `/api/tasks/:taskId/approvals`, `/api/approvals` to use `await getOrchestrator()`. They were calling sync on an async function and returning 500.
-- **TaskManager**: Enriched `listTasks()` response with `id`, `createdAt`, `updatedAt`, `metadata`, `stateMachine` so the UI can display full task details.
-- **Task creation**: Store `metadata` (including `source`) when creating tasks so tasks show correct source in the UI.
-- **orchestration.html**: New standalone page at `/orchestration.html` to view Paperclip tasks, approvals, agents/budget, and audit trail. No React build required.
-- **index.html**: Added "Orchestration" link to main nav for quick access.
+- **five-agent-verification**: Code review verified by 5 agents (CodeReviewer, APIValidator, EvidenceReviewer, QAReviewer, Critic)
+- **Accept rule**: All 5 must pass before accept; any block → fix → re-run
+- **Auto-accept**: Starting now on feature/*; 5-agent verification runs in Phase 3
+- **idea-to-production**: Phase 3 now requires 5-agent verification
+- **e2e-orchestrator**: Phase 3 explicitly runs 5 agents in parallel
 
-### fix(ui): Resolve UI inconsistencies
+### feat(skills): Add idea-to-production skill with merge/deploy handoffs
 
-- **index.html**: Fixed `className` typo → `class` in "What happens after you click" section (line 1613). The fourth step card was not receiving styles.
-- **index.html**: Added FAQ link to main navigation for consistency with footer and content.
-- **index.html**: Applied `btn-primary` to hero "Start Diagnosis" CTA for primary-action consistency.
-- **NavigationBar.jsx**: Updated nav links to match index.html section IDs (`/#products`, `/#integrate`) for correct anchor navigation when React app is used.
+- **idea-to-production**: Codifies Idea → Execute → Production with explicit handoff points
+- **HANDOFF 1**: Merge to main – only after you say "merge now"
+- **HANDOFF 2**: Deploy to production – only with explicit approval
+- **References**: Claude Code skills, costs, common workflows
+- **Cost**: Least credits (grep first, Haiku, skip completed, skills in same turn)
+- **Quality**: Evidence proof, skills-self-update, feedback-log
 
-## [3.7.0] - 2026-03-10
+### feat(skills): Auto-accept end-to-end on feature branches
+
+- **branch-aware-permissions**: Any feature/* branch auto-accepts Edit, Write, Bash, git push
+- **Hook**: PreToolUse for Edit|Write|Bash; allow git push on feature branch; block only merge main, reset --hard, secrets, deploy
+- **branchPermissions**: feature/*, feature/skillsets-and-fe-be-skills
+- **branch-permissions skill**: Documented full auto-accept behavior
+- **push-hard skill**: Auto-accept includes git push
+
+### feat(skills): Add skills-self-update, 4 phases x 10 subagents, cost optimization
+
+- **skills-self-update**: Update skills when issues fixed; always learning
+- **docs/SKILLSETS.md**: 4 phases, 5-10 subagents each (very descriptive); Ask skill set per role; cost optimization; geo-seo-claude pattern
+- **Phase 3/4**: Skills Updater subagent after critique and post-delivery
+- **Cost optimization**: Grep first, skip completed, Haiku for simple tasks
+- **References**: Claude Code skills, geo-seo-claude, YouTube (FE/BE, PR automation)
+
+### feat(skills): Add user-prompt skills, workflow skills, feedback integration
+
+- **Workflow skills**: plan-and-execute, branch-permissions, project-structure, pr-push-merge, push-hard, stakeholder-feedback, conflict-resolution, feedback-log
+- **Checklist skills**: ui-premium-checklist, backend-full-checklist
+- **docs/SKILLSETS.md**: User prompts→skill mapping, E2E workflow (break work, agents, branches, tests, feedback, push, merge)
+- **Common feedback**: Incorporated into feedback-log and e2e-orchestrator
+- **settings.json**: Skills added to all core and optional subagents
+
+### feat(skills): Add comprehensive skillsets, FE/BE skills, PR automation
+
+- **docs/SKILLSETS.md**: Comprehensive skill sets for all roles (Router, Retriever, Skeptic, Verifier, Critic, FE, BE, QA, Compliance, Security, Performance, Data Analyst)
+- **4-phase subagent orchestration**: Discovery, Implementation, Review, PR Creation—5–10 subagents per phase with detailed prompts
+- **frontend-engineer skill**: Design tokens, component states, accessibility, form patterns
+- **backend-engineer skill**: Validation, retries, timeouts, error format, structured logging
+- **pr-automation skill**: Create PR, multi-PR workflow, branch management, quality gates
+- **References**: Claude Code skills, geo-seo-claude, Agent Skills standard
+
+## [1.0.1] - 2026-03-11
+
+### fix(ui): Fix diagnosis form not displaying results
+
+- **Root cause**: `displayResults()` read from `data.verifier` but API returns results nested under `data.result.verifier`. Form appeared to do nothing on submit.
+- **Confidence display**: API returns confidence as 0-1 decimal (e.g. 0.94). UI now converts to percentage (94%).
+- **Evidence**: Now correctly reads from `data.result.retriever.evidence` (was looking at non-existent `data.verifier.evidence`).
+- **New sections**: Added Router classification, Skeptic alternative theory, and total duration to results display.
+- **Fix plan/tests**: Rendered as ordered/unordered lists instead of plain `<br>` joins for better readability.
+- **Version**: Bumped to 1.0.1 (from 1.0.0 baseline).
+
+## [1.0.0] - 2026-03-10
 
 ### feat(api): Complete API Resilience Layer — Retry, Error Classification, Timeouts
 
