@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(token): Lower tokens when making changes
+
+- **CLAUDE.md**: Token Conservation section - Read(offset,limit), Grep, compact skills, filter-test-output, prefer Haiku
+- **settings.json**: Enable filter-test-output.sh for Bash (reduces npm test output)
+- **cost-guardrails**: When making changes - lower tokens note
+- **CODE_AND_DOCS**: Lower tokens execution rule
+
 ### feat(pr-reviewers): Production house workflow - reviewers comment, push back, do not rush
 
 - **docs/reviewers.md**: Reviewer flow; 5 reviewers (Production, Business, Security, Code, QA); iterate on feedback
