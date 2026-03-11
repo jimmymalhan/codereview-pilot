@@ -5,12 +5,13 @@
 ## Non-Negotiable Rules
 1. **Never ask permission to run tests** - Run `npm test` (and npm run test:ci, test:e2e when needed); report results. Do not ask "Can I run tests?" — just run.
 2. **Never invent** - fields, tables, APIs, regions, files, env vars, test results
-2. **Retrieve before explaining** - evidence first, then conclusions
-3. **Verifier blocks unsupported claims** - no hand-waving, no "should work"
-4. **Skeptic produces competing theory** - materially different root cause
-5. **Never wait for user** - Skills, agents, subagents proceed automatically. No "run?", "update?", "accept?", "approve?", "shall I?". Execute; report.
-6. **Confidence score backed by proof** - 95-100 only with passing tests
-7. **Separate observed facts from assumptions** - mark unknowns clearly with [UNKNOWN]
+3. **Retrieve before explaining** - evidence first, then conclusions
+4. **Verifier blocks unsupported claims** - no hand-waving, no "should work"
+5. **Skeptic produces competing theory** - materially different root cause
+6. **Never wait for user** - Skills, agents, subagents proceed automatically. No "run?", "update?", "accept?", "approve?", "shall I?". Execute; report.
+7. **Confidence score backed by proof** - 95-100 only with passing tests
+8. **Separate observed facts from assumptions** - mark unknowns clearly with [UNKNOWN]
+9. **All changes through branches** - Never commit directly to main. Create a feature branch first. All commits go to feature/*. Merge to main only via PR.
 
 ## Output Contract
 Every diagnosis must include:
@@ -23,7 +24,7 @@ Every diagnosis must include:
 
 ## Run-to-Vegas & Run-the-Business (DEFAULT)
 
-- **Permissions**: Everything is allow list. User granted full permissions. Execute and report; never ask.
+- **Permissions** (on feature/*): Everything is allow list. Execute and report; never ask. **On main**: No direct commits; create feature/* first.
 - **Ten-pass verification**: REVIEW.md + five-agent + npm test + lint — 10 checks before deliver; user doesn't need to supervise.
 - **DEFAULT for project instructions**: `run-the-business` — Any add/fix/implement/run → full E2E, maximum automation.
 - **Auto-merge**: ON by default — Merge when CI green; no "merge now" required.
@@ -84,9 +85,10 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - Keep making commits — continuous delivery
 - See `docs/CODE_AND_DOCS.md` for doc ↔ code mapping
 
-## Branch Rules
-- `main` - production, requires passing CI/CD and review
-- `feature/*` - feature branches, auto-accept edits during development
+## Branch Rules (HARD)
+- **All changes through branches** — Never commit directly to main. Create `feature/*` first. Commit there. Merge to main only via PR.
+- `main` - production; no direct commits. Changes land via PR from feature/*.
+- `feature/*` - all work happens here; auto-accept edits; push to branch; open PR
 - `.claude/worktrees/` - temporary isolation for risky changes
 
 ## When Blocked

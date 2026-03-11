@@ -89,10 +89,12 @@ Mark anything uncertain as `[UNKNOWN]` in `docs/CONFIDENCE_SCORE.md` instead of 
 
 ## 3. Safety & Permissions in This Repo
 
+### HARD: All Changes Through Branches
+- **Never commit directly to main.** Create `feature/*` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
+- If on main: `git checkout -b feature/<name>` before any edits. Then commit and push to the branch.
+- The `branch-aware-permissions.sh` hook: auto-accepts only on feature/*; main is not auto-accept.
+
 - **Protected files** are defined in `.claude/settings.json` (do not modify them directly unless the task explicitly requires it and tests are updated).
-- The `branch-aware-permissions.sh` hook:
-  - Keeps **main/master** strict.
-  - Allows more freedom on feature branches so local iteration is fast.
 
 **Rule**: Even if tools allow a command, **never**:
 - Commit secrets or `.env` files.

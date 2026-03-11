@@ -5,6 +5,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(branch-only): HARD rule - all changes through branches, never main
+
+- **CLAUDE.md**: Non-negotiable rule #9 — All changes through branches; create feature/* first; merge via PR only
+- **guardrails.md**: Hard rule - never commit to main; create branch first
+- **project-guardrails**: Branch-only workflow in Safety & Permissions
+- **branch-aware-permissions.sh**: main removed from is_auto_accept_branch; feature/* only
+- **settings.json**: main autoAcceptEdits=false
+- **FEATURE_BRANCH_PERMISSIONS.md**: Branch-only workflow; main no direct commits
+- **docs/SKILLSETS.md**: branch-only skill; non-negotiable
+- **docs/CODE_AND_DOCS.md**: Branch-only in Current Work
+
+### feat(rules): Never ask permission to run tests
+
+- **CLAUDE.md**: Non-negotiable rule #1 — run npm test; report; never ask "Can I run tests?"
+- **.claude/CLAUDE.md**, **FEATURE_BRANCH_PERMISSIONS.md**: Explicit "never ask to run tests"
+- **docs/CODE_AND_DOCS.md**: Execution rule added
+
 ### docs: CODE_AND_DOCS, REVIEW clarity, docs+code never separate
 
 - **docs/CODE_AND_DOCS.md**: Doc ↔ code map; "What's Being Worked On"; commit rule: docs and code together

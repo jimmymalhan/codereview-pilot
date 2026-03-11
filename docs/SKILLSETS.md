@@ -2,7 +2,7 @@
 
 **Purpose**: Define domain-expert skills for every agent and role so the system can run the whole business automatically. Plan and execute end-to-end with 4 phases, 5–10 subagents per phase. Always learning: skills self-update when issues are fixed.
 
-**Non-negotiable**: Skills, agents, subagents NEVER wait for user to run, update, or accept. Execute automatically; report results. No approval gates.
+**Non-negotiable**: Skills, agents, subagents NEVER wait for user to run, update, or accept. Execute automatically; report results. No approval gates. **All changes through branches** — never commit to main; create feature/* first; merge via PR only.
 
 ---
 
@@ -103,6 +103,7 @@
 | **graceful-degradation** | Reduce scope under pressure | Plan, General-Purpose |
 | **property-based-testing** | Generative edge case tests | General-Purpose, QA |
 | **ten-pass-verification** | 10 checks: REVIEW.md + five-agent + npm test + lint; user doesn't need to supervise | Phase 3, pr-push-merge |
+| **branch-only** | HARD: All changes through feature/*; never commit to main; merge via PR only | project-guardrails, guardrails.md |
 
 ---
 

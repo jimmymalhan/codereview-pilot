@@ -245,9 +245,9 @@
 
   "branchPermissions": {
     "main": {
-      "autoAcceptEdits": true,
-      "noPermissionPrompts": true,
-      "description": "Run to Vegas - user granted full permissions; execute and report"
+      "autoAcceptEdits": false,
+      "noPermissionPrompts": false,
+      "description": "No direct commits. All changes through feature/* branches. Create branch first."
     },
     "feature/*": {
       "autoAcceptEdits": true,

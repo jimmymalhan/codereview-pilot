@@ -1,5 +1,8 @@
 # Anti-Hallucination Guardrails
 
+## Hard Rules (Branch Workflow)
+- **All changes through branches** — Never commit directly to main. If on main, run `git checkout -b feature/<name>` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
+
 ## Proof Requirements
 - **Never invent files** - only read/edit files that exist or are explicitly requested
 - **Never invent APIs** - only call endpoints that are documented in code

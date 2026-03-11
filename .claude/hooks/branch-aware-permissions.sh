@@ -42,12 +42,11 @@ matches_pattern() {
   esac
 }
 
-# Function: Is this the auto-allowed branch? (Run to Vegas: user granted full permissions)
+# Function: Is this the auto-allowed branch? (HARD: all changes through feature branches only)
 is_auto_accept_branch() {
-  # Feature branches: always auto-accept
+  # Feature branches only: always auto-accept. Never commit to main.
   [[ "$BRANCH" =~ ^feature/ ]] && return 0
-  # Run to Vegas: main also auto-accept when user has granted full permissions
-  [[ "$BRANCH" == "main" ]] && return 0
+  # main: NOT auto-accept. All changes go through branches. Create feature/* first.
   return 1
 }
 

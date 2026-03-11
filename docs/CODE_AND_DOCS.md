@@ -8,7 +8,7 @@
 
 | Focus | Docs | Code | Status |
 |-------|------|------|--------|
-| **Run to Vegas** | FEATURE_BRANCH_PERMISSIONS.md, CLAUDE.md | .claude/hooks/branch-aware-permissions.sh, .claude/settings.json | Active |
+| **Branch-only (HARD)** | FEATURE_BRANCH_PERMISSIONS.md, guardrails.md | branch-aware-permissions.sh (feature/* only), settings.json | Active |
 | **Ten-pass verification** | REVIEW.md, ten-pass-verification/SKILL.md | pr-push-merge, e2e-orchestrator, General-Purpose | Active |
 | **Evidence-first diagnosis** | CLAUDE.md, guardrails.md | src/local-pipeline.js, Router/Retriever/Skeptic/Verifier | Core |
 
@@ -22,7 +22,7 @@
 | **CLAUDE.md** | Project standards, workflow, output contract | All agents; .claude/rules/ |
 | **.claude/CLAUDE.md** | Meta-rules, Plan Mode, subagents | .claude/settings.json subagents |
 | **.claude/settings.json** | Hooks, branch permissions, allowed commands | branch-aware-permissions.sh, PreToolUse hooks |
-| **FEATURE_BRANCH_PERMISSIONS.md** | Permission policy (Run to Vegas) | branch-aware-permissions.sh is_auto_accept_branch |
+| **FEATURE_BRANCH_PERMISSIONS.md** | Permission policy (branch-only; no main commits) | branch-aware-permissions.sh is_auto_accept_branch |
 | **docs/SKILLSETS.md** | Skill reference, role prompts | .claude/skills/*/SKILL.md |
 | **ten-pass-verification/SKILL.md** | 10 checks before deliver | pr-push-merge Phase 3, e2e-orchestrator Phase 3 |
 | **.claude/rules/guardrails.md** | Anti-hallucination | All skills, evidence-proof |

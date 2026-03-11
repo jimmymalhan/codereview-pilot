@@ -1,25 +1,24 @@
 # Feature Branch Permission Policy
-**Branch:** `feature/*` and `main` (Run to Vegas)
-**Policy:** AUTO-EXECUTE ALL OPERATIONS - NO PERMISSION REQUESTS
+**Branch:** `feature/*` only (branch-only workflow)
+**Policy:** All changes through branches. Never commit to main. Create feature/* first.
 **Status:** ✅ ACTIVE
 
 ---
 
-## 🎲 RUN TO VEGAS (User Granted Full Permissions)
+## 🌿 BRANCH-ONLY WORKFLOW (HARD)
 
-**User has granted full permissions. Everything is allow list. Do not ask for permission. Never ask to run tests — just run npm test and report.**
+**All changes through branches. Never commit directly to main. Create feature/* first. Merge to main only via PR.**
 
-- **main** and **feature/***: Auto-accept ALL operations
-- Execute and report. Never wait for approval.
-- Ten-pass verification (REVIEW.md + five-agent + npm test + lint) checks work 10 different ways—user does not need to supervise.
-- settings.json: `RUN_TO_VEGAS=true`, main in branchPermissions
-- Hook: `is_auto_accept_branch` includes main
+- **main**: No direct commits. If on main, create branch: `git checkout -b feature/<name>`
+- **feature/***: Full auto-accept. Execute and report.
+- Hook: `is_auto_accept_branch` = feature/* only (main excluded)
+- settings.json: main autoAcceptEdits=false
 
 ---
 
 ## 🔓 PERMISSION LEVEL: MAXIMUM AUTO-EXECUTE
 
-### On `feature/*` and `main`:
+### On `feature/*` only:
 ```
 ✅ Auto-accept ALL operations without asking:
   ✅ npm test
@@ -37,12 +36,11 @@
 NO PERMISSION REQUESTS - JUST EXECUTE AND REPORT
 ```
 
-### On `main` branch (Run to Vegas: user granted full permissions):
+### On `main` branch (HARD: no direct commits):
 ```
-✅ Auto-accept ALL operations (same as feature/*)
-✅ git push, merge PRs, state-changing commands
-✅ Ten-pass verification runs before deliver
-EXECUTE AND REPORT - NO PERMISSION REQUESTS
+❌ No direct commits to main
+❌ Create feature/* branch first
+✅ All work happens on feature/*; merge to main via PR only
 ```
 
 ---
@@ -165,10 +163,9 @@ All branches auto-accept. No transition needed. Execute and report on main and f
 - 🟢 Run any command without asking
 - 🟢 Maximum efficiency mode
 
-**Main Branch (`main`) — Run to Vegas:**
-- 🟢 Execute and report (user granted full permissions)
-- 🟢 Ten-pass verification before deliver
-- 🟢 No permission prompts
+**Main Branch (`main`) — Branch-only (HARD):**
+- 🔴 No direct commits
+- 🔴 Create feature/* first; merge via PR only
 
 ---
 
