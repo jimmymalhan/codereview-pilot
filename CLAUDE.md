@@ -66,6 +66,8 @@ npm run test:e2e       # E2E tests (requires API credentials)
 ```
 
 ## Configuration & Rules
+- `docs/CODE_AND_DOCS.md` — Doc ↔ code map; what's being worked on; never push docs/code separately
+- `REVIEW.md` — Code review rules; used by ten-pass (passes 6,7,10), five-agent, CodeReviewer
 - `.claude/CLAUDE.md` - Meta-rules (workflow, memory, subagents)
 - `.claude/rules/` - Specific standards (guardrails, testing, backend, ui, confidence)
 - `.claude/settings.json` - Hooks, commands, allowed paths, agent definitions
@@ -75,9 +77,11 @@ npm run test:e2e       # E2E tests (requires API credentials)
 
 ## Commit Frequently
 - Commit after any small change; don't batch
+- **Docs and code go hand in hand** — never push them separately. One commit = code + its docs.
 - Run `npm test` before commit; keep passing state
 - Automatic review: run tests, keep changes, commit again if fixes needed
 - Keep making commits — continuous delivery
+- See `docs/CODE_AND_DOCS.md` for doc ↔ code mapping
 
 ## Branch Rules
 - `main` - production, requires passing CI/CD and review

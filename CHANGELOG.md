@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### docs: CODE_AND_DOCS, REVIEW clarity, docs+code never separate
+
+- **docs/CODE_AND_DOCS.md**: Doc ↔ code map; "What's Being Worked On"; commit rule: docs and code together
+- **REVIEW.md**: Ultra-clear "Used by" table (ten-pass, five-agent, CodeReviewer); link to CODE_AND_DOCS
+- **CLAUDE.md**: "Docs and code go hand in hand—never push separately"; link CODE_AND_DOCS
+- **settings.json**: CODE_AND_DOCS in documentation
+
 ### feat(run-to-vegas): Full autonomy, ten-pass verification, no permission prompts
 
 - **Run to Vegas**: User granted full permissions. Everything allow list. Execute and report; never ask.

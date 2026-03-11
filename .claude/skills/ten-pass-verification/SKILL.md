@@ -56,6 +56,12 @@ Any fail? → Fix → Re-run failed passes only
 - Diagnosis output: root_cause, evidence, fix_plan, rollback, tests, confidence
 - Never invent: APIs, tables, file paths, env vars, test results
 
+## Doc ↔ Code
+
+- **REVIEW.md** = Passes 6, 7, 10 (Always, Style, Project-specific)
+- **ten-pass-verification** = This skill
+- **docs/CODE_AND_DOCS.md** = Full mapping; docs and code together
+
 ## Integration
 
 - Invoked before `pr-push-merge` hands off PR

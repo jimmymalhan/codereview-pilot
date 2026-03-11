@@ -233,7 +233,8 @@
 
   "documentation": {
     "README.md": "Problem, quick start, features, integration",
-    "REVIEW.md": "Code review guidelines, ten-pass verification, Claude Code Review",
+    "docs/CODE_AND_DOCS.md": "Doc ↔ code map; what's being worked on; never push docs/code separately",
+    "REVIEW.md": "Code review guidelines; ten-pass passes 6,7,10; five-agent; CodeReviewer",
     "CLAUDE.md": "Project rules, workflow, output contract",
     ".claude/CLAUDE.md": "Meta-rules, Plan Mode, memory, subagents",
     "CHANGELOG.md": "Session-by-session change log",
