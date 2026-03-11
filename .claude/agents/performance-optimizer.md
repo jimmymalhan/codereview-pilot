@@ -1,3 +1,10 @@
+---
+name: Performance Optimizer
+description: Analyze code for performance bottlenecks and algorithmic complexity.
+tools: ["Read", "Grep", "Glob"]
+skills: ["project-guardrails", "evidence-proof", "backend-reliability"]
+---
+
 # Performance Optimizer Agent
 
 ## Purpose
@@ -77,6 +84,19 @@ Input: Analyze src/api.js for performance issues
 Output: Found N+1 query pattern at line 45 (executes 100 queries for 100 users),
 suggests batch query reducing to 2 queries (50x improvement)
 ```
+
+## Skill Set (Preloaded for This Agent)
+
+| Skill | Purpose |
+|-------|---------|
+| `project-guardrails` | Cite file:line; never invent |
+| `evidence-proof` | Back findings with code evidence |
+| `backend-reliability` | Timeout, retry patterns for async |
+
+## Phase & Subagent Use
+- **Phase**: Optional (Phase 3 review when task touches perf)
+- **Spawn with**: CodeReviewer (parallel efficiency review), Explore (find hotspots)
+- **Output**: Bottlenecks with file:line; no code changes
 
 ## Related Skills
 - AlgorithmAnalyzer (for complexity analysis)

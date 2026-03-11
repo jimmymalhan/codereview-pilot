@@ -20,6 +20,12 @@ Every diagnosis must include:
 - **Tests** - unit, integration, and E2E proof of fix
 - **Confidence** - backed by passing tests with evidence
 
+## Run-the-Business & Live Monitoring
+
+- **Entry skill**: `run-the-business` — Invoke idea-to-production; start live-watchdog; full E2E.
+- **Live phase** (optional): After Execute, poll CI/deploy/health; on error → error-detector → fix-pr-creator → self-fix loop.
+- **Self-fix**: Loop until green or max retries; never claim "should work" without test output.
+
 ## Recommended Workflow
 1. **Plan First** (use Plan Mode):
    - Explore codebase (Explore agent or Glob/Grep)

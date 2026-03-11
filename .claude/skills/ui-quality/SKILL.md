@@ -1,3 +1,52 @@
+---
+name: ui-quality
+description: Production-grade UI quality - states, accessibility, business language, desktop-first layout. Use when building or reviewing user-facing pages.
+---
+
+## Phase 1: DISCOVER
+### Sub-Agent: `QualityScout` (model: haiku)
+- **Tools**: Glob, Grep, Read
+- **Prompt**: Find all interactive elements in src/www/. Check which have all states (Normal, Loading, Error, Success, Empty, Disabled, Validation). Find accessibility gaps.
+- **Output**: `{ components[], missing_states[], a11y_gaps[] }`
+- **Gate**: gaps identified
+
+## Phase 2: PLAN
+### Sub-Agent: `QualityPlanner` (model: sonnet)
+- **Prompt**: Plan state additions per component. Plan accessibility fixes. Priority: states > a11y > language > layout.
+- **Output**: `{ fixes[{component, missing_states[], a11y_fix}] }`
+- **Gate**: fixes planned
+
+## Phase 3: IMPLEMENT
+### Sub-Agent: `QualityBuilder` (model: haiku)
+- **Tools**: Read, Edit
+- **Prompt**: Add missing states ONE component at a time. Order: Normal → Loading → Error. Use design tokens. Add ARIA labels.
+- **Output**: `{ component, states_added[], a11y_added: boolean }`
+- **Gate**: states present
+
+## Phase 4: VERIFY
+### Sub-Agent: `QualityTester` (model: haiku)
+- **Tools**: Bash
+- **Prompt**: Start server. Check localhost. Verify states render. Test keyboard nav (Tab through all interactive elements). Verify contrast.
+- **Output**: `{ localhost_ok, states_verified[], keyboard_ok: boolean }`
+- **Gate**: all states work AND keyboard nav works
+
+## Phase 5: DELIVER
+### Sub-Agent: `QualityPackager` (model: haiku)
+- **Prompt**: Commit. Notify user: "UI quality updated. Verify at localhost:3000."
+- **Output**: `{ commit_sha, components_fixed, server_status }`
+- **Gate**: committed
+
+## Contingency
+IF component breaks after adding states → revert that component → try simpler implementation → contingency L2 if still failing.
+
+## Live Feedback Handler
+IF user reports "confusing UI" or "can't find X" → classify as Medium → queue for next cycle (unless Critical → hotfix).
+
+## Server Lifecycle
+Restart server after UI changes. Verify page loads before claiming done.
+
+---
+
 # UI Quality Skill
 
 **Purpose**: Build production-grade UI that non-technical users trust immediately.

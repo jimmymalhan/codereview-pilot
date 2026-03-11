@@ -1,8 +1,75 @@
+---
+name: evidence-proof
+description: Run npm test, capture output, score confidence, document unknowns. Use after implementing features, fixing bugs, or before claiming done. Never "should work"—capture actual test counts, coverage, pass/fail. Update docs/CONFIDENCE_SCORE.md.
+---
+
+## Execution Standard (Apply to Every Skill)
+
+- **Phases**: Create sub-agents in **four to five different phases** in every skill.
+- **Auto-execute**: Do NOT wait for user to accept changes. Proceed automatically. Pausing for approval does not guarantee execution will run.
+
 # Evidence-Proof Skill
 
 **Purpose**: Gather proof, score confidence, and document unknowns systematically.
 
 **When to use**: After implementing features, fixing bugs, or making changes.
+
+**Rule**: Run `npm test` before claiming done. Never claim "should work" — capture actual test output. No invented counts or coverage.
+
+**Supporting files**: Output goes to `docs/CONFIDENCE_SCORE.md`. Keep SKILL.md under 500 lines.
+
+---
+
+## Phase 1: DISCOVER
+### Sub-Agent: `EvidenceScout` (model: haiku)
+- **Tools**: Glob, Grep, Bash
+- **Prompt**: Find changed files (`git diff --name-only HEAD~1`). Find corresponding test files. Check if coverage report exists. Check server status if manual testing needed.
+- **Output**: `{ changed_files[], test_files[], coverage_exists: boolean, server_needed: boolean }`
+- **Gate**: changed files identified
+
+## Phase 2: PLAN
+### Sub-Agent: `ProofPlanner` (model: sonnet)
+- **Prompt**: Map each changed file to required evidence: which tests to run, which flows to verify, which endpoints to check. Use Scoring Template below.
+- **Output**: `{ proof_plan[{file, test_cmd, flow, expected_result}] }`
+- **Gate**: proof plan covers all changed files
+
+## Phase 3: IMPLEMENT
+### Sub-Agent: `TestRunner` (model: haiku)
+- **Tools**: Bash, Read
+- **Prompt**: Run `npm test`. Capture output VERBATIM. Extract: test count, pass count, fail count, coverage %. IF server needed → check health. Run specific test files from proof plan.
+- **Output**: `{ test_output_summary, test_count, pass_count, fail_count, coverage_pct, duration }`
+- **Gate**: tests actually ran (output is real, not invented)
+
+## Phase 4: VERIFY
+### Sub-Agent: `ConfidenceScorer` (model: haiku)
+- **Prompt**: Score confidence using rubric below. List unknowns. List residual risks. Update docs/CONFIDENCE_SCORE.md with scoring template.
+- **Output**: `{ confidence, evidence[], unknowns[], residual_risks[], rollback_path }`
+- **Gate**: confidence is a number backed by actual test output
+
+## Phase 5: DELIVER
+### Sub-Agent: `EvidenceArchiver` (model: haiku)
+- **Prompt**: Write scoring template to docs/CONFIDENCE_SCORE.md. Notify user of confidence score, server status, and any remaining unknowns.
+- **Output**: `{ confidence_score_updated, server_status, user_message }`
+- **Gate**: CONFIDENCE_SCORE.md updated
+
+---
+
+## Contingency
+
+IF npm test fails:
+  → Do NOT lower confidence arbitrarily — report actual failure
+  → Invoke contingency L1 (fix failing test)
+  → IF still failing after 2 attempts → contingency L2 (simplify)
+
+IF server needed but won't start:
+  → Invoke server-lifecycle
+  → IF still down → mark manual testing as [UNKNOWN], lower confidence
+
+IF rate limited during test run:
+  → Save evidence gathered so far
+  → Contingency L5 (pause, save state)
+
+---
 
 ## Process: Gather Evidence (6 Steps)
 

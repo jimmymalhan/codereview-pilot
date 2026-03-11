@@ -72,26 +72,51 @@
 
 ## Subagent Strategy
 
+### Skill Sets by Agent (See docs/SKILLSETS.md)
+
+| Agent | Skills (Preloaded) | Phase | Use |
+|-------|--------------------|-------|-----|
+| **Explore** | project-guardrails, evidence-proof, router, retriever | 1 | Discovery, classification |
+| **Plan** | project-guardrails, evidence-proof, e2e-orchestrator | 1 | Plan Mode, orchestration |
+| **General-Purpose** | evidence-proof, backend-reliability, ui-quality, frontend-engineer, backend-engineer, qa-engineer | 2 | Implementation |
+| **CodeReviewer** | project-guardrails, evidence-proof, critic, backend-reliability, ui-quality | 3 | Review, quality gate |
+| **APIValidator** | backend-reliability, verifier, evidence-proof | 2 | API testing |
+| **frontend-engineer** | frontend-engineer, ui-quality, evidence-proof | 2 | FE features |
+| **backend-engineer** | backend-engineer, backend-reliability, evidence-proof | 2 | BE features |
+| **qa-engineer** | qa-engineer, evidence-proof, critic | 3 | Test plans, proof |
+
+### Phases with Subagents
+
+**Phase 1 (Discovery)**: Explore, Plan → Skills: router, retriever, e2e-orchestrator, project-guardrails
+**Phase 2 (Implementation)**: General-Purpose, frontend-engineer, backend-engineer, APIValidator → Skills: frontend-engineer, backend-engineer, backend-reliability, ui-quality, verifier
+**Phase 3 (Review)**: CodeReviewer, qa-engineer → Skills: critic, evidence-proof
+**Phase 4 (PR/Run)**: General-Purpose, pr-automation, e2e-orchestrator
+
 ### Core Subagents (Always Available)
-1. **Explore** (Haiku model, read-only):
+1. **Explore** (Haiku model, read-only, Phase 1):
    - Search codebase for patterns, APIs, file structures
+   - Skills: project-guardrails, evidence-proof, router, retriever
    - Use for: "Find all API endpoints", "What files handle auth?"
    - Limit: Cannot edit files, cannot run tests
 
-2. **Plan** (Sonnet model, research-focused):
+2. **Plan** (Sonnet model, research-focused, Phase 1):
    - Explore codebase and design implementation approaches
+   - Skills: project-guardrails, evidence-proof, e2e-orchestrator
    - Use for: Plan Mode - understand requirements, identify risks
    - Limit: Cannot edit code, cannot execute
 
-3. **General-purpose** (Haiku model, full access):
+3. **General-purpose** (Haiku model, full access, Phase 2):
    - Complex execution tasks, code writing, testing
+   - Skills: evidence-proof, backend-reliability, ui-quality, frontend-engineer, backend-engineer, qa-engineer
    - Use for: Implement approved plans, write tests
    - Limit: Must work from approved plan, not self-direct
 
 ### Optional Specialized Subagents (Max 3-5 Total)
-- **CodeReviewer** (code quality, security, performance)
-- **APIValidator** (API contract testing, endpoint verification)
-- **UXResearcher** (user feedback, design validation)
+- **CodeReviewer** (Phase 3) – Skills: critic, backend-reliability, ui-quality
+- **APIValidator** (Phase 2) – Skills: verifier, backend-reliability
+- **frontend-engineer** (Phase 2) – Skills: frontend-engineer, ui-quality
+- **backend-engineer** (Phase 2) – Skills: backend-engineer, backend-reliability
+- **qa-engineer** (Phase 3) – Skills: qa-engineer, critic
 
 **Guidance:** Use specialized agents only when you have **3+ independent tasks** that can run in parallel. For most work, core subagents are sufficient.
 

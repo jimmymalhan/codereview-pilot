@@ -5,6 +5,38 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(skills): Remove References section, enhance skills per Claude Code + Agent Skills spec
+
+- **Removed** References (Skills Creation & Automation) section from docs/SKILLSETS.md; kept Project Docs for internal links
+- **Descriptions** — Keyword-rich per Agent Skills spec (when to use, task triggers)
+- **argument-hint** — Added to run-the-business, plan-and-execute, idea-to-production, e2e-orchestrator, fix-pr-creator, pr-push-merge
+- **Supporting files** — plan-and-execute, evidence-proof note checklist/state paths; keep SKILL.md under 500 lines
+- **Enhancements** — router, retriever, skeptic, verifier, critic, evidence-proof, frontend-engineer, backend-engineer, fix-pr-creator, pr-push-merge
+
+### feat(skills): Project instructions only, SKILLSETS.md expansion, FE/BE customization
+
+- **Project instructions only**: docs/SKILLSETS.md leads with "You give project instructions. We run the whole business."
+- **Ask skill set for each role**: Prominent table at top; agents know how to behave per role
+- **FE/BE project customization**: How to add PROJECT.md to customize frontend/backend per project (per YouTube FE/BE skills)
+- **Skillset review & iteration**: Multi-agent critique flow (5–10 reviewers, iterate based on feedback)
+- **References**: All YouTube links (FE/BE, PR automation, multi-PR, skills deep dive), geo-seo-claude
+- **run-the-business**, **plan-and-execute**: Emphasize project-instructions flow, 4 phases 5–10 subagents
+
+### feat(skills): Complete workforce for skill set (Project 2–6)
+
+- **Project 2 skills**: run-the-business, live-watchdog, error-detector, fix-pr-creator, self-fix, rebase-manager, multi-pr-coordinator
+- **Project 5 agents**: LiveWatchdog, FixAgent, RebaseResolver (with YAML frontmatter, skills)
+- **Project agents**: performance-optimizer, data-analyst — add frontmatter + skills; security-auditor, compliance-checker already updated
+- **Skill updates**: idea-to-production — Live Phase (optional); e2e-orchestrator — Phase 2.5 live-watchdog; evidence-proof — "Run npm test; never claim without output"
+- **Config/docs**: CLAUDE.md — run-the-business default, live monitoring, self-fix; docs/SKILLSETS.md — watchdog flow, fix PR flow, new skill table; .gitignore — new skills and agents
+- **Local only** (per user rule): Skillset work not pushed; kept on branch feature/skillsets-and-fe-be-skills
+
+### feat(dev): Add `npm run dev` with nodemon for auto-restart
+
+- **npm run dev**: Runs server with nodemon — restarts on crash and on file changes
+- **Keeps localhost up**: Server recovers automatically during development
+- **Watch**: src/ (js, json, html, css); ignore node_modules, tests
+
 ### fix(server): Serve homepage at root; complete pending QA tasks
 
 - **Root 404 fixed**: Added explicit `GET /` route to serve `index.html`; localhost now loads homepage

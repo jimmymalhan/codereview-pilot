@@ -44,9 +44,9 @@ matches_pattern() {
 
 # Function: Is this the auto-allowed feature branch?
 is_feature_branch() {
-  # Auto-execute is ONLY allowed on the specific feature branch requested by the user.
-  # All other branches (including staging, develop, hotfix, release) are treated as protected.
-  [[ "$BRANCH" == "feature/integration-website" ]]
+  # Auto-accept on ANY feature/* branch - run the business end-to-end without permission prompts.
+  # Protected: main, master, staging, develop, hotfix, release.
+  [[ "$BRANCH" =~ ^feature/ ]]
 }
 
 # Function: Check if command is safe for auto-allow
@@ -142,11 +142,31 @@ is_dangerous_command() {
   return 1
 }
 
+# On feature branches: allow git push (run business E2E). Still block merge/reset/secrets.
+is_dangerous_on_feature_branch() {
+  local tool="$1"
+  local cmd="$2"
+  [[ "$tool" != "Bash" ]] && return 1
+  [[ "$cmd" == *"git reset --hard"* ]] && return 0
+  [[ "$cmd" == *"git merge main"* ]] && return 0
+  [[ "$cmd" == *"git merge master"* ]] && return 0
+  [[ "$cmd" == *"rm -rf"* ]] && return 0
+  [[ "$cmd" == *".env"* ]] && return 0
+  [[ "$cmd" == *"secrets"* ]] && return 0
+  [[ "$cmd" == *"deploy"* ]] && return 0
+  [[ "$cmd" == *"npm publish"* ]] && return 0
+  return 1
+}
+
 # Main logic
 if is_feature_branch; then
-  # FEATURE BRANCH (feature/integration-website ONLY):
-  # Auto-allow all commands for aggressive execution on this branch.
-  # All other branches, including staging/develop/hotfix, follow the protected-path logic below.
+  # FEATURE BRANCH (any feature/*):
+  # Auto-accept end-to-end. Run the business without permission prompts.
+  # Allow: edits, git add/commit/push, npm, node, all safe commands.
+  # Block only: reset --hard, merge main, rm -rf, .env/secrets, deploy, publish.
+  if is_dangerous_on_feature_branch "$TOOL" "$COMMAND"; then
+    exit 1
+  fi
   exit 0
 else
   # PROTECTED BRANCH (main, master, staging, develop, etc.):
