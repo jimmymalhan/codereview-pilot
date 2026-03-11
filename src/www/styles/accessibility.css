@@ -1,0 +1,531 @@
+/**
+ * Accessibility & WCAG 2.1 AA Compliance
+ * - ARIA label visibility
+ * - Keyboard navigation & focus management
+ * - Motion preferences (prefers-reduced-motion)
+ * - Color contrast & visual indicators
+ * - Screen reader compatibility
+ */
+
+/* =============================================================================
+   SKIP LINKS (Screen reader & keyboard users)
+   ============================================================================= */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #0071e3;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 0 0 4px 0;
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   FOCUS MANAGEMENT (All interactive elements)
+   ============================================================================= */
+
+/* Visible focus indicator for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Button focus states */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+}
+
+/* Remove default focus outline on mouse/touch (keep for keyboard) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  :focus-visible {
+    outline: 3px solid #0071e3;
+    outline-offset: 3px;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    outline: 3px solid #0071e3;
+    outline-offset: 3px;
+  }
+}
+
+/* =============================================================================
+   MOTION PREFERENCES (prefers-reduced-motion: reduce)
+   ============================================================================= */
+
+/* Disable ALL animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Specific animation disabling */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Remove parallax and scroll effects */
+  [data-parallax] {
+    transform: none !important;
+  }
+
+  /* Keep opacity for visibility but no fade animations */
+  .fade-in,
+  .fade-out,
+  .slide-in,
+  .zoom-in,
+  .bounce,
+  .pulse,
+  .spin {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Loading spinners should be hidden for users who prefer no motion */
+  .spinner,
+  .loading-spinner {
+    display: none !important;
+  }
+
+  /* Show static loader alternative */
+  .spinner-text {
+    display: block !important;
+  }
+
+  /* Smooth scroll becomes instant */
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  /* Transitions become instant */
+  .transition-fast,
+  .transition-med,
+  .transition-slow {
+    transition: none !important;
+  }
+}
+
+/* =============================================================================
+   FORM VALIDATION & ACCESSIBILITY
+   ============================================================================= */
+
+/* Invalid input styling */
+input:invalid:not(:placeholder-shown),
+textarea:invalid:not(:placeholder-shown),
+select:invalid {
+  border-color: #ff3b30;
+  background-color: rgba(255, 59, 48, 0.05);
+}
+
+/* Valid input styling */
+input:valid:not(:placeholder-shown),
+textarea:valid:not(:placeholder-shown),
+select:valid {
+  border-color: #34c759;
+  background-color: rgba(52, 199, 89, 0.05);
+}
+
+/* Error message display */
+[role="alert"],
+[role="status"] {
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+[role="alert"] {
+  background-color: rgba(255, 59, 48, 0.1);
+  color: #c60c0c;
+  border-left: 4px solid #ff3b30;
+}
+
+[role="status"] {
+  background-color: rgba(52, 199, 89, 0.1);
+  color: #107c10;
+  border-left: 4px solid #34c759;
+}
+
+/* Required field indicator */
+label .required-indicator,
+[aria-required="true"]::after {
+  color: #ff3b30;
+  margin-left: 4px;
+  font-weight: bold;
+  content: " *";
+}
+
+/* =============================================================================
+   BUTTONS & INTERACTIVE ELEMENTS
+   ============================================================================= */
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+a[role="button"] {
+  /* Ensure sufficient touch target (44x44px minimum) */
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 16px;
+
+  /* Clear visual states */
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, outline 0.2s;
+}
+
+/* Disabled state */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f5f5f7 !important;
+  color: #999999 !important;
+}
+
+/* Active/pressed state */
+button:active:not(:disabled),
+input[type="button"]:active:not(:disabled),
+input[type="submit"]:active:not(:disabled) {
+  transform: scale(0.98);
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   LINKS & NAVIGATION
+   ============================================================================= */
+
+a {
+  color: #0071e3;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+a:visited {
+  color: #6f42c1;
+}
+
+a:hover {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+a:active {
+  color: #0052a3;
+}
+
+a:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Underline on hover for better visibility */
+a:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: currentColor;
+  opacity: 0.5;
+}
+
+/* =============================================================================
+   TEXT & TYPOGRAPHY ACCESSIBILITY
+   ============================================================================= */
+
+body {
+  font-size: 16px; /* Minimum 16px for readability */
+  line-height: 1.6; /* Sufficient line spacing (150% or higher) */
+  letter-spacing: 0.015em; /* Improve readability */
+  color: #1d1d1f;
+}
+
+/* Code blocks should be readable */
+code,
+pre {
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  background-color: #f5f5f7;
+  color: #1d1d1f;
+  padding: 4px 8px;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+/* =============================================================================
+   RESPONSIVE TOUCH TARGETS
+   ============================================================================= */
+
+/* Minimum 44x44px touch target for mobile */
+button,
+a[role="button"],
+input[type="checkbox"],
+input[type="radio"],
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 16px;
+}
+
+/* Increase spacing around touch targets */
+.touch-target-group button + button,
+.touch-target-group a + a {
+  margin-left: 8px;
+}
+
+/* =============================================================================
+   LISTS ACCESSIBILITY
+   ============================================================================= */
+
+[role="list"] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+[role="listitem"] {
+  margin-bottom: 8px;
+}
+
+/* =============================================================================
+   LOADING & PROGRESS STATES
+   ============================================================================= */
+
+[aria-busy="true"] {
+  position: relative;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+[role="progressbar"] {
+  height: 4px;
+  background-color: #f5f5f7;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+[role="progressbar"]::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background-color: #0071e3;
+  border-radius: 2px;
+  animation: progressFill 0.5s ease-out;
+}
+
+@keyframes progressFill {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--progress-value, 50%);
+  }
+}
+
+/* =============================================================================
+   DARK MODE SUPPORT (Accessibility)
+   ============================================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #f5f5f7;
+    --text-secondary: #999999;
+    --bg-primary: #1d1d1f;
+    --bg-secondary: #424245;
+    --border-color: #424245;
+  }
+
+  a {
+    color: #55b0fb;
+  }
+
+  a:visited {
+    color: #bb86fc;
+  }
+
+  a:hover {
+    color: #7bc0fa;
+  }
+
+  code,
+  pre {
+    background-color: #424245;
+    color: #f5f5f7;
+  }
+
+  [role="alert"] {
+    background-color: rgba(255, 59, 48, 0.2);
+    color: #ff9b9b;
+  }
+
+  [role="status"] {
+    background-color: rgba(52, 199, 89, 0.2);
+    color: #81c784;
+  }
+
+  /* Increase contrast in dark mode */
+  :focus-visible {
+    outline: 2px solid #55b0fb;
+  }
+}
+
+/* =============================================================================
+   PRINT STYLES (Accessibility)
+   ============================================================================= */
+
+@media print {
+  /* Show URLs for links */
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666666;
+  }
+
+  /* Hide navigation and non-essential elements */
+  nav,
+  .navbar,
+  .sidebar,
+  .footer,
+  button.btn-secondary {
+    display: none !important;
+  }
+
+  /* Ensure text is readable on print */
+  body {
+    color: #000000;
+    background-color: #ffffff;
+  }
+
+  /* Show page breaks */
+  main {
+    page-break-after: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Maintain focus visible even in print (for PDF) */
+  :focus-visible {
+    outline: 2px solid #0071e3;
+  }
+}
+
+/* =============================================================================
+   SCREEN READER ONLY TEXT
+   ============================================================================= */
+
+.sr-only,
+.sr-only-focusable:not(:focus):not(:focus-visible) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus,
+.sr-only-focusable:focus-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* =============================================================================
+   VISIBLE FOCUS INDICATORS FOR SPECIAL ELEMENTS
+   ============================================================================= */
+
+/* Ensure outline is visible on dark backgrounds */
+.dark button:focus-visible,
+.dark input:focus-visible,
+.dark textarea:focus-visible,
+.dark a:focus-visible {
+  outline: 2px solid #55b0fb;
+  outline-offset: 2px;
+}
+
+/* Icon buttons should show outline */
+.btn-icon:focus-visible,
+.icon-button:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Theme toggle button visibility */
+.theme-toggle:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* =============================================================================
+   ANIMATION PERFORMANCE & ACCESSIBILITY
+   ============================================================================= */
+
+/* Use will-change strategically (not on all elements) */
+.animated,
+[data-animate] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Ensure motion is still visible in reduced-motion mode via opacity/color */
+@media (prefers-reduced-motion: reduce) {
+  .animated,
+  [data-animate] {
+    will-change: auto;
+  }
+}

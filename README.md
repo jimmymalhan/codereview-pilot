@@ -13,7 +13,8 @@
 
 ```bash
 npm install
-npm start
+npm start          # Run server (foreground)
+npm run dev        # Run with auto-restart on crash/file changes — keeps localhost up
 ```
 
 Open http://localhost:3000. Use **Try It** to diagnose an incident, or call the API directly.
