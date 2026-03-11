@@ -34,8 +34,15 @@ description: Hard cap on tokens per run. Stop before limit. Prevent runaway cost
 }
 ```
 
+## Use Less Context
+
+- **Agent input**: Give each agent scope + diff only. No full files. Fetch on demand.
+- **Handoff**: Compact state (≤500 chars). See `handoff-protocol`.
+- **Critique agents**: Input = git diff, scope. Output = issues[] or PASS. No redundant context.
+
 ## Integration
 
 - **plan-and-execute**: Check after each checklist item
+- **extreme-critique**: Agents use minimal input
+- **handoff-protocol**: Compact handoff
 - **cost-guardrails**: Token budget is part of cost control
-- **time-bounded-run**: Complement with time limit

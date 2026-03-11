@@ -8,6 +8,8 @@ argument-hint: [task or instructions]
 
 **Purpose**: DEFAULT mode for project instructions. Maximum automation. Zero manual steps. No approval gates. Agents and skills proceed automatically through all phases—never pause, never ask "shall I proceed", never wait for user.
 
+**Full Authority**: User has granted authority. Commit, push, merge, PR comments—execute. Do NOT claim "requires human authorization" or "I can't commit/push/merge." Only ask when credentials are missing (GH_TOKEN, etc.). Otherwise: run. Stop for nothing.
+
 **When to use**: ANY project instruction: "add X", "fix Y", "run the project", "implement Z", or equivalent. Assume run-the-business unless user says "plan only" or "do not execute".
 
 ---
@@ -22,11 +24,16 @@ argument-hint: [task or instructions]
 
 ---
 
+## First Action (Every Turn—No Wait)
+
+**Before responding to any user message:** Run `gh pr list --state open`. For each open PR: if <10 ten-pass comments, post them. If `git status` shows uncommitted: branch, commit, push, create PR, post comments. Hook `open-prs-workflow.sh` runs on PreToolUse. Do NOT wait for user to say "work on PRs."
+
 ## Flow
 
-1. **Invoke** `idea-to-production` — Idea → Execute → Merge (auto when CI green) → Deploy (if FULL_AUTO)
-2. **Start** `live-watchdog` — Poll CI, deploy, health endpoint
-3. **On error** → `error-detector` → `fix-pr-creator` → `self-fix` loop until green
+1. **Invoke** `full-cycle-automation` — Branch cleanup → PR comments → Merge → Learn from mistakes → Upgrade skillset (all automatic)
+2. **Invoke** `idea-to-production` — Idea → Execute → Merge (auto when CI green) → Deploy (if FULL_AUTO)
+3. **Start** `live-watchdog` — Poll CI, deploy, health endpoint
+4. **On error** → `error-detector` → `fix-pr-creator` → `self-fix` → `skills-self-update` (learn) → `repository-audit-to-skillset` (upgrade)
 
 ---
 
@@ -54,9 +61,13 @@ argument-hint: [task or instructions]
 
 ## Related Skills
 
+- `full-cycle-automation` — Branch cleanup → PR comments → Merge → Learn → Upgrade (full loop)
+- `branch-cleanup` — Delete merged branches, close stale PRs (5 phases)
 - `ultra-automation` — Max autonomy; ON by default when run-the-business
 - `idea-to-production` — Master flow
 - `live-watchdog` — Poll and detect errors
 - `error-detector` — Classify error, route fix agent
 - `fix-pr-creator` — Create fix branch + PR
 - `self-fix` — Loop until green
+- `skills-self-update` — Learn from mistakes
+- `repository-audit-to-skillset` — Upgrade skills from repo evidence

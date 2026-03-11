@@ -312,12 +312,28 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/skills/graceful-degradation/SKILL.md
 !.claude/skills/property-based-testing/
 !.claude/skills/property-based-testing/SKILL.md
+!.claude/skills/user-feedback-to-skillset/
+!.claude/skills/user-feedback-to-skillset/SKILL.md
+!.claude/skills/consensus-gates/
+!.claude/skills/consensus-gates/SKILL.md
+!.claude/skills/repository-audit-to-skillset/
+!.claude/skills/repository-audit-to-skillset/SKILL.md
+!.claude/skills/confidence-score/
+!.claude/skills/confidence-score/SKILL.md
+!.claude/skills/code-skill-mapping/
+!.claude/skills/code-skill-mapping/SKILL.md
+!.claude/skills/pr-comments-live/
+!.claude/skills/pr-comments-live/SKILL.md
+!.claude/skills/parallel-execution/
+!.claude/skills/parallel-execution/SKILL.md
 !.claude/skills/ultra-automation/
 !.claude/skills/ultra-automation/SKILL.md
 !.claude/skills/lint-fixer/
 !.claude/skills/lint-fixer/SKILL.md
 !.claude/skills/pr-summary/
 !.claude/skills/pr-summary/SKILL.md
+!.claude/skills/extreme-critique/
+!.claude/skills/extreme-critique/SKILL.md
 
 # ──────────────────────────────────────────────────
 # Misc local directories

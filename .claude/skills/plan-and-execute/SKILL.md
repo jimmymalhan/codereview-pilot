@@ -75,8 +75,9 @@ Status: IN_PROGRESS
 
 ### Spawn Decision (Concrete Thresholds)
 - scope = small (1-2 files): NO spawn. Lead does all work inline.
-- scope = medium (3-5 files): Spawn max 2 sub-agents in Phase 3.
-- scope = large (6+ files): Spawn max 4 sub-agents in Phase 3.
+- scope = medium (3-5 files): **Spawn 2 sub-agents in parallel** when checklist has 2+ items with no file overlap.
+- scope = large (6+ files): **Spawn up to 4 sub-agents in parallel** when items are independent (no file overlap).
+- **Parallel rule**: If checklist items touch different files → spawn multiple TaskExecutors. Do NOT sequence when parallel is possible. See `agent-task-assignment` skill.
 - NEVER spawn for: reading files, searching, single-file edits.
 
 ---
@@ -266,9 +267,9 @@ IF user reports bug/complaint while plan-and-execute is running:
 | 5. DELIVER | PRPackager | haiku | Git ops, template output |
 
 ### When to Spawn vs Inline
-- 1 lead Claude + sub-agents ONLY when scope = medium or large
+- 1 lead Claude + sub-agents when scope = medium or large
 - scope = small → lead does everything inline, 0 spawns
-- Optional team (3 teammates): ONLY if FE + BE + tests can run in parallel with zero file overlap
+- **Independent items** → spawn multiple TaskExecutors in parallel. FE + BE + tests with zero file overlap → spawn 3 agents. Do NOT leave tasks unassigned.
 
 ---
 
@@ -327,9 +328,10 @@ IF user reports bug/complaint while plan-and-execute is running:
 
 ### Spawning
 13. scope = small → 0 spawns (inline)
-14. scope = medium → max 2 sub-agents
-15. scope = large → max 4 sub-agents
+14. scope = medium → spawn 2 sub-agents **in parallel** when 2+ independent items
+15. scope = large → spawn up to 4 sub-agents **in parallel** when independent
 16. Never spawn for: reads, searches, single-file edits
+17. **Parallel by default**: Independent checklist items → multiple agents simultaneously
 
 ### Cost
 17. Grep before Read. Always.

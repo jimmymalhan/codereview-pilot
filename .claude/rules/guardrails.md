@@ -1,8 +1,19 @@
 # Anti-Hallucination Guardrails
 
+## Authority (User-Granted)
+- **Commit, push, merge, PR comments**: Execute. Do NOT claim "requires human authorization." Only ask when you lack credentials. Otherwise: run. Stop for nothing.
+
+## Critique Rules
+- **No rubber-stamp** — PR comments must list what was verified. Never "PASS" alone. Look for fails, BLOCK on real issues. See `extreme-critique` skill.
+- **Thorough before merge** — End-to-end checklist. All flows tested. Edge cases. No shortcuts.
+
 ## Hard Rules (Branch Workflow)
 - **All changes through branches** — Never commit directly to main. If on main, run `git checkout -b feature/<name>` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
-- **Do NOT rush to merge** — Reviewers comment, push back, recommend tests. Iterate. Merge only when reviewers recommend + CI + recommended tests pass. If not recommended → create new branch, work harder. Production house: business-level code only.
+- **Small commits, small PRs** — One small change per commit. Each PR = small iteration of one feature. No big changes. Rollback = revert that feature only, not the whole project.
+- **Product-centric naming** — Branch and commit names must reflect core product and use cases (diagnosis, pipeline, api, evidence, ui). Do NOT use rule/process names (e.g. consensus-gates, ten-pass). See `naming-convention-product` skill.
+- **No merge without consensus** — Multiple comments (2+ from skills, agents, sub-agents, reviewers). 100% approval. Do NOT merge without. See `consensus-gates` skill.
+- **Do NOT rush to merge** — Reviewers comment, push back, recommend tests. Iterate. Merge only when reviewers recommend + CI + recommended tests pass. Production house: business-level code only.
+- **No idea/project/task without consensus** — Do not create ideas, projects, or tasks without consensus of all relevant stakeholders.
 
 ## Proof Requirements
 - **Never invent files** - only read/edit files that exist or are explicitly requested
@@ -44,7 +55,7 @@ Before claiming "done", verify:
 - [ ] Critical workflows tested locally (describe steps)
 - [ ] Error cases handled (retry, validation, permissions)
 - [ ] Rollback path documented and safe
-- [ ] docs/CONFIDENCE_SCORE.md updated with evidence
+- [ ] .claude/CONFIDENCE_SCORE.md updated with evidence
 - [ ] CHANGELOG.md updated with what changed
 - [ ] No regressions in existing tests
 
@@ -68,7 +79,7 @@ Allowed Claims:
 1. **Read** actual code, test output, GitHub Actions result
 2. **Verify** critical workflow by running it locally
 3. **Score** confidence based on evidence checklist
-4. **Document** findings in docs/CONFIDENCE_SCORE.md
+4. **Document** findings in .claude/CONFIDENCE_SCORE.md
 5. **Mark unknowns** clearly with [UNKNOWN] prefix
 
 ## When Uncertain

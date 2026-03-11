@@ -103,8 +103,7 @@ This repo includes **66+ skills** in `.claude/skills/` for run-the-business auto
 
 | Doc | Purpose |
 |-----|---------|
-| [docs/SKILLSETS.md](docs/SKILLSETS.md) | Full skill reference, roles, user prompts |
-| [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md) | How to keep upgrading skills |
+| [.claude/SKILLSETS.md](.claude/SKILLSETS.md) | Skill index; roles, user prompts, all governance |
 | [REVIEW.md](REVIEW.md) | Code review guidelines for Claude Code Review |
 
 **Use**: Open in Claude Code; skills load from `.claude/skills/`. Invoke with `/run-the-business`, `/plan-and-execute`, or any skill name. Default: maximum automation, auto-merge when CI green.
@@ -134,7 +133,7 @@ npm run load-test     # 20 concurrent diagnose requests (requires server running
 ### 3. Make Changes
 
 - Read [CLAUDE.md](CLAUDE.md) for project standards.
-- For skill work: see [docs/SKILLSETS.md](docs/SKILLSETS.md) and [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md).
+- For skill work: see [.claude/SKILLSETS.md](.claude/SKILLSETS.md) and `.claude/skills/`.
 - Create a branch: `git checkout -b feature/your-feature`.
 - Implement changes and add/update tests.
 - Run `npm test` before committing.
@@ -152,7 +151,7 @@ npm run load-test     # 20 concurrent diagnose requests (requires server running
 | **API** | New endpoints, validation, rate-limit tuning |
 | **UI** | Try It form, orchestration dashboard, accessibility |
 | **Pipeline** | Router, Retriever, Skeptic, Verifier logic |
-| **Skills** | New skills in `.claude/skills/`, upgrades per [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md) |
+| **Skills** | New skills in `.claude/skills/`; index in `.claude/SKILLSETS.md` |
 | **Tests** | Unit, integration, E2E, rate-limit coverage |
 | **Docs** | API reference, integration guides, examples |
 

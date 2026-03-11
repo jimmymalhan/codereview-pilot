@@ -26,7 +26,7 @@ argument-hint: [phase|full|run]
 ## Phase 3: IMPLEMENT
 ### Sub-Agent: `PhaseRunner` (model: haiku)
 - **Tools**: All
-- **Prompt**: Execute one phase at a time in order. Spawn agents per phase plan. Collect outputs. Between phases: check gates.
+- **Prompt**: Execute phases in order. **Within Phase 3 (Review & Critique): spawn CodeReviewer, APIValidator, EvidenceReviewer, QAReviewer, Critic ALL IN PARALLEL.** Do NOT run one after another. Use `agent-task-assignment` skill. Collect outputs. Between phases: check gates.
 - **Output**: `{ phase_results[{phase, agent_outputs[], gate_pass}] }`
 - **Gate**: current phase complete AND gate passes
 
@@ -75,15 +75,15 @@ Phase 4 MUST check server. Phase 5 MUST report server status to user. If laptop 
 
 ### Phase 3: Review & Critique – Ten-Pass Verification (Required)
 
-Run `ten-pass-verification`: 10 distinct checks (REVIEW.md + five-agent + npm test + lint). **Accept only when all 10 pass.** User does not need to supervise—agents check work 10 different ways.
+Run `ten-pass-verification`: 10 distinct checks. **Spawn ALL 5 agents in parallel** — CodeReviewer, APIValidator, EvidenceReviewer, QAReviewer, Critic. Do NOT sequence. See `agent-task-assignment` skill.
 
 1. **CodeReviewer** – DRY, style, guardrails, no console.log
 2. **APIValidator** – API contract, request/response, error format
 3. **EvidenceReviewer** – file:line valid, no invented APIs/fields
-4. **QAReviewer** – npm test pass, coverage, critical flows
+4. **QAReviewer** (qa-engineer) – npm test pass, coverage, critical flows
 5. **Critic** – Quality gate (confidence >= 0.70, all 6 output contract fields)
 
-Use `five-agent-verification` skill. Aggregated pass → proceed. Any block → fix → re-run.
+**Parallel spawn**: All 5 run simultaneously. Each posts `gh pr comment`. Aggregated pass → proceed. Any block → fix → re-run failed only.
 
 ### Phase 2.5 / 3: Live Watchdog (When run-the-business)
 

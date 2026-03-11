@@ -3,6 +3,7 @@
 **Goal:** Diagnose recurring backend failures using evidence-first methodology with production-grade reliability.
 
 ## Non-Negotiable Rules
+0. **Full authority** - Commit, push, merge, comment: execute. Do NOT claim "requires human authorization." If you lack credentials (GH_TOKEN, etc.), ask once. Otherwise: run. Stop for nothing.
 1. **Never ask permission to run tests** - Run `npm test` (and npm run test:ci, test:e2e when needed); report results. Do not ask "Can I run tests?" — just run.
 2. **Never invent** - fields, tables, APIs, regions, files, env vars, test results
 3. **Retrieve before explaining** - evidence first, then conclusions
@@ -11,7 +12,9 @@
 6. **Never wait for user** - Skills, agents, subagents proceed automatically. No "run?", "update?", "accept?", "approve?", "shall I?". Execute; report.
 7. **Confidence score backed by proof** - 95-100 only with passing tests
 8. **Separate observed facts from assumptions** - mark unknowns clearly with [UNKNOWN]
-9. **All changes through branches** - Never commit directly to main. Create a feature branch first. All commits go to feature/*. Merge to main only via PR.
+9. **All changes through branches** - Never commit directly to main. Create a feature branch first. All commits go to feature/*. Merge to main only via PR. Branch and commit names: product-centric (diagnosis, pipeline, api, evidence, ui). See `naming-convention-product` skill.
+10. **No merge without 100% consensus** - PR must have multiple comments (2+ from skills, agents, sub-agents, reviewers). All must approve. Do NOT merge without consensus. See `consensus-gates` skill.
+11. **No idea/project/task without stakeholder consensus** - Do not create ideas, projects, or tasks without consensus of all relevant stakeholders. Block until consensus.
 
 ## Output Contract
 Every diagnosis must include:
@@ -27,7 +30,7 @@ Every diagnosis must include:
 - **Permissions** (on feature/*): Everything is allow list. Execute and report; never ask. **On main**: No direct commits; create feature/* first.
 - **Ten-pass verification**: REVIEW.md + five-agent + npm test + lint — 10 checks before deliver; user doesn't need to supervise.
 - **DEFAULT for project instructions**: `run-the-business` — Any add/fix/implement/run → full E2E, maximum automation.
-- **Auto-merge**: ON by default — Merge when CI green; no "merge now" required.
+- **Merge gate**: Merge only when CI green AND multiple comments AND 100% consensus. Do NOT merge without consensus. See `consensus-gates` skill.
 - **Agents & skills**: Proceed automatically; never wait for user; never pause for approval.
 - **Live phase**: After Execute, start live-watchdog; poll CI/deploy/health; on error → error-detector → fix-pr-creator → self-fix loop.
 - **Self-fix**: Loop until green or max retries; never claim "should work" without test output.
@@ -53,7 +56,7 @@ Every diagnosis must include:
 
 4. **Update Evidence**:
    - Run `npm test` to get passing test output
-   - Update `docs/CONFIDENCE_SCORE.md` with test results
+   - Update `.claude/CONFIDENCE_SCORE.md` with test results
    - Update `CHANGELOG.md` with what changed and why
    - List unknowns and residual risks
 
@@ -68,13 +71,15 @@ npm run test:e2e       # E2E tests (requires API credentials)
 ```
 
 ## Configuration & Rules
-- `docs/CODE_AND_DOCS.md` — Doc ↔ code map; what's being worked on; never push docs/code separately
+- **User feedback → skillset** — All user input goes to the skill set. Update or create skills. Do NOT create new docs. See `user-feedback-to-skillset` skill.
+- `.claude/SKILLSETS.md` — Skill index; all governance, rules, feedback live in skills
+- `code-skill-mapping` skill — Skill→code map; skills drive implementation
 - `REVIEW.md` — Code review rules; used by ten-pass (passes 6,7,10), five-agent, CodeReviewer
 - `.claude/CLAUDE.md` - Meta-rules (workflow, memory, subagents)
 - `.claude/rules/` - Specific standards (guardrails, testing, backend, ui, confidence)
 - `.claude/settings.json` - Hooks, commands, allowed paths, agent definitions
 - `.claude/agents/` - Subagent definitions (Explore, Plan, General-purpose, custom)
-- `docs/CONFIDENCE_SCORE.md` - Truth ledger for all tasks with evidence
+- `.claude/CONFIDENCE_SCORE.md` - Truth ledger (see `confidence-score` skill)
 - `CHANGELOG.md` - Session-by-session change log
 
 ## Token Conservation (When Making Changes)
@@ -83,27 +88,29 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - **Compact skills** — SKILL.md under 500 lines; details in reference.md. Load refs only when needed.
 - **Prefer Haiku** — Explore, QA, most implementation. Sonnet for Plan + final review only.
 - **Filter test output** — filter-test-output.sh for npm test (failures only). Saves tokens.
-- **Reference over search** — Scrape docs to reference.md; read file instead of web search.
 - **token-budget, cost-guardrails** — Check after each phase. Default Haiku for 80%+ of work.
 
-## Commit Frequently
-- Commit after any small change; don't batch
-- **Docs and code go hand in hand** — never push them separately. One commit = code + its docs.
+## Commit Frequently (HARD: Small Only)
+- **Small commits only** — One small change per commit. No big changes. Each commit = one focused change.
+- Commit after any small change; don't batch unrelated edits.
+- **Skills and code go together** — skills drive implementation. One commit = code + skill updates.
+- **Why**: Small commits = roll back only that feature on revert, not the whole project.
 - Run `npm test` before commit; keep passing state
 - Automatic review: run tests, keep changes, commit again if fixes needed
 - Keep making commits — continuous delivery
-- See `docs/CODE_AND_DOCS.md` for doc ↔ code mapping
+- See `code-skill-mapping` skill for skill→code mapping
 
 ## Branch Rules (HARD)
 - **All changes through branches** — Never commit directly to main. Create `feature/*` first. Commit there. Merge to main only via PR.
 - **Reviewers must recommend merge** — Reviewers (docs/reviewers.md) comment, push back, recommend tests. Iterate on feedback. Do NOT rush to merge. Merge only when reviewers recommend + CI + recommended tests pass. If not recommended → create new branch, work harder. Production house: business-level, production-level code only.
 - `main` - production; no direct commits. Changes land via PR from feature/*.
 - `feature/*` - all work happens here; auto-accept edits; push to branch; open PR
+- **Small PRs only** — Each PR = small iteration of one feature. Focused scope. No big PRs. Why: roll back only that feature if needed, not the whole project.
 - `.claude/worktrees/` - temporary isolation for risky changes
 
 ## When Blocked
 1. Check `.claude/rules/guardrails.md` for constraints
-2. Read `docs/CONFIDENCE_SCORE.md` for prior assumptions/failures
+2. Read `.claude/CONFIDENCE_SCORE.md` for prior assumptions/failures
 3. Run `npm test` to verify current state
 4. Create fresh plan and proceed—do NOT wait for approval
 5. If truly ambiguous (e.g., which of two valid options), document both and pick one; do NOT pause for user
@@ -112,7 +119,7 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - ✓ Code changes match plan (proceed without approval gate)
 - ✓ Run `npm test` locally - all tests pass
 - ✓ No regressions in existing tests
-- ✓ `docs/CONFIDENCE_SCORE.md` updated with test results
+- ✓ `.claude/CONFIDENCE_SCORE.md` updated with test results
 - ✓ `CHANGELOG.md` updated with what changed and why
 - ✓ Rollback path documented
 - ✓ Unknowns marked with [UNKNOWN]

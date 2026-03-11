@@ -21,6 +21,10 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash .claude/hooks/open-prs-workflow.sh"
+          },
+          {
+            "type": "command",
             "command": "bash .claude/hooks/branch-aware-permissions.sh"
           }
         ]
@@ -80,7 +84,7 @@
         "model": "sonnet",
         "role": "Research and plan design approaches",
         "tools": ["Glob", "Grep", "Read", "WebFetch", "WebSearch"],
-        "skills": ["project-guardrails", "evidence-proof", "e2e-orchestrator", "plan-and-execute", "execution-agent", "ultra-automation", "auto-merge", "dag-executor", "token-budget", "consensus-resolver", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "cron-awareness", "feedback-loop", "structured-logging", "audit-trail", "project-structure", "idea-to-production", "run-the-business", "multi-pr-coordinator", "cost-guardrails"],
+        "skills": ["project-guardrails", "evidence-proof", "e2e-orchestrator", "plan-and-execute", "execution-agent", "agent-task-assignment", "github-agent-identities", "full-cycle-automation", "branch-cleanup", "ultra-automation", "auto-merge", "dag-executor", "token-budget", "consensus-resolver", "consensus-gates", "user-feedback-to-skillset", "repository-audit-to-skillset", "pr-comments-live", "parallel-execution", "naming-convention-product", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "cron-awareness", "feedback-loop", "structured-logging", "audit-trail", "project-structure", "idea-to-production", "run-the-business", "multi-pr-coordinator", "cost-guardrails"],
         "capabilities": [
           "Explore codebase during Plan Mode",
           "Design implementation approaches",
@@ -94,7 +98,7 @@
         "model": "haiku",
         "role": "Code writing and test execution",
         "tools": ["All"],
-        "skills": ["evidence-proof", "backend-reliability", "ui-quality", "frontend-engineer", "backend-engineer", "qa-engineer", "pr-push-merge", "execution-agent", "dag-executor", "token-budget", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "property-based-testing", "secrets-scan", "reversibility", "circuit-breaker", "retry-with-backoff", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "feedback-loop", "feedback-log", "structured-logging", "audit-trail", "auto-merge", "skills-self-update", "five-agent-verification", "ten-pass-verification", "consensus-resolver", "self-fix", "conflict-resolution", "multi-pr-coordinator", "cost-guardrails"],
+        "skills": ["evidence-proof", "backend-reliability", "ui-quality", "frontend-engineer", "backend-engineer", "qa-engineer", "pr-push-merge", "execution-agent", "agent-task-assignment", "github-agent-identities", "extreme-critique", "full-cycle-automation", "branch-cleanup", "dag-executor", "token-budget", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "property-based-testing", "secrets-scan", "reversibility", "circuit-breaker", "retry-with-backoff", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "feedback-loop", "feedback-log", "structured-logging", "audit-trail", "auto-merge", "skills-self-update", "five-agent-verification", "ten-pass-verification", "consensus-resolver", "consensus-gates", "user-feedback-to-skillset", "repository-audit-to-skillset", "pr-comments-live", "parallel-execution", "naming-convention-product", "self-fix", "conflict-resolution", "multi-pr-coordinator", "cost-guardrails"],
         "capabilities": [
           "Implement approved plans",
           "Write and run tests",
@@ -120,8 +124,17 @@
         "role": "API contract testing and endpoint verification",
         "tools": ["Bash", "Read", "Grep"],
         "skills": ["backend-reliability", "verifier", "evidence-proof", "feedback-log", "five-agent-verification", "pr-reviewers"],
-        "use_when": "Testing API integrations in parallel; PR reviewer; Phase 3 5-agent verification",
+        "use_when": "Phase 2 or 3; spawn with CodeReviewer, EvidenceReviewer, QAReviewer, Critic in parallel; PR reviewer",
         "phase": 2
+      },
+      {
+        "name": "EvidenceReviewer",
+        "model": "haiku",
+        "role": "Verify file:line citations, no invented APIs/fields",
+        "tools": ["Read", "Grep", "Glob"],
+        "skills": ["evidence-proof", "retriever", "verifier", "five-agent-verification"],
+        "use_when": "Phase 3 ten-pass pass 3; spawn with CodeReviewer, APIValidator, QAReviewer, Critic in parallel",
+        "phase": 3
       },
       {
         "name": "frontend-engineer",
@@ -187,21 +200,22 @@
         "phase": 3
       }
     ],
-    "guidance": "Spawn optional agents only with 3+ independent parallel tasks. Core agents are sufficient for most work. Add specialized engineering agents (frontend, backend, qa, etc.) when a clear owner is needed. Reviewers are invoked separately per the review ladder."
+    "guidance": "Assign every task to an agent. Spawn optional agents when their phase runs—run in parallel. No minimum task count. Nothing left unassigned or hanging. See agent-task-assignment skill."
   },
 
   "allowedCommands": [
     "npm install", "npm test", "npm run test:ci", "npm run test:watch",
     "npm run test:e2e", "npm start", "npm run diagnose",
-    "git status", "git diff", "git log", "git add", "git commit",
+    "git status", "git diff", "git log", "git add", "git commit", "git branch", "git push", "git checkout", "git merge",
     "node src/local-pipeline.js", "node src/run.js",
-    "gh pr list", "gh run list", "gh run view"
+    "gh pr list", "gh pr view", "gh pr create", "gh pr comment", "gh pr merge", "gh pr close",
+    "gh run list", "gh run view"
   ],
 
   "criticalFiles": [
     "CLAUDE.md", ".claude/CLAUDE.md", ".claude/settings.json",
     "package.json", "src/server.js", "src/local-pipeline.js",
-    "docs/CONFIDENCE_SCORE.md", ".claude/rules/"
+    ".claude/CONFIDENCE_SCORE.md", ".claude/rules/"
   ],
 
   "mcp": {
@@ -242,13 +256,12 @@
 
   "documentation": {
     "README.md": "Problem, quick start, features, integration",
-    "docs/CODE_AND_DOCS.md": "Doc ↔ code map; what's being worked on; never push docs/code separately",
-    "REVIEW.md": "Code review guidelines; ten-pass passes 6,7,10; five-agent; CodeReviewer",
+    ".claude/SKILLSETS.md": "Skill index; all governance in skills",
+    "REVIEW.md": "Code review guidelines; ten-pass passes 6,7,10",
     "CLAUDE.md": "Project rules, workflow, output contract",
     ".claude/CLAUDE.md": "Meta-rules, Plan Mode, memory, subagents",
     "CHANGELOG.md": "Session-by-session change log",
-    "docs/CONFIDENCE_SCORE.md": "Truth ledger with evidence for all tasks",
-    "docs/FEEDBACK_LOG.md": "Stakeholder feedback and action items",
+    ".claude/CONFIDENCE_SCORE.md": "Truth ledger (see confidence-score skill)",
     ".claude/rules/": "Standards for specific concerns"
   },
 
@@ -257,6 +270,11 @@
       "autoAcceptEdits": false,
       "noPermissionPrompts": false,
       "description": "No direct commits. All changes through feature/* branches. Create branch first."
+    },
+    "feat/*": {
+      "autoAcceptEdits": true,
+      "noPermissionPrompts": true,
+      "description": "Product-named branches - auto-accept, run the business"
     },
     "feature/*": {
       "autoAcceptEdits": true,

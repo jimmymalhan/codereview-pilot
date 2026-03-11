@@ -17,4 +17,4 @@
 
 ## Failure Learning
 - Any backend regression triggers an update to this rule with the missing proof type.
-- Record the incident and corrective action in `docs/PROJECT_STATUS.md`.
+- Record the incident and corrective action in `.claude/PROJECT_STATUS.md`.

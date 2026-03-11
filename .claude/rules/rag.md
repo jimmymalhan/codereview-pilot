@@ -15,4 +15,4 @@
 - `distinguished-engineer-reviewer` questions long-term sustainability of the pipeline.
 
 ## Failure Learning
-- Any hallucination incident updates this rule with a new mitigation and is recorded in `docs/PROJECT_STATUS.md`.
+- Any hallucination incident updates this rule with a new mitigation and is recorded in `.claude/PROJECT_STATUS.md`.
