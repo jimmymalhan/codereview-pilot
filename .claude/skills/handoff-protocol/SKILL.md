@@ -7,30 +7,31 @@ description: Structured state transfer between agents. No context loss. Resume f
 
 **Principle**: When one agent hands off to another, transfer state in a structured format. Recipient can resume exactly.
 
-## Handoff Schema
+## Handoff Schema (Compact—Less Context)
 
 ```json
 {
-  "from_agent": "Plan",
-  "to_agent": "General-Purpose",
-  "timestamp": "ISO8601",
+  "from": "Plan",
+  "to": "General-Purpose",
   "traceId": "string",
-  "state": {
-    "phase": "IMPLEMENT",
-    "checklist": [...],
-    "items_done": [1, 2, 3],
-    "items_remaining": [4, 5],
-    "context": {},
-    "blockers": []
-  },
-  "resume_command": "resume plan-and-execute",
-  "required_inputs": []
+  "scope": { "files": [], "phase": "IMPLEMENT" },
+  "findings": [],
+  "next": "checklist_item_4",
+  "resume": "resume plan-and-execute"
 }
 ```
 
+**Rule**: Pass only scope + findings. No full file contents. Recipient fetches what it needs. Use less memory.
+
 ## Validator (Before Handoff)
 
-Ensure: from_agent, to_agent, timestamp, traceId, state, resume_command present. state must have phase and checklist or items_done/remaining. Reject handoff if schema invalid.
+Ensure: from, to, traceId, scope, next present. scope must have phase. Reject if schema invalid.
+
+## Less Context Rule
+
+- Each agent receives: scope (files, phase) + findings from prior agent only
+- Agent fetches files on demand. No pre-loading full context.
+- Handoff state ≤ 500 chars when possible
 
 ## Rules
 

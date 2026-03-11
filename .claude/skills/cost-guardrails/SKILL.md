@@ -9,6 +9,8 @@ description: Model-tier rules, spawn thresholds, rate-limit handling, credit bud
 
 **When to use**: Always. This skill is preloaded into every agent.
 
+**When making changes**: Lower tokens. Use Read(offset,limit). Use Grep instead of full-file Read. Keep skills compact (<500 lines). filter-test-output reduces npm test tokens. Prefer Haiku.
+
 ---
 
 ## Phase 1: DISCOVER

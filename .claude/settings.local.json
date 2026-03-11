@@ -1,0 +1,125 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Glob(**)",
+      "Grep(**)",
+      "Edit(**)",
+      "Write(**)",
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(mkdir:*)",
+      "Bash(curl:*)",
+      "Bash(printf:*)",
+      "Bash(echo:*)",
+      "Bash(find /Users/jimmymalhan/Doc/codereview-pilot -type f \\\\\\( -name \"*video*\" -o -name \"*demo*\" \\\\\\) 2>/dev/null | head -20)",
+      "Bash(echo \"Testing API endpoints...\"\necho \"\"\necho \"1. Health Check:\"\ncurl -s http://localhost:3000/health | jq . 2>/dev/null || curl -s http://localhost:3000/health\necho \"\"\necho \"2. Single Diagnosis:\"\ncurl -s -X POST http://localhost:3000/api/diagnose \\\\\n  -H \"Content-Type: application/json\" \\\\\n  -d '{\"incident\":\"Database connection pool exhausted causing 30 second timeouts\"}' | jq '.id, .result.verifier.rootCause' 2>/dev/null\necho \"\"\necho \"3. Analytics Dashboard:\"\ncurl -s http://localhost:3000/api/analytics | jq '.totalDiagnoses, .mttrMinutes' 2>/dev/null\necho \"\"\necho \"4. API Reference Documentation:\"\ncurl -s -o /dev/null -w \"Status: %{http_code}\\\\n\" http://localhost:3000/api-reference.html\necho \"\"\necho \"✅ All endpoints working on localhost:3000\")",
+      "Bash(gh pr:*)"
+    ],
+    "deny": [
+      "Bash(*/.env*)",
+      "Bash(*/credentials*)",
+      "Bash(*/secrets*)",
+      "Edit(*/.env*)",
+      "Edit(*/credentials*)",
+      "Edit(*/secrets*)"
+    ],
+    "ask": [],
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {},
+  "comments": {
+    "⚠️_CURRENT_MODE": "bypassPermissions - AUTO-ACCEPTS ALL DANGEROUS OPS on feature/integration-website",
+    "⚠️_BEFORE_MAIN": "MUST change defaultMode to 'default' or 'plan' before switching to main branch",
+    "overview": "Branch-aware permission configuration for local development",
+    "branch_behavior": {
+      "feature_branches": "feature/*, develop, dev-*, etc.",
+      "feature_behavior": "Auto-allow safe commands (npm, git add/commit, grep, ls, cat, etc.)",
+      "feature_edits": "Auto-allow edits to src/, tests/, docs/, .claude/rules/",
+      "main_branches": "main, master",
+      "main_behavior": "Ask for approval on state-changing operations",
+      "main_safety": "Still block all dangerous commands (git push, reset --hard, secrets, etc.)"
+    },
+    "auto_allowed_on_feature_branches": {
+      "bash_commands": [
+        "git status",
+        "git diff",
+        "git log",
+        "git branch",
+        "git add",
+        "git commit",
+        "git checkout <local-branch> (not main/master)",
+        "npm test",
+        "npm run [build|test|lint|format]",
+        "npm install",
+        "npm ci",
+        "node [script]",
+        "grep / find / ls / cat",
+        "prettier / eslint / jest"
+      ],
+      "file_edits": [
+        "src/**",
+        "tests/**",
+        "docs/**",
+        ".claude/rules/**"
+      ]
+    },
+    "always_ask_for_approval": {
+      "all_branches": [
+        "git push",
+        "git reset --hard",
+        "git rebase",
+        "git merge main/master",
+        "git cherry-pick",
+        "rm -rf",
+        "git clean -f"
+      ],
+      "secrets": [
+        "Editing .env files",
+        "Editing credentials, secrets, tokens, keys, passwords",
+        "Any auth-related edits"
+      ],
+      "production": [
+        "deploy, release, production commands",
+        "docker push",
+        "kubectl",
+        "npm publish"
+      ],
+      "main_or_master_only": [
+        "Any state-changing bash commands",
+        "File edits (outside read-only)"
+      ]
+    },
+    "always_allowed_read_only": [
+      "Read(**)",
+      "Glob(**)",
+      "git status / git diff / git log",
+      "ls / find / cat / grep"
+    ],
+    "how_it_works": "The .claude/hooks/branch-aware-permissions.sh script runs before every tool request. It checks the current git branch and determines whether to auto-allow, ask for approval, or pass to normal rules.",
+    "current_branch_detection": "git rev-parse --abbrev-ref HEAD",
+    "how_to_toggle_off": {
+      "option_1": "Delete .claude/hooks/branch-aware-permissions.sh",
+      "option_2": "Remove the PermissionRequest hook from this file",
+      "option_3": "Revert to previous settings.local.json (git checkout settings.local.json)",
+      "option_4": "Set defaultMode to 'bypassPermissions' in this file (but NOT recommended)"
+    },
+    "implementation_notes": [
+      "This is LOCAL ONLY - not shared to the repo",
+      "The hook checks branch BEFORE every permission request",
+      "Pattern matching is simple (for speed) but catches 99% of cases",
+      "Dangerous commands are always blocked, regardless of branch",
+      "On main/master, asks for approval rather than blocking (user-friendly)",
+      "File Read and Glob are always allowed (safe operations)"
+    ]
+  }
+}

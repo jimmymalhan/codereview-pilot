@@ -20,7 +20,7 @@ This guide explains the new documentation structure and how to use it effectivel
 | Settings hooks | Empty | 3 real hooks | PreToolUse, OnSessionEnd, Notification |
 | Subagents defined | 9 agents | 3 core + 2 optional | Clear roles and constraints |
 | README | No workflow | Added workflow section | Problem, solution, target users, workflow |
-| Feedback log | None | docs/FEEDBACK_LOG.md | Weekly stakeholder feedback template |
+| Feedback log | None | .claude/FEEDBACK_LOG.md | Weekly stakeholder feedback template |
 
 ---
 
@@ -83,7 +83,7 @@ Docs/
 ### For Starting New Work
 1. **Read** `CLAUDE.md` (project rules)
 2. **Read** `.claude/CLAUDE.md` (workflow guidance)
-3. **Check** `docs/CONFIDENCE_SCORE.md` (prior work)
+3. **Check** `.claude/CONFIDENCE_SCORE.md` (prior work)
 4. **Run** `npm test` (current state)
 5. **Use** EnterPlanMode if task is non-trivial
 
@@ -109,7 +109,7 @@ Docs/
 **Phase 3: Verify & Score**
 ```
 1. Run: npm test (get output)
-2. Update docs/CONFIDENCE_SCORE.md (with evidence)
+2. Update .claude/CONFIDENCE_SCORE.md (with evidence)
 3. Update CHANGELOG.md (what changed, why)
 4. Score confidence (only 95-100 if tests pass + evidence)
 ```
@@ -233,7 +233,7 @@ Residual risks:
 ### OnSessionEnd Hook
 **Purpose**: Preserve critical context after compaction
 - Saves `CLAUDE.md` and `.claude/CLAUDE.md`
-- Keeps `docs/CONFIDENCE_SCORE.md` in context
+- Keeps `.claude/CONFIDENCE_SCORE.md` in context
 - Reloads auto memory
 
 ### Notification Hook
@@ -251,7 +251,7 @@ Residual risks:
 ```
 1. Read CLAUDE.md (rules)
 2. Read .claude/CLAUDE.md (workflow)
-3. Check docs/CONFIDENCE_SCORE.md (prior work)
+3. Check .claude/CONFIDENCE_SCORE.md (prior work)
 4. Run npm test (current state)
 5. EnterPlanMode:
    - Search for bug location
@@ -260,7 +260,7 @@ Residual risks:
 6. ExitPlanMode (get approval)
 7. Implement + test
 8. npm test (verify)
-9. Update docs/CONFIDENCE_SCORE.md
+9. Update .claude/CONFIDENCE_SCORE.md
 10. Update CHANGELOG.md
 11. Confidence score 80+? Ready for PR
 ```
@@ -278,7 +278,7 @@ Residual risks:
    - CodeReviewer: review in parallel
 4. Implement with tests
 5. npm test (verify)
-6. Update docs/CONFIDENCE_SCORE.md
+6. Update .claude/CONFIDENCE_SCORE.md
 7. Update CHANGELOG.md
 8. Confidence score 90+? Ready for merge
 ```
@@ -291,7 +291,7 @@ Residual risks:
 4. Implement optimization
 5. Measure new performance (verify improvement)
 6. Write tests to prevent regression
-7. Update docs/CONFIDENCE_SCORE.md with metrics
+7. Update .claude/CONFIDENCE_SCORE.md with metrics
 8. Document before/after in CHANGELOG.md
 ```
 
@@ -299,7 +299,7 @@ Residual risks:
 
 ## Feedback Collection (Weekly)
 
-Every Friday, collect feedback in `docs/FEEDBACK_LOG.md`:
+Every Friday, collect feedback in `.claude/FEEDBACK_LOG.md`:
 
 1. **Collect** from stakeholders:
    - End users (bug reports, feature requests)
@@ -343,7 +343,7 @@ Every Friday, collect feedback in `docs/FEEDBACK_LOG.md`:
 ### Before Creating PR
 - [ ] All tests passing (npm test)
 - [ ] GitHub Actions passing (check CI)
-- [ ] docs/CONFIDENCE_SCORE.md updated with evidence
+- [ ] .claude/CONFIDENCE_SCORE.md updated with evidence
 - [ ] CHANGELOG.md updated with what changed
 - [ ] No regressions in existing tests
 - [ ] Unknowns marked with [UNKNOWN]
@@ -376,7 +376,7 @@ Every Friday, collect feedback in `docs/FEEDBACK_LOG.md`:
 - Scoring | .claude/rules/confidence.md
 - Anti-hallucination | .claude/rules/guardrails.md
 - Backend reliability | .claude/rules/backend.md
-- Previous work | docs/CONFIDENCE_SCORE.md
+- Previous work | .claude/CONFIDENCE_SCORE.md
 - Changes made | CHANGELOG.md
 - This refactoring | REFACTORING_SUMMARY.md
 
@@ -387,7 +387,7 @@ Every Friday, collect feedback in `docs/FEEDBACK_LOG.md`:
 1. **Read** CLAUDE.md + .claude/CLAUDE.md (understand workflow)
 2. **Bookmark** .claude/rules/ (quick reference)
 3. **Use** Plan Mode on next task (validate workflow)
-4. **Collect** feedback in docs/FEEDBACK_LOG.md (weekly)
+4. **Collect** feedback in .claude/FEEDBACK_LOG.md (weekly)
 5. **Update** memory when discovering patterns (3+ confirmations)
 
 **Questions?** See "Getting Help" section above or check specific rule file.

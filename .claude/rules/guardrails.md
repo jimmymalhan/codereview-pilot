@@ -1,8 +1,21 @@
 # Anti-Hallucination Guardrails
 
+## Authority (User-Granted)
+- **Commit, push, merge, PR comments**: Execute. Do NOT claim "requires human authorization." Only ask when you lack credentials. Otherwise: run. Stop for nothing.
+
+## Critique Rules
+- **No rubber-stamp** — PR comments must list what was verified. Never "PASS" alone. Look for fails, BLOCK on real issues. See `extreme-critique` skill.
+- **Thorough before merge** — End-to-end checklist. All flows tested. Edge cases. No shortcuts.
+
 ## Hard Rules (Branch Workflow)
 - **All changes through branches** — Never commit directly to main. If on main, run `git checkout -b feature/<name>` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
-- **No merge until 100% green** — Never merge any branch until: local npm test 100% pass; all CI jobs 100% pass (Validate, Security Audit, Test Node 18/20, API Smoke Test, GitGuardian); all QA types 100%; additional tests 100%; confidence 100% with evidence in docs/CONFIDENCE_SCORE.md. Block merge if any fails.
+- **Small commits, small PRs** — One small change per commit. Each PR = small iteration of one feature. No big changes. Rollback = revert that feature only, not the whole project.
+- **Product-centric naming** — Branch and commit names must reflect core product and use cases (diagnosis, pipeline, api, evidence, ui). Do NOT use rule/process names (e.g. consensus-gates, ten-pass). See `naming-convention-product` skill.
+- **No merge until 100% green** — Never merge until: local npm test pass; all CI jobs pass; QA 100%; confidence with evidence in .claude/CONFIDENCE_SCORE.md. Block merge if any fails.
+- **No merge without consensus** — Multiple comments (2+ from skills, agents, sub-agents, reviewers). 100% approval. See `consensus-gates` skill.
+- **Do NOT rush to merge** — Reviewers comment, push back, recommend tests. Merge only when reviewers recommend + CI + recommended tests pass.
+- **Clean up after merge** — After PR merges, delete local and remote feature branch. See `branch-cleanup` skill.
+- **No idea/project/task without consensus** — Do not create ideas, projects, or tasks without consensus.
 
 ## Proof Requirements
 - **Never invent files** - only read/edit files that exist or are explicitly requested
@@ -44,7 +57,7 @@ Before claiming "done", verify:
 - [ ] Critical workflows tested locally (describe steps)
 - [ ] Error cases handled (retry, validation, permissions)
 - [ ] Rollback path documented and safe
-- [ ] docs/CONFIDENCE_SCORE.md updated with evidence
+- [ ] .claude/CONFIDENCE_SCORE.md updated with evidence
 - [ ] CHANGELOG.md updated with what changed
 - [ ] No regressions in existing tests
 
@@ -68,7 +81,7 @@ Allowed Claims:
 1. **Read** actual code, test output, GitHub Actions result
 2. **Verify** critical workflow by running it locally
 3. **Score** confidence based on evidence checklist
-4. **Document** findings in docs/CONFIDENCE_SCORE.md
+4. **Document** findings in .claude/CONFIDENCE_SCORE.md
 5. **Mark unknowns** clearly with [UNKNOWN] prefix
 
 ## When Uncertain

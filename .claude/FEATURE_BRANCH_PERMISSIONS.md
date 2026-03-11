@@ -25,7 +25,7 @@
   ✅ npm start
   ✅ npm run [any command]
   ✅ git commands (except force-push to main)
-  ✅ File edits (src/, tests/, docs/, config/)
+  ✅ File edits (src/, tests/, .claude/, config/)
   ✅ File creation (any file on feature branch)
   ✅ File deletion (any file on feature branch)
   ✅ npm install / npm ci

@@ -11,12 +11,145 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 - **guardrails.md**: No merge until 100% green
 - **pr-push-merge** Phase 4: CIWatcher blocks merge until all 100%; fix first if any fails
 - **confidence.md**: Merge gate (HARD)
-- **docs/SKILLSETS.md**, **CODE_AND_DOCS.md**: no-merge-until-100 skill
+- **SKILLSETS.md**: no-merge-until-100 skill
 
 ### feat(rules): Clean up branch after merge
 
 - **CLAUDE.md**: Branch rule — after PR merges, delete local and remote feature branch
-- **pr-push-merge**: Phase 5 — after merge, run cleanup (checkout main, pull, branch -d, push --delete)
+- **pr-push-merge**: Phase 5 — after merge, run branch-cleanup (checkout main, pull, branch -d, push --delete)
+
+### feat(token): Lower tokens when making changes
+
+- **CLAUDE.md**: Token Conservation section - Read(offset,limit), Grep, compact skills, filter-test-output, prefer Haiku
+- **settings.json**: Enable filter-test-output.sh for Bash (reduces npm test output)
+- **cost-guardrails**: When making changes - lower tokens note
+
+### feat(pr-reviewers): Production house workflow - reviewers comment, push back, do not rush
+
+- **.claude/reviewers.md**: Reviewer flow; 5 reviewers (Production, Business, Security, Code, QA); iterate on feedback
+- **pr-reviewers skill**: Spawn reviewers, iterate, recommend tests, merge gate
+- **pr-push-merge**: Phase 4.5 ReviewerGate; merge only when reviewers recommend
+- **CLAUDE.md**, **guardrails**: Do NOT rush to merge; reviewers must recommend
+- **settings.json**: pr-reviewers on CodeReviewer, APIValidator
+
+### feat(rules): Small commits, small PRs (rollback by feature)
+
+- **CLAUDE.md**: Small commits only; small PRs only; rollback = that feature
+- **guardrails.md**: Small commits/PRs hard rule
+- **pr-push-merge**: PRPlanner — small PRs only
+
+### feat(hooks): Open PRs workflow - auto-comment, no wait
+
+- **open-prs-workflow.sh**: New hook runs on PreToolUse. Posts ten-pass comments on all open PRs (<10 comments). Throttle: 2 min. Do NOT wait for user prompt.
+- **settings.json**: PreToolUse hooks - open-prs-workflow runs before branch-aware-permissions
+- **run-the-business, .claude/CLAUDE.md**: First action every turn - work on open PRs, create PR if uncommitted
+- Posted comments on PRs #20, #21 (were 0 comments)
+
+### feat(skills): Extreme critique, thorough before merge, less context
+
+- **extreme-critique**: New skill — No rubber-stamp. BLOCK on real issues. Comments list what was verified. Thorough end-to-end before merge.
+- **five-agent-verification**: Be skeptical, look for fails. Input: diff + scope only. BLOCK when found.
+- **ten-pass-verification**: No rubber-stamp. Thorough checklist.
+- **consensus-gates**: Substance in comments, thorough end-to-end.
+- **handoff-protocol**: Compact schema. Less context. State ≤500 chars.
+- **token-budget**: Use less context. Agent input = scope + diff only.
+- **guardrails**: Critique rules — no rubber-stamp, thorough before merge.
+
+### feat(skills): Full-cycle automation; all skills have agents; 4-5 phases with owners
+
+- **full-cycle-automation**: New skill — Branch cleanup → PR comments → Merge → Learn → Upgrade. Runs automatically. All skills have agents; all agents have 4-5 phases; every phase has sub-agent owner.
+- **branch-cleanup**: New skill — 5 phases: BranchScout, BranchPlanner, BranchCleaner, CleanupVerifier, CleanupReporter. Delete merged branches, close stale PRs.
+- **repository-audit-to-skillset**: Added 5 phases with sub-agent owners (AuditScout, AuditPlanner, SkillUpgrader, UpgradeVerifier, UpgradeCommitter).
+- **run-the-business**: Invokes full-cycle-automation as default. On error: fix → skills-self-update (learn) → repository-audit-to-skillset (upgrade).
+- **pr-push-merge**, **idea-to-production**: After merge → branch-cleanup, skills-self-update, repository-audit-to-skillset.
+- **COMMANDS.md**: Added /full-cycle-automation
+
+### feat(skills): Per-agent GitHub identities; multiple contributors; convince in PR threads
+
+- **github-agent-identities**: New skill — Each agent (CodeReviewer, APIValidator, etc.) has its own GitHub identity. Post PR comments with agent-specific GH_TOKEN. PR shows multiple different contributors.
+- **Setup**: Create machine user accounts, PATs, store in .env (GH_TOKEN_CODERREVIEWER, GH_TOKEN_APIVALIDATOR, etc.). See .env.example.
+- **Script**: `.claude/scripts/gh-pr-comment-as-agent.sh` — post as specific agent
+- **Convince flow**: Agent BLOCKs → author fixes → agent re-checks, posts follow-up → no merge until all convinced
+- **ten-pass, five-agent, pr-comments-live, consensus-gates**: Use per-agent tokens when posting. Git commits can use per-agent author (-c user.name).
+- **.env.example**: Placeholder for per-agent tokens
+
+### feat(skills): Agent task assignment; parallel spawn; nothing hanging
+
+- **agent-task-assignment**: New skill — Assign every task to an agent. Spawn in parallel when independent. Nothing unassigned.
+- **EvidenceReviewer**: New optional agent (Phase 3, evidence-proof, five-agent) — ten-pass pass 3
+- **settings.json**: Guidance changed from "3+ tasks" to "spawn when phase runs; parallel; nothing hanging"
+- **e2e-orchestrator**: Phase 3 spawns CodeReviewer, APIValidator, EvidenceReviewer, QAReviewer, Critic ALL in parallel
+- **five-agent-verification**: ReviewRunner spawns all 5 in parallel (no sequential)
+- **plan-and-execute**: Spawn multiple TaskExecutors when checklist has independent items (no file overlap)
+- **CLAUDE.md**: Spawn when phase runs; parallel by default
+- **SKILLSETS.md**: agent-task-assignment added; agent assignment updated
+
+### feat(skills): Run critiques in parallel; merge promptly; don't leave PRs hanging
+
+- **ten-pass-verification**: Run passes 1–5, 6+7+10, 8+9 in parallel. Time-bound: complete within 15 min. Merge immediately when done.
+- **consensus-gates**: "Do NOT leave PRs hanging" — merge when gates pass, same session. Target: merge within 1 hour of PR ready.
+- **pr-push-merge**: Phase 5 — merge immediately when consensus; no indefinite wait.
+- **parallel-execution**: Ten-pass runs critiques in parallel; no sequential bottleneck.
+- **Peers critiquing peers**: 10 passes = 10 different perspectives; all comment on PR; run together for speed.
+
+### feat(skills): Product-centric naming convention
+
+- **naming-convention-product**: New skill — Branches, commits, PR titles must reflect core product and use cases (diagnosis, pipeline, api, evidence, ui). Do NOT use rule/process names.
+- **Product domains**: diagnosis, pipeline, api, batch, webhook, evidence, audit, ui, export
+- **Use cases**: api-latency, database, auth-5xx, payments, oncall-sre, ci-flaky, microservices
+- **Mapping**: Rule/process changes → map to closest product domain (e.g. consensus → diagnosis, ten-pass → pipeline)
+- **guardrails.md**, **pr-push-merge**: Product-centric naming enforced
+- **SKILLSETS.md**: naming-convention-product added
+
+### fix(skills): Ten-pass critiques MUST comment on PR; merge only after 10 comments
+
+- **Root cause**: Ten-pass and five-agent produced output internally but never ran `gh pr comment`. PRs had no comments because no skill required posting.
+- **ten-pass-verification**: HARD rule — each of 10 passes MUST run `gh pr comment` with result and push-back. Merge blocked until all 10 have commented.
+- **five-agent-verification**: HARD rule — each of 5 agents MUST post PR comment with result. ReviewRunner must post per-agent.
+- **consensus-gates**: 10 ten-pass comments required on PR before merge; critiques must push back on PR.
+- **pr-push-merge**: Phase 5 — block merge until 10 ten-pass comments exist. New status: `awaiting_10_pass_comments`.
+- **pr-comments-live**: Added ten-pass and five-agent to When to Comment; integration with ten-pass.
+- **Rule**: Merge only AFTER 10-pass critiques have commented and pushed back. Never before.
+
+### feat(skills): Reinforce everything → skillset; keep updating
+
+- **user-feedback-to-skillset**: Added "Everything. Always." rule; "Keep updating the skill set" and "Everything needs to go to the skill set" to When User Says; fixed .claude/SKILLSETS.md path
+- **SKILLSETS.md**: Strengthened meta-rule — "Everything the user gives goes to the skill set. Keep updating. No exceptions."
+
+### feat(skills): PR comments live + parallel execution
+
+- **pr-comments-live**: New skill — Post PR comment at same time as every commit, push, update; never work in silence
+- **parallel-execution**: New skill — Do multiple things at once (commit + push + comment); not one thing at a time
+- **pr-push-merge**: Uses pr-comments-live, parallel-execution; each phase posts PR comment in parallel; flow steps include "In parallel: Post PR comment"
+
+### feat(skills): Remove docs; convert everything to skillset
+
+- **Deleted** `docs/` folder (73 files) — all content converted to skills or .claude/
+- **Moved** SKILLSETS.md → .claude/SKILLSETS.md (canonical skill index)
+- **Moved** CONFIDENCE_SCORE.md → .claude/CONFIDENCE_SCORE.md
+- **Created** `confidence-score` skill — evidence template, scoring rules, ledger location
+- **Created** `code-skill-mapping` skill — skill→code map (replaces CODE_AND_DOCS.md)
+- **Updated** All references: docs/ → .claude/ or skills (CLAUDE, guardrails, README, settings, hooks, rules, COMMANDS, IMPLEMENTATION_GUIDE)
+
+### feat(skills): repository-audit-to-skillset; check PRs/branches/commits → update skills
+
+- **repository-audit-to-skillset**: New skill — audit PRs (open/closed), branches, commits; use data to update skill set; commands, workflow, theme→skill mapping; current state from audit 2026-03-11
+- **user-feedback-to-skillset**: Added "Check PRs, branches, commits" trigger → repository-audit-to-skillset
+- **SKILLSETS.md**, **CODE_AND_DOCS.md**: repository-audit-to-skillset added
+
+### feat(skills): User feedback → skillset; consensus-gates skill; everything is skillset
+
+- **user-feedback-to-skillset**: New meta-skill — All user input → update/create skills; never create new docs; everything becomes skillset
+- **consensus-gates**: New skill — PR merge (multiple comments, 100% consensus); idea/project/task (stakeholder consensus); canonical source for consensus gates
+- **SKILLSETS.md**: Meta-rule added; user-feedback-to-skillset, consensus-gates in skill tables; references point to skills not docs
+- **docs/CONSENSUS_GATES.md**: Now points to consensus-gates skill as canonical
+- **pr-push-merge, CLAUDE, guardrails, CODE_AND_DOCS**: Reference consensus-gates skill
+- **pr-push-merge**: Phase 5 — do NOT merge without multiple comments + 100% consensus; Flow step 6 Consensus gate; Flow step 7 Merge only when consensus
+- **CLAUDE.md**: Non-negotiable #10 — no merge without 100% consensus; #11 — no idea/project/task without stakeholder consensus; Merge gate replaces auto-merge
+- **guardrails.md**: No merge without consensus; no idea/project/task without consensus
+- **SKILLSETS.md**, **CODE_AND_DOCS.md**: Consensus gates documented
+
+>>>>>>> origin/main
 
 ### feat(branch-only): HARD rule - all changes through branches, never main
 

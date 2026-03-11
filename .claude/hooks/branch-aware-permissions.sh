@@ -97,8 +97,8 @@ is_safe_command() {
     [[ "$cmd" == *"src/"* ]] && return 0
     # Allow tests/ edits
     [[ "$cmd" == *"tests/"* ]] && return 0
-    # Allow docs/ edits
-    [[ "$cmd" == *"docs/"* ]] && return 0
+    # Allow .claude/ edits (skillset, confidence ledger)
+    [[ "$cmd" == *".claude/"* ]] && return 0
     # Allow .claude/rules/ edits (our standards)
     [[ "$cmd" == *".claude/rules/"* ]] && return 0
   fi

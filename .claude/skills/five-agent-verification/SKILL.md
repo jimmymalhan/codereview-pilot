@@ -1,7 +1,14 @@
 ---
 name: five-agent-verification
-description: Code review verified by 5 different agents before accept. All must pass. Use before merge or when accepting changes. Auto-accept starting now on feature branches.
+description: Code review verified by 5 different agents before accept. Each agent MUST post its result as a PR comment with push-back when blocking. All must pass. Use before merge.
 ---
+
+## HARD Rule: Post to PR
+
+- **Each of the 5 agents MUST run** `gh pr comment --body "Agent N: <name>: <PASS|BLOCK> — <issues/critique>"` with its result
+- **Push-back** — when an agent BLOCKs, the comment MUST list the issues so the author must address
+- **No merge until all 5 have commented** — Part of ten-pass; merge blocked until 10-pass (including these 5) have commented
+- **Per-agent GitHub identity** — Each agent uses its own GH token (`GH_TOKEN_CODERREVIEWER`, etc.). PR shows 5 different contributors. Convince each in PR thread before merge. See `github-agent-identities`.
 
 ## Phase 1: DISCOVER
 ### Sub-Agent: `ChangeSizer` (model: haiku)
@@ -18,9 +25,9 @@ description: Code review verified by 5 different agents before accept. All must 
 
 ## Phase 3: IMPLEMENT
 ### Sub-Agent: `ReviewRunner` (model: haiku)
-- **Prompt**: Spawn N agents in parallel per tier. Collect PASS/BLOCK from each. Quick: CodeReviewer only. Standard: CodeReviewer + QAReviewer + Critic. Full: all 5.
+- **Prompt**: **Spawn ALL N agents in parallel.** Do NOT run one after another. Collect PASS/BLOCK from each. **For each agent result, run** `GH_TOKEN=${GH_TOKEN_<AGENT>:-$GH_TOKEN} gh pr comment --body "**[Agent]** PASS/BLOCK — <issues or OK>"` (use agent's token per `github-agent-identities`). Quick: CodeReviewer only. Standard: CodeReviewer + QAReviewer + Critic (3 in parallel). Full: all 5 in parallel.
 - **Output**: `{ results[{agent, pass: boolean, issues[]}] }`
-- **Gate**: all spawned agents responded
+- **Gate**: all spawned agents responded AND each posted a PR comment
 
 ## Phase 4: VERIFY
 ### Sub-Agent: `BlockResolver` (model: haiku)
@@ -60,13 +67,13 @@ IF rate limited during agent spawning:
 
 Run in parallel. All 5 must report PASS (or no blocking issues) for work to be accepted.
 
-| # | Agent | Role | Verifies | Output |
-|---|-------|------|----------|--------|
-| 1 | **CodeReviewer** | Code quality, DRY, maintainability | No duplicate logic, clean style, guardrails | PASS / BLOCK + issues[] |
-| 2 | **APIValidator** | API contract, endpoints | Request/response alignment, error formats | PASS / BLOCK + mismatches[] |
-| 3 | **EvidenceReviewer** | Proof, citations, no invented claims | file:line valid, no hallucinated APIs/fields | PASS / BLOCK + unsupported[] |
-| 4 | **QAReviewer** | Tests, coverage, critical flows | npm test pass, coverage, happy/error/retry paths | PASS / BLOCK + gaps[] |
-| 5 | **Critic** | Quality gate, output contract | confidence >= 0.70, all 6 fields present | APPROVED / REJECTED |
+| # | Agent | Role | Verifies | Output | PR Comment |
+|---|-------|------|----------|--------|-------------|
+| 1 | **CodeReviewer** | Code quality, DRY, maintainability | No duplicate logic, clean style, guardrails | PASS / BLOCK + issues[] | MUST post gh pr comment |
+| 2 | **APIValidator** | API contract, endpoints | Request/response alignment, error formats | PASS / BLOCK + mismatches[] | MUST post gh pr comment |
+| 3 | **EvidenceReviewer** | Proof, citations, no invented claims | file:line valid, no hallucinated APIs/fields | PASS / BLOCK + unsupported[] | MUST post gh pr comment |
+| 4 | **QAReviewer** | Tests, coverage, critical flows | npm test pass, coverage, happy/error/retry paths | PASS / BLOCK + gaps[] | MUST post gh pr comment |
+| 5 | **Critic** | Quality gate, output contract | confidence >= 0.70, all 6 fields present | APPROVED / REJECTED | MUST post gh pr comment |
 
 ---
 
@@ -78,52 +85,56 @@ Implementation done
 Spawn 5 agents in parallel
        ↓
 Agent 1: CodeReviewer  ─┐
-Agent 2: APIValidator   │
+Agent 2: APIValidator   │  Each MUST: gh pr comment with result + push-back (issues if BLOCK)
 Agent 3: EvidenceReviewer├─→ Aggregate results
 Agent 4: QAReviewer     │
 Agent 5: Critic        ─┘
        ↓
-All 5 PASS? → ACCEPT (proceed to push/merge)
-Any BLOCK?  → Fix issues → Re-run 5 agents
+All 5 PASS AND all 5 commented on PR? → ACCEPT (proceed to push/merge)
+Any BLOCK?  → Fix issues → Re-run 5 agents → post new comments
 ```
 
 ---
 
 ## Agent Prompts (Copy to Spawn)
 
+**Input**: Give each agent ONLY: git diff + scope. No full files. See `extreme-critique` skill.
+
+**Mindset**: Be skeptical. Look for fails. BLOCK on real issues. Never rubber-stamp.
+
 ### Agent 1: CodeReviewer
 ```
-Review changed files. Check: DRY, style, guardrails, no console.log, no commented-out code.
+Review diff. Be critical. Check: DRY, style, guardrails, console.log, commented-out code, error handling gaps, edge cases.
 Output: { pass: boolean, issues: [{ file, line, issue }] }
-PASS only if no blocking issues.
+BLOCK if any issue. PASS only when genuinely clean. List what you verified.
 ```
 
 ### Agent 2: APIValidator
 ```
-Verify API contracts. Check: request/response alignment, error format, retry/timeout.
+Verify API. Be critical. Check: request/response, error format, retry/timeout, missing validation.
 Output: { pass: boolean, mismatches: [] }
-PASS only if no contract violations.
+BLOCK on any contract violation. List specific mismatches.
 ```
 
 ### Agent 3: EvidenceReviewer
 ```
-Verify evidence. Check: all file:line citations exist, no invented APIs/fields.
+Verify evidence. Be skeptical. grep every file:line citation. Check for invented APIs, fields, paths.
 Output: { pass: boolean, unsupported: [] }
-PASS only if no hallucinated claims.
+BLOCK if any citation invalid. List unsupported claims.
 ```
 
 ### Agent 4: QAReviewer
 ```
-Verify tests. Run npm test. Check: coverage, happy/error/retry paths covered.
+Run npm test. Be critical. Check: coverage gaps, missing error/retry tests, flaky patterns.
 Output: { pass: boolean, gaps: [], coverage: N }
-PASS only if tests pass and critical flows covered.
+BLOCK if critical flow untested. List gaps.
 ```
 
 ### Agent 5: Critic
 ```
-Quality gate. Check: confidence >= 0.70, root cause + evidence + fix plan + rollback + tests present.
+Quality gate. Be strict. Check: confidence >= 0.70, all 6 fields (root_cause, evidence, fix_plan, rollback, tests, confidence).
 Output: { approved: boolean, blocking: [] }
-APPROVED only if all fields present and confidence sufficient.
+REJECT if any field missing or weak. List blocking items.
 ```
 
 ---
