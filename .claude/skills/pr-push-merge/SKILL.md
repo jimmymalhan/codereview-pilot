@@ -24,7 +24,7 @@ argument-hint: [branch or ""]
 
 ## Phase 2: PLAN
 ### Sub-Agent: `PRPlanner` (model: sonnet)
-- **Prompt**: Plan commit scope: which files to stage (project-relevant only, no plans/reports). Draft PR title and body. Check if PR already exists.
+- **Prompt**: Plan commit scope: which files to stage (project-relevant only, no plans/reports). **Small PRs only** — one feature iteration per PR. Draft PR title and body. Check if PR already exists.
 - **Output**: `{ files_to_stage[], commit_message, pr_title, pr_body, pr_exists: boolean }`
 - **Gate**: files selected AND message drafted
 
