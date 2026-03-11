@@ -44,9 +44,9 @@ argument-hint: [branch or ""]
 
 ## Phase 5: DELIVER
 ### Sub-Agent: `PRPublisher` (model: haiku)
-- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. Merge when CI green (auto-merge). Notify user of server status.
-- **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_approval" }`
-- **Gate**: links are real
+- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. **Do NOT merge without 100% consensus.** Require multiple comments (2+ from skills, agents, sub-agents, or reviewers). All must approve. Block merge until consensus. See `docs/CONSENSUS_GATES.md`.
+- **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_consensus" | "ready_to_merge" }`
+- **Gate**: links are real. For merge: block until multiple comments + 100% consensus.
 
 ## Contingency
 IF push fails → check branch permissions → retry once → if still failing → contingency L5 (ask user).
@@ -79,8 +79,8 @@ Phase 4 MUST verify localhost. Phase 5 MUST tell user: "Server running at localh
 3. **Run CI** – `npm run test:ci`; fix failures
 4. **Open PR** – Or update existing PR
 5. **Provide** – Localhost URL (working) + PR link
-6. **Wait** – User approval before merge
-7. **Merge** – Only after "merge now" from user
+6. **Consensus gate** – Multiple comments required (2+ from skills, agents, sub-agents, reviewers). 100% consensus required. Do NOT merge without consensus. See `docs/CONSENSUS_GATES.md`.
+7. **Merge** – Only when multiple comments AND 100% consensus. Never merge without.
 8. **Cleanup** – Delete branch after merge
 
 ## Output Rules

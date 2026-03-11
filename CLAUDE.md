@@ -12,6 +12,8 @@
 7. **Confidence score backed by proof** - 95-100 only with passing tests
 8. **Separate observed facts from assumptions** - mark unknowns clearly with [UNKNOWN]
 9. **All changes through branches** - Never commit directly to main. Create a feature branch first. All commits go to feature/*. Merge to main only via PR.
+10. **No merge without 100% consensus** - PR must have multiple comments (2+ from skills, agents, sub-agents, reviewers). All must approve. Do NOT merge without consensus. See `docs/CONSENSUS_GATES.md`.
+11. **No idea/project/task without stakeholder consensus** - Do not create ideas, projects, or tasks without consensus of all relevant stakeholders. Block until consensus.
 
 ## Output Contract
 Every diagnosis must include:
@@ -27,7 +29,7 @@ Every diagnosis must include:
 - **Permissions** (on feature/*): Everything is allow list. Execute and report; never ask. **On main**: No direct commits; create feature/* first.
 - **Ten-pass verification**: REVIEW.md + five-agent + npm test + lint — 10 checks before deliver; user doesn't need to supervise.
 - **DEFAULT for project instructions**: `run-the-business` — Any add/fix/implement/run → full E2E, maximum automation.
-- **Auto-merge**: ON by default — Merge when CI green; no "merge now" required.
+- **Merge gate**: Merge only when CI green AND multiple comments AND 100% consensus. Do NOT merge without consensus. See `docs/CONSENSUS_GATES.md`.
 - **Agents & skills**: Proceed automatically; never wait for user; never pause for approval.
 - **Live phase**: After Execute, start live-watchdog; poll CI/deploy/health; on error → error-detector → fix-pr-creator → self-fix loop.
 - **Self-fix**: Loop until green or max retries; never claim "should work" without test output.

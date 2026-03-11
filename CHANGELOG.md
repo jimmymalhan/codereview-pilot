@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(consensus): PR merge + idea/project/task require 100% consensus
+
+- **docs/CONSENSUS_GATES.md**: New doc — PR merge gate (multiple comments, 100% consensus); idea/project/task creation gate (stakeholder consensus); block until all pass
+- **pr-push-merge**: Phase 5 — do NOT merge without multiple comments + 100% consensus; Flow step 6 Consensus gate; Flow step 7 Merge only when consensus
+- **CLAUDE.md**: Non-negotiable #10 — no merge without 100% consensus; #11 — no idea/project/task without stakeholder consensus; Merge gate replaces auto-merge
+- **guardrails.md**: No merge without consensus; no idea/project/task without consensus
+- **SKILLSETS.md**, **CODE_AND_DOCS.md**: Consensus gates documented
+
 ### feat(branch-only): HARD rule - all changes through branches, never main
 
 - **CLAUDE.md**: Non-negotiable rule #9 — All changes through branches; create feature/* first; merge via PR only

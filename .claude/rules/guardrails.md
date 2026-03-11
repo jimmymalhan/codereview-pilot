@@ -2,6 +2,8 @@
 
 ## Hard Rules (Branch Workflow)
 - **All changes through branches** — Never commit directly to main. If on main, run `git checkout -b feature/<name>` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
+- **No merge without consensus** — Multiple comments (2+ from skills, agents, sub-agents, reviewers). 100% approval. Do NOT merge without. See `docs/CONSENSUS_GATES.md`.
+- **No idea/project/task without consensus** — Do not create ideas, projects, or tasks without consensus of all relevant stakeholders.
 
 ## Proof Requirements
 - **Never invent files** - only read/edit files that exist or are explicitly requested

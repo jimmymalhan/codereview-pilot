@@ -111,7 +111,7 @@
 
 **ON by default** when run-the-business. `AUTO_MERGE=true`, `ULTRA_AUTO=true` in settings.
 
-**Stack**: DAG executor, token budget, consensus, handoff, failure taxonomy, explainability, graceful degradation, property-based testing, auto-merge, full observability. Idea → production with no approval gates. Agents and skills proceed automatically—never pause.
+**Stack**: DAG executor, token budget, consensus, handoff, failure taxonomy, explainability, graceful degradation, property-based testing. **Merge gate**: CI green + multiple comments + 100% consensus (see `docs/CONSENSUS_GATES.md`). No idea/project/task without stakeholder consensus. Agents and skills proceed automatically—never pause except for consensus gates.
 
 ---
 
@@ -123,7 +123,7 @@
 | **secrets-scan** | Block commit if API keys, tokens in diff |
 | **reversibility** | Every change has rollback steps |
 | **audit-trail** | Immutable append-only action log |
-| **auto-merge** | Merge when CI green; full-auto mode opt-in |
+| **consensus-gates** | PR: multiple comments + 100% consensus; idea/project/task: stakeholder consensus; see `docs/CONSENSUS_GATES.md` |
 
 ---
 
@@ -208,7 +208,7 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Plan mode, checklist, skip-if-done | `plan-and-execute` | Break work, 4 subagents, rerun skips completed |
 | Branch auto-accept | `branch-permissions` | Feature branch: auto; main: ask |
 | Project structure, memory layout | `project-structure` | Shared vs local, .gitignore |
-| PR, push, localhost, merge | `pr-push-merge` | Commit→push→CI→localhost+PR links→approval→merge |
+| PR, push, localhost, merge | `pr-push-merge` | Commit→push→CI→localhost+PR links→consensus (multiple comments, 100%)→merge |
 | Don't ask, auto-execute | `push-hard` | No permission prompts, aggressive parallel |
 | Stakeholder feedback | `stakeholder-feedback` | CEO, EM, frustrated user, iterate |
 | Pull main, resolve conflicts | `conflict-resolution` | Stash, pull, resolve, don't lose changes |
@@ -237,7 +237,7 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Secrets scan | `secrets-scan` | Block commit if secrets detected |
 | Reversibility | `reversibility` | Rollback steps for every change |
 | Audit trail | `audit-trail` | Immutable action log |
-| Auto-merge | `auto-merge` | Merge when CI green (opt-in) |
+| Consensus gates | `docs/CONSENSUS_GATES.md` | PR: multiple comments + 100% consensus; idea/project/task: stakeholder consensus; merge only when all pass |
 | Ultra automation | `ultra-automation` | Max autonomy; no gates (opt-in) |
 | DAG executor | `dag-executor` | Parallel, dependency-ordered tasks |
 | Token budget | `token-budget` | Cap tokens per run |
@@ -260,7 +260,8 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 6. **Feedback** – `stakeholder-feedback`; `feedback-log` for common patterns
 7. **Push** – `pr-push-merge`: commit relevant only, push, CI green
 8. **Handoff** – Localhost URL + PR link only if real and working
-9. **Merge** – Only after user says "merge now"; then delete branch
+9. **Consensus gate** – Multiple comments (2+); 100% approval. Do NOT merge without. See `docs/CONSENSUS_GATES.md`.
+10. **Merge** – Only when consensus gate passes; then delete branch
 
 ## Watchdog Flow (Live Monitoring)
 
