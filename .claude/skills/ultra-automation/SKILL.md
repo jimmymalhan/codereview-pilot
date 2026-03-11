@@ -1,16 +1,17 @@
 ---
 name: ultra-automation
-description: Maximum autonomy mode. Idea→production with no approval gates. DAG, token-budget, consensus, handoff, degradation. Opt-in.
+description: Maximum autonomy. Idea→production. No approval gates. ON by default when run-the-business. DAG, token-budget, consensus, handoff, degradation.
 ---
 
 # Ultra-Automation Skill
 
-**Principle**: When enabled, run the full stack at maximum autonomy. Idea → production. No gates. All advanced skills active.
+**Principle**: Maximum autonomy. Idea → production. No gates. All advanced skills active. **ON by default** when run-the-business is invoked.
 
-## Activation
+## Activation (Default)
 
-- **Env**: `ULTRA_AUTO=true` or `FULL_AUTO=true`
-- **User says**: "Ultra automation", "Full autonomous", "No approval needed"
+- **When** run-the-business is used → ultra-automation is ON
+- **Env** (optional override): `ULTRA_AUTO=true` or `FULL_AUTO=true`
+- **To disable**: User says "plan only", "do not auto-merge", or "ask before merge"
 
 ## Active Stack
 

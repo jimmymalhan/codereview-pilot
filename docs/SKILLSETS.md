@@ -4,17 +4,17 @@
 
 ---
 
-## Project Instructions Only — Run the Whole Business
+## Project Instructions Only — Run the Whole Business (DEFAULT)
 
-**You give project instructions. We run the whole business.**
+**You give project instructions. We run the whole business. Maximum automation by default.**
 
 | You say | We do |
 |---------|-------|
-| "Add login page" | plan-and-execute → 4 phases → 5–10 subagents/phase → tests → PR |
-| "Fix the API timeout" | Scope → plan → implement → verify → deliver |
-| "Project instructions only" | `run-the-business` → idea-to-production + live-watchdog |
+| "Add login page" | run-the-business → plan-and-execute → 4 phases → tests → PR → auto-merge when CI green |
+| "Fix the API timeout" | Same — scope → plan → implement → verify → deliver → merge |
+| Any project instruction | DEFAULT: run-the-business, auto-merge ON, ultra-automation ON, live-watchdog ON |
 
-**Invoke**: `run-the-business` or `plan-and-execute`. No approval gates — proceed automatically through all phases.
+**Default**: No approval gates. Proceed automatically through all phases. Merge when CI green. Never wait for "merge now" or "shall I proceed?"
 
 **Goal**: Domain expert by agent based on skill. Each role has a skill set; ask "What is [Role]'s skill set?" to see how agents behave.
 
@@ -103,11 +103,11 @@
 
 ---
 
-## Ultra-Automation Mode
+## Ultra-Automation Mode (DEFAULT)
 
-**Activate**: "Ultra automation", "Full autonomous", or `ULTRA_AUTO=true`
+**ON by default** when run-the-business. `AUTO_MERGE=true`, `ULTRA_AUTO=true` in settings.
 
-**Stack**: DAG executor, token budget, consensus, handoff, failure taxonomy, explainability, graceful degradation, property-based testing, auto-merge, full observability. Idea → production with no approval gates.
+**Stack**: DAG executor, token budget, consensus, handoff, failure taxonomy, explainability, graceful degradation, property-based testing, auto-merge, full observability. Idea → production with no approval gates. Agents and skills proceed automatically—never pause.
 
 ---
 
@@ -904,6 +904,7 @@ When creating PR:
 | Agent definitions | `.claude/agents/<agent-name>.md` |
 | Project rules | `.claude/rules/*.md` |
 | This document | `docs/SKILLSETS.md` |
+| Ultra-advance roadmap & review | `docs/ULTRA_ADVANCE_REVIEW.md` |
 | Confidence ledger | `docs/CONFIDENCE_SCORE.md` |
 | Change log | `CHANGELOG.md` |
 

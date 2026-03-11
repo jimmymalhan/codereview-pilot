@@ -1,20 +1,30 @@
 ---
 name: run-the-business
-description: You give project instructions; we run the whole business. Entry for "project instructions only", "add feature", "fix bug", "run the project". Invokes idea-to-production and live-watchdog. Full E2E automation. Use when user says run/add/fix and wants zero manual steps.
+description: DEFAULT for project instructions. You give instructions; we run the whole business. Maximum automation—no approval gates. Invokes idea-to-production + live-watchdog. Full E2E. Agents and skills proceed automatically; never wait for user.
 argument-hint: [task or instructions]
 ---
 
 # Run-the-Business Skill
 
-**Purpose**: You give project instructions. We run the whole business. Zero manual steps. Entry point for fully autonomous flow.
+**Purpose**: DEFAULT mode for project instructions. Maximum automation. Zero manual steps. No approval gates. Agents and skills proceed automatically through all phases—never pause, never ask "shall I proceed", never wait for user.
 
-**When to use**: User says "project instructions only", "run the project", "add X", "fix Y", or equivalent. Full E2E with live monitoring.
+**When to use**: ANY project instruction: "add X", "fix Y", "run the project", "implement Z", or equivalent. Assume run-the-business unless user says "plan only" or "do not execute".
+
+---
+
+## Default: Maximum Automation
+
+- **auto-merge**: ON — Merge when CI green; no "merge now" required
+- **ultra-automation**: ON — Full advanced stack (DAG, consensus, handoff, etc.)
+- **live-watchdog**: ON — Start immediately after execute
+- **Agents**: Spawn automatically; proceed through phases without pausing
+- **Skills**: Execute; never wait for approval between steps
 
 ---
 
 ## Flow
 
-1. **Invoke** `idea-to-production` — Idea → Execute → HANDOFF 1 (merge) → HANDOFF 2 (deploy)
+1. **Invoke** `idea-to-production` — Idea → Execute → Merge (auto when CI green) → Deploy (if FULL_AUTO)
 2. **Start** `live-watchdog` — Poll CI, deploy, health endpoint
 3. **On error** → `error-detector` → `fix-pr-creator` → `self-fix` loop until green
 
@@ -24,10 +34,11 @@ argument-hint: [task or instructions]
 
 | User Says | Action |
 |-----------|--------|
-| "Run the project" | idea-to-production + live-watchdog |
+| Any project instruction (add, fix, implement, run) | DEFAULT: idea-to-production + live-watchdog + auto-merge |
+| "Run the project" | Same (max automation) |
 | "Project instructions only" | Same |
 | "Full E2E" | Same |
-| "Ultra automation" / "Full autonomous" | ultra-automation mode: all advanced skills, auto-merge, no approval gates |
+| "Plan only" / "do not execute" | Plan mode only; no implementation |
 | "Watch and fix" | Start live-watchdog only (if already executed) |
 
 ---
@@ -43,7 +54,7 @@ argument-hint: [task or instructions]
 
 ## Related Skills
 
-- `ultra-automation` — Max autonomy; no approval gates (opt-in)
+- `ultra-automation` — Max autonomy; ON by default when run-the-business
 - `idea-to-production` — Master flow
 - `live-watchdog` — Poll and detect errors
 - `error-detector` — Classify error, route fix agent

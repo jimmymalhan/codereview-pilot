@@ -8,7 +8,7 @@ argument-hint: [phase|full|run]
 ## Execution Standard (Apply to Every Skill)
 
 - **Phases**: Define sub-agents in **four to five phases** in every skill (e.g. DISCOVER → PLAN → IMPLEMENT → VERIFY → DELIVER).
-- **Auto-execute**: Do NOT wait for user to accept changes. Proceed through phases automatically. Execution is not guaranteed to run automatically if you pause for approval.
+- **Auto-execute**: NEVER wait for user. Proceed through phases automatically. Never pause. Never ask "shall I proceed?". Agents spawn and run; no approval between phases.
 
 ## Phase 1: DISCOVER
 ### Sub-Agent: `BusinessScout` (model: haiku)

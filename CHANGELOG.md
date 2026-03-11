@@ -5,6 +5,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(automation): Maximum automation by default — business runs automatically
+
+- **run-the-business**: DEFAULT for any project instruction; auto-merge ON, ultra-automation ON
+- **idea-to-production**: Auto-merge when CI green; no "merge now" required
+- **ultra-automation, auto-merge**: ON by default when run-the-business
+- **settings.json**: AUTO_MERGE=true, ULTRA_AUTO=true in environment
+- **plan-and-execute, e2e-orchestrator**: NEVER wait for user; never pause; agents proceed automatically
+- **CLAUDE.md**: Run-the-business is default for project instructions
+
+### docs: Add ULTRA_ADVANCE_REVIEW.md — roadmap, gaps, review checklist
+
+- Skills not yet implemented: deploy-trigger, health-checker, changelog-writer, dependency-updater, lint-fixer, test-gap-analyzer
+- Next-level: causal debugging, regression guard, spec-driven tests, cost-per-run, self-tune, canary
+- Review checklist: skills, agents, config, flows, docs, tests
+
 ### feat(skills): Ultra automation — 8 advanced skills, max autonomy
 
 - **dag-executor**: Dependency-ordered parallel tasks

@@ -1,10 +1,10 @@
 ---
 name: idea-to-production
-description: Idea → Execute → Production with merge/deploy handoffs. Use when user gives idea, "add feature", "fix bug", or wants full flow to production. Handoff 1: merge (user approves, or auto-merge when enabled). Handoff 2: deploy (explicit approval). Cost-optimized.
+description: Idea → Execute → Production. DEFAULT: auto-merge when CI green (no "merge now"). Agents proceed automatically—never wait for user. When invoked from run-the-business: maximum automation. Cost-optimized.
 argument-hint: [idea or task]
 ---
 
-**Uses** `auto-merge`: When AUTO_MERGE or FULL_AUTO enabled, skip "merge now" — merge when CI green.
+**Default**: `auto-merge` ON when from run-the-business. Merge when CI green. No "merge now" required. Proceed through all phases automatically—do NOT pause for approval.
 
 ## Execution Standard (Apply to Every Skill)
 
@@ -39,9 +39,9 @@ argument-hint: [idea or task]
 
 ## Phase 5: DELIVER
 ### Sub-Agent: `HandoffBroker` (model: haiku)
-- **Prompt**: HANDOFF 1: PR + localhost ready. Output real links only. Tell user server status and laptop-safe resume path. HANDOFF 2: merge ONLY after user says "merge now".
-- **Output**: `{ pr_url, localhost_url, merge_status: "awaiting_approval", server_status, resume_instructions }`
-- **Gate**: PR real, user notified, merge awaiting approval
+- **Prompt**: PR + localhost ready. When CI green: merge automatically (auto-merge default). Output real links only. Do NOT wait for "merge now" — proceed to merge when CI passes.
+- **Output**: `{ pr_url, localhost_url, merge_status: "merged"|"awaiting_ci", server_status, resume_instructions }`
+- **Gate**: PR real; merge when CI green (no approval pause)
 
 ## Contingency
 IF any stage fails → contingency skill handles escalation automatically. IF credit budget hit → save state at current stage → output "Paused at stage N. Resume: /idea-to-production resume".
@@ -62,9 +62,9 @@ Before HANDOFF 1: verify server is UP and localhost works. Tell user: "Server ru
 ## Flow Overview
 
 ```
-IDEA (user gives) → PLAN → EXECUTE (4 phases) → HANDOFF 1 (merge) → HANDOFF 2 (deploy)
-         ↑                        ↑                     ↑                      ↑
-    You provide              Auto (feature/*)       You approve             You approve
+IDEA (user gives) → PLAN → EXECUTE (4 phases) → MERGE (auto when CI green) → DEPLOY (if FULL_AUTO)
+         ↑                        ↑                     ↑                           ↑
+    You provide              Auto—never wait        Auto-merge default           Opt-in
 ```
 
 ---
@@ -130,16 +130,16 @@ When `run-the-business` is invoked, start live monitoring:
 
 ## HANDOFF 1: Merge to Main
 
-**You approve** before this step. Claude will NOT merge without "merge now" or equivalent.
+**Default (run-the-business)**: Auto-merge when CI green. No "merge now" required.
 
 | Action | Who | When |
 |--------|-----|------|
-| Review PR | You | After Claude provides PR link |
-| Approve / request changes | You | Manual |
-| Say "merge now" | You | When ready |
-| Merge + delete branch | Claude | Only after your approval |
+| Create PR | Claude | After Execute |
+| CI green | Claude | Auto-merge (default) |
+| Say "merge now" | You | Only if user disabled auto-merge |
+| Merge + delete branch | Claude | When CI green (auto) |
 
-**Claude does** (after approval):
+**Claude does** (default: automatic):
 - `git checkout main`
 - `git merge feature/<branch>`
 - `git push origin main`

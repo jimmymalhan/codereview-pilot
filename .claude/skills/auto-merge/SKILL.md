@@ -1,19 +1,19 @@
 ---
 name: auto-merge
-description: When CI green, merge without asking. Full-auto mode: idea to production with no approval gates. Opt-in.
+description: When CI green, merge without asking. DEFAULT when run-the-business. No "merge now" required.
 ---
 
 # Auto-Merge Skill
 
-**Principle**: When enabled, merge PRs when CI green. No "merge now" required. Use with caution.
+**Principle**: Merge PRs when CI green. No "merge now" required. **Default ON** when run-the-business.
 
 ## Modes
 
-| Mode | Merge | Deploy |
-|------|-------|--------|
-| **safe** (default) | Ask user | Ask user |
-| **auto-merge** | Merge when CI green | Ask user |
-| **full-auto** | Merge when CI green | Deploy when merge succeeds |
+| Mode | Merge | Deploy | When |
+|------|-------|--------|------|
+| **auto-merge** (default) | Merge when CI green | Ask user | run-the-business |
+| **full-auto** | Merge when CI green | Deploy when merge succeeds | FULL_AUTO=true |
+| **safe** | Ask user | Ask user | User says "ask before merge" |
 
 ## When to Merge (auto-merge / full-auto)
 

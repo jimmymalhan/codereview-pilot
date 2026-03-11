@@ -7,7 +7,7 @@
 2. **Retrieve before explaining** - evidence first, then conclusions
 3. **Verifier blocks unsupported claims** - no hand-waving, no "should work"
 4. **Skeptic produces competing theory** - materially different root cause
-5. **No edits until plan approved** - review before changes
+5. **No edits until plan approved** - except run-the-business: proceed automatically with plan-and-execute
 6. **Confidence score backed by proof** - 95-100 only with passing tests
 7. **Separate observed facts from assumptions** - mark unknowns clearly with [UNKNOWN]
 
@@ -20,10 +20,12 @@ Every diagnosis must include:
 - **Tests** - unit, integration, and E2E proof of fix
 - **Confidence** - backed by passing tests with evidence
 
-## Run-the-Business & Live Monitoring
+## Run-the-Business & Live Monitoring (DEFAULT)
 
-- **Entry skill**: `run-the-business` — Invoke idea-to-production; start live-watchdog; full E2E.
-- **Live phase** (optional): After Execute, poll CI/deploy/health; on error → error-detector → fix-pr-creator → self-fix loop.
+- **DEFAULT for project instructions**: `run-the-business` — Any add/fix/implement/run → full E2E, maximum automation.
+- **Auto-merge**: ON by default — Merge when CI green; no "merge now" required.
+- **Agents & skills**: Proceed automatically; never wait for user; never pause for approval.
+- **Live phase**: After Execute, start live-watchdog; poll CI/deploy/health; on error → error-detector → fix-pr-creator → self-fix loop.
 - **Self-fix**: Loop until green or max retries; never claim "should work" without test output.
 
 ## Recommended Workflow

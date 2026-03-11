@@ -8,7 +8,9 @@
     "PORT": "3000",
     "TIMEOUT_MS": "60000",
     "MAX_RETRIES": "2",
-    "COVERAGE_THRESHOLD": "60"
+    "COVERAGE_THRESHOLD": "60",
+    "AUTO_MERGE": "true",
+    "ULTRA_AUTO": "true"
   },
 
   "hooks": {

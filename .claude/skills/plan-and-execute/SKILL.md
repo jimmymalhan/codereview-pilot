@@ -7,7 +7,7 @@ argument-hint: [task description]
 ## Execution Standard (Apply to Every Skill)
 
 - **Phases**: Create sub-agents in **four to five different phases** in every skill (e.g. DISCOVER → PLAN → IMPLEMENT → VERIFY → DELIVER).
-- **Auto-execute**: Do NOT wait for user to accept changes. Run through phases automatically. Pausing for approval does not guarantee execution will proceed.
+- **Auto-execute**: NEVER wait for user. Run through phases automatically. Never pause for approval. Never ask "shall I proceed?". Agents proceed; skills execute. Pausing does not guarantee execution.
 
 # Plan and Execute Skill
 
