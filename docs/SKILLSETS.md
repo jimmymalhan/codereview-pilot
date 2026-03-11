@@ -37,6 +37,23 @@
 | **E2E Orchestrator** | "What is Orchestrator's skill set?" | e2e-orchestrator, plan-and-execute — 4 phases, 5–10 subagents/phase |
 | **Code Reviewer** | "What is CodeReviewer's skill set?" | critic, backend-reliability, ui-quality — DRY, quality, efficiency |
 | **API Validator** | "What is APIValidator's skill set?" | verifier, backend-reliability — Contract testing, endpoint verification |
+| **ChaosTester** | "What is ChaosTester's skill set?" | chaos-tester, evidence-proof — End-user, internal, engineer personas; random tests; iterate; handoff to FixAgent |
+
+---
+
+## ChaosTester — Random Tests, Self-Iterate, Handoff to Fix
+
+**Agent**: ChaosTester. Simulates end users, internal users, and engineers.
+
+| Persona | Behavior | Goal |
+|---------|----------|------|
+| **End-user** | Valid flows, typos, long text | Find UX/validation gaps |
+| **Internal-user** | Batch, pagination, export | Find backend edge cases |
+| **Engineer** | Invalid input, fuzz | Find crashes, 5xx, timeouts |
+
+**Flow**: Run 5–10 random tests per persona on UI + backend → classify errors → iterate (vary inputs, re-run) → when done, hand off to FixAgent. You come in to fix after ChaosTester surfaces issues.
+
+**Invoke**: When testing UI + backend before release, or when you want to generate errors to verify error handling.
 
 ---
 
@@ -92,6 +109,7 @@ Skill updates are project-relevant. Commit them.
 | **Security Auditor** | (optional) | PatternMatcher, ConfigValidator | Optional |
 | **Performance Optimizer** | (optional) | AlgorithmAnalyzer, CodeProfiler | Optional |
 | **Data Analyst** | (optional) | MetricsAnalyzer, ResponseParser | Optional |
+| **ChaosTester** | (optional) | End-user, internal, engineer personas; random UI+backend tests | Phase 3 |
 
 ## Create → Handle → Run (E2E by Role)
 
@@ -133,6 +151,7 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Run the business (live) | `run-the-business` | Entry: idea-to-production + live-watchdog; full E2E |
 | Live monitoring | `live-watchdog` | Poll CI, deploy, health; on error → fix PR |
 | Fix PR flow | `fix-pr-creator`, `self-fix` | Error → branch fix/X → spawn FixAgent → self-fix until green |
+| Random tests, generate errors | `chaos-tester` | End-user, internal, engineer personas; iterate; handoff to FixAgent |
 
 ## End-to-End Workflow (Break, Agents, Branches, Tests, Feedback, Push, Merge)
 
@@ -318,7 +337,7 @@ Mark each with severity and mitigation.
 
 ### Subagent 6: API Surface Scout
 **Skill Set**: backend-reliability, retriever  
-**Prompt**: List all API endpoints (src/server.js, routes). For each: path, method, handler. Flag hidden endpoints. Output: endpoints[], missing-from-UI[].
+**Prompt**: List all API endpoints (src/server.js, routes). For each: path, method, handler. Flag endpoints not surfaced in UI. Output: endpoints[], missing-from-UI[].
 
 ### Subagent 7: Test Coverage Scout
 **Skill Set**: qa-engineer, evidence-proof  
@@ -664,6 +683,11 @@ List unknowns with [UNKNOWN]. Score confidence with evidence.
 - **ResponseParser** – Data extraction
 - **DataValidator** – Type checking
 
+### ChaosTester
+- **chaos-tester** – End-user, internal, engineer personas; random UI+backend tests
+- **Iterate** – Vary inputs, re-run when issues found (max 3 rounds)
+- **Handoff** – error-detector → fix-pr-creator → FixAgent; you fix after
+
 ---
 
 ## Agent Prompts (How to Behave)
@@ -749,6 +773,7 @@ When creating PR:
 | `rebase-manager` | Rebase dependents after base merge | RebaseResolver |
 | `multi-pr-coordinator` | Order PRs by dependency; merge in order | Plan, Phase 4 |
 | `cost-guardrails` | Haiku-first; tiered verification; model-agnostic | Plan, General-Purpose |
+| `chaos-tester` | End-user, internal, engineer personas; random tests; iterate; handoff FixAgent | ChaosTester |
 
 ---
 

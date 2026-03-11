@@ -95,4 +95,4 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - **80-94**: Strong proof, minor open items, tests passing locally
 - **60-79**: Implemented but incomplete proof, some flows untested
 - **40-59**: Partial evidence, major gaps
-- **0-39**: Guess, no evidence - do not release
+- **0-39**: Unverified, no evidence - do not release

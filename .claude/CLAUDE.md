@@ -28,7 +28,7 @@
 
 3. **Test Before Claiming Done**:
    - Always run tests locally: `npm test`
-   - Provide actual test output, not guesses
+   - Provide actual test output, not speculation
    - Critical workflows must be tested (no "should work")
    - Update docs/CONFIDENCE_SCORE.md with evidence
 

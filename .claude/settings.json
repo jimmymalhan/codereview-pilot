@@ -164,6 +164,15 @@
         "skills": ["rebase-manager", "conflict-resolution"],
         "use_when": "multi-pr-coordinator after base PR merged",
         "phase": 2
+      },
+      {
+        "name": "ChaosTester",
+        "model": "haiku",
+        "role": "Simulate end users, internal users, engineers. Random tests on UI+backend to generate errors. Iterate on its own; handoff to FixAgent.",
+        "tools": ["Bash", "Read", "Grep", "Glob"],
+        "skills": ["chaos-tester", "evidence-proof", "error-detector", "cost-guardrails"],
+        "use_when": "Testing UI + backend with random/fuzz tests; finding errors before release",
+        "phase": 3
       }
     ],
     "guidance": "Spawn optional agents only with 3+ independent parallel tasks. Core agents are sufficient for most work. Add specialized engineering agents (frontend, backend, qa, etc.) when a clear owner is needed. Reviewers are invoked separately per the review ladder."

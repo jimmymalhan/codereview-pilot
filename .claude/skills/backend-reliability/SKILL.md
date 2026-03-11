@@ -315,7 +315,7 @@ return Promise.race([someAsyncOperation(), timeout]);
 
 ## Lessons Learned (From Stakeholder Feedback)
 
-1. **Surface every API endpoint in the UI.** If the server supports `/api/batch-diagnose`, `/api/webhooks`, `/api/analytics`, `/api/audit-log`, and `/api/diagnose/:id/export`, each must be reachable from the frontend. Hidden endpoints = lost revenue.
+1. **Surface every API endpoint in the UI.** If the server supports `/api/batch-diagnose`, `/api/webhooks`, `/api/analytics`, `/api/audit-log`, and `/api/diagnose/:id/export`, each must be reachable from the frontend. Endpoints not surfaced in UI = lost revenue.
 2. **Restart the server after backend changes.** Express does not hot-reload. Kill the old process, start fresh, verify with `curl http://localhost:3000/health`.
 3. **Align frontend claims with backend reality.** If the server simulates a 4-agent pipeline, the UI must say "simulated" — never claim "production AI" unless the Anthropic SDK is wired and tested.
 4. **Test error formats end-to-end.** A 400 from the server must produce a user-friendly message in the UI, not a raw JSON blob or silent failure.

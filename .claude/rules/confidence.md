@@ -39,7 +39,7 @@
 - Assumptions not verified
 - This stage requires more work before production
 
-### 0-39: Guess with No Evidence
+### 0-39: Unverified — No Evidence
 - No tests run
 - Changes made without verification
 - Unknowns outnumber known factors

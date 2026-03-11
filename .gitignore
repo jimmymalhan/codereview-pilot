@@ -259,6 +259,9 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/agents/live-watchdog.md
 !.claude/agents/fix-agent.md
 !.claude/agents/rebase-resolver.md
+!.claude/agents/chaos-tester.md
+!.claude/skills/chaos-tester/
+!.claude/skills/chaos-tester/SKILL.md
 
 # ──────────────────────────────────────────────────
 # Misc local directories

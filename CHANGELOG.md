@@ -5,6 +5,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(docs): Pre-push checklist; replace guess/hidden with evidence-based language
+
+- **docs/PUSH_CHECKLIST.md**: Pre-push verification for tomorrow morning
+- **confidence.md, guardrails.md, CLAUDE.md**: "Guess" → "Unverified" for 0-39 scores
+- **backend-reliability, SKILLSETS.md, backend-proof**: "Hidden" → "not surfaced in UI" / "undiscovered"
+- Principles: Everything explicit; no hidden guesswork
+
+### feat(skills): Add ChaosTester — end-user, internal, engineer personas; random UI+backend tests
+
+- **chaos-tester skill**: Simulate end users, internal users, engineers. Run 5–10 random tests per persona on UI + backend to generate errors.
+- **ChaosTester agent**: Iterate on its own when issues found (max 3 rounds). Hand off to FixAgent when done. You come in to fix.
+- **Personas**: End-user (valid flows, typos), Internal-user (batch, pagination), Engineer (invalid input, fuzz)
+- **Flow**: Discover → Plan → Implement → Verify → Iterate → handoff error-detector → fix-pr-creator → FixAgent
+
 ### feat(skills): Remove References section, enhance skills per Claude Code + Agent Skills spec
 
 - **Removed** References (Skills Creation & Automation) section from docs/SKILLSETS.md; kept Project Docs for internal links
