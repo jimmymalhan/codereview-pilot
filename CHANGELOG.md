@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(rules): Small commits, small PRs (rollback by feature)
+
+- **CLAUDE.md**: Small commits only; small PRs only; rollback = that feature
+- **guardrails.md**: Small commits/PRs hard rule
+- **pr-push-merge**: PRPlanner — small PRs only
+- **CODE_AND_DOCS.md**: Execution rule
+
 ### feat(branch-only): HARD rule - all changes through branches, never main
 
 - **CLAUDE.md**: Non-negotiable rule #9 — All changes through branches; create feature/* first; merge via PR only
