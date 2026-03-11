@@ -134,6 +134,7 @@ npm run load-test     # 20 concurrent diagnose requests (requires server running
 ### 3. Make Changes
 
 - Read [CLAUDE.md](CLAUDE.md) for project standards.
+- For skill work: see [docs/SKILLSETS.md](docs/SKILLSETS.md) and [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md).
 - Create a branch: `git checkout -b feature/your-feature`.
 - Implement changes and add/update tests.
 - Run `npm test` before committing.
