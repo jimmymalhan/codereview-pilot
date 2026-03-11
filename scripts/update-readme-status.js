@@ -44,8 +44,8 @@ const checks = {
   'LS-001': () => { try { return fs.readdirSync(path.join(root, 'src/www/components')).some(f => /skeleton/i.test(f)); } catch { return false; } },
   'LS-005': () => exists('src/www/components/ProgressTracker.jsx'),
   'LS-006': () => { try { return fs.readdirSync(path.join(root, 'src/www/components')).some(f => /StepProgressBar/i.test(f)); } catch { return false; } },
-  'PUI-001': () => fileContains('src/www/WebsiteApp.jsx', 'Skeleton') || fileContains('src/www/App.jsx', 'Skeleton'),
-  'PUI-002': () => fileContains('src/www/WebsiteApp.jsx', 'StepProgressBar') || fileContains('src/www/App.jsx', 'StepProgressBar'),
+  'PUI-001': () => fileContains('src/www/WebsiteApp.jsx', 'Skeleton') || fileContains('src/www/App.jsx', 'Skeleton') || fileContains('src/www/components/OrchestrationDashboard.jsx', 'Skeleton'),
+  'PUI-002': () => fileContains('src/www/WebsiteApp.jsx', 'StepProgressBar') || fileContains('src/www/App.jsx', 'StepProgressBar') || fileContains('src/www/components/LoadingOverlay.jsx', 'StepProgressBar'),
   'FC-007': () => false, // Lighthouse - manual check
   'FC-010': () => exists('src/www/styles/accessibility.css') || fileContains('src/www', 'WCAG'),
 };
@@ -61,7 +61,8 @@ try {
   checkpointIds = Object.keys(checks);
 }
 
-const done = checkpointIds.filter(id => (checks[id] || (() => false))()).length;
+const pendingIds = checkpointIds.filter(id => !(checks[id] || (() => false))());
+const done = checkpointIds.length - pendingIds.length;
 const total = checkpointIds.length;
 const premiumPct = total > 0 ? Math.round((done / total) * 100) : 0;
 const overallPct = Math.round(50 + (premiumPct / 2));
@@ -70,6 +71,17 @@ const filled = Math.round((premiumPct / 100) * barLen);
 const bar = '█'.repeat(filled) + '░'.repeat(barLen - filled);
 const overallFilled = Math.round((overallPct / 100) * barLen);
 const overallBar = '█'.repeat(overallFilled) + '░'.repeat(barLen - overallFilled);
+
+const pendingLabels = {
+  'FC-007': 'Lighthouse ≥90',
+  'FC-010': 'WCAG AA',
+  'LS-005': 'ProgressBar',
+  'DT-008': 'Design token unit tests (WCAG AA)',
+  'DT-009': 'Verify no hardcoded values',
+  'DT-010': 'Document design tokens in CLAUDE.md',
+};
+const whatsLeftArr = pendingIds.map(id => pendingLabels[id] || id).filter(Boolean);
+const whatsLeftText = whatsLeftArr.length > 0 ? whatsLeftArr.join(', ') + '.' : 'None — all checkpoints complete.';
 
 const roadmapFeatures = `### Roadmap Features (from [.github/PROJECT_1.0.0_CHECKPOINTS.md](.github/PROJECT_1.0.0_CHECKPOINTS.md))
 
@@ -106,9 +118,9 @@ const statusSection = `## Project 1.0.0 Status
 | Core (4-agent, API, webhooks) | 100% | ✅ Shipped in v1.0.1 |
 | Premium UI checkpoints | **${done}/${total}** (${premiumPct}%) | [${bar}] |
 
-**What's done:** Core pipeline, API, webhooks, audit trail, orchestration UI. Design tokens (colors, typography, motion). ThemeProvider, UIStateProvider, ThemeContext. AnimatedSection, FadeIn, motion-utils (prefersReducedMotion). Layout, ErrorBoundary, App.jsx. Dark/light themes.
+**What's done:** Core pipeline, API, webhooks, audit trail, orchestration UI. Design tokens (colors, typography, motion). ThemeProvider, UIStateProvider, ThemeContext. AnimatedSection, FadeIn, motion-utils (prefersReducedMotion). Layout, ErrorBoundary, App.jsx. Dark/light themes. Skeleton, StepProgressBar wired in OrchestrationDashboard and LoadingOverlay.
 
-**What's left:** Skeleton, ProgressBar, StepProgressBar components. Wire PUI. Lighthouse ≥90, WCAG AA final checklist.
+**What's left:** ${whatsLeftText}
 
 ---
 ${roadmapFeatures}`;
