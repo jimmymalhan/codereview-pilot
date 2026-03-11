@@ -137,6 +137,7 @@ npm run load-test     # 20 concurrent diagnose requests (requires server running
 | **API** | New endpoints, validation, rate-limit tuning |
 | **UI** | Try It form, orchestration dashboard, accessibility |
 | **Pipeline** | Router, Retriever, Skeptic, Verifier logic |
+| **Skills** | New skills in `.claude/skills/`, upgrades per [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md) |
 | **Tests** | Unit, integration, E2E, rate-limit coverage |
 | **Docs** | API reference, integration guides, examples |
 
