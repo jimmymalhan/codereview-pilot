@@ -82,9 +82,11 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - `.claude/CONFIDENCE_SCORE.md` - Truth ledger (see `confidence-score` skill)
 - `CHANGELOG.md` - Session-by-session change log
 
-## Commit Frequently
-- Commit after any small change; don't batch
+## Commit Frequently (HARD: Small Only)
+- **Small commits only** — One small change per commit. No big changes. Each commit = one focused change.
+- Commit after any small change; don't batch unrelated edits.
 - **Skills and code go together** — skills drive implementation. One commit = code + skill updates.
+- **Why**: Small commits = roll back only that feature on revert, not the whole project.
 - Run `npm test` before commit; keep passing state
 - Automatic review: run tests, keep changes, commit again if fixes needed
 - Keep making commits — continuous delivery
@@ -94,6 +96,7 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - **All changes through branches** — Never commit directly to main. Create `feature/*` first. Commit there. Merge to main only via PR.
 - `main` - production; no direct commits. Changes land via PR from feature/*.
 - `feature/*` - all work happens here; auto-accept edits; push to branch; open PR
+- **Small PRs only** — Each PR = small iteration of one feature. Focused scope. No big PRs. Why: roll back only that feature if needed, not the whole project.
 - `.claude/worktrees/` - temporary isolation for risky changes
 
 ## When Blocked

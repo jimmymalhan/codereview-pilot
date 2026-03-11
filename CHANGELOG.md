@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(rules): Small commits, small PRs (rollback by feature)
+
+- **CLAUDE.md**: Small commits only; small PRs only; rollback = that feature
+- **guardrails.md**: Small commits/PRs hard rule
+- **pr-push-merge**: PRPlanner — small PRs only
+
 ### feat(hooks): Open PRs workflow - auto-comment, no wait
 
 - **open-prs-workflow.sh**: New hook runs on PreToolUse. Posts ten-pass comments on all open PRs (<10 comments). Throttle: 2 min. Do NOT wait for user prompt.
@@ -115,6 +121,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 - **CLAUDE.md**: Non-negotiable #10 — no merge without 100% consensus; #11 — no idea/project/task without stakeholder consensus; Merge gate replaces auto-merge
 - **guardrails.md**: No merge without consensus; no idea/project/task without consensus
 - **SKILLSETS.md**, **CODE_AND_DOCS.md**: Consensus gates documented
+
 
 ### feat(branch-only): HARD rule - all changes through branches, never main
 
