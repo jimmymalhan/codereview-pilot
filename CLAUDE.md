@@ -71,6 +71,12 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - `docs/CONFIDENCE_SCORE.md` - Truth ledger for all tasks with evidence
 - `CHANGELOG.md` - Session-by-session change log
 
+## Commit Frequently
+- Commit after any small change; don't batch
+- Run `npm test` before commit; keep passing state
+- Automatic review: run tests, keep changes, commit again if fixes needed
+- Keep making commits — continuous delivery
+
 ## Branch Rules
 - `main` - production, requires passing CI/CD and review
 - `feature/*` - feature branches, auto-accept edits during development
