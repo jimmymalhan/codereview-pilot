@@ -146,6 +146,13 @@ export class RateLimitError extends APIError {
     this.name = 'RateLimitError';
     this.retryAfterSeconds = retryAfterSeconds;
   }
+
+  getUserMessage() {
+    const secs = this.retryAfterSeconds ?? this.details?.retryAfterSeconds ?? 60;
+    const mins = Math.ceil(secs / 60);
+    const word = mins === 1 ? 'minute' : 'minutes';
+    return `Too many requests. Please wait about ${mins} ${word} before trying again.`;
+  }
 }
 
 /**
@@ -212,7 +219,7 @@ export { mapStatusToCode };
  */
 export function classifyError(error) {
   if (error instanceof APIError) {
-    return {
+    const out = {
       type: error.name,
       code: error.code,
       retryable: error.retryable,
@@ -221,6 +228,12 @@ export function classifyError(error) {
       timeoutMs: error.timeoutMs,
       status: error.status
     };
+    if (error.retryAfterSeconds != null) {
+      out.retryAfterSeconds = error.retryAfterSeconds;
+    } else if (error.details?.retryAfterSeconds != null) {
+      out.retryAfterSeconds = error.details.retryAfterSeconds;
+    }
+    return out;
   }
 
   if (error.name === 'AbortError') {
