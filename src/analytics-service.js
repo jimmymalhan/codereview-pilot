@@ -1,5 +1,5 @@
 /**
- * Claude Debug Copilot - Analytics Service
+ * CodeReview-Pilot - Analytics Service
  * Backend service for collecting, storing, and analyzing user behavior data
  */
 

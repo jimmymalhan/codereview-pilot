@@ -1347,6 +1347,281 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ===== HOW IT WORKS SECTION ===== */
+    .how-it-works-section {
+      padding: 120px 0;
+      background: linear-gradient(180deg, #fafafa 0%, #f0f0ff 50%, #fafafa 100%);
+    }
+
+    .how-it-works-section .section-subtitle {
+      font-size: 1.1rem;
+      text-align: center;
+      color: #6e6e73;
+      margin-bottom: 48px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .step-card {
+      text-align: center;
+      padding: 32px 24px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(99, 102, 241, 0.15);
+    }
+
+    .step-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .step-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1d1d1f;
+      margin-bottom: 8px;
+    }
+
+    .step-description {
+      font-size: 0.9rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .highlights {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #4b5563;
+    }
+
+    .highlight-icon {
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      .steps-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .highlights {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+
+    /* ===== PIPELINE STAGES IN LOADING ===== */
+    .pipeline-stages {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    .pipeline-stages .stage {
+      padding: 4px 12px;
+      border-radius: 16px;
+      background: rgba(99, 102, 241, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .pipeline-stages .stage.active {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: white;
+      font-weight: 600;
+    }
+
+    .pipeline-stages .stage.done {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+    }
+
+    .stage-arrow {
+      color: #d1d5db;
+      font-weight: 300;
+    }
+
+    /* ===== AFTER CLICK SECTION ===== */
+    .after-click-section {
+      padding: 120px 0;
+      background: linear-gradient(180deg, #0f0a1a 0%, #1e1b4b 50%, #312e81 100%);
+      position: relative;
+    }
+
+    .after-click-section .section-title {
+      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .pipeline-timeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-top: 60px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-step {
+      text-align: center;
+      padding: 24px;
+      min-width: 140px;
+    }
+
+    .timeline-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      margin: 0 auto 12px;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    .timeline-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .timeline-desc {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .timeline-connector {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      opacity: 0.4;
+    }
+
+    @media (max-width: 768px) {
+      .pipeline-timeline {
+        flex-direction: column;
+      }
+
+      .timeline-connector {
+        width: 2px;
+        height: 24px;
+      }
+    }
+
+    /* ===== LIVE STATS SECTION ===== */
+    .real-time-section {
+      padding: 80px 0;
+    }
+
+    .live-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .live-stat {
+      text-align: center;
+      padding: 32px 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .live-stat:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.12);
+    }
+
+    .live-stat-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .live-stat-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .live-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ===== FINAL CTA SECTION ===== */
+    .final-cta-section {
+      padding: 120px 0;
+      background: linear-gradient(180deg, #0f0a1a 0%, #1e1b4b 50%, #312e81 100%);
+    }
+
+    .final-cta-section .section-title {
+      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .final-cta-section .btn-group {
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
@@ -1366,12 +1641,12 @@
         <ul class="nav-links">
           <li><a href="/">Home</a></li>
           <li><a href="#product">Product</a></li>
-          <li><a href="#diagnose">Try It</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="/api-reference.html">API</a></li>
         </ul>
         <div class="nav-right">
-          <a href="#product" class="btn btn-secondary" style="animation-delay: 0.14s;">Product</a>
+          <a href="#diagnose" class="btn btn-secondary" style="animation-delay: 0.14s;" onclick="scrollToDiagnose(); return false;">Try It Free</a>
         </div>
       </nav>
     </div>
@@ -1382,11 +1657,11 @@
     <!-- Hero Section -->
     <section class="hero">
     <div class="container">
-      <h1>Code Review Pilot</h1>
-      <p class="tagline">Better code reviews. Faster diagnosis. Proof, not guesses.</p>
+      <h1>CodeReview-Pilot</h1>
+      <p class="tagline">Evidence-first incident diagnosis for backend teams. Root cause, fix plan, and proof in under 30 seconds.</p>
       <div class="btn-group">
-        <a href="#product" class="btn btn-primary" aria-label="Explore product features">Explore Product</a>
-        <button onclick="scrollToDiagnose()" class="btn btn-secondary" aria-label="Try diagnosis demo">Try It</button>
+        <a href="#diagnose" class="btn btn-primary" aria-label="Start diagnosing" onclick="scrollToDiagnose(); return false;">Diagnose Now</a>
+        <a href="#how-it-works" class="btn btn-secondary" aria-label="See how it works">How It Works</a>
       </div>
     </div>
   </section>
@@ -1443,11 +1718,77 @@
     </div>
   </section>
 
-  <!-- Try It: Diagnosis Section -->
+  <!-- Built For -->
+  <section class="integrate-section" id="who-for">
+    <div class="container">
+      <h2 class="section-title scroll-animate">Built For Teams Who Live In Incidents</h2>
+      <p class="section-subtitle scroll-animate">
+        SREs, backend engineers, and engineering leaders who need concrete root causes, not walls of logs.
+      </p>
+      <div class="integrate-endpoint-grid">
+        <div class="integrate-endpoint scroll-animate">
+          <div class="method get">SRE</div>
+          <p class="desc">On-call owners who need a concrete root cause, not a wall of logs.</p>
+        </div>
+        <div class="integrate-endpoint scroll-animate">
+          <div class="method get">Backend</div>
+          <p class="desc">Engineers shipping changes to critical APIs and data paths.</p>
+        </div>
+        <div class="integrate-endpoint scroll-animate">
+          <div class="method get">Leads</div>
+          <p class="desc">Engineering leaders who want faster MTTR and cleaner incident reports.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works-section" id="how-it-works" role="region" aria-label="How it works">
+    <div class="container">
+      <h2 class="section-title scroll-animate">How It Works</h2>
+      <p class="section-subtitle scroll-animate">Four steps from incident to resolution. No setup, no guessing.</p>
+      <div class="steps-grid">
+        <div class="step-card scroll-animate">
+          <div class="step-icon" aria-hidden="true">📋</div>
+          <div class="step-number">1</div>
+          <h3 class="step-title">Capture the Incident</h3>
+          <p class="step-description">Paste a real production incident. Symptoms, impact, timeline. Raw logs or a Slack thread work too.</p>
+        </div>
+        <div class="step-card scroll-animate">
+          <div class="step-icon" aria-hidden="true">🔍</div>
+          <div class="step-number">2</div>
+          <h3 class="step-title">4-Agent Pipeline Runs</h3>
+          <p class="step-description">Router classifies. Retriever gathers evidence. Skeptic challenges. Verifier confirms the root cause.</p>
+        </div>
+        <div class="step-card scroll-animate">
+          <div class="step-icon" aria-hidden="true">✅</div>
+          <div class="step-number">3</div>
+          <h3 class="step-title">Review the Diagnosis</h3>
+          <p class="step-description">Evidence-backed root cause, confidence score, fix steps, rollback path, and tests to run.</p>
+        </div>
+        <div class="step-card scroll-animate">
+          <div class="step-icon" aria-hidden="true">🚀</div>
+          <div class="step-number">4</div>
+          <h3 class="step-title">Apply, Test, and Share</h3>
+          <p class="step-description">Apply the fix, run suggested tests, export the diagnosis to runbooks or incident tickets.</p>
+        </div>
+      </div>
+      <div class="highlights scroll-animate">
+        <div class="highlight-item"><span class="highlight-icon">⚡</span><span>16-30 seconds end-to-end</span></div>
+        <div class="highlight-item"><span class="highlight-icon">🎯</span><span>94% confidence scoring</span></div>
+        <div class="highlight-item"><span class="highlight-icon">🔒</span><span>Production-grade with retries</span></div>
+      </div>
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="#diagnose" class="btn btn-primary scroll-animate" onclick="scrollToDiagnose(); return false;">Diagnose Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagnosis Section -->
   <section class="diagnosis-section" id="diagnose">
     <div class="container diagnosis-container">
-      <h2 class="section-title diagnosis-header">Try It</h2>
-      <p class="section-subtitle diagnosis-subtitle">Describe an incident and see the 4-agent pipeline in action.</p>
+      <h2 class="section-title diagnosis-header">Diagnose an Incident</h2>
+      <p class="section-subtitle diagnosis-subtitle">Paste a real production issue. The 4-agent pipeline runs in real time on your input.</p>
       <div class="diagnosis-card">
         <form onsubmit="submitDiagnosis(event)">
           <label for="incident" class="form-label">What's happening?</label>
@@ -1468,6 +1809,15 @@
           <div class="loading" id="loading" role="status" aria-live="polite" aria-busy="false">
             <div class="spinner" aria-hidden="true"></div>
             <div class="loading-text">Analyzing your incident...</div>
+            <div class="pipeline-stages" aria-hidden="true">
+              <span class="stage" id="stage-router">Router</span>
+              <span class="stage-arrow">→</span>
+              <span class="stage" id="stage-retriever">Retriever</span>
+              <span class="stage-arrow">→</span>
+              <span class="stage" id="stage-skeptic">Skeptic</span>
+              <span class="stage-arrow">→</span>
+              <span class="stage" id="stage-verifier">Verifier</span>
+            </div>
           </div>
 
           <div class="results-section" id="results" role="region" aria-labelledby="results-title" aria-live="polite">
@@ -1489,25 +1839,41 @@
     </div>
   </section>
 
-  <!-- Built For -->
-  <section class="integrate-section" id="who-for">
+  <!-- What You Get -->
+  <section class="products-section" id="capabilities">
     <div class="container">
-      <h2 class="section-title scroll-animate">Built For Teams Who Live In Incidents</h2>
-      <p class="section-subtitle scroll-animate">
-        SREs, backend engineers, and engineering leaders who need concrete root causes, not walls of logs.
-      </p>
-      <div class="integrate-endpoint-grid">
-        <div class="integrate-endpoint scroll-animate">
-          <div class="method get">SRE</div>
-          <p class="desc">On-call owners who need a concrete root cause, not a wall of logs.</p>
+      <h2 class="section-title scroll-animate">What You Get From Every Diagnosis</h2>
+      <p class="section-subtitle scroll-animate">Each run delivers six concrete outputs. Not summaries. Actionable artifacts.</p>
+      <div class="products-grid">
+        <div class="product-card scroll-animate product-card-3d">
+          <div class="product-icon icon-3d">🔍</div>
+          <div class="product-name">Root Cause Analysis</div>
+          <div class="product-description">Exact failure mechanism traced through your system. The Verifier agent confirms before you see it.</div>
         </div>
-        <div class="integrate-endpoint scroll-animate">
-          <div class="method get">Backend</div>
-          <p class="desc">Engineers shipping changes to critical APIs and data paths.</p>
+        <div class="product-card scroll-animate product-card-3d">
+          <div class="product-icon icon-3d">📋</div>
+          <div class="product-name">Evidence-Backed Proof</div>
+          <div class="product-description">Every claim comes with citations from the Retriever agent. Verify each conclusion independently.</div>
         </div>
-        <div class="integrate-endpoint scroll-animate">
-          <div class="method get">Leads</div>
-          <p class="desc">Engineering leaders who want faster MTTR and cleaner incident reports.</p>
+        <div class="product-card scroll-animate product-card-3d">
+          <div class="product-icon icon-3d">🛠️</div>
+          <div class="product-name">Fix Plan with Steps</div>
+          <div class="product-description">Ordered steps to resolve the incident. Copy-paste ready for your runbook or incident ticket.</div>
+        </div>
+        <div class="product-card scroll-animate product-card-3d">
+          <div class="product-icon icon-3d">↩️</div>
+          <div class="product-name">Rollback Path</div>
+          <div class="product-description">A safe revert strategy if the fix fails. Know your escape route before changing things.</div>
+        </div>
+        <div class="product-card scroll-animate product-card-3d">
+          <div class="product-icon icon-3d">✅</div>
+          <div class="product-name">Suggested Tests</div>
+          <div class="product-description">Tests to confirm the fix works. Run them before closing the incident to prevent recurrence.</div>
+        </div>
+        <div class="product-card scroll-animate product-card-3d">
+          <div class="product-icon icon-3d">📥</div>
+          <div class="product-name">Export and Audit</div>
+          <div class="product-description">Export any diagnosis as JSON or CSV. Every action is logged with trace IDs for compliance.</div>
         </div>
       </div>
     </div>
@@ -1683,6 +2049,94 @@
     </div>
   </section>
 
+  <!-- Why This Is Different -->
+  <section class="integrate-section why-different-section" id="why-different" role="region" aria-label="Why this is different">
+    <div class="container">
+      <h2 class="section-title scroll-animate">Why This Is Different</h2>
+      <p class="section-subtitle scroll-animate">Not another chatbot. Not another dashboard. A structured evidence pipeline built for operators.</p>
+      <div class="integrate-endpoint-grid">
+        <div class="integrate-endpoint scroll-animate">
+          <h4>Evidence-First</h4>
+          <p class="desc">Every root cause comes with citations you can verify. The Retriever agent surfaces proof, not opinions.</p>
+        </div>
+        <div class="integrate-endpoint scroll-animate">
+          <h4>Fixed 4-Step Workflow</h4>
+          <p class="desc">Router, Retriever, Skeptic, Verifier. Same process every time. Teams stay aligned and faster.</p>
+        </div>
+        <div class="integrate-endpoint scroll-animate">
+          <h4>Real-Time on Live Input</h4>
+          <p class="desc">No stale templates or canned responses. Every diagnosis runs the full pipeline on what you paste in right now.</p>
+        </div>
+        <div class="integrate-endpoint scroll-animate">
+          <h4>Built for Operators</h4>
+          <p class="desc">Minimal setup, maximum trust. Designed for SREs and backend engineers who need answers at 2 AM, not another tool to configure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Happens After You Click -->
+  <section class="after-click-section" id="after-click" role="region" aria-label="What happens after you click">
+    <div class="container">
+      <h2 class="section-title scroll-animate">What Happens After You Click</h2>
+      <p class="section-subtitle scroll-animate" style="color: rgba(255,255,255,0.65);">Your incident enters the real-time pipeline. Four agents analyze, challenge, and verify. Fix plan with confidence score in under 30 seconds.</p>
+      <div class="pipeline-timeline scroll-animate">
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <div class="timeline-label">Router</div>
+          <div class="timeline-desc">Classifies failure type</div>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <div class="timeline-label">Retriever</div>
+          <div class="timeline-desc">Gathers evidence</div>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <div class="timeline-label">Skeptic</div>
+          <div class="timeline-desc">Challenges the theory</div>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <div class="timeline-label">Verifier</div>
+          <div class="timeline-desc">Confirms root cause</div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 48px;">
+        <a href="#diagnose" class="btn btn-primary scroll-animate" onclick="scrollToDiagnose(); return false;">Try It Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real-Time Stats -->
+  <section class="products-section real-time-section" id="real-time" role="region" aria-label="Live system stats">
+    <div class="container">
+      <h2 class="section-title scroll-animate">Live System Status</h2>
+      <p class="section-subtitle scroll-animate">Real-time data from the running instance. Not marketing numbers.</p>
+      <div class="live-stats-grid">
+        <div class="live-stat scroll-animate">
+          <div class="live-stat-value" id="live-total-diagnoses">--</div>
+          <div class="live-stat-label">Total Diagnoses</div>
+        </div>
+        <div class="live-stat scroll-animate">
+          <div class="live-stat-value" id="live-success-rate">--</div>
+          <div class="live-stat-label">Success Rate</div>
+        </div>
+        <div class="live-stat scroll-animate">
+          <div class="live-stat-value" id="live-avg-confidence">--</div>
+          <div class="live-stat-label">Avg Confidence</div>
+        </div>
+        <div class="live-stat scroll-animate">
+          <div class="live-stat-value" id="live-uptime">--</div>
+          <div class="live-stat-label">Uptime</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="integrate-section" id="faq">
     <div class="container">
@@ -1716,6 +2170,18 @@
             can purge stored diagnostics through your own retention policies.
           </p>
         </div>
+        <div class="integrate-endpoint scroll-animate">
+          <h4>How much does it cost?</h4>
+          <p class="desc">
+            You bring your own Anthropic API key. The system uses Claude for analysis. Typical diagnosis costs a few cents in API usage. No platform fees.
+          </p>
+        </div>
+        <div class="integrate-endpoint scroll-animate">
+          <h4>Can I use this for compliance audits?</h4>
+          <p class="desc">
+            Every diagnosis is logged with trace IDs and timestamps. Export any result as JSON or CSV for postmortems, runbooks, or compliance documentation.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -1724,24 +2190,35 @@
   <section class="stats-section" id="stats">
     <div class="container">
       <h2 class="section-title">By The Numbers</h2>
-
       <div class="stats-grid">
         <div class="stat scroll-animate">
-          <div class="stat-value">16-30s</div>
+          <div class="stat-value" id="stat-diagnosis-time">16-30s</div>
           <div class="stat-label">Diagnosis Time</div>
         </div>
         <div class="stat scroll-animate">
-          <div class="stat-value">94%</div>
+          <div class="stat-value" id="stat-accuracy">94%</div>
           <div class="stat-label">Accuracy</div>
         </div>
         <div class="stat scroll-animate">
-          <div class="stat-value">949</div>
+          <div class="stat-value" id="stat-tests">981</div>
           <div class="stat-label">Tests Passing</div>
         </div>
         <div class="stat scroll-animate">
-          <div class="stat-value">89%+</div>
+          <div class="stat-value" id="stat-coverage">89%+</div>
           <div class="stat-label">Code Coverage</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta-section" id="final-cta">
+    <div class="container" style="text-align: center;">
+      <h2 class="section-title scroll-animate">Ready to diagnose faster?</h2>
+      <p class="section-subtitle scroll-animate" style="color: rgba(255,255,255,0.65); max-width: 600px; margin: 0 auto 40px;">Evidence-first root cause analysis in under 30 seconds. Paste an incident and get a fix plan backed by proof.</p>
+      <div class="btn-group scroll-animate">
+        <a href="#diagnose" class="btn btn-primary" onclick="scrollToDiagnose(); return false;">Diagnose Now</a>
+        <a href="/api-reference.html" class="btn btn-secondary" style="color: #a5b4fc; border-color: rgba(165, 180, 252, 0.4);">View API Reference</a>
       </div>
     </div>
   </section>
@@ -1752,19 +2229,20 @@
     <div class="container">
       <div>
         <h3>Product</h3>
-        <a href="#product">Product</a>
-        <a href="/#diagnose">Try It</a>
-        <a href="/api-reference.html">API Reference</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#capabilities">Features</a>
+        <a href="#product">Integrations</a>
       </div>
       <div>
         <h3>Resources</h3>
+        <a href="/api-reference.html">API Reference</a>
         <a href="/health">Health Status</a>
-        <a href="/api-reference.html">Documentation</a>
+        <a href="#real-time">Live Stats</a>
       </div>
       <div>
         <h3>Company</h3>
-        <p>Code Review Pilot v1.0</p>
-        <p>Code Review Pilot - Better code reviews. Faster diagnosis.</p>
+        <p>CodeReview-Pilot v3.0</p>
+        <p>Evidence-first incident diagnosis for backend teams.</p>
       </div>
     </div>
   </footer>
@@ -1774,6 +2252,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       setupScrollObserver();
       setupParallaxOnScroll();
+      loadLiveStats();
       if (!isTouchDevice()) {
         setupMouseTracking();
       }
@@ -1926,12 +2405,76 @@
     }
 
     // ===== UI FUNCTIONS =====
+    // ===== LIVE STATS =====
+    async function loadLiveStats() {
+      try {
+        const [analyticsRes, healthRes] = await Promise.all([
+          fetch('/api/analytics').catch(() => null),
+          fetch('/health').catch(() => null)
+        ]);
+
+        if (analyticsRes && analyticsRes.ok) {
+          const analytics = await analyticsRes.json();
+          const totalEl = document.getElementById('live-total-diagnoses');
+          const rateEl = document.getElementById('live-success-rate');
+          const confEl = document.getElementById('live-avg-confidence');
+          if (totalEl) totalEl.textContent = analytics.totalDiagnoses || analytics.total || '0';
+          if (rateEl) rateEl.textContent = (analytics.successRate || analytics.success_rate || '0') + '%';
+          if (confEl) confEl.textContent = (analytics.averageConfidence || analytics.avg_confidence || '0') + '%';
+        }
+
+        if (healthRes && healthRes.ok) {
+          const health = await healthRes.json();
+          const uptimeEl = document.getElementById('live-uptime');
+          if (uptimeEl && health.uptime) {
+            const hours = Math.floor(health.uptime / 3600);
+            const mins = Math.floor((health.uptime % 3600) / 60);
+            uptimeEl.textContent = hours > 0 ? hours + 'h ' + mins + 'm' : mins + 'm';
+          }
+        }
+      } catch (e) {
+        // Silently fail - stats show "--" as fallback
+      }
+    }
+
+    // ===== PIPELINE STAGE ANIMATION =====
+    let stageInterval = null;
+    function animatePipelineStages() {
+      const stages = ['stage-router', 'stage-retriever', 'stage-skeptic', 'stage-verifier'];
+      let currentStage = 0;
+
+      stages.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.classList.remove('active', 'done'); }
+      });
+
+      stageInterval = setInterval(() => {
+        if (currentStage > 0) {
+          const prevEl = document.getElementById(stages[currentStage - 1]);
+          if (prevEl) { prevEl.classList.remove('active'); prevEl.classList.add('done'); }
+        }
+        if (currentStage < stages.length) {
+          const el = document.getElementById(stages[currentStage]);
+          if (el) { el.classList.add('active'); }
+          currentStage++;
+        } else {
+          clearInterval(stageInterval);
+          stageInterval = null;
+        }
+      }, 4000);
+    }
+
+    function stopPipelineStages() {
+      if (stageInterval) { clearInterval(stageInterval); stageInterval = null; }
+    }
+
     function showLoading() {
       const loading = document.getElementById('loading');
       loading.classList.add('show');
       loading.setAttribute('aria-busy', 'true');
       document.getElementById('submit-btn').disabled = true;
       document.getElementById('submit-btn').setAttribute('aria-busy', 'true');
+      animatePipelineStages();
     }
 
     function hideLoading() {
@@ -1940,6 +2483,7 @@
       loading.setAttribute('aria-busy', 'false');
       document.getElementById('submit-btn').disabled = false;
       document.getElementById('submit-btn').removeAttribute('aria-busy');
+      stopPipelineStages();
     }
 
     function showError(message, opts) {

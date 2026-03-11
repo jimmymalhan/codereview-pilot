@@ -26,7 +26,7 @@ Agents are decision-making entities that use skills to diagnose problems. Unlike
 | **Dependencies** | Standalone | Uses 2-5 skills |
 | **Example** | "Analyze these metrics for anomalies" | "Diagnose why error rate spiked" |
 
-### Agent Types in Claude Debug Copilot
+### Agent Types in CodeReview-Pilot
 
 **Core 5-Agent Pipeline** (always present):
 1. **Router** - Classifies failure type

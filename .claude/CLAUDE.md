@@ -62,7 +62,7 @@
 
 **Example memory entry:**
 ```markdown
-## Project: Claude Debug Copilot
+## Project: CodeReview-Pilot
 - **Goal**: Evidence-first diagnosis with production reliability
 - **Stack**: Node.js, Express, Jest, Anthropic SDK
 - **Key pattern**: Plan Mode first, then execute with tests

@@ -219,7 +219,7 @@ export default function App() {
           </main>
 
           <footer className="app-footer">
-            <p>Claude Debug Copilot v3.0 — Production-Ready Incident Diagnosis</p>
+            <p>CodeReview-Pilot v3.0 — Production-Ready Incident Diagnosis</p>
             <p>© 2026 All rights reserved</p>
           </footer>
         </div>

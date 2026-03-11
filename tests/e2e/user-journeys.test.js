@@ -14,7 +14,7 @@ describe('E2E User Journeys', () => {
     document.body.innerHTML = `
       <html>
         <head>
-          <title>Claude Debug Copilot</title>
+          <title>CodeReview-Pilot</title>
         </head>
         <body>
           <div id="app">

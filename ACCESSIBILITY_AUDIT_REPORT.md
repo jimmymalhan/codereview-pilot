@@ -1,5 +1,5 @@
 # WCAG 2.1 AA Accessibility Audit Report
-## Claude Debug Copilot - www UI Components
+## CodeReview-Pilot - www UI Components
 
 **Audit Date:** 2026-03-09
 **Auditor Role:** WCAG 2.1 AA Compliance Verification
@@ -418,7 +418,7 @@ This website has been audited and brought into compliance with Web Content Acces
 
 For accessibility issues or feedback, please contact:
 - Email: contact@incidentcommander.com
-- Issue Tracker: github.com/jimmymalhan/claude-debug-copilot/issues
+- Issue Tracker: github.com/jimmymalhan/codereview-pilot/issues
 - Label: `accessibility`
 
 ---

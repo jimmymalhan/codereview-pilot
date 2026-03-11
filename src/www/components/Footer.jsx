@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Company info */}
           <div className="footer-section">
-            <h3 className="footer-heading">Claude Debug Copilot</h3>
+            <h3 className="footer-heading">CodeReview-Pilot</h3>
             <p className="footer-description">
               Evidence-first incident diagnosis powered by AI. Get root cause in seconds, not hours.
             </p>
@@ -69,7 +69,7 @@ export default function Footer() {
         {/* Footer bottom */}
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © {currentYear} Claude Debug Copilot. All rights reserved.
+            © {currentYear} CodeReview-Pilot. All rights reserved.
           </p>
           <div className="footer-badges">
             <span className="badge">🔒 Production-Grade</span>

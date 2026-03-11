@@ -286,7 +286,7 @@ npm run lighthouse
 
 ## Files Modified
 
-- `/Users/jimmymalhan/Doc/claude-debug-copilot/src/www/index.html`
+- `/Users/jimmymalhan/Doc/codereview-pilot/src/www/index.html`
 
 ## Changes Summary
 

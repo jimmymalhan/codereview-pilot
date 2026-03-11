@@ -1,5 +1,5 @@
 /**
- * Claude Debug Copilot - Marketing Website
+ * CodeReview-Pilot - Marketing Website
  * Main landing page with Hero, How It Works, Features, and Footer
  * Phase C React Implementation
  */

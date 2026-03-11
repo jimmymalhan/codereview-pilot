@@ -1,6 +1,6 @@
 # Phase G: Accessibility & Performance Completion Report
 
-**Project:** Claude Debug Copilot
+**Project:** CodeReview-Pilot
 **Branch:** feature/integration-website
 **Phase:** G (Final Phase)
 **Date Completed:** 2026-03-10
@@ -59,7 +59,7 @@ Implemented comprehensive WCAG 2.1 AA accessibility compliance in `src/www/index
 - Unknowns: Live axe-core scan (requires server)
 
 ### Documentation
-- `/Users/jimmymalhan/Doc/claude-debug-copilot/docs/G1_ACCESSIBILITY_FIXES.md`
+- `/Users/jimmymalhan/Doc/codereview-pilot/docs/G1_ACCESSIBILITY_FIXES.md`
 
 ---
 
@@ -112,7 +112,7 @@ Optimized rendering, animations, and event handlers for 60 FPS performance.
 - Unknowns: Actual Lighthouse score (server-dependent)
 
 ### Documentation
-- `/Users/jimmymalhan/Doc/claude-debug-copilot/docs/G2_PERFORMANCE_OPTIMIZATION.md`
+- `/Users/jimmymalhan/Doc/codereview-pilot/docs/G2_PERFORMANCE_OPTIMIZATION.md`
 
 ---
 
@@ -173,7 +173,7 @@ Comprehensive browser compatibility testing across desktop and mobile platforms.
 - Unknowns: Real device testing (simulated with DevTools)
 
 ### Documentation
-- `/Users/jimmymalhan/Doc/claude-debug-copilot/docs/G3_BROWSER_COMPATIBILITY.md`
+- `/Users/jimmymalhan/Doc/codereview-pilot/docs/G3_BROWSER_COMPATIBILITY.md`
 
 ---
 
@@ -523,7 +523,7 @@ The website is production-ready and can be:
 
 | Property | Value |
 |----------|-------|
-| Project | Claude Debug Copilot |
+| Project | CodeReview-Pilot |
 | Branch | feature/integration-website |
 | Phase | G (Final) |
 | Status | ✅ COMPLETE |

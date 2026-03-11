@@ -1,5 +1,5 @@
 /**
- * Claude Debug Copilot - Analytics API Routes
+ * CodeReview-Pilot - Analytics API Routes
  */
 
 export function initAnalyticsRoutes(app, analyticsService) {

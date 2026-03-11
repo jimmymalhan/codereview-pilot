@@ -53,7 +53,7 @@ export default function Hero() {
     <section className="hero" id="hero" role="region" aria-label="Hero section">
       <div className="hero-content" ref={contentRef}>
         <h1 className="hero-heading">
-          Claude Debug Copilot
+          CodeReview-Pilot
           <br />
           for Incident Owners
           <br />
