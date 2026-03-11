@@ -10,7 +10,7 @@
 | **CodeReviewer** | All | critic, consensus-resolver skills |
 | **Claude Code Review** | All | https://code.claude.com/docs/en/code-review |
 
-**See**: `docs/CODE_AND_DOCS.md` — docs and code go hand in hand; never push separately.
+**See**: `code-skill-mapping` skill — skills and code go together.
 
 ---
 

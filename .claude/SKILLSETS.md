@@ -108,6 +108,8 @@
 | **branch-only** | HARD: All changes through feature/*; never commit to main; merge via PR only | project-guardrails, guardrails.md |
 | **user-feedback-to-skillset** | META: All user feedback → update/create skills; never create new docs; everything is skillset | Plan, General-Purpose, all agents |
 | **repository-audit-to-skillset** | Check PRs, branches, commits; use data to update skills | Plan, General-Purpose; run before skill updates from repo evidence |
+| **confidence-score** | Evidence-backed scoring; ledger at .claude/CONFIDENCE_SCORE.md | guardrails, critic, evidence-proof |
+| **code-skill-mapping** | Skill→code map; skills drive implementation | Plan, General-Purpose |
 | **consensus-gates** | PR: multiple comments + 100% consensus; idea/project/task: stakeholder consensus | pr-push-merge, Plan, General-Purpose |
 
 ---
@@ -354,7 +356,7 @@ Config: `branchPermissions` in `.claude/settings.json` for feature branches
 2. **Review** — Run `ten-pass-verification`: REVIEW.md + five-agent + npm test + lint (10 checks; user doesn't need to supervise)
 3. **Iterate** — For each blocker: fix skill, re-run reviewers
 4. **Update** — Use `skills-self-update` with lessons from critique
-5. **Reference** — Incorporate patterns from YouTube videos (FE/BE, PR automation, multi-PR); see [docs/YOUTUBE_SKILL_UPGRADES.md](YOUTUBE_SKILL_UPGRADES.md) for extracted upgrades
+5. **Reference** — Incorporate patterns from YouTube videos (FE/BE, PR automation, multi-PR); see `youtube-skill-upgrades` skill
 
 **When to run**: After creating or majorly updating a skill. Ensures skills align with project guardrails and run-the-business flow.
 
@@ -666,7 +668,7 @@ Ensure clean working tree. Do not commit until Phase 4 complete.
 **Prompt for Agent**:
 ```
 Draft PR: clear title, description with what/why/how, CHANGELOG excerpt.
-Reference docs/SKILLSETS.md and .claude/skills/ changes.
+Reference .claude/SKILLSETS.md and .claude/skills/ changes.
 ```
 
 ### Subagent 3: Multi-PR Coordinator (When Multiple PRs)
@@ -694,11 +696,11 @@ Report failures with file:line. Do not merge if red.
 ### Subagent 5: Evidence Archiver
 **Skill Set**:
 - `evidence-proof` skill
-- `docs/CONFIDENCE_SCORE.md` format
+- `.claude/CONFIDENCE_SCORE.md` format (see `confidence-score` skill)
 
 **Prompt for Agent**:
 ```
-Update docs/CONFIDENCE_SCORE.md with: test output, coverage, critical flows verified.
+Update .claude/CONFIDENCE_SCORE.md with: test output, coverage, critical flows verified.
 List unknowns with [UNKNOWN]. Score confidence with evidence.
 ```
 
@@ -808,7 +810,7 @@ Every agent must:
 ### FE-Specific
 ```
 When building UI:
-- Read docs/SKILLSETS.md Phase 2 Frontend Implementer
+- Read .claude/SKILLSETS.md Phase 2 Frontend Implementer
 - Apply ui-quality and frontend-engineer skills
 - Every interactive element: Normal, Loading, Error
 - Test on localhost:3000
@@ -818,7 +820,7 @@ When building UI:
 ### BE-Specific
 ```
 When building APIs:
-- Read docs/SKILLSETS.md Phase 2 Backend Implementer
+- Read .claude/SKILLSETS.md Phase 2 Backend Implementer
 - Apply backend-reliability skill
 - Validate inputs, retry externals, timeout all async
 - Structured errors: type, message, traceId, suggestion, retryable
@@ -831,7 +833,7 @@ When creating PR:
 - Branch: feature/<description> or fix/<issue>
 - Title: [Type] Short description
 - Body: What, why, how. CHANGELOG excerpt. Tests run.
-- Update docs/CONFIDENCE_SCORE.md with evidence
+- Update .claude/CONFIDENCE_SCORE.md with evidence
 - Do not merge until CI green
 ```
 
@@ -918,10 +920,8 @@ When creating PR:
 | Other skills | `.claude/skills/<skill-name>/SKILL.md` |
 | Agent definitions | `.claude/agents/<agent-name>.md` |
 | Project rules | `.claude/rules/*.md` |
-| This document | `docs/SKILLSETS.md` |
-| Ultra-advance roadmap & review | `docs/ULTRA_ADVANCE_REVIEW.md` |
-| Claude Code alignment & execution | `docs/CLAUDE_CODE_ULTRA_ADVANCE.md` |
-| Confidence ledger | `docs/CONFIDENCE_SCORE.md` |
+| This document | `.claude/SKILLSETS.md` |
+| Confidence ledger | `.claude/CONFIDENCE_SCORE.md` (see `confidence-score` skill) |
 | Change log | `CHANGELOG.md` |
 
 ---

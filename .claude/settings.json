@@ -85,7 +85,7 @@
         "model": "haiku",
         "role": "Code writing and test execution",
         "tools": ["All"],
-        "skills": ["evidence-proof", "backend-reliability", "ui-quality", "frontend-engineer", "backend-engineer", "qa-engineer", "pr-push-merge", "execution-agent", "dag-executor", "token-budget", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "property-based-testing", "secrets-scan", "reversibility", "circuit-breaker", "retry-with-backoff", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "feedback-loop", "feedback-log", "structured-logging", "audit-trail", "auto-merge", "skills-self-update", "five-agent-verification", "ten-pass-verification", "consensus-resolver", "consensus-gates", "user-feedback-to-skillset", "self-fix", "conflict-resolution", "multi-pr-coordinator", "cost-guardrails"],
+        "skills": ["evidence-proof", "backend-reliability", "ui-quality", "frontend-engineer", "backend-engineer", "qa-engineer", "pr-push-merge", "execution-agent", "dag-executor", "token-budget", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "property-based-testing", "secrets-scan", "reversibility", "circuit-breaker", "retry-with-backoff", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "feedback-loop", "feedback-log", "structured-logging", "audit-trail", "auto-merge", "skills-self-update", "five-agent-verification", "ten-pass-verification", "consensus-resolver", "consensus-gates", "user-feedback-to-skillset", "repository-audit-to-skillset", "self-fix", "conflict-resolution", "multi-pr-coordinator", "cost-guardrails"],
         "capabilities": [
           "Implement approved plans",
           "Write and run tests",
@@ -192,7 +192,7 @@
   "criticalFiles": [
     "CLAUDE.md", ".claude/CLAUDE.md", ".claude/settings.json",
     "package.json", "src/server.js", "src/local-pipeline.js",
-    "docs/CONFIDENCE_SCORE.md", ".claude/rules/"
+    ".claude/CONFIDENCE_SCORE.md", ".claude/rules/"
   ],
 
   "mcp": {
@@ -233,13 +233,12 @@
 
   "documentation": {
     "README.md": "Problem, quick start, features, integration",
-    "docs/CODE_AND_DOCS.md": "Doc ↔ code map; what's being worked on; never push docs/code separately",
-    "REVIEW.md": "Code review guidelines; ten-pass passes 6,7,10; five-agent; CodeReviewer",
+    ".claude/SKILLSETS.md": "Skill index; all governance in skills",
+    "REVIEW.md": "Code review guidelines; ten-pass passes 6,7,10",
     "CLAUDE.md": "Project rules, workflow, output contract",
     ".claude/CLAUDE.md": "Meta-rules, Plan Mode, memory, subagents",
     "CHANGELOG.md": "Session-by-session change log",
-    "docs/CONFIDENCE_SCORE.md": "Truth ledger with evidence for all tasks",
-    "docs/FEEDBACK_LOG.md": "Stakeholder feedback and action items",
+    ".claude/CONFIDENCE_SCORE.md": "Truth ledger (see confidence-score skill)",
     ".claude/rules/": "Standards for specific concerns"
   },
 

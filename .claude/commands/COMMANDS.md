@@ -6,7 +6,7 @@ Create work breakdown before implementing.
 **Usage**: /plan [task description]
 
 **Process**:
-1. Read CLAUDE.md and docs/CONFIDENCE_SCORE.md
+1. Read CLAUDE.md and .claude/CONFIDENCE_SCORE.md
 2. Understand existing architecture
 3. Break work into small, testable units
 4. Identify critical flows
@@ -35,7 +35,7 @@ Implement UI changes with proof.
 6. Check accessibility
 7. Verify business language (no technical terms)
 8. Run npm test (ensure no regressions)
-9. Update docs/CONFIDENCE_SCORE.md with evidence
+9. Update .claude/CONFIDENCE_SCORE.md with evidence
 
 **Evidence Required**:
 - Screenshots or manual testing notes
@@ -57,7 +57,7 @@ Implement backend changes with proof.
 6. Run npm test (100% passing)
 7. Verify coverage thresholds
 8. Run npm run test:ci (CI simulation)
-9. Update docs/CONFIDENCE_SCORE.md with evidence
+9. Update .claude/CONFIDENCE_SCORE.md with evidence
 
 **Evidence Required**:
 - Test output: "319 passing, 973 total"
@@ -66,7 +66,7 @@ Implement backend changes with proof.
 - Error cases tested and passing
 
 ## /score-confidence
-Update docs/CONFIDENCE_SCORE.md with evidence.
+Update .claude/CONFIDENCE_SCORE.md with evidence.
 
 **Usage**: /score-confidence
 
@@ -79,7 +79,7 @@ Update docs/CONFIDENCE_SCORE.md with evidence.
 2. Document unknowns
 3. Check critical flows tested
 4. Calculate confidence score (0-100)
-5. Update docs/CONFIDENCE_SCORE.md
+5. Update .claude/CONFIDENCE_SCORE.md
 6. Explain reasoning
 
 **Output**: Updated confidence ledger with:
@@ -121,7 +121,7 @@ Verify critical workflows work end-to-end.
    - Error case
    - Recovery
 3. Document results
-4. Update docs/CONFIDENCE_SCORE.md
+4. Update .claude/CONFIDENCE_SCORE.md
 
 ## /github-test
 Simulate GitHub Actions locally.
@@ -147,7 +147,7 @@ Verify all proof requirements before merge.
 - [ ] npm run test:ci passes
 - [ ] Coverage ≥ 60% global
 - [ ] Manual testing completed
-- [ ] docs/CONFIDENCE_SCORE.md updated
+- [ ] .claude/CONFIDENCE_SCORE.md updated
 - [ ] CHANGELOG.md updated
 - [ ] No unknowns without [UNKNOWN] mark
 - [ ] Rollback path documented
@@ -163,6 +163,6 @@ Safely revert changes.
 2. Or: git reset --hard [previous-commit]
 3. Run npm test
 4. Verify system works
-5. Update docs/CONFIDENCE_SCORE.md
+5. Update .claude/CONFIDENCE_SCORE.md
 
 **Note**: Prefer revert (leaves history) over reset (destructive)

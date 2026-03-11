@@ -5,6 +5,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(skills): Remove docs; convert everything to skillset
+
+- **Deleted** `docs/` folder (73 files) — all content converted to skills or .claude/
+- **Moved** SKILLSETS.md → .claude/SKILLSETS.md (canonical skill index)
+- **Moved** CONFIDENCE_SCORE.md → .claude/CONFIDENCE_SCORE.md
+- **Created** `confidence-score` skill — evidence template, scoring rules, ledger location
+- **Created** `code-skill-mapping` skill — skill→code map (replaces CODE_AND_DOCS.md)
+- **Updated** All references: docs/ → .claude/ or skills (CLAUDE, guardrails, README, settings, hooks, rules, COMMANDS, IMPLEMENTATION_GUIDE)
+
 ### feat(skills): repository-audit-to-skillset; check PRs/branches/commits → update skills
 
 - **repository-audit-to-skillset**: New skill — audit PRs (open/closed), branches, commits; use data to update skill set; commands, workflow, theme→skill mapping; current state from audit 2026-03-11

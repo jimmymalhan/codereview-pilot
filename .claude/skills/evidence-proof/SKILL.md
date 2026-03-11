@@ -1,6 +1,6 @@
 ---
 name: evidence-proof
-description: Run npm test, capture output, score confidence, document unknowns. Use after implementing features, fixing bugs, or before claiming done. Never "should work"—capture actual test counts, coverage, pass/fail. Update docs/CONFIDENCE_SCORE.md.
+description: Run npm test, capture output, score confidence, document unknowns. Use after implementing features, fixing bugs, or before claiming done. Never "should work"—capture actual test counts, coverage, pass/fail. Update .claude/CONFIDENCE_SCORE.md.
 ---
 
 ## Execution Standard (Apply to Every Skill)
@@ -16,7 +16,7 @@ description: Run npm test, capture output, score confidence, document unknowns. 
 
 **Rule**: Run `npm test` before claiming done. Never claim "should work" — capture actual test output. No invented counts or coverage.
 
-**Supporting files**: Output goes to `docs/CONFIDENCE_SCORE.md`. Keep SKILL.md under 500 lines.
+**Supporting files**: Output goes to `.claude/CONFIDENCE_SCORE.md`. Keep SKILL.md under 500 lines.
 
 ---
 
@@ -42,13 +42,13 @@ description: Run npm test, capture output, score confidence, document unknowns. 
 
 ## Phase 4: VERIFY
 ### Sub-Agent: `ConfidenceScorer` (model: haiku)
-- **Prompt**: Score confidence using rubric below. List unknowns. List residual risks. Update docs/CONFIDENCE_SCORE.md with scoring template.
+- **Prompt**: Score confidence using rubric below. List unknowns. List residual risks. Update .claude/CONFIDENCE_SCORE.md with scoring template.
 - **Output**: `{ confidence, evidence[], unknowns[], residual_risks[], rollback_path }`
 - **Gate**: confidence is a number backed by actual test output
 
 ## Phase 5: DELIVER
 ### Sub-Agent: `EvidenceArchiver` (model: haiku)
-- **Prompt**: Write scoring template to docs/CONFIDENCE_SCORE.md. Notify user of confidence score, server status, and any remaining unknowns.
+- **Prompt**: Write scoring template to .claude/CONFIDENCE_SCORE.md. Notify user of confidence score, server status, and any remaining unknowns.
 - **Output**: `{ confidence_score_updated, server_status, user_message }`
 - **Gate**: CONFIDENCE_SCORE.md updated
 
@@ -261,7 +261,7 @@ If you cannot gather evidence:
 2. Lower confidence score proportionally
 3. Describe what would prove it
 4. Continue with other evidence
-5. Update docs/CONFIDENCE_SCORE.md explaining why
+5. Update .claude/CONFIDENCE_SCORE.md explaining why
 
 Example:
 ```

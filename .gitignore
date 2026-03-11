@@ -316,6 +316,10 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/skills/consensus-gates/SKILL.md
 !.claude/skills/repository-audit-to-skillset/
 !.claude/skills/repository-audit-to-skillset/SKILL.md
+!.claude/skills/confidence-score/
+!.claude/skills/confidence-score/SKILL.md
+!.claude/skills/code-skill-mapping/
+!.claude/skills/code-skill-mapping/SKILL.md
 !.claude/skills/ultra-automation/
 !.claude/skills/ultra-automation/SKILL.md
 !.claude/skills/lint-fixer/

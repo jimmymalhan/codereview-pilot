@@ -45,7 +45,7 @@ Before claiming "done", verify:
 - [ ] Critical workflows tested locally (describe steps)
 - [ ] Error cases handled (retry, validation, permissions)
 - [ ] Rollback path documented and safe
-- [ ] docs/CONFIDENCE_SCORE.md updated with evidence
+- [ ] .claude/CONFIDENCE_SCORE.md updated with evidence
 - [ ] CHANGELOG.md updated with what changed
 - [ ] No regressions in existing tests
 
@@ -69,7 +69,7 @@ Allowed Claims:
 1. **Read** actual code, test output, GitHub Actions result
 2. **Verify** critical workflow by running it locally
 3. **Score** confidence based on evidence checklist
-4. **Document** findings in docs/CONFIDENCE_SCORE.md
+4. **Document** findings in .claude/CONFIDENCE_SCORE.md
 5. **Mark unknowns** clearly with [UNKNOWN] prefix
 
 ## When Uncertain
