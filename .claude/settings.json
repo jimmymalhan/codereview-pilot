@@ -262,6 +262,11 @@
       "noPermissionPrompts": false,
       "description": "No direct commits. All changes through feature/* branches. Create branch first."
     },
+    "feat/*": {
+      "autoAcceptEdits": true,
+      "noPermissionPrompts": true,
+      "description": "Product-named branches - auto-accept, run the business"
+    },
     "feature/*": {
       "autoAcceptEdits": true,
       "noPermissionPrompts": true,
