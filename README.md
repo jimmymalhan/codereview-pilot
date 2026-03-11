@@ -97,6 +97,20 @@ Use any HTTP client (Python, Node, Go, bash). Set `Content-Type: application/jso
 
 ---
 
+## Claude Code Skills
+
+This repo includes **66+ skills** in `.claude/skills/` for run-the-business automation, evidence-proof workflows, and ultra-automation.
+
+| Doc | Purpose |
+|-----|---------|
+| [docs/SKILLSETS.md](docs/SKILLSETS.md) | Full skill reference, roles, user prompts |
+| [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md) | How to keep upgrading skills |
+| [REVIEW.md](REVIEW.md) | Code review guidelines for Claude Code Review |
+
+**Use**: Open in Claude Code; skills load from `.claude/skills/`. Invoke with `/run-the-business`, `/plan-and-execute`, or any skill name. Default: maximum automation, auto-merge when CI green.
+
+---
+
 ## Contribute
 
 ### 1. Set Up
