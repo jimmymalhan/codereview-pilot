@@ -1,8 +1,8 @@
 # Code Review Pilot
 
-**Evidence-first incident diagnosis. Root cause in 16–30 seconds.**
+**Evidence-first incident diagnosis. Root cause in 16-30 seconds.**
 
-> Paste an incident. Get root cause, fix plan, rollback steps, and tests—backed by evidence, not guesses.
+> Paste an incident. Get root cause, fix plan, rollback steps, and tests. Backed by evidence, not guesses.
 
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](tests/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -16,7 +16,7 @@ npm install
 npm start
 ```
 
-Open http://localhost:3000 — use **Try It** to diagnose an incident, or call the API directly.
+Open http://localhost:3000. Use **Try It** to diagnose an incident, or call the API directly.
 
 ```bash
 curl -X POST http://localhost:3000/api/diagnose \
@@ -33,8 +33,8 @@ curl -X POST http://localhost:3000/api/diagnose \
 | Feature | Description |
 |---------|-------------|
 | **4-agent pipeline** | Router → Retriever → Skeptic → Verifier (evidence-first) |
-| **Single incident** | `POST /api/diagnose` — JSON in, root cause + fix plan out |
-| **Batch** | `POST /api/batch-diagnose` — up to 100 incidents per request |
+| **Single incident** | `POST /api/diagnose`, JSON in, root cause and fix plan out |
+| **Batch** | `POST /api/batch-diagnose`, up to 100 incidents per request |
 | **Webhooks** | Register a URL; results delivered automatically |
 | **Export** | JSON/CSV for runbooks and compliance |
 | **Audit trail** | Immutable logs with trace IDs |
@@ -42,9 +42,23 @@ curl -X POST http://localhost:3000/api/diagnose \
 
 ### How to Use
 
-1. **Web UI** — Go to http://localhost:3000 → scroll to **Try It** → describe the incident → click **Diagnose**.
-2. **API** — `POST /api/diagnose` with `{"incident": "..."}` (10–2000 chars).
-3. **Product section** — Scroll to **Integrate With Your Stack** for tabs: REST API, Batch, Webhooks, Export, All Endpoints.
+1. **Web UI**: Go to http://localhost:3000, scroll to **Try It**, describe the incident, click **Diagnose**.
+2. **API**: `POST /api/diagnose` with `{"incident": "..."}` (10-2000 chars).
+3. **Product section**: Scroll to **Integrate With Your Stack** for tabs: REST API, Batch, Webhooks, Export, All Endpoints.
+
+### Use Cases
+
+| Use Case | Example Input | What You Get |
+|----------|---------------|--------------|
+| **API / Latency** | "API latency spiked to 12s in us-east-1 after deploy v2.4.1, connection pool at 98%" | Root cause, fix plan, deployment-related bottlenecks |
+| **Database** | "Database query takes 45 seconds, CPU 100% on read replicas" | Slow-query analysis, replication lag, indexing suggestions |
+| **Auth / 5xx** | "API returns 500 on login, stack trace shows NullPointerException in session service" | Code path trace, error source, fix steps |
+| **Payments** | "Payment processing failing, Stripe webhook timeout, retries exhausted" | Third-party integration diagnosis, retry/recovery plan |
+| **On-Call / SRE** | "Pod restart loop in production, OOMKilled, memory limit 512Mi" | Resource diagnosis, scaling or leak recommendations |
+| **CI / Flaky Tests** | "E2E checkout test fails intermittently, timeout after 30s" | Flakiness vs code bug, timeout/ordering suggestions |
+| **Microservices** | "Service A calls B, B returns 503, circuit breaker open" | Cascade analysis, circuit breaker config, fallback options |
+
+**Tip:** Include symptoms, timestamps, error messages, and environment (region, version) for better results.
 
 ---
 
@@ -135,7 +149,7 @@ Incident → Router → Retriever → Skeptic → Verifier → Root Cause + Fix 
 - **Router**: Classifies type and severity.
 - **Retriever**: Fetches evidence from codebase/logs.
 - **Skeptic**: Proposes competing theories.
-- **Verifier**: Produces final root cause and confidence (0–100).
+- **Verifier**: Produces final root cause and confidence (0-100).
 
 ---
 
@@ -177,4 +191,4 @@ Rate limit: 100 requests/hour per IP (configurable).
 
 ---
 
-**Code Review Pilot** — Evidence first. Root cause in seconds. [MIT](LICENSE)
+**Code Review Pilot** | Evidence first. Root cause in seconds. [MIT](LICENSE)
