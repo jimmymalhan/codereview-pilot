@@ -244,6 +244,8 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | Explainability | `explainability` | Rationale for decisions |
 | Graceful degradation | `graceful-degradation` | Reduce scope under pressure |
 | Property-based testing | `property-based-testing` | Generative edge cases |
+| Lint fix before commit | `lint-fixer` | npm run lint --fix, eslint --fix |
+| PR summary with live data | `pr-summary` | gh pr diff; runs in forked Explore |
 
 ## End-to-End Workflow (Break, Agents, Branches, Tests, Feedback, Push, Merge)
 

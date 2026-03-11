@@ -14,7 +14,7 @@
 | **health-checker** | Structured health probes (liveness, readiness, dependencies) | High |
 | **changelog-writer** | Auto-generate CHANGELOG from commits/PRs | Medium |
 | **dependency-updater** | npm audit fix, Dependabot-style, lock refresh | Medium |
-| **lint-fixer** | Auto-fix lint errors before commit; ESLint --fix | High |
+| **lint-fixer** | ✅ Added — Auto-fix lint errors before commit | Done |
 | **test-gap-analyzer** | Map coverage gaps; untested paths; mutation hints | Medium |
 | **agent-orchestration** | Exists but may need DAG/spawn sequencing wiring | Check |
 

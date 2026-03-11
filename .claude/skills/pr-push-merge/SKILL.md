@@ -1,11 +1,13 @@
 ---
 name: pr-push-merge
-description: Commit (project-relevant only), push, npm run test:ci, provide localhost + PR links. Use when delivering, releasing, or after implementation. Wait for user approval before merge. Never invent links.
+description: Commit (project-relevant only), push, npm run test:ci, provide localhost + PR links. Use when delivering, releasing, or after implementation. Merge when CI green (auto-merge default). Never invent links.
 disable-model-invocation: true
 argument-hint: [branch or ""]
 ---
 
 **Uses** `execution-agent`: Enforce required fields (description, source prompt, web link, screenshot if frontend) before create. Fail loudly if missing.
+
+**Uses** `lint-fixer`: Before commit, run lint fix when available (npm run lint --fix, eslint --fix).
 
 **Uses** `secrets-scan`: Before commit, scan staged diff. Block if secrets detected.
 
@@ -40,7 +42,7 @@ argument-hint: [branch or ""]
 
 ## Phase 5: DELIVER
 ### Sub-Agent: `PRPublisher` (model: haiku)
-- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. Notify user of server status. Wait for "merge now" before merging.
+- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. Merge when CI green (auto-merge). Notify user of server status.
 - **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_approval" }`
 - **Gate**: links are real
 

@@ -114,19 +114,51 @@ Default: idea-to-production + live-watchdog + auto-merge. No approval gates.
 
 ---
 
-## 3. Gaps vs Claude Code (For Further Work)
+## 3. Agent Teams vs Subagents
 
-| Gap | Claude Code Feature | Action |
-|-----|--------------------|--------|
-| No `context: fork` skills | Run skill in subagent | Add pr-summary, deep-research with fork |
-| No `!`command`` preprocessing | Dynamic context | Add to pr-push-merge, live-watchdog |
-| Limited hooks | PreToolUse filter test output | Add filter-test-output.sh |
-| No Agent SDK integration | Headless, CI | Document for GitHub Actions |
-| No /batch-style worktrees | Parallel isolated work | multi-pr-coordinator + worktrees |
+| Use subagents when | Use agent teams when |
+|-------------------|----------------------|
+| Focused task; only result matters | Teammates need to share findings, challenge each other |
+| Quick research, verify claim, review file | Research with competing hypotheses, parallel code review |
+| Lower token cost | Higher cost; each teammate is separate instance |
+
+**Enable**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in settings. See [Agent Teams](https://code.claude.com/docs/en/agent-teams).
+
+## 4. Gaps Addressed
+
+| Gap | Status |
+|-----|--------|
+| `context: fork` skills | Added pr-summary with fork + dynamic context |
+| `!`command`` preprocessing | pr-summary uses it |
+| PreToolUse filter test output | filter-test-output.sh added (optional hook) |
+| REVIEW.md | Added for Code Review customization |
+| lint-fixer | Added; run before commit |
+| handoff-protocol schema | Validator added |
 
 ---
 
-## 4. References
+## 5. Optional: Filter Test Output Hook
+
+To reduce token cost when running tests, add to settings.json:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {"type": "command", "command": "bash .claude/hooks/filter-test-output.sh"}
+        ]
+      }
+    ]
+  }
+}
+```
+
+Merge with existing PreToolUse (branch-aware-permissions). Order matters.
+
+## 6. References
 
 | Doc | URL |
 |-----|-----|
@@ -142,7 +174,7 @@ Default: idea-to-production + live-watchdog + auto-merge. No approval gates.
 
 ---
 
-## 5. Related
+## 7. Related
 
 - [SKILLSETS.md](./SKILLSETS.md) — Full skill reference
 - [ULTRA_ADVANCE_REVIEW.md](./ULTRA_ADVANCE_REVIEW.md) — Roadmap, gaps, review checklist

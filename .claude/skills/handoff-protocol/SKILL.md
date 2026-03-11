@@ -28,10 +28,14 @@ description: Structured state transfer between agents. No context loss. Resume f
 }
 ```
 
+## Validator (Before Handoff)
+
+Ensure: from_agent, to_agent, timestamp, traceId, state, resume_command present. state must have phase and checklist or items_done/remaining. Reject handoff if schema invalid.
+
 ## Rules
 
 - **Complete**: All required fields present
-- **Validated**: Schema check before handoff
+- **Validated**: Schema check before handoff (see Validator above)
 - **Immutable**: Handoff record appended to audit-trail
 - **Resumable**: Recipient has everything to continue
 

@@ -310,6 +310,10 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/skills/property-based-testing/SKILL.md
 !.claude/skills/ultra-automation/
 !.claude/skills/ultra-automation/SKILL.md
+!.claude/skills/lint-fixer/
+!.claude/skills/lint-fixer/SKILL.md
+!.claude/skills/pr-summary/
+!.claude/skills/pr-summary/SKILL.md
 
 # ──────────────────────────────────────────────────
 # Misc local directories

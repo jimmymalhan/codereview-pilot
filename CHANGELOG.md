@@ -5,6 +5,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(skills): World-class upgrade — REVIEW.md, lint-fixer, pr-summary, filter-test-output
+
+- **REVIEW.md**: Code review guidelines for Claude Code Review and five-agent verification
+- **lint-fixer**: Auto-fix lint before commit; npm run lint --fix, eslint --fix
+- **pr-summary**: context: fork + dynamic `!`command``; runs in Explore agent
+- **filter-test-output.sh**: Optional PreToolUse hook to reduce test output tokens
+- **handoff-protocol**: Validator for schema check before handoff
+- **CLAUDE_CODE_ULTRA_ADVANCE**: Agent teams vs subagents; gaps addressed
+- **docs/SKILLSET_UPGRADE_PLAN.md**: Plan and execution log
+
 ### feat(rules): Never wait for user — skills, agents, subagents proceed automatically
 
 - CLAUDE.md: "Never wait for user" rule; remove approval gates from workflow
