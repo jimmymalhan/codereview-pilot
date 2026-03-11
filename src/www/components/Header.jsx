@@ -18,9 +18,9 @@ export default function Header() {
     <header className="header" role="banner">
       <div className="header-container">
         {/* Logo */}
-        <a href="#" className="logo" aria-label="Claude Debug Copilot">
+        <a href="#" className="logo" aria-label="CodeReview-Pilot">
           <span className="logo-icon">🔍</span>
-          <span className="logo-text">Claude Debug</span>
+          <span className="logo-text">CodeReview-Pilot</span>
         </a>
 
         {/* Navigation - Desktop */}

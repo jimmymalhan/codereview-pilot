@@ -1,4 +1,4 @@
-# Claude Debug Copilot - Project Standards
+# CodeReview-Pilot - Project Standards
 
 **Goal:** Diagnose recurring backend failures using evidence-first methodology with production-grade reliability.
 

@@ -15,7 +15,7 @@ describe('Phase F E2E Tests - User Journeys', () => {
     document.body.innerHTML = `
       <html>
         <head>
-          <title>Claude Debug Copilot</title>
+          <title>CodeReview-Pilot</title>
         </head>
         <body>
           <div id="app">

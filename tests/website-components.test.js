@@ -175,8 +175,8 @@ describe('Header Component', () => {
 // Test Hero Component
 describe('Hero Component', () => {
   it('should display main headline', () => {
-    const headline = 'Claude Debug Copilot for Incident Owners and SRE Teams.';
-    expect(headline.includes('Claude Debug')).toBe(true);
+    const headline = 'CodeReview-Pilot for Incident Owners and SRE Teams.';
+    expect(headline.includes('CodeReview-Pilot')).toBe(true);
     expect(headline.includes('Incident Owners')).toBe(true);
   });
 
@@ -332,8 +332,8 @@ describe('Footer Component', () => {
 
   it('should display copyright notice', () => {
     const year = new Date().getFullYear();
-    const copyright = `© ${year} Claude Debug Copilot`;
-    expect(copyright).toContain('Claude Debug Copilot');
+    const copyright = `© ${year} CodeReview-Pilot`;
+    expect(copyright).toContain('CodeReview-Pilot');
   });
 
   it('should display badges', () => {

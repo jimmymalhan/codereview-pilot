@@ -1,6 +1,6 @@
 # Integration Website User Guide
 
-Interactive website for exploring the Claude Debug Copilot debugging pipeline, skills, agents, and MCP integrations.
+Interactive website for exploring the CodeReview-Pilot debugging pipeline, skills, agents, and MCP integrations.
 
 ## Getting Started
 

@@ -1,5 +1,5 @@
 /**
- * Claude Debug Copilot - Analytics Instrumentation
+ * CodeReview-Pilot - Analytics Instrumentation
  * Tracks 50+ user behavior metrics without breaking privacy
  */
 

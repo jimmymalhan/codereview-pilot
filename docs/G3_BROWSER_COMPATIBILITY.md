@@ -388,8 +388,8 @@ Mobile (<768px):
 
 ## Files Tested
 
-- `/Users/jimmymalhan/Doc/claude-debug-copilot/src/www/index.html`
-- `/Users/jimmymalhan/Doc/claude-debug-copilot/src/www/api-reference.html`
+- `/Users/jimmymalhan/Doc/codereview-pilot/src/www/index.html`
+- `/Users/jimmymalhan/Doc/codereview-pilot/src/www/api-reference.html`
 - Responsive design at all breakpoints
 
 ## Confidence Score

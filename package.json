@@ -1,5 +1,5 @@
 {
-  "name": "claude-debug-copilot",
+  "name": "codereview-pilot",
   "version": "3.0.0",
   "description": "Production-ready incident diagnosis system with Apple-grade UI",
   "main": "index.js",

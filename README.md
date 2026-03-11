@@ -101,8 +101,8 @@ Use any HTTP client (Python, Node, Go, bash). Set `Content-Type: application/jso
 ### 1. Set Up
 
 ```bash
-git clone https://github.com/jimmymalhan/claude-debug-copilot.git
-cd claude-debug-copilot
+git clone https://github.com/jimmymalhan/codereview-pilot.git
+cd codereview-pilot
 npm install
 ```
 

@@ -1,7 +1,7 @@
 /**
  * E2E Tests — Website (24 Tests)
  *
- * Comprehensive e2e test suite using Puppeteer for the Claude Debug Copilot
+ * Comprehensive e2e test suite using Puppeteer for the CodeReview-Pilot
  * website. Tests cover navigation, ROI calculator, incident form,
  * mobile responsiveness, and accessibility.
  *

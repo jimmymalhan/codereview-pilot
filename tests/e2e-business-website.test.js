@@ -1,7 +1,7 @@
 /**
  * End-to-End Tests for Business Website - 24 Tests Total
  *
- * Comprehensive e2e test suite using Puppeteer for the Claude Debug Copilot
+ * Comprehensive e2e test suite using Puppeteer for the CodeReview-Pilot
  * business website. Tests cover navigation, ROI calculator, incident form,
  * mobile responsiveness, and accessibility.
  *

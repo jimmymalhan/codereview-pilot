@@ -1,5 +1,5 @@
 /**
- * MCP Client for Claude Debug Copilot
+ * MCP Client for CodeReview-Pilot
  *
  * Manages Model Context Protocol transport, connects to MCP servers,
  * and provides a unified context providers API. Falls back gracefully

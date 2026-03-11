@@ -1,5 +1,5 @@
 /**
- * Claude Debug Copilot - Main Application Framework
+ * CodeReview-Pilot - Main Application Framework
  * Vanilla JS SPA with client-side routing
  */
 (function () {

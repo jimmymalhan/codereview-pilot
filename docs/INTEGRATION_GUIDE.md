@@ -1,7 +1,7 @@
-# Claude Debug Copilot Integration Guide
+# CodeReview-Pilot Integration Guide
 
 **Table of Contents**
-1. [What is Claude Debug Copilot](#what-is-claude-debug-copilot)
+1. [What is CodeReview-Pilot](#what-is-codereview-pilot)
 2. [The 5-Agent Pipeline](#the-5-agent-pipeline)
 3. [Using the Interactive Website](#using-the-interactive-website)
 4. [Step-by-Step Examples](#step-by-step-examples)
@@ -10,9 +10,9 @@
 
 ---
 
-## What is Claude Debug Copilot
+## What is CodeReview-Pilot
 
-Claude Debug Copilot is an evidence-first diagnostic system designed for backend engineers and SREs to diagnose production incidents with rigorous, verifiable explanations. Unlike traditional AI debugging tools that prioritize confidence, Claude Debug Copilot enforces a strict methodology where all claims must be backed by concrete evidence retrieved from logs, code, schemas, and metrics.
+CodeReview-Pilot is an evidence-first diagnostic system designed for backend engineers and SREs to diagnose production incidents with rigorous, verifiable explanations. Unlike traditional AI debugging tools that prioritize confidence, CodeReview-Pilot enforces a strict methodology where all claims must be backed by concrete evidence retrieved from logs, code, schemas, and metrics.
 
 ### Core Philosophy
 
@@ -20,7 +20,7 @@ The tool follows this workflow instead of the traditional "question → answer" 
 
 ```
 Traditional:     Question → Confident but often wrong answer
-Claude Debug:    Question → Retrieve Evidence → Challenge → Verify → Explain
+CodeReview-Pilot: Question → Retrieve Evidence → Challenge → Verify → Explain
 ```
 
 ### Key Characteristics
@@ -58,7 +58,7 @@ Every diagnosis follows this contract:
 
 ## The 5-Agent Pipeline
 
-Claude Debug Copilot uses a specialized five-agent pipeline, each with a specific responsibility. Understanding this pipeline is crucial for using the tool effectively.
+CodeReview-Pilot uses a specialized five-agent pipeline, each with a specific responsibility. Understanding this pipeline is crucial for using the tool effectively.
 
 ### 1. Router Agent
 
@@ -159,7 +159,7 @@ Evidence needed: auth logs, retry counts, request timing
 
 ## Using the Interactive Website
 
-Claude Debug Copilot provides an interactive web interface for diagnosing incidents.
+CodeReview-Pilot provides an interactive web interface for diagnosing incidents.
 
 ### Starting the Server
 
@@ -583,7 +583,7 @@ ERROR: Cannot claim field "user_role" exists in users table
 
 ## FAQ
 
-### Q: How accurate is Claude Debug Copilot?
+### Q: How accurate is CodeReview-Pilot?
 
 **A**: Accuracy depends entirely on evidence quality. The system is designed to **never be confidently wrong** - if evidence is insufficient, confidence stays below 0.70 and diagnosis is rejected.
 
@@ -650,7 +650,7 @@ Time is spent retrieving evidence, not generating explanations. More evidence = 
 **A**: Yes. Common patterns:
 
 ```bash
-# PagerDuty → incident description → Claude Debug Copilot
+# PagerDuty → incident description → CodeReview-Pilot
 incident=$(curl -s https://pagerduty.api/incidents/${ID})
 description=$(echo $incident | jq -r '.incident.body')
 echo "$description" | curl -X POST http://localhost:3000/diagnose

@@ -224,7 +224,7 @@
 
 ## Files Modified
 
-- `/Users/jimmymalhan/Doc/claude-debug-copilot/src/www/index.html` - 20 accessibility improvements
+- `/Users/jimmymalhan/Doc/codereview-pilot/src/www/index.html` - 20 accessibility improvements
 
 ## Performance Impact
 

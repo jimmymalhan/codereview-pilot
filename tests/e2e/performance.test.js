@@ -289,7 +289,7 @@ function generateHomePage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Debug Copilot - Evidence-First Debugging</title>
+  <title>CodeReview-Pilot - Evidence-First Debugging</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
@@ -303,7 +303,7 @@ function generateHomePage() {
 <body>
   <header>
     <div class="container">
-      <h2>Claude Debug Copilot</h2>
+      <h2>CodeReview-Pilot</h2>
       <nav><a href="/">Home</a> | <a href="/diagnose">Diagnose</a> | <a href="/roi">ROI</a> | <a href="/cases">Cases</a> | <a href="/pricing">Pricing</a></nav>
     </div>
   </header>
@@ -326,7 +326,7 @@ function generateDiagnosePage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagnose - Claude Debug Copilot</title>
+  <title>Diagnose - CodeReview-Pilot</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f8fafc; color: #1e293b; }
@@ -338,7 +338,7 @@ function generateDiagnosePage() {
 <body>
   <header>
     <div class="container">
-      <h2>Claude Debug Copilot</h2>
+      <h2>CodeReview-Pilot</h2>
       <nav><a href="/">Home</a> | <a href="/diagnose">Diagnose</a> | <a href="/roi">ROI</a> | <a href="/cases">Cases</a> | <a href="/pricing">Pricing</a></nav>
     </div>
   </header>
@@ -356,7 +356,7 @@ function generateRoiPage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ROI - Claude Debug Copilot</title>
+  <title>ROI - CodeReview-Pilot</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f8fafc; color: #1e293b; }
@@ -369,13 +369,13 @@ function generateRoiPage() {
 <body>
   <header>
     <div class="container">
-      <h2>Claude Debug Copilot</h2>
+      <h2>CodeReview-Pilot</h2>
       <nav><a href="/">Home</a> | <a href="/diagnose">Diagnose</a> | <a href="/roi">ROI</a> | <a href="/cases">Cases</a> | <a href="/pricing">Pricing</a></nav>
     </div>
   </header>
   <main class="container">
     <h1>Return on Investment</h1>
-    <p>See how Claude Debug Copilot improves your bottom line</p>
+    <p>See how CodeReview-Pilot improves your bottom line</p>
     <div>
       <div class="metric"><strong>80%</strong> faster diagnosis</div>
       <div class="metric"><strong>60%</strong> fewer false positives</div>
@@ -393,7 +393,7 @@ function generateCasesPage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Case Studies - Claude Debug Copilot</title>
+  <title>Case Studies - CodeReview-Pilot</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f8fafc; color: #1e293b; }
@@ -406,7 +406,7 @@ function generateCasesPage() {
 <body>
   <header>
     <div class="container">
-      <h2>Claude Debug Copilot</h2>
+      <h2>CodeReview-Pilot</h2>
       <nav><a href="/">Home</a> | <a href="/diagnose">Diagnose</a> | <a href="/roi">ROI</a> | <a href="/cases">Cases</a> | <a href="/pricing">Pricing</a></nav>
     </div>
   </header>
@@ -431,7 +431,7 @@ function generatePricingPage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing - Claude Debug Copilot</title>
+  <title>Pricing - CodeReview-Pilot</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f8fafc; color: #1e293b; }
@@ -445,7 +445,7 @@ function generatePricingPage() {
 <body>
   <header>
     <div class="container">
-      <h2>Claude Debug Copilot</h2>
+      <h2>CodeReview-Pilot</h2>
       <nav><a href="/">Home</a> | <a href="/diagnose">Diagnose</a> | <a href="/roi">ROI</a> | <a href="/cases">Cases</a> | <a href="/pricing">Pricing</a></nav>
     </div>
   </header>
