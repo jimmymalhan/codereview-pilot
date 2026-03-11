@@ -82,6 +82,14 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - `.claude/CONFIDENCE_SCORE.md` - Truth ledger (see `confidence-score` skill)
 - `CHANGELOG.md` - Session-by-session change log
 
+## Token Conservation (When Making Changes)
+
+- **Lower tokens** — Read with offset/limit over full file. Grep for targeted search. Keep context small.
+- **Compact skills** — SKILL.md under 500 lines; details in reference.md. Load refs only when needed.
+- **Prefer Haiku** — Explore, QA, most implementation. Sonnet for Plan + final review only.
+- **Filter test output** — filter-test-output.sh for npm test (failures only). Saves tokens.
+- **token-budget, cost-guardrails** — Check after each phase. Default Haiku for 80%+ of work.
+
 ## Commit Frequently (HARD: Small Only)
 - **Small commits only** — One small change per commit. No big changes. Each commit = one focused change.
 - Commit after any small change; don't batch unrelated edits.
@@ -94,6 +102,7 @@ npm run test:e2e       # E2E tests (requires API credentials)
 
 ## Branch Rules (HARD)
 - **All changes through branches** — Never commit directly to main. Create `feature/*` first. Commit there. Merge to main only via PR.
+- **Reviewers must recommend merge** — Reviewers (docs/reviewers.md) comment, push back, recommend tests. Iterate on feedback. Do NOT rush to merge. Merge only when reviewers recommend + CI + recommended tests pass. If not recommended → create new branch, work harder. Production house: business-level, production-level code only.
 - `main` - production; no direct commits. Changes land via PR from feature/*.
 - `feature/*` - all work happens here; auto-accept edits; push to branch; open PR
 - **Small PRs only** — Each PR = small iteration of one feature. Focused scope. No big PRs. Why: roll back only that feature if needed, not the whole project.

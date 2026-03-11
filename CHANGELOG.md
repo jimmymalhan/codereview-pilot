@@ -5,6 +5,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(token): Lower tokens when making changes
+
+- **CLAUDE.md**: Token Conservation section - Read(offset,limit), Grep, compact skills, filter-test-output, prefer Haiku
+- **settings.json**: Enable filter-test-output.sh for Bash (reduces npm test output)
+- **cost-guardrails**: When making changes - lower tokens note
+
+### feat(pr-reviewers): Production house workflow - reviewers comment, push back, do not rush
+
+- **.claude/reviewers.md**: Reviewer flow; 5 reviewers (Production, Business, Security, Code, QA); iterate on feedback
+- **pr-reviewers skill**: Spawn reviewers, iterate, recommend tests, merge gate
+- **pr-push-merge**: Phase 4.5 ReviewerGate; merge only when reviewers recommend
+- **CLAUDE.md**, **guardrails**: Do NOT rush to merge; reviewers must recommend
+- **settings.json**: pr-reviewers on CodeReviewer, APIValidator
+
 ### feat(rules): Small commits, small PRs (rollback by feature)
 
 - **CLAUDE.md**: Small commits only; small PRs only; rollback = that feature

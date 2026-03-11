@@ -22,6 +22,8 @@ argument-hint: [branch or ""]
 ## PR Comments (Every Phase)
 After each phase: `gh pr comment --body "Phase N: <summary>"` — in parallel with the phase output. See `pr-comments-live` skill.
 
+**Uses** `pr-reviewers`: Before Phase 5 (merge), reviewers comment, push back, recommend tests. Iterate on feedback. Do NOT rush. Merge only when reviewers recommend merge + CI + recommended tests pass. If not recommended → create new branch, work harder.
+
 ## Phase 1: DISCOVER
 ### Sub-Agent: `CommitScout` (model: haiku)
 - **Tools**: Bash, Read
@@ -49,11 +51,16 @@ After each phase: `gh pr comment --body "Phase N: <summary>"` — in parallel wi
 - **Output**: `{ ci_status, localhost_ok: boolean, pr_url }`
 - **Gate**: CI green AND localhost works
 
+## Phase 4.5: REVIEWERS (pr-reviewers)
+### Sub-Agent: `ReviewerGate` (invoke pr-reviewers)
+- **Prompt**: Run pr-reviewers. Reviewers comment, push back, recommend additional tests. Iterate on feedback. Merge only when reviewers recommend merge + CI green + recommended tests pass. Do NOT rush. If reviewers do not recommend merge → create new branch, work harder.
+- **Gate**: reviewers recommend merge AND all checks pass
+
 ## Phase 5: DELIVER
 ### Sub-Agent: `PRPublisher` (model: haiku)
-- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. **Do NOT merge until 10 ten-pass critiques have commented.** Run critiques in parallel. **When gates pass, merge immediately** — do NOT leave PR hanging. See `consensus-gates` skill.
-- **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_10_pass_comments" | "awaiting_consensus" | "ready_to_merge" }`
-- **Gate**: links are real. For merge: 10 ten-pass comments + consensus → merge same session. No indefinite wait.
+- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. **Do NOT merge until 10 ten-pass critiques have commented** AND reviewers recommend. Run critiques in parallel. **When gates pass, merge immediately** — do NOT leave PR hanging. See `consensus-gates` skill.
+- **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_10_pass_comments" | "awaiting_reviewers" | "ready_to_merge" }`
+- **Gate**: links are real. For merge: 10 ten-pass comments + reviewers recommend + consensus → merge same session. No indefinite wait.
 
 ## Contingency
 IF push fails → check branch permissions → retry once → if still failing → contingency L5 (ask user).

@@ -28,6 +28,15 @@
             "command": "bash .claude/hooks/branch-aware-permissions.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/filter-test-output.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -105,8 +114,8 @@
         "model": "sonnet",
         "role": "Code quality, security, performance review",
         "tools": ["Read", "Grep", "Glob"],
-        "skills": ["project-guardrails", "evidence-proof", "consensus-resolver", "explainability", "confidence-decay", "anomaly-detection", "critic", "backend-reliability", "ui-quality", "skills-self-update", "five-agent-verification", "ten-pass-verification"],
-        "use_when": "Need parallel code review while coding",
+        "skills": ["project-guardrails", "evidence-proof", "consensus-resolver", "explainability", "confidence-decay", "anomaly-detection", "critic", "backend-reliability", "ui-quality", "skills-self-update", "five-agent-verification", "ten-pass-verification", "pr-reviewers"],
+        "use_when": "Need parallel code review while coding; PR reviewer (see docs/reviewers.md)",
         "phase": 3
       },
       {
@@ -114,8 +123,8 @@
         "model": "haiku",
         "role": "API contract testing and endpoint verification",
         "tools": ["Bash", "Read", "Grep"],
-        "skills": ["backend-reliability", "verifier", "evidence-proof", "feedback-log", "five-agent-verification"],
-        "use_when": "Phase 2 or 3; spawn with CodeReviewer, EvidenceReviewer, QAReviewer, Critic in parallel",
+        "skills": ["backend-reliability", "verifier", "evidence-proof", "feedback-log", "five-agent-verification", "pr-reviewers"],
+        "use_when": "Phase 2 or 3; spawn with CodeReviewer, EvidenceReviewer, QAReviewer, Critic in parallel; PR reviewer",
         "phase": 2
       },
       {

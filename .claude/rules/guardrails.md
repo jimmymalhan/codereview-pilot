@@ -12,6 +12,7 @@
 - **Small commits, small PRs** — One small change per commit. Each PR = small iteration of one feature. No big changes. Rollback = revert that feature only, not the whole project.
 - **Product-centric naming** — Branch and commit names must reflect core product and use cases (diagnosis, pipeline, api, evidence, ui). Do NOT use rule/process names (e.g. consensus-gates, ten-pass). See `naming-convention-product` skill.
 - **No merge without consensus** — Multiple comments (2+ from skills, agents, sub-agents, reviewers). 100% approval. Do NOT merge without. See `consensus-gates` skill.
+- **Do NOT rush to merge** — Reviewers comment, push back, recommend tests. Iterate. Merge only when reviewers recommend + CI + recommended tests pass. Production house: business-level code only.
 - **No idea/project/task without consensus** — Do not create ideas, projects, or tasks without consensus of all relevant stakeholders.
 
 ## Proof Requirements

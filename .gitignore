@@ -240,6 +240,8 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/skills/five-agent-verification/SKILL.md
 !.claude/skills/ten-pass-verification/
 !.claude/skills/ten-pass-verification/SKILL.md
+!.claude/skills/pr-reviewers/
+!.claude/skills/pr-reviewers/SKILL.md
 !.claude/skills/run-the-business/
 !.claude/skills/run-the-business/SKILL.md
 !.claude/skills/live-watchdog/
