@@ -9,6 +9,22 @@
 
 ---
 
+## Project 1.0.0 Status
+
+| Area | Progress | Status |
+|------|----------|--------|
+| **Core** (4-agent, API, webhooks) | 100% | ✅ Shipped in v1.0.1 |
+| **Premium UI roadmap** | 3% | [█░░░░░░░░░░░░░░░░░░░] |
+| | | 13/374 tasks done, 361 pending |
+
+**Source:** [FRONTEND_TASK_BREAKDOWN.csv](FRONTEND_TASK_BREAKDOWN.csv) · **Milestones:** [.github/PROJECT_1.0.0_CHECKPOINTS.md](.github/PROJECT_1.0.0_CHECKPOINTS.md)
+
+**What's left:** Design tokens (DT), motion utilities (MU), style factory (SF), React migration (RC/RI/CM), loading/error states (LS/ES), dark theme, final checklist.
+
+*Note: `design-tokens.js`, `motion-utils.js`, `Layout`, `ThemeContext`, and many motion components (FadeIn, SlideIn, AnimatedSection, etc.) already exist; CSV may lag. Run `npm run status` to refresh.*
+
+---
+
 ## Quick Start
 
 ```bash

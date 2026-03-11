@@ -51,4 +51,6 @@ if [ "$CURRENT" = "main" ]; then
     fi
   done
 fi
+# Refresh README Project 1.0.0 status bar (keep progress current)
+npm run status 2>/dev/null || true
 exit 0
