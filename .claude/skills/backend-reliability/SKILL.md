@@ -1,3 +1,48 @@
+---
+name: backend-reliability
+description: Production-grade reliability patterns: validation, retry, timeout, error format, logging, idempotency, fallback. Use when building or reviewing backend code.
+---
+
+## Phase 1: DISCOVER
+### Sub-Agent: `ReliabilityScout` (model: haiku)
+- **Tools**: Grep, Read
+- **Prompt**: Find missing reliability patterns in changed files. Check: retry logic? timeout? validation? error format? logging?
+- **Output**: `{ missing_retry[], missing_timeout[], missing_validation[], missing_error_format[] }`
+- **Gate**: gaps identified
+
+## Phase 2: PLAN
+### Sub-Agent: `ReliabilityPlanner` (model: sonnet)
+- **Prompt**: Plan fixes per pattern. Priority: validation > error format > retry > timeout > logging.
+- **Output**: `{ fixes[{pattern, file, priority}] }`
+- **Gate**: fixes planned
+
+## Phase 3: IMPLEMENT
+### Sub-Agent: `ReliabilityBuilder` (model: haiku)
+- **Tools**: Read, Edit, Bash
+- **Prompt**: Add reliability patterns ONE file at a time. Copy exact code templates from skill (below). Run `npm test` after each.
+- **Output**: `{ pattern_added, file, test_pass: boolean }`
+- **Gate**: pattern added AND tests pass
+
+## Phase 4: VERIFY
+### Sub-Agent: `ReliabilityTester` (model: haiku)
+- **Prompt**: Run tests for retry, timeout, error format. Restart server. Verify health. Test error paths.
+- **Output**: `{ tests_pass, health_ok, patterns_verified[] }`
+- **Gate**: all patterns verified
+
+## Phase 5: DELIVER
+### Sub-Agent: `ReliabilityPackager` (model: haiku)
+- **Prompt**: Commit. Notify user of patterns added and server status.
+- **Output**: `{ commit_sha, patterns_added[], server_status }`
+- **Gate**: committed
+
+## Contingency
+IF adding retry breaks existing behavior → revert that change only → try simpler pattern → if still failing → contingency L2.
+
+## Server Lifecycle
+MUST restart server after any reliability change. Verify health endpoint responds correctly with new error format.
+
+---
+
 # Backend Reliability Skill
 
 **Purpose**: Implement and verify production-grade reliability patterns.
@@ -270,7 +315,7 @@ return Promise.race([someAsyncOperation(), timeout]);
 
 ## Lessons Learned (From Stakeholder Feedback)
 
-1. **Surface every API endpoint in the UI.** If the server supports `/api/batch-diagnose`, `/api/webhooks`, `/api/analytics`, `/api/audit-log`, and `/api/diagnose/:id/export`, each must be reachable from the frontend. Hidden endpoints = lost revenue.
+1. **Surface every API endpoint in the UI.** If the server supports `/api/batch-diagnose`, `/api/webhooks`, `/api/analytics`, `/api/audit-log`, and `/api/diagnose/:id/export`, each must be reachable from the frontend. Endpoints not surfaced in UI = lost revenue.
 2. **Restart the server after backend changes.** Express does not hot-reload. Kill the old process, start fresh, verify with `curl http://localhost:3000/health`.
 3. **Align frontend claims with backend reality.** If the server simulates a 4-agent pipeline, the UI must say "simulated" — never claim "production AI" unless the Anthropic SDK is wired and tested.
 4. **Test error formats end-to-end.** A 400 from the server must produce a user-friendly message in the UI, not a raw JSON blob or silent failure.

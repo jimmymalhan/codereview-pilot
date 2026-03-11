@@ -5,6 +5,141 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### docs: YouTube-derived skill upgrades — YOUTUBE_SKILL_UPGRADES, six-step audit
+
+- **docs/YOUTUBE_SKILL_UPGRADES.md**: Extracted patterns from FE/BE, Anthropic deep dive, Nate Herk, Claude official
+- Six-step framework, feedback cycle, progressive loading, token savings, testing fixes
+- SKILLSET_UPGRADE_ROADMAP: YouTube patterns section
+- skills-self-update: Six-step audit checklist, YOUTUBE_SKILL_UPGRADES reference
+
+### feat(skills): World-class upgrade — REVIEW.md, lint-fixer, pr-summary, filter-test-output
+
+- **REVIEW.md**: Code review guidelines for Claude Code Review and five-agent verification
+- **lint-fixer**: Auto-fix lint before commit; npm run lint --fix, eslint --fix
+- **pr-summary**: context: fork + dynamic `!`command``; runs in Explore agent
+- **filter-test-output.sh**: Optional PreToolUse hook to reduce test output tokens
+- **handoff-protocol**: Validator for schema check before handoff
+- **CLAUDE_CODE_ULTRA_ADVANCE**: Agent teams vs subagents; gaps addressed
+- **docs/SKILLSET_UPGRADE_PLAN.md**: Plan and execution log
+
+### feat(rules): Never wait for user — skills, agents, subagents proceed automatically
+
+- CLAUDE.md: "Never wait for user" rule; remove approval gates from workflow
+- .claude/CLAUDE.md: Proceed automatically; no AskUserQuestion for blockers
+- settings.json: Plan/General-Purpose constraints — never wait for run/update/accept
+- FEATURE_BRANCH_PERMISSIONS: No exceptions on feature branch; execute and report
+- push-hard, execution-agent, evidence-proof: Never wait; execute and report
+- SKILLSETS.md: Non-negotiable note; Idea→Execute→Merge all automatic
+
+### docs: Add CLAUDE_CODE_ULTRA_ADVANCE.md — Claude Code alignment, execution checklist
+
+- Skills, subagents, hooks aligned with code.claude.com docs
+- Common workflows, best practices, costs references
+- Execution checklist for review and run
+- Gaps vs Claude Code (context: fork, dynamic context, hooks)
+
+### feat(automation): Maximum automation by default — business runs automatically
+
+- **run-the-business**: DEFAULT for any project instruction; auto-merge ON, ultra-automation ON
+- **idea-to-production**: Auto-merge when CI green; no "merge now" required
+- **ultra-automation, auto-merge**: ON by default when run-the-business
+- **settings.json**: AUTO_MERGE=true, ULTRA_AUTO=true in environment
+- **plan-and-execute, e2e-orchestrator**: NEVER wait for user; never pause; agents proceed automatically
+- **CLAUDE.md**: Run-the-business is default for project instructions
+
+### docs: Add ULTRA_ADVANCE_REVIEW.md — roadmap, gaps, review checklist
+
+- Skills not yet implemented: deploy-trigger, health-checker, changelog-writer, dependency-updater, lint-fixer, test-gap-analyzer
+- Next-level: causal debugging, regression guard, spec-driven tests, cost-per-run, self-tune, canary
+- Review checklist: skills, agents, config, flows, docs, tests
+
+### feat(skills): Ultra automation — 8 advanced skills, max autonomy
+
+- **dag-executor**: Dependency-ordered parallel tasks
+- **token-budget**: Cap tokens per run; save at limit
+- **consensus-resolver**: Resolve agent disagreements
+- **handoff-protocol**: Structured state transfer between agents
+- **failure-taxonomy**: Categorize failures; learn patterns
+- **explainability**: Rationale for critical decisions
+- **graceful-degradation**: Reduce scope under pressure
+- **property-based-testing**: Generative edge case tests
+- **ultra-automation**: Max autonomy mode; "Ultra automation" or ULTRA_AUTO=true
+- Assign to Plan, General-Purpose, FixAgent, LiveWatchdog, QA, CodeReviewer
+
+### feat(skills): Add 5 world-class skills — structured-logging, secrets-scan, reversibility, audit-trail, auto-merge
+
+- **structured-logging**: JSON logs with traceId, agent, phase for debugging
+- **secrets-scan**: Block commit if API keys, tokens, .env patterns in diff
+- **reversibility**: Every change has explicit rollback steps
+- **audit-trail**: Append-only immutable action log for compliance
+- **auto-merge**: Merge when CI green; full-auto mode (idea→production) opt-in
+- Preload on Plan, General-Purpose, FixAgent, LiveWatchdog
+
+### feat(skills): Add 9 watchdog/resilience skills — circuit breaker, retry, time-bounded, etc.
+
+- **circuit-breaker**: N failures → stop, hand off. FixAgent, LiveWatchdog.
+- **retry-with-backoff**: Exponential backoff for 429, 503. FixAgent, LiveWatchdog.
+- **time-bounded-run**: Max duration per phase; save on timeout. Plan, General-Purpose, ChaosTester.
+- **heartbeat-monitor**: Progress every 5 min during long runs.
+- **dead-man-switch**: No progress 15 min → save, notify.
+- **feedback-loop**: Past failures into checklists. Plan, General-Purpose, FixAgent.
+- **confidence-decay**: Stale evidence = lower weight. QA, CodeReviewer.
+- **anomaly-detection**: Baseline deviation (test count, duration). QA, CodeReviewer.
+- **cron-awareness**: Off-peak for heavy runs; poll interval. Plan, LiveWatchdog.
+
+### feat(skills): Add execution-agent — deterministic checklist over reasoning
+
+- **execution-agent skill**: Maximum determinism, minimal ambiguity. Dumb checklists over agentic reasoning.
+- **Principles**: Smallest task; enforced checkpoints; fail before continuing. Never rely on memory.
+- **Architectural rule**: If workflow can be a script, it must be a script. AI only for summarization, reasoning, classification.
+- **Preload**: Explore, Plan, General-Purpose. pr-push-merge, plan-and-execute, fix-pr-creator reference it.
+
+### feat(docs): Pre-push checklist; replace guess/hidden with evidence-based language
+
+- **docs/PUSH_CHECKLIST.md**: Pre-push verification for tomorrow morning
+- **confidence.md, guardrails.md, CLAUDE.md**: "Guess" → "Unverified" for 0-39 scores
+- **backend-reliability, SKILLSETS.md, backend-proof**: "Hidden" → "not surfaced in UI" / "undiscovered"
+- Principles: Everything explicit; no hidden guesswork
+
+### feat(skills): Add ChaosTester — end-user, internal, engineer personas; random UI+backend tests
+
+- **chaos-tester skill**: Simulate end users, internal users, engineers. Run 5–10 random tests per persona on UI + backend to generate errors.
+- **ChaosTester agent**: Iterate on its own when issues found (max 3 rounds). Hand off to FixAgent when done. You come in to fix.
+- **Personas**: End-user (valid flows, typos), Internal-user (batch, pagination), Engineer (invalid input, fuzz)
+- **Flow**: Discover → Plan → Implement → Verify → Iterate → handoff error-detector → fix-pr-creator → FixAgent
+
+### feat(skills): Remove References section, enhance skills per Claude Code + Agent Skills spec
+
+- **Removed** References (Skills Creation & Automation) section from docs/SKILLSETS.md; kept Project Docs for internal links
+- **Descriptions** — Keyword-rich per Agent Skills spec (when to use, task triggers)
+- **argument-hint** — Added to run-the-business, plan-and-execute, idea-to-production, e2e-orchestrator, fix-pr-creator, pr-push-merge
+- **Supporting files** — plan-and-execute, evidence-proof note checklist/state paths; keep SKILL.md under 500 lines
+- **Enhancements** — router, retriever, skeptic, verifier, critic, evidence-proof, frontend-engineer, backend-engineer, fix-pr-creator, pr-push-merge
+
+### feat(skills): Project instructions only, SKILLSETS.md expansion, FE/BE customization
+
+- **Project instructions only**: docs/SKILLSETS.md leads with "You give project instructions. We run the whole business."
+- **Ask skill set for each role**: Prominent table at top; agents know how to behave per role
+- **FE/BE project customization**: How to add PROJECT.md to customize frontend/backend per project (per YouTube FE/BE skills)
+- **Skillset review & iteration**: Multi-agent critique flow (5–10 reviewers, iterate based on feedback)
+- **References**: All YouTube links (FE/BE, PR automation, multi-PR, skills deep dive), geo-seo-claude
+- **run-the-business**, **plan-and-execute**: Emphasize project-instructions flow, 4 phases 5–10 subagents
+
+### feat(skills): Complete workforce for skill set (Project 2–6)
+
+- **Project 2 skills**: run-the-business, live-watchdog, error-detector, fix-pr-creator, self-fix, rebase-manager, multi-pr-coordinator
+- **Project 5 agents**: LiveWatchdog, FixAgent, RebaseResolver (with YAML frontmatter, skills)
+- **Project agents**: performance-optimizer, data-analyst — add frontmatter + skills; security-auditor, compliance-checker already updated
+- **Skill updates**: idea-to-production — Live Phase (optional); e2e-orchestrator — Phase 2.5 live-watchdog; evidence-proof — "Run npm test; never claim without output"
+- **Config/docs**: CLAUDE.md — run-the-business default, live monitoring, self-fix; docs/SKILLSETS.md — watchdog flow, fix PR flow, new skill table; .gitignore — new skills and agents
+- **Local only** (per user rule): Skillset work not pushed; kept on branch feature/skillsets-and-fe-be-skills
+
+### feat(dev): Add `npm run dev` with nodemon for auto-restart
+
+- **npm run dev**: Runs server with nodemon — restarts on crash and on file changes
+- **Keeps localhost up**: Server recovers automatically during development
+- **Watch**: src/ (js, json, html, css); ignore node_modules, tests
+
 ### fix(server): Serve homepage at root; complete pending QA tasks
 
 - **Root 404 fixed**: Added explicit `GET /` route to serve `index.html`; localhost now loads homepage

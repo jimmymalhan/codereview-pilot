@@ -12,7 +12,7 @@
 
 ## Verification
 - `qa-engineer` validates that tests cover all critical flows.
-- `senior-backend-reviewer` and `staff-engineer-reviewer` look for missing edge cases or hidden failure modes.
+- `senior-backend-reviewer` and `staff-engineer-reviewer` look for missing edge cases or undiscovered failure modes.
 - Observability metrics or simulated logs should be provided when possible.
 
 ## Failure Learning

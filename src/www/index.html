@@ -2512,17 +2512,32 @@
     }
 
     function displayResults(data) {
-      const verifier = data.verifier || {};
+      const result = data.result || {};
+      const verifier = result.verifier || data.verifier || {};
+      const retriever = result.retriever || data.retriever || {};
+      const router = result.router || data.router || {};
+      const skeptic = result.skeptic || data.skeptic || {};
       const resultContent = document.getElementById('result-content');
 
       let html = '';
 
-      // Confidence Badge
-      const confidence = verifier.confidence || 0;
-      const confidenceClass = confidence > 85 ? 'high' : 'medium';
+      // Confidence Badge - API returns 0-1 scale, convert to percentage
+      const rawConfidence = verifier.confidence || 0;
+      const confidence = rawConfidence <= 1 ? Math.round(rawConfidence * 100) : rawConfidence;
+      const confidenceClass = confidence > 85 ? 'high' : confidence > 60 ? 'medium' : 'low';
       document.getElementById('confidence-badge').innerHTML = `
-        <div class="confidence-badge">🎯 Confidence: ${confidence}%</div>
+        <div class="confidence-badge ${confidenceClass}">🎯 Confidence: ${confidence}%</div>
       `;
+
+      // Router Classification
+      if (router.classification) {
+        html += `
+          <div class="result-item">
+            <div class="result-title">📋 Classification</div>
+            <div class="result-content">${router.classification.replace(/_/g, ' ')}${router.severity ? ' — Severity: ' + router.severity : ''}</div>
+          </div>
+        `;
+      }
 
       // Root Cause
       html += `
@@ -2532,19 +2547,35 @@
         </div>
       `;
 
-      // Evidence
-      if (verifier.evidence) {
+      // Evidence from Retriever
+      const evidence = retriever.evidence || verifier.evidence;
+      if (evidence) {
+        const evidenceHtml = Array.isArray(evidence)
+          ? '<ul>' + evidence.map(e => '<li>' + e + '</li>').join('') + '</ul>'
+          : evidence;
         html += `
           <div class="result-item">
             <div class="result-title">📋 Evidence</div>
-            <div class="result-content">${verifier.evidence}</div>
+            <div class="result-content">${evidenceHtml}</div>
+          </div>
+        `;
+      }
+
+      // Skeptic Alternative Theory
+      if (skeptic.alternativeTheory) {
+        html += `
+          <div class="result-item">
+            <div class="result-title">🤔 Alternative Theory</div>
+            <div class="result-content">${skeptic.alternativeTheory}</div>
           </div>
         `;
       }
 
       // Fix Plan
       if (verifier.fixPlan) {
-        const fixPlan = Array.isArray(verifier.fixPlan) ? verifier.fixPlan.join('<br>') : verifier.fixPlan;
+        const fixPlan = Array.isArray(verifier.fixPlan)
+          ? '<ol>' + verifier.fixPlan.map(s => '<li>' + s + '</li>').join('') + '</ol>'
+          : verifier.fixPlan;
         html += `
           <div class="result-item">
             <div class="result-title">🛠️ Fix Plan</div>
@@ -2555,7 +2586,9 @@
 
       // Tests
       if (verifier.tests) {
-        const tests = Array.isArray(verifier.tests) ? verifier.tests.join('<br>') : verifier.tests;
+        const tests = Array.isArray(verifier.tests)
+          ? '<ul>' + verifier.tests.map(t => '<li>' + t + '</li>').join('') + '</ul>'
+          : verifier.tests;
         html += `
           <div class="result-item">
             <div class="result-title">✅ Tests</div>
@@ -2574,8 +2607,20 @@
         `;
       }
 
+      // Duration
+      if (result.totalDuration) {
+        html += `
+          <div class="result-item">
+            <div class="result-title">⚡ Duration</div>
+            <div class="result-content">${(result.totalDuration / 1000).toFixed(1)} seconds</div>
+          </div>
+        `;
+      }
+
       resultContent.innerHTML = html;
       document.getElementById('results').classList.add('show');
+      document.getElementById('success').style.display = 'block';
+      document.getElementById('success').innerHTML = 'Diagnosis complete';
 
       // Store for export
       window.lastDiagnosis = data;

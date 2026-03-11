@@ -6,7 +6,7 @@
 
 ### Why Separate Planning from Execution?
 - **Plan Mode** (exploration + design) discovers unknowns and validates assumptions before coding
-- **Execution** (implementation + testing) implements the approved plan and verifies with tests
+- **Execution** (implementation + testing) implements the plan and verifies with tests—proceeds automatically, no approval gate
 - **Verification** (testing + scoring) updates confidence in docs/CONFIDENCE_SCORE.md with evidence
 
 **Result:** Fewer rework cycles, higher confidence scores, faster delivery.
@@ -18,17 +18,17 @@
    - Understand existing patterns and constraints
    - Design solution approach with alternatives
    - Identify test criteria and acceptance conditions
-   - Present plan to user for approval (ExitPlanMode)
+   - Proceed to implement automatically—do NOT wait for approval
 
 2. **Implement with Verification Criteria**:
-   - Code must match approved plan exactly
+   - Code must match plan
    - Write tests that verify critical workflows (happy path, error cases)
    - Run `npm test` locally before committing
    - Commit with clear message linking to plan
 
 3. **Test Before Claiming Done**:
    - Always run tests locally: `npm test`
-   - Provide actual test output, not guesses
+   - Provide actual test output, not speculation
    - Critical workflows must be tested (no "should work")
    - Update docs/CONFIDENCE_SCORE.md with evidence
 
@@ -72,26 +72,51 @@
 
 ## Subagent Strategy
 
+### Skill Sets by Agent (See docs/SKILLSETS.md)
+
+| Agent | Skills (Preloaded) | Phase | Use |
+|-------|--------------------|-------|-----|
+| **Explore** | project-guardrails, evidence-proof, router, retriever | 1 | Discovery, classification |
+| **Plan** | project-guardrails, evidence-proof, e2e-orchestrator | 1 | Plan Mode, orchestration |
+| **General-Purpose** | evidence-proof, backend-reliability, ui-quality, frontend-engineer, backend-engineer, qa-engineer | 2 | Implementation |
+| **CodeReviewer** | project-guardrails, evidence-proof, critic, backend-reliability, ui-quality | 3 | Review, quality gate |
+| **APIValidator** | backend-reliability, verifier, evidence-proof | 2 | API testing |
+| **frontend-engineer** | frontend-engineer, ui-quality, evidence-proof | 2 | FE features |
+| **backend-engineer** | backend-engineer, backend-reliability, evidence-proof | 2 | BE features |
+| **qa-engineer** | qa-engineer, evidence-proof, critic | 3 | Test plans, proof |
+
+### Phases with Subagents
+
+**Phase 1 (Discovery)**: Explore, Plan → Skills: router, retriever, e2e-orchestrator, project-guardrails
+**Phase 2 (Implementation)**: General-Purpose, frontend-engineer, backend-engineer, APIValidator → Skills: frontend-engineer, backend-engineer, backend-reliability, ui-quality, verifier
+**Phase 3 (Review)**: CodeReviewer, qa-engineer → Skills: critic, evidence-proof
+**Phase 4 (PR/Run)**: General-Purpose, pr-automation, e2e-orchestrator
+
 ### Core Subagents (Always Available)
-1. **Explore** (Haiku model, read-only):
+1. **Explore** (Haiku model, read-only, Phase 1):
    - Search codebase for patterns, APIs, file structures
+   - Skills: project-guardrails, evidence-proof, router, retriever
    - Use for: "Find all API endpoints", "What files handle auth?"
    - Limit: Cannot edit files, cannot run tests
 
-2. **Plan** (Sonnet model, research-focused):
+2. **Plan** (Sonnet model, research-focused, Phase 1):
    - Explore codebase and design implementation approaches
+   - Skills: project-guardrails, evidence-proof, e2e-orchestrator
    - Use for: Plan Mode - understand requirements, identify risks
    - Limit: Cannot edit code, cannot execute
 
-3. **General-purpose** (Haiku model, full access):
+3. **General-purpose** (Haiku model, full access, Phase 2):
    - Complex execution tasks, code writing, testing
-   - Use for: Implement approved plans, write tests
-   - Limit: Must work from approved plan, not self-direct
+   - Skills: evidence-proof, backend-reliability, ui-quality, frontend-engineer, backend-engineer, qa-engineer
+   - Use for: Implement plans, write tests
+   - Limit: Proceed from plan automatically; never wait for user to run, update, or accept
 
 ### Optional Specialized Subagents (Max 3-5 Total)
-- **CodeReviewer** (code quality, security, performance)
-- **APIValidator** (API contract testing, endpoint verification)
-- **UXResearcher** (user feedback, design validation)
+- **CodeReviewer** (Phase 3) – Skills: critic, backend-reliability, ui-quality
+- **APIValidator** (Phase 2) – Skills: verifier, backend-reliability
+- **frontend-engineer** (Phase 2) – Skills: frontend-engineer, ui-quality
+- **backend-engineer** (Phase 2) – Skills: backend-engineer, backend-reliability
+- **qa-engineer** (Phase 3) – Skills: qa-engineer, critic
 
 **Guidance:** Use specialized agents only when you have **3+ independent tasks** that can run in parallel. For most work, core subagents are sufficient.
 
@@ -129,8 +154,8 @@ Never claim high confidence without evidence.
 
 ### What to Do When Blocked
 1. Identify exactly what's unknown
-2. Create a sub-task to resolve it
-3. Or ask user via AskUserQuestion
+2. Create a sub-task to resolve it—proceed, do NOT wait for user
+3. Pick the best option if ambiguous; document in CONFIDENCE_SCORE
 4. Lower confidence score until resolved
 5. Document in docs/CONFIDENCE_SCORE.md
 

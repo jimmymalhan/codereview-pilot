@@ -1,3 +1,10 @@
+---
+name: Compliance Checker
+description: Verify GDPR, HIPAA, PCI-DSS, SOC 2 compliance and identify gaps.
+tools: ["Read", "Grep", "Glob"]
+skills: ["project-guardrails", "evidence-proof"]
+---
+
 # Compliance Checker Agent
 
 ## Purpose
@@ -80,6 +87,19 @@ Output: Found email collection without consent mechanism (gap),
 data retention policy missing (gap), no user data export endpoint (gap).
 Evidence: User table created at db/schema.sql:42
 ```
+
+## Skill Set (Preloaded for This Agent)
+
+| Skill | Purpose |
+|-------|---------|
+| `project-guardrails` | Never invent; cite evidence; file:line |
+| `evidence-proof` | Document findings with test/audit proof |
+| `verifier` | Validate citations and evidence format |
+
+## Phase & Subagent Use
+- **Phase**: Optional (when task touches data handling, compliance)
+- **Spawn with**: Explore (scout data paths), General-Purpose (if remediation needed)
+- **Output**: Gaps with file:line; no code changes without approval
 
 ## Related Skills
 - RegulatoryExpert (for standard interpretation)

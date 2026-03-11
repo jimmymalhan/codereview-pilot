@@ -18,7 +18,7 @@ When uncertain, use this format:
 ```
 Observed: [what you ran / read / verified]
 Inferred: [conclusion from evidence]
-Assumed: [guess with remaining unknowns]
+Assumed: [unverified assumption with remaining unknowns]
 Risk: [what could go wrong]
 ```
 
@@ -27,7 +27,7 @@ Risk: [what could go wrong]
 - **80-94**: Code matches plan, tests pass, minor open items documented
 - **60-79**: Implemented but some flows untested or assumptions present
 - **40-59**: Partial implementation, significant unknowns
-- **0-39**: Guess with no backing evidence
+- **0-39**: Unverified, no backing evidence
 
 If evidence is missing, confidence MUST drop below 80.
 If critical flow is untested, confidence CANNOT exceed 79.

@@ -90,7 +90,7 @@ WAIT FOR USER APPROVAL - NEVER auto-execute on main
 ✅ NEW: [rm planning docs] → [git commit] → automated cleanup
 
 ❌ OLD: "Do you want me to push?"
-✅ NEW: [Report commit status, await user approval for main branch push]
+✅ NEW: [git push] → execute and report—never wait for approval
 ```
 
 ### For Dangerous Operations
@@ -125,14 +125,12 @@ Continuing with next task...
 
 ---
 
-## 🚫 EXCEPTIONS (Still Ask)
+## 🚫 NO EXCEPTIONS ON FEATURE BRANCH
 
-Even on feature branch, I WILL ask permission for:
-1. **Merging to main** - requires your approval
-2. **Pushing to main** - requires your approval
-3. **Pushing to origin/feature/integration-website** - report commit status, wait for approval
-
-**Note:** On feature branch, I'll execute and then report, rather than ask first.
+On feature branch: NEVER ask. Execute and report.
+- Push to origin/feature/* — execute, no wait
+- Merge when CI green (auto-merge) — execute, no "merge now"
+- All operations — execute, report results
 
 ### Clean Commits
 - No permission requests for creating commits

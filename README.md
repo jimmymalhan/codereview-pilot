@@ -13,7 +13,8 @@
 
 ```bash
 npm install
-npm start
+npm start          # Run server (foreground)
+npm run dev        # Run with auto-restart on crash/file changes — keeps localhost up
 ```
 
 Open http://localhost:3000. Use **Try It** to diagnose an incident, or call the API directly.
@@ -96,6 +97,20 @@ Use any HTTP client (Python, Node, Go, bash). Set `Content-Type: application/jso
 
 ---
 
+## Claude Code Skills
+
+This repo includes **66+ skills** in `.claude/skills/` for run-the-business automation, evidence-proof workflows, and ultra-automation.
+
+| Doc | Purpose |
+|-----|---------|
+| [docs/SKILLSETS.md](docs/SKILLSETS.md) | Full skill reference, roles, user prompts |
+| [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md) | How to keep upgrading skills |
+| [REVIEW.md](REVIEW.md) | Code review guidelines for Claude Code Review |
+
+**Use**: Open in Claude Code; skills load from `.claude/skills/`. Invoke with `/run-the-business`, `/plan-and-execute`, or any skill name. Default: maximum automation, auto-merge when CI green.
+
+---
+
 ## Contribute
 
 ### 1. Set Up
@@ -119,6 +134,7 @@ npm run load-test     # 20 concurrent diagnose requests (requires server running
 ### 3. Make Changes
 
 - Read [CLAUDE.md](CLAUDE.md) for project standards.
+- For skill work: see [docs/SKILLSETS.md](docs/SKILLSETS.md) and [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md).
 - Create a branch: `git checkout -b feature/your-feature`.
 - Implement changes and add/update tests.
 - Run `npm test` before committing.
@@ -136,6 +152,7 @@ npm run load-test     # 20 concurrent diagnose requests (requires server running
 | **API** | New endpoints, validation, rate-limit tuning |
 | **UI** | Try It form, orchestration dashboard, accessibility |
 | **Pipeline** | Router, Retriever, Skeptic, Verifier logic |
+| **Skills** | New skills in `.claude/skills/`, upgrades per [docs/SKILLSET_UPGRADE_ROADMAP.md](docs/SKILLSET_UPGRADE_ROADMAP.md) |
 | **Tests** | Unit, integration, E2E, rate-limit coverage |
 | **Docs** | API reference, integration guides, examples |
 

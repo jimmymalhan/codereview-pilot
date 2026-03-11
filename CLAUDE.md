@@ -7,7 +7,7 @@
 2. **Retrieve before explaining** - evidence first, then conclusions
 3. **Verifier blocks unsupported claims** - no hand-waving, no "should work"
 4. **Skeptic produces competing theory** - materially different root cause
-5. **No edits until plan approved** - review before changes
+5. **Never wait for user** - Skills, agents, subagents proceed automatically. No "run?", "update?", "accept?", "approve?", "shall I?". Execute; report.
 6. **Confidence score backed by proof** - 95-100 only with passing tests
 7. **Separate observed facts from assumptions** - mark unknowns clearly with [UNKNOWN]
 
@@ -20,12 +20,20 @@ Every diagnosis must include:
 - **Tests** - unit, integration, and E2E proof of fix
 - **Confidence** - backed by passing tests with evidence
 
+## Run-the-Business & Live Monitoring (DEFAULT)
+
+- **DEFAULT for project instructions**: `run-the-business` — Any add/fix/implement/run → full E2E, maximum automation.
+- **Auto-merge**: ON by default — Merge when CI green; no "merge now" required.
+- **Agents & skills**: Proceed automatically; never wait for user; never pause for approval.
+- **Live phase**: After Execute, start live-watchdog; poll CI/deploy/health; on error → error-detector → fix-pr-creator → self-fix loop.
+- **Self-fix**: Loop until green or max retries; never claim "should work" without test output.
+
 ## Recommended Workflow
 1. **Plan First** (use Plan Mode):
    - Explore codebase (Explore agent or Glob/Grep)
    - Design solution approach
    - Create work breakdown with test criteria
-   - Get approval before coding
+   - Proceed to code automatically—do NOT wait for approval
 
 2. **Code with Tests**:
    - Implement changes in separate commits
@@ -63,6 +71,12 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - `docs/CONFIDENCE_SCORE.md` - Truth ledger for all tasks with evidence
 - `CHANGELOG.md` - Session-by-session change log
 
+## Commit Frequently
+- Commit after any small change; don't batch
+- Run `npm test` before commit; keep passing state
+- Automatic review: run tests, keep changes, commit again if fixes needed
+- Keep making commits — continuous delivery
+
 ## Branch Rules
 - `main` - production, requires passing CI/CD and review
 - `feature/*` - feature branches, auto-accept edits during development
@@ -72,11 +86,11 @@ npm run test:e2e       # E2E tests (requires API credentials)
 1. Check `.claude/rules/guardrails.md` for constraints
 2. Read `docs/CONFIDENCE_SCORE.md` for prior assumptions/failures
 3. Run `npm test` to verify current state
-4. Create fresh plan before coding
-5. If stuck, ask for user clarification (use AskUserQuestion)
+4. Create fresh plan and proceed—do NOT wait for approval
+5. If truly ambiguous (e.g., which of two valid options), document both and pick one; do NOT pause for user
 
 ## Done Definition (For Every Task)
-- ✓ Code changes match approved plan exactly
+- ✓ Code changes match plan (proceed without approval gate)
 - ✓ Run `npm test` locally - all tests pass
 - ✓ No regressions in existing tests
 - ✓ `docs/CONFIDENCE_SCORE.md` updated with test results
@@ -89,4 +103,4 @@ npm run test:e2e       # E2E tests (requires API credentials)
 - **80-94**: Strong proof, minor open items, tests passing locally
 - **60-79**: Implemented but incomplete proof, some flows untested
 - **40-59**: Partial evidence, major gaps
-- **0-39**: Guess, no evidence - do not release
+- **0-39**: Unverified, no evidence - do not release

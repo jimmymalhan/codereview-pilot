@@ -8,13 +8,15 @@
     "PORT": "3000",
     "TIMEOUT_MS": "60000",
     "MAX_RETRIES": "2",
-    "COVERAGE_THRESHOLD": "60"
+    "COVERAGE_THRESHOLD": "60",
+    "AUTO_MERGE": "true",
+    "ULTRA_AUTO": "true"
   },
 
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Edit|Write",
+        "matcher": "Edit|Write|Bash",
         "hooks": [
           {
             "type": "command",
@@ -55,6 +57,7 @@
         "model": "haiku",
         "role": "Codebase search and discovery (read-only)",
         "tools": ["Glob", "Grep", "Read"],
+        "skills": ["project-guardrails", "evidence-proof", "router", "retriever", "plan-and-execute", "execution-agent", "structured-logging", "audit-trail", "cost-guardrails"],
         "capabilities": [
           "Find files by pattern (e.g., 'src/**/*.js')",
           "Search code for keywords (e.g., 'API endpoints')",
@@ -67,26 +70,28 @@
         "model": "sonnet",
         "role": "Research and plan design approaches",
         "tools": ["Glob", "Grep", "Read", "WebFetch", "WebSearch"],
+        "skills": ["project-guardrails", "evidence-proof", "e2e-orchestrator", "plan-and-execute", "execution-agent", "ultra-automation", "auto-merge", "dag-executor", "token-budget", "consensus-resolver", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "cron-awareness", "feedback-loop", "structured-logging", "audit-trail", "project-structure", "idea-to-production", "run-the-business", "multi-pr-coordinator", "cost-guardrails"],
         "capabilities": [
           "Explore codebase during Plan Mode",
           "Design implementation approaches",
           "Identify risks and unknowns",
           "Create detailed work breakdowns"
         ],
-        "constraints": ["Cannot edit code", "Cannot commit", "Cannot approve own work"]
+        "constraints": ["Cannot edit code", "Cannot commit", "Proceed automatically—never wait for user"]
       },
       {
         "name": "General-Purpose",
         "model": "haiku",
         "role": "Code writing and test execution",
         "tools": ["All"],
+        "skills": ["evidence-proof", "backend-reliability", "ui-quality", "frontend-engineer", "backend-engineer", "qa-engineer", "pr-push-merge", "execution-agent", "dag-executor", "token-budget", "handoff-protocol", "failure-taxonomy", "explainability", "graceful-degradation", "property-based-testing", "secrets-scan", "reversibility", "circuit-breaker", "retry-with-backoff", "time-bounded-run", "heartbeat-monitor", "dead-man-switch", "feedback-loop", "feedback-log", "structured-logging", "audit-trail", "auto-merge", "skills-self-update", "five-agent-verification", "consensus-resolver", "self-fix", "conflict-resolution", "multi-pr-coordinator", "cost-guardrails"],
         "capabilities": [
           "Implement approved plans",
           "Write and run tests",
           "Commit changes with messages",
           "Verify critical workflows"
         ],
-        "constraints": ["Must work from approved plan", "Cannot skip tests", "Cannot self-approve"]
+        "constraints": ["Proceed from plan automatically", "Cannot skip tests", "Never wait for user to run, update, or accept"]
       }
     ],
     "optional": [
@@ -95,35 +100,81 @@
         "model": "sonnet",
         "role": "Code quality, security, performance review",
         "tools": ["Read", "Grep", "Glob"],
-        "use_when": "Need parallel code review while coding"
+        "skills": ["project-guardrails", "evidence-proof", "consensus-resolver", "explainability", "confidence-decay", "anomaly-detection", "critic", "backend-reliability", "ui-quality", "skills-self-update", "five-agent-verification"],
+        "use_when": "Need parallel code review while coding",
+        "phase": 3
       },
       {
         "name": "APIValidator",
         "model": "haiku",
         "role": "API contract testing and endpoint verification",
         "tools": ["Bash", "Read", "Grep"],
-        "use_when": "Testing API integrations in parallel"
+        "skills": ["backend-reliability", "verifier", "evidence-proof", "feedback-log", "five-agent-verification"],
+        "use_when": "Testing API integrations in parallel; Phase 3 5-agent verification",
+        "phase": 2
       },
       {
         "name": "frontend-engineer",
         "model": "haiku",
         "role": "UI design and interaction specialist",
         "tools": ["Read","Write","Edit","Glob","Grep"],
-        "use_when": "Creating or reviewing frontend features"
+        "skills": ["frontend-engineer", "ui-quality", "evidence-proof", "ui-premium-checklist", "feedback-log", "backend-full-checklist"],
+        "use_when": "Creating or reviewing frontend features",
+        "phase": 2
       },
       {
         "name": "backend-engineer",
         "model": "haiku",
         "role": "Server-side reliability and API specialist",
         "tools": ["Read","Write","Edit","Glob","Grep"],
-        "use_when": "Creating or reviewing backend features"
+        "skills": ["backend-engineer", "backend-reliability", "evidence-proof", "backend-full-checklist", "feedback-log"],
+        "use_when": "Creating or reviewing backend features",
+        "phase": 2
       },
       {
         "name": "qa-engineer",
         "model": "haiku",
         "role": "Test plan and validation specialist",
         "tools": ["Read","Write","Edit","Run","Glob","Grep"],
-        "use_when": "Defining or verifying proof plans"
+        "skills": ["qa-engineer", "evidence-proof", "property-based-testing", "confidence-decay", "anomaly-detection", "failure-taxonomy", "critic", "pr-push-merge", "feedback-log", "skills-self-update", "five-agent-verification"],
+        "use_when": "Defining or verifying proof plans",
+        "phase": 3
+      },
+      {
+        "name": "LiveWatchdog",
+        "model": "haiku",
+        "role": "Poll CI, deploy, health. On error → error-detector → fix-pr-creator",
+        "tools": ["Bash", "Read", "Grep"],
+        "skills": ["live-watchdog", "error-detector", "fix-pr-creator", "ultra-automation", "auto-merge", "failure-taxonomy", "circuit-breaker", "retry-with-backoff", "cron-awareness", "structured-logging", "audit-trail", "cost-guardrails"],
+        "use_when": "Run-the-business mode; live monitoring after execute",
+        "phase": 2
+      },
+      {
+        "name": "FixAgent",
+        "model": "haiku",
+        "role": "Apply fixes when CI red. Self-fix loop until green.",
+        "tools": ["All"],
+        "skills": ["self-fix", "conflict-resolution", "circuit-breaker", "retry-with-backoff", "feedback-loop", "failure-taxonomy", "handoff-protocol", "reversibility", "explainability", "evidence-proof", "backend-reliability", "ui-quality", "structured-logging", "audit-trail", "cost-guardrails"],
+        "use_when": "fix-pr-creator spawns; CI red needs fix",
+        "phase": 2
+      },
+      {
+        "name": "RebaseResolver",
+        "model": "haiku",
+        "role": "Rebase dependent PRs after base merge",
+        "tools": ["Bash", "Read", "Edit"],
+        "skills": ["rebase-manager", "conflict-resolution"],
+        "use_when": "multi-pr-coordinator after base PR merged",
+        "phase": 2
+      },
+      {
+        "name": "ChaosTester",
+        "model": "haiku",
+        "role": "Simulate end users, internal users, engineers. Random tests on UI+backend to generate errors. Iterate on its own; handoff to FixAgent.",
+        "tools": ["Bash", "Read", "Grep", "Glob"],
+        "skills": ["chaos-tester", "evidence-proof", "error-detector", "time-bounded-run", "heartbeat-monitor", "cost-guardrails"],
+        "use_when": "Testing UI + backend with random/fuzz tests; finding errors before release",
+        "phase": 3
       }
     ],
     "guidance": "Spawn optional agents only with 3+ independent parallel tasks. Core agents are sufficient for most work. Add specialized engineering agents (frontend, backend, qa, etc.) when a clear owner is needed. Reviewers are invoked separately per the review ladder."
@@ -133,7 +184,8 @@
     "npm install", "npm test", "npm run test:ci", "npm run test:watch",
     "npm run test:e2e", "npm start", "npm run diagnose",
     "git status", "git diff", "git log", "git add", "git commit",
-    "node src/local-pipeline.js", "node src/run.js"
+    "node src/local-pipeline.js", "node src/run.js",
+    "gh pr list", "gh run list", "gh run view"
   ],
 
   "criticalFiles": [
@@ -188,6 +240,11 @@
   },
 
   "branchPermissions": {
+    "feature/*": {
+      "autoAcceptEdits": true,
+      "noPermissionPrompts": true,
+      "description": "Any feature branch - auto-accept end-to-end, run the business without permission prompts"
+    },
     "feature/integration-website": {
       "autoAcceptEdits": true,
       "noPermissionPrompts": true,
@@ -197,6 +254,11 @@
       "autoAcceptEdits": true,
       "noPermissionPrompts": true,
       "description": "Feature branch - auto-accept edits during development"
+    },
+    "feature/skillsets-and-fe-be-skills": {
+      "autoAcceptEdits": true,
+      "noPermissionPrompts": true,
+      "description": "Feature branch - auto-accept end-to-end"
     }
   }
 }
