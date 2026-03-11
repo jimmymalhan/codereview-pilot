@@ -27,7 +27,7 @@ Every diagnosis must include:
 
 ## Run-to-Vegas & Run-the-Business (DEFAULT)
 
-- **Permissions** (on feature/*): Everything is allow list. Execute and report; never ask. **On main**: No direct commits; create feature/* first.
+- **Permissions** (on feature/*): Everything is allow list. Execute and report; never ask. **Never ask permission for allow-listed actions** — if it's in allowedCommands, branchPermissions, or the safe-command whitelist, run it. No "Can I?", "Shall I?", "Do you want me to?". **On main**: No direct commits; create feature/* first.
 - **Ten-pass verification**: REVIEW.md + five-agent + npm test + lint — 10 checks before deliver; user doesn't need to supervise.
 - **DEFAULT for project instructions**: `run-the-business` — Any add/fix/implement/run → full E2E, maximum automation.
 - **Merge gate**: Merge only when CI green AND multiple comments AND 100% consensus. Do NOT merge without consensus. See `consensus-gates` skill.

@@ -2,6 +2,7 @@
 
 ## Authority (User-Granted)
 - **Commit, push, merge, PR comments**: Execute. Do NOT claim "requires human authorization." Only ask when you lack credentials. Otherwise: run. Stop for nothing.
+- **Allow list = execute, no permission ask** — If a command, tool, or action is in the allow list (allowedCommands, branchPermissions, safe-command whitelist): execute it. Never ask "Can I run X?" or "Do you want me to X?" when X is allowed. Execute; report.
 
 ## Critique Rules
 - **No rubber-stamp** — PR comments must list what was verified. Never "PASS" alone. Look for fails, BLOCK on real issues. See `extreme-critique` skill.
