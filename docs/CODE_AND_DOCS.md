@@ -11,6 +11,7 @@
 | **Branch-only (HARD)** | FEATURE_BRANCH_PERMISSIONS.md, guardrails.md | branch-aware-permissions.sh (feature/* only), settings.json | Active |
 | **Ten-pass verification** | REVIEW.md, ten-pass-verification/SKILL.md | pr-push-merge, e2e-orchestrator, General-Purpose | Active |
 | **Evidence-first diagnosis** | CLAUDE.md, guardrails.md | src/local-pipeline.js, Router/Retriever/Skeptic/Verifier | Core |
+| **No merge until 100%** | guardrails.md, CLAUDE.md, confidence.md | pr-push-merge Phase 4; block merge until local+CI+QA+confidence 100% | Active |
 
 ---
 
@@ -27,7 +28,7 @@
 | **ten-pass-verification/SKILL.md** | 10 checks before deliver | pr-push-merge Phase 3, e2e-orchestrator Phase 3 |
 | **.claude/rules/guardrails.md** | Anti-hallucination | All skills, evidence-proof |
 | **.claude/rules/testing.md** | Test requirements | qa-engineer, pr-push-merge |
-| **.claude/rules/confidence.md** | Confidence scoring | critic, verifier |
+| **.claude/rules/confidence.md** | Confidence scoring; merge gate (100% before merge) | critic, verifier, pr-push-merge Phase 4 |
 
 ---
 

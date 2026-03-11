@@ -92,6 +92,9 @@
 - Rollback tested and safe
 - No unknowns or all unknowns documented with mitigation
 
+### Merge Gate (HARD):
+**Do NOT merge any branch until confidence is 100%** with evidence: local npm test 100% pass, all CI jobs 100% pass, all QA types 100%, additional tests 100%, docs/CONFIDENCE_SCORE.md updated. Block merge if any check fails.
+
 ## Examples
 
 ### Example 1: High Confidence (92)

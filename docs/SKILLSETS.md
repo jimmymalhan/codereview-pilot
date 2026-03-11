@@ -104,6 +104,7 @@
 | **property-based-testing** | Generative edge case tests | General-Purpose, QA |
 | **ten-pass-verification** | 10 checks: REVIEW.md + five-agent + npm test + lint; user doesn't need to supervise | Phase 3, pr-push-merge |
 | **branch-only** | HARD: All changes through feature/*; never commit to main; merge via PR only | project-guardrails, guardrails.md |
+| **no-merge-until-100** | HARD: Local + CI + QA + additional tests + confidence 100%; block merge if any fails | pr-push-merge Phase 4, guardrails.md |
 
 ---
 

@@ -87,6 +87,7 @@ npm run test:e2e       # E2E tests (requires API credentials)
 
 ## Branch Rules (HARD)
 - **All changes through branches** — Never commit directly to main. Create `feature/*` first. Commit there. Merge to main only via PR.
+- **No merge until 100% green** — Do NOT merge any branch until: (1) Local `npm test` 100% pass, (2) All CI tests 100% pass (Validate, Security Audit, Test Node 18/20, API Smoke Test, GitGuardian), (3) All QA types 100% pass, (4) Additional tests 100% pass, (5) Confidence 100% with evidence in docs/CONFIDENCE_SCORE.md. Block merge if any check fails.
 - **Clean up after merge** — After PR merges: `git checkout main && git pull`, `git branch -d feature/<name>`, `git push origin --delete feature/<name>`.
 - `main` - production; no direct commits. Changes land via PR from feature/*.
 - `feature/*` - all work happens here; auto-accept edits; push to branch; open PR

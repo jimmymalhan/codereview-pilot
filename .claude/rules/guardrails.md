@@ -2,6 +2,7 @@
 
 ## Hard Rules (Branch Workflow)
 - **All changes through branches** — Never commit directly to main. If on main, run `git checkout -b feature/<name>` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
+- **No merge until 100% green** — Never merge any branch until: local npm test 100% pass; all CI jobs 100% pass (Validate, Security Audit, Test Node 18/20, API Smoke Test, GitGuardian); all QA types 100%; additional tests 100%; confidence 100% with evidence in docs/CONFIDENCE_SCORE.md. Block merge if any fails.
 
 ## Proof Requirements
 - **Never invent files** - only read/edit files that exist or are explicitly requested

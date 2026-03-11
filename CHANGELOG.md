@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(rules): HARD — No merge until 100% (local, CI, QA, confidence)
+
+- **CLAUDE.md**: Branch rule — block merge until local+CI+QA+confidence 100%
+- **guardrails.md**: No merge until 100% green
+- **pr-push-merge** Phase 4: CIWatcher blocks merge until all 100%; fix first if any fails
+- **confidence.md**: Merge gate (HARD)
+- **docs/SKILLSETS.md**, **CODE_AND_DOCS.md**: no-merge-until-100 skill
+
 ### feat(rules): Clean up branch after merge
 
 - **CLAUDE.md**: Branch rule — after PR merges, delete local and remote feature branch

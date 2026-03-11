@@ -35,12 +35,12 @@ argument-hint: [branch or ""]
 - **Output**: `{ commit_sha, pushed: boolean, pr_url }`
 - **Gate**: committed AND pushed
 
-## Phase 4: VERIFY
+## Phase 4: VERIFY (HARD: 100% before merge)
 ### Sub-Agent: `CIWatcher` (model: haiku)
 - **Tools**: Bash, Read
-- **Prompt**: Check CI status (gh run list). Verify localhost works (curl health). Report pass/fail.
-- **Output**: `{ ci_status, localhost_ok: boolean, pr_url }`
-- **Gate**: CI green AND localhost works
+- **Prompt**: Block merge until 100% green: (1) Local `npm test` — all pass. (2) All CI: Validate, Security Audit, Test Node 18, Test Node 20, API Smoke Test, GitGuardian — all pass. (3) All QA types pass. (4) Additional tests pass. (5) docs/CONFIDENCE_SCORE.md shows confidence 100% with evidence. Verify localhost (curl health). If any fails → do NOT merge; fix first.
+- **Output**: `{ local_ok, ci_all_pass, qa_all_pass, confidence_100, merge_blocked: boolean, pr_url }`
+- **Gate**: All 100% AND localhost works — only then allow merge
 
 ## Phase 5: DELIVER
 ### Sub-Agent: `PRPublisher` (model: haiku)
