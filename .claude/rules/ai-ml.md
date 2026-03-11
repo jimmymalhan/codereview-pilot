@@ -15,4 +15,4 @@
 - `principal-engineer-reviewer` examines long‑term maintenance plans for models.
 
 ## Failure Learning
-- When an ML failure occurs (drift, bias, outage), update this rule with the missing control and record learning in `docs/PROJECT_STATUS.md`.
+- When an ML failure occurs (drift, bias, outage), update this rule with the missing control and record learning in `.claude/PROJECT_STATUS.md`.

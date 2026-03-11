@@ -2,12 +2,16 @@
 
 **Purpose:** Guide Claude and subagents on how to work together, use memory, and execute tasks efficiently.
 
+**Full Authority:** User has granted full authority. Commit, push, merge, PR comments—execute. Do NOT say "I can't—requires human authorization." Only ask when you lack credentials (e.g. GH_TOKEN). Otherwise: run. Stop for nothing.
+
+**First Action Every Turn:** Before responding to the user, run: `gh pr list --state open`. For each open PR with <10 ten-pass comments: post comments. If `git status` shows uncommitted changes: create branch, commit, push, create PR, post comments. Do NOT wait for the user to ask. Use hook `open-prs-workflow.sh` (runs on PreToolUse).
+
 ## Recommended Workflow: Plan Mode First
 
 ### Why Separate Planning from Execution?
 - **Plan Mode** (exploration + design) discovers unknowns and validates assumptions before coding
 - **Execution** (implementation + testing) implements the plan and verifies with tests—proceeds automatically, no approval gate
-- **Verification** (testing + scoring) updates confidence in docs/CONFIDENCE_SCORE.md with evidence
+- **Verification** (testing + scoring) updates confidence in .claude/CONFIDENCE_SCORE.md with evidence
 
 **Result:** Fewer rework cycles, higher confidence scores, faster delivery.
 
@@ -30,7 +34,7 @@
    - Always run tests locally: `npm test` — never ask permission to run tests; just run and report
    - Provide actual test output, not speculation
    - Critical workflows must be tested (no "should work")
-   - Update docs/CONFIDENCE_SCORE.md with evidence
+   - Update .claude/CONFIDENCE_SCORE.md with evidence
 
 ## Auto Memory & CLAUDE.md Integration
 
@@ -72,7 +76,7 @@
 
 ## Subagent Strategy
 
-### Skill Sets by Agent (See docs/SKILLSETS.md)
+### Skill Sets by Agent (See .claude/SKILLSETS.md)
 
 | Agent | Skills (Preloaded) | Phase | Use |
 |-------|--------------------|-------|-----|
@@ -118,21 +122,22 @@
 - **backend-engineer** (Phase 2) – Skills: backend-engineer, backend-reliability
 - **qa-engineer** (Phase 3) – Skills: qa-engineer, critic
 
-**Guidance:** Use specialized agents only when you have **3+ independent tasks** that can run in parallel. For most work, core subagents are sufficient.
+**Guidance:** Assign every task to an agent. Spawn optional agents when their phase runs. Run in parallel when tasks are independent. Nothing left unassigned. See `agent-task-assignment` skill.
 
 ### When to Spawn Agents (and When NOT to)
 
 ✅ **DO spawn agents when:**
-- Need parallel research on different topics
-- Code review or testing needs to happen while you code
-- Specialized expertise required (security, performance, UX)
-- 3+ independent tasks with no dependencies
+- Phase runs (Phase 2: frontend + backend + qa; Phase 3: CodeReviewer + APIValidator + EvidenceReviewer + QAReviewer + Critic)
+- Checklist has 2+ independent items (no file overlap) → spawn multiple TaskExecutors in parallel
+- Ten-pass runs → spawn all 5 five-agent in parallel
+- Need parallel research, code review, or specialized expertise
 
 ❌ **DON'T spawn agents when:**
-- Single straightforward task
-- Work is sequential (one thing depends on another)
+- Single straightforward task (1 file, 1 edit)
 - Agent would duplicate your work
 - You're just researching a quick answer
+
+**Parallel by default**: When tasks are independent, spawn agents simultaneously. Do NOT sequence when parallel is possible.
 
 ### Agent Communication
 - Use SendMessage for direct communication with agents
@@ -157,7 +162,7 @@ Never claim high confidence without evidence.
 2. Create a sub-task to resolve it—proceed, do NOT wait for user
 3. Pick the best option if ambiguous; document in CONFIDENCE_SCORE
 4. Lower confidence score until resolved
-5. Document in docs/CONFIDENCE_SCORE.md
+5. Document in .claude/CONFIDENCE_SCORE.md
 
 ## Verification Criteria: Tests Before Claiming Done
 
@@ -168,7 +173,7 @@ Never claim high confidence without evidence.
 2. Check output: 319 tests pass, 89.87% coverage
 3. No console.logs in production code
 4. No commented-out code
-5. Update docs/CONFIDENCE_SCORE.md with test results
+5. Update .claude/CONFIDENCE_SCORE.md with test results
 ```
 
 ### For API/Integration Changes
@@ -200,7 +205,7 @@ Never claim high confidence without evidence.
 
 ## Session Protocol
 
-1. **Read** CLAUDE.md (project rules) and docs/CONFIDENCE_SCORE.md (prior work)
+1. **Read** CLAUDE.md (project rules) and .claude/CONFIDENCE_SCORE.md (prior work)
 2. **Plan** (if starting new task):
    - Use EnterPlanMode
    - Explore codebase to understand scope
@@ -212,7 +217,7 @@ Never claim high confidence without evidence.
    - Run tests before committing
 4. **Verify**:
    - Test locally and in CI
-   - Update docs/CONFIDENCE_SCORE.md
+   - Update .claude/CONFIDENCE_SCORE.md
    - Update CHANGELOG.md
    - Link to evidence (test output, GitHub Actions)
 5. **Score**:
@@ -225,7 +230,7 @@ Never claim high confidence without evidence.
    - Evidence documented ✓
 
 ## Homepage Premium Standard
-Homepage upgrades are treated as a discrete mini-project. Agents should reference `docs/HOMEPAGE_UPGRADE_CHECKLIST.md` which enumerates sections, copy requirements, visual and motion goals, and QA criteria. New homepage work must be idempotent: checks should detect completed tasks and skip them so repeated prompts do not redo work. Storytelling, performance, and backend alignment are first‑class concerns. Use existing components and design tokens; avoid copycat dashboards or vague marketing language.
+Homepage upgrades are treated as a discrete mini-project. Agents should reference `.claude/skills/homepage-upgrade (skill)` which enumerates sections, copy requirements, visual and motion goals, and QA criteria. New homepage work must be idempotent: checks should detect completed tasks and skip them so repeated prompts do not redo work. Storytelling, performance, and backend alignment are first‑class concerns. Use existing components and design tokens; avoid copycat dashboards or vague marketing language.
 
 ## Cost Optimization Notes
 
@@ -254,4 +259,4 @@ Refer to:
 - **.claude/rules/guardrails.md** - Anti-hallucination standards
 - **.claude/rules/confidence.md** - Confidence scoring details
 - **.claude/rules/testing.md** - Test requirements
-- **docs/CONFIDENCE_SCORE.md** - Prior work and evidence
+- **.claude/CONFIDENCE_SCORE.md** - Prior work and evidence

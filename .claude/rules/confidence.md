@@ -7,7 +7,7 @@
 - Tests show 90%+ coverage
 - Error cases covered and tested
 - Rollback path verified and tested
-- docs/CONFIDENCE_SCORE.md updated with full evidence
+- .claude/CONFIDENCE_SCORE.md updated with full evidence
 - No major unknowns; residual risks listed
 
 ### 80-94: Strong Proof with Minor Open Items
@@ -53,7 +53,7 @@
 - Rollback path changes
 - GitHub Actions workflow status changes
 
-## Evidence Structure for docs/CONFIDENCE_SCORE.md
+## Evidence Structure for .claude/CONFIDENCE_SCORE.md
 ```markdown
 ## [Task Name]
 - **Files changed**: src/x.js, tests/x.test.js

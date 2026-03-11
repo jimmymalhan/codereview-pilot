@@ -31,7 +31,7 @@ if [ ! -z "$CODE_CHANGES" ] && [ -z "$TEST_CHANGES" ]; then
 fi
 
 # Check: CHANGELOG.md updated if code/docs changed
-DOC_CHANGES=$(echo "$STAGED_FILES" | grep -E "^docs/" || true)
+DOC_CHANGES=$(echo "$STAGED_FILES" | grep -E "^\.claude/" || true)
 CHANGELOG_CHANGED=$(echo "$STAGED_FILES" | grep -E "CHANGELOG.md" || true)
 
 if [ ! -z "$CODE_CHANGES" ] || [ ! -z "$DOC_CHANGES" ]; then

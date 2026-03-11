@@ -15,4 +15,4 @@
 - `staff-engineer-reviewer` assesses system fit and potential maintenance burden.
 
 ## Failure Learning
-- If agent confusion or infinite loops occur, add concrete checks in this rule and log the issue in `docs/PROJECT_STATUS.md`.
+- If agent confusion or infinite loops occur, add concrete checks in this rule and log the issue in `.claude/PROJECT_STATUS.md`.
