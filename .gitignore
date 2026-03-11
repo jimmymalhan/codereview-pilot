@@ -290,6 +290,8 @@ docs/**/EXECUTION_PLAN*.md
 !.claude/skills/secrets-scan/SKILL.md
 !.claude/skills/reversibility/
 !.claude/skills/reversibility/SKILL.md
+!.claude/skills/best-sales-guide/
+!.claude/skills/best-sales-guide/SKILL.md
 !.claude/skills/audit-trail/
 !.claude/skills/audit-trail/SKILL.md
 !.claude/skills/auto-merge/

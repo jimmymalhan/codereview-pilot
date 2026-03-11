@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(skills): Best sales guide in the world
+
+- **best-sales-guide**: New skill — discovery, qualification (BANT+pain+timeline), value prop, objection handling (Feel–Felt–Find), closing (assumptive, summary), enterprise multi-stakeholder (Champion, Economic buyer, Technical buyer), SPIN/Challenger/Meddic references, best-in-class checklist
+
 ### feat(governance): Critiques-first, run-the-company, all stakeholder feedback
 
 - **docs/critiques.md**: Gates — no design/project/assign without critique; executive stakeholders (CEO, CTO, VPs); all engineers across sub-orgs; run-the-company loop (update projects, update code, get feedback, iterate, be the best)

@@ -211,6 +211,7 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 | PR, push, localhost, merge | `pr-push-merge` | Commit→push→CI→localhost+PR links→approval→merge |
 | Don't ask, auto-execute | `push-hard` | No permission prompts, aggressive parallel |
 | Stakeholder feedback | `stakeholder-feedback` | CEO, EM, frustrated user, iterate |
+| Sales, pitch, objection handling | `best-sales-guide` | World-class discovery, value prop, closing; best sales guide |
 | Pull main, resolve conflicts | `conflict-resolution` | Stash, pull, resolve, don't lose changes |
 | Learn from mistakes | `feedback-log` | Common feedback, update guardrails |
 | UI premium, product story | `ui-premium-checklist` | Homepage, frontend-backend alignment |
