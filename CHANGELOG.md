@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### docs: YouTube-derived skill upgrades — YOUTUBE_SKILL_UPGRADES, six-step audit
+
+- **docs/YOUTUBE_SKILL_UPGRADES.md**: Extracted patterns from FE/BE, Anthropic deep dive, Nate Herk, Claude official
+- Six-step framework, feedback cycle, progressive loading, token savings, testing fixes
+- SKILLSET_UPGRADE_ROADMAP: YouTube patterns section
+- skills-self-update: Six-step audit checklist, YOUTUBE_SKILL_UPGRADES reference
+
 ### feat(skills): World-class upgrade — REVIEW.md, lint-fixer, pr-summary, filter-test-output
 
 - **REVIEW.md**: Code review guidelines for Claude Code Review and five-agent verification

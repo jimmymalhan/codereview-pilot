@@ -343,7 +343,7 @@ Config: `branchPermissions` in `.claude/settings.json` for feature branches
 2. **Review** — Spawn 5–10 critique subagents: CodeReviewer, APIValidator, EvidenceReviewer, QAReviewer, Critic (use `five-agent-verification`)
 3. **Iterate** — For each blocker: fix skill, re-run reviewers
 4. **Update** — Use `skills-self-update` with lessons from critique
-5. **Reference** — Incorporate patterns from YouTube videos (FE/BE customization, PR automation, multi-PR)
+5. **Reference** — Incorporate patterns from YouTube videos (FE/BE, PR automation, multi-PR); see [docs/YOUTUBE_SKILL_UPGRADES.md](YOUTUBE_SKILL_UPGRADES.md) for extracted upgrades
 
 **When to run**: After creating or majorly updating a skill. Ensures skills align with project guardrails and run-the-business flow.
 
