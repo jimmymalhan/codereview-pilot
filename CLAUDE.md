@@ -11,7 +11,7 @@
 6. **Never wait for user** - Skills, agents, subagents proceed automatically. No "run?", "update?", "accept?", "approve?", "shall I?". Execute; report.
 7. **Confidence score backed by proof** - 95-100 only with passing tests
 8. **Separate observed facts from assumptions** - mark unknowns clearly with [UNKNOWN]
-9. **All changes through branches** - Never commit directly to main. Create a feature branch first. All commits go to feature/*. Merge to main only via PR.
+9. **All changes through branches** - Never commit directly to main. Create a feature branch first. All commits go to feature/*. Merge to main only via PR. Branch and commit names: product-centric (diagnosis, pipeline, api, evidence, ui). See `naming-convention-product` skill.
 10. **No merge without 100% consensus** - PR must have multiple comments (2+ from skills, agents, sub-agents, reviewers). All must approve. Do NOT merge without consensus. See `consensus-gates` skill.
 11. **No idea/project/task without stakeholder consensus** - Do not create ideas, projects, or tasks without consensus of all relevant stakeholders. Block until consensus.
 

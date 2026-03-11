@@ -1,15 +1,62 @@
 ---
 name: repository-audit-to-skillset
-description: Check PRs (open/closed), commits, and branches. Use the data to update the skill set. Run when asked to audit repository state or before updating skills from repository evidence.
+description: Check PRs (open/closed), commits, and branches. Use the data to update the skill set. 5 phases with sub-agent owners. Run when asked to audit repository state or as Phase 5 of full-cycle-automation.
 ---
 
 # Repository Audit → Skillset
 
-**Purpose**: Check PRs, commits, and branches. Use that data to update the skill set. Evidence from the repo drives skill updates.
+**Purpose**: Check PRs, commits, and branches. Use that data to update the skill set. Evidence from the repo drives skill updates. Every phase has a sub-agent owner.
 
 ---
 
-## Audit Commands
+## Phase 1: DISCOVER
+
+### Sub-Agent: `AuditScout` (model: haiku)
+- **Tools**: Bash
+- **Prompt**: Run `gh pr list --state all --limit 50`. Run `git branch -a`. Run `git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short) | %(committerdate:short) | %(subject)'`. Run `git log --all --oneline | head -60`. Collect raw data.
+- **Output**: `{ open_prs[], closed_prs[], branches[], commits[] }`
+- **Gate**: data collected
+- **Owner**: AuditScout
+
+## Phase 2: PLAN
+
+### Sub-Agent: `AuditPlanner` (model: sonnet)
+- **Tools**: Read
+- **Prompt**: Map data to skills. Open PRs → consensus-gates, merge order. Closed PRs → merge vs closed patterns. Branches → branch-cleanup, pr-push-merge. Commits → naming-convention-product. Identify which skills need updates.
+- **Output**: `{ skill_updates[], themes[], patterns[] }`
+- **Gate**: at least one skill identified or "no updates needed"
+- **Owner**: AuditPlanner
+
+## Phase 3: IMPLEMENT
+
+### Sub-Agent: `SkillUpgrader` (model: haiku)
+- **Tools**: Read, Edit
+- **Prompt**: For each skill in skill_updates: read SKILL.md, add lesson or update section. Update .claude/SKILLSETS.md if new skill or mapping changed.
+- **Output**: `{ files_updated[], skills_updated[] }`
+- **Gate**: updates applied
+- **Owner**: SkillUpgrader
+
+## Phase 4: VERIFY
+
+### Sub-Agent: `UpgradeVerifier` (model: haiku)
+- **Tools**: Read
+- **Prompt**: Re-read updated SKILL.md files. Confirm lessons/updates present. No duplicates. SKILLSETS.md consistent.
+- **Output**: `{ verified: boolean, issues[] }`
+- **Gate**: verified
+- **Owner**: UpgradeVerifier
+
+## Phase 5: DELIVER
+
+### Sub-Agent: `UpgradeCommitter` (model: haiku)
+- **Tools**: Bash, Edit
+- **Prompt**: Update CHANGELOG.md with "Skill update from repository audit: <skills>". Commit skill changes. Push to current branch.
+- **Output**: `{ commit_sha, files_committed }`
+- **Gate**: committed
+- **Owner**: UpgradeCommitter
+
+---
+
+## Audit Commands (Reference)
 
 ```bash
 # PRs (open + closed)

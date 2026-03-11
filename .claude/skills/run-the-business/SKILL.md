@@ -24,9 +24,10 @@ argument-hint: [task or instructions]
 
 ## Flow
 
-1. **Invoke** `idea-to-production` — Idea → Execute → Merge (auto when CI green) → Deploy (if FULL_AUTO)
-2. **Start** `live-watchdog` — Poll CI, deploy, health endpoint
-3. **On error** → `error-detector` → `fix-pr-creator` → `self-fix` loop until green
+1. **Invoke** `full-cycle-automation` — Branch cleanup → PR comments → Merge → Learn from mistakes → Upgrade skillset (all automatic)
+2. **Invoke** `idea-to-production` — Idea → Execute → Merge (auto when CI green) → Deploy (if FULL_AUTO)
+3. **Start** `live-watchdog` — Poll CI, deploy, health endpoint
+4. **On error** → `error-detector` → `fix-pr-creator` → `self-fix` → `skills-self-update` (learn) → `repository-audit-to-skillset` (upgrade)
 
 ---
 
@@ -54,9 +55,13 @@ argument-hint: [task or instructions]
 
 ## Related Skills
 
+- `full-cycle-automation` — Branch cleanup → PR comments → Merge → Learn → Upgrade (full loop)
+- `branch-cleanup` — Delete merged branches, close stale PRs (5 phases)
 - `ultra-automation` — Max autonomy; ON by default when run-the-business
 - `idea-to-production` — Master flow
 - `live-watchdog` — Poll and detect errors
 - `error-detector` — Classify error, route fix agent
 - `fix-pr-creator` — Create fix branch + PR
 - `self-fix` — Loop until green
+- `skills-self-update` — Learn from mistakes
+- `repository-audit-to-skillset` — Upgrade skills from repo evidence

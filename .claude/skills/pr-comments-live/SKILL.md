@@ -23,6 +23,7 @@ description: Post comments to the PR as work happens. Every commit, every update
 |--------|---------|
 | Commit | `gh pr comment --body "Committed: <message>"` |
 | Push | `gh pr comment --body "Pushed: <summary>"` |
+| **Ten-pass (each pass)** | `GH_TOKEN=${GH_TOKEN_<AGENT>:-$GH_TOKEN} gh pr comment --body "**[Agent]** PASS/BLOCK — ..."` (per-agent identity; see `github-agent-identities`) |
 | Add/update skill | `gh pr comment --body "Skill update: <skill-name> — <what changed>"` |
 | Fix/test | `gh pr comment --body "Fix: <brief>. Tests: pass/fail."` |
 | Phase complete | `gh pr comment --body "Phase N done: <summary>"` |
@@ -47,6 +48,9 @@ gh pr comment --body "Committed: feat(skills): X. Tests pass."
 
 ## Integration
 
+- **github-agent-identities**: Each agent uses its own GH token → PR shows multiple contributors. See `.claude/skills/github-agent-identities/SKILL.md`.
+- **ten-pass-verification**: Each of 10 passes MUST post with agent-specific token. Merge blocked until all 10 comment.
+- **five-agent-verification**: Each of 5 agents MUST post with its token. Part of ten-pass. Convince agents in PR threads before merge.
 - **pr-push-merge**: Each phase outputs to PR via comment
 - **user-feedback-to-skillset**: When updating skill from feedback → PR comment
 - **repository-audit-to-skillset**: When audit finds something → PR comment

@@ -13,10 +13,11 @@ argument-hint: [branch or ""]
 
 **Uses** `reversibility`: PR body must include rollback section.
 
-**Uses** `ten-pass-verification`: Before Phase 4, run 10-pass (REVIEW.md + five-agent + npm test + lint). All must pass.
+**Uses** `ten-pass-verification`: Before Phase 4, run 10-pass. **Each pass MUST post** `gh pr comment` with result and push-back. All 10 must pass AND comment. Merge blocked until 10 comments on PR.
 
 **Uses** `pr-comments-live`: Post PR comment at same time as every commit, push, or update. Never work in silence.
 **Uses** `parallel-execution`: Do multiple actions together (commit + push + comment); not one thing at a time.
+**Uses** `naming-convention-product`: Commit message and PR title must use product domain (diagnosis, pipeline, api, evidence, ui) — never rule/process names.
 
 ## PR Comments (Every Phase)
 After each phase: `gh pr comment --body "Phase N: <summary>"` — in parallel with the phase output. See `pr-comments-live` skill.
@@ -30,9 +31,9 @@ After each phase: `gh pr comment --body "Phase N: <summary>"` — in parallel wi
 
 ## Phase 2: PLAN
 ### Sub-Agent: `PRPlanner` (model: sonnet)
-- **Prompt**: Plan commit scope: which files to stage (project-relevant only, no plans/reports). Draft PR title and body. Check if PR already exists.
+- **Prompt**: Plan commit scope: which files to stage (project-relevant only, no plans/reports). Draft PR title and body. **Use product-centric naming**: scope = diagnosis, pipeline, api, evidence, ui, batch, webhook, audit (never rules like consensus-gates, ten-pass). Check if PR already exists.
 - **Output**: `{ files_to_stage[], commit_message, pr_title, pr_body, pr_exists: boolean }`
-- **Gate**: files selected AND message drafted
+- **Gate**: files selected AND message drafted (product scope)
 
 ## Phase 3: IMPLEMENT
 ### Sub-Agent: `CommitExecutor` (model: haiku)
@@ -50,9 +51,9 @@ After each phase: `gh pr comment --body "Phase N: <summary>"` — in parallel wi
 
 ## Phase 5: DELIVER
 ### Sub-Agent: `PRPublisher` (model: haiku)
-- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. **Do NOT merge without 100% consensus.** Require multiple comments (2+ from skills, agents, sub-agents, or reviewers). All must approve. Block merge until consensus. See `consensus-gates` skill.
-- **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_consensus" | "ready_to_merge" }`
-- **Gate**: links are real. For merge: block until multiple comments + 100% consensus.
+- **Prompt**: Output REAL PR link only (never invent). Output localhost URL only if verified. **Do NOT merge until 10 ten-pass critiques have commented.** Run critiques in parallel. **When gates pass, merge immediately** — do NOT leave PR hanging. See `consensus-gates` skill.
+- **Output**: `{ pr_url, localhost_url, server_status, merge_status: "awaiting_10_pass_comments" | "awaiting_consensus" | "ready_to_merge" }`
+- **Gate**: links are real. For merge: 10 ten-pass comments + consensus → merge same session. No indefinite wait.
 
 ## Contingency
 IF push fails → check branch permissions → retry once → if still failing → contingency L5 (ask user).
@@ -85,9 +86,9 @@ Phase 4 MUST verify localhost. Phase 5 MUST tell user: "Server running at localh
 3. **Run CI** – `npm run test:ci`; fix failures. **In parallel**: Post PR comment when CI status known
 4. **Open PR** – Or update existing PR. **In parallel**: Post PR comment describing changes
 5. **Provide** – Localhost URL (working) + PR link
-6. **Consensus gate** – Multiple comments required (2+ from skills, agents, sub-agents, reviewers). 100% consensus required. Do NOT merge without consensus. See `consensus-gates` skill.
-7. **Merge** – Only when multiple comments AND 100% consensus. Never merge without.
-8. **Cleanup** – Delete branch after merge
+6. **Consensus gate** – 10 ten-pass comments on PR required. Multiple comments (2+). 100% consensus. Do NOT merge without. See `consensus-gates` skill.
+7. **Merge** – Only when 10 ten-pass comments exist on PR AND multiple comments AND 100% consensus. Never merge before 10-pass critiques have commented.
+8. **Cleanup** – Delete branch after merge. Invoke `branch-cleanup` skill for full hygiene. Then `skills-self-update` (learn) and `repository-audit-to-skillset` (upgrade).
 
 ## Output Rules
 

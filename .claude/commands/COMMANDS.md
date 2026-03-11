@@ -1,5 +1,19 @@
 # Repeatable Commands
 
+## /full-cycle-automation
+Run the complete automation loop: branch cleanup → PR comments → merge → learn from mistakes → upgrade skillset.
+
+**Usage**: /full-cycle-automation [|resume]
+
+**Process**:
+1. **Branch cleanup** — Delete merged branches, close abandoned PRs (branch-cleanup skill, 5 phases)
+2. **PR comments** — Ten-pass critiques post to PRs (per-agent identity)
+3. **Merge** — When 10 comments + consensus, merge and delete branch
+4. **Learn** — skills-self-update adds lessons from fixes/failures
+5. **Upgrade** — repository-audit-to-skillset updates skills from repo evidence
+
+**Output**: Summary of each phase. All automatic; no approval gates.
+
 ## /plan
 Create work breakdown before implementing.
 

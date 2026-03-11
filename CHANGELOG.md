@@ -5,6 +5,62 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and commits use [
 
 ## [Unreleased]
 
+### feat(skills): Full-cycle automation; all skills have agents; 4-5 phases with owners
+
+- **full-cycle-automation**: New skill — Branch cleanup → PR comments → Merge → Learn → Upgrade. Runs automatically. All skills have agents; all agents have 4-5 phases; every phase has sub-agent owner.
+- **branch-cleanup**: New skill — 5 phases: BranchScout, BranchPlanner, BranchCleaner, CleanupVerifier, CleanupReporter. Delete merged branches, close stale PRs.
+- **repository-audit-to-skillset**: Added 5 phases with sub-agent owners (AuditScout, AuditPlanner, SkillUpgrader, UpgradeVerifier, UpgradeCommitter).
+- **run-the-business**: Invokes full-cycle-automation as default. On error: fix → skills-self-update (learn) → repository-audit-to-skillset (upgrade).
+- **pr-push-merge**, **idea-to-production**: After merge → branch-cleanup, skills-self-update, repository-audit-to-skillset.
+- **COMMANDS.md**: Added /full-cycle-automation
+
+### feat(skills): Per-agent GitHub identities; multiple contributors; convince in PR threads
+
+- **github-agent-identities**: New skill — Each agent (CodeReviewer, APIValidator, etc.) has its own GitHub identity. Post PR comments with agent-specific GH_TOKEN. PR shows multiple different contributors.
+- **Setup**: Create machine user accounts, PATs, store in .env (GH_TOKEN_CODERREVIEWER, GH_TOKEN_APIVALIDATOR, etc.). See .env.example.
+- **Script**: `.claude/scripts/gh-pr-comment-as-agent.sh` — post as specific agent
+- **Convince flow**: Agent BLOCKs → author fixes → agent re-checks, posts follow-up → no merge until all convinced
+- **ten-pass, five-agent, pr-comments-live, consensus-gates**: Use per-agent tokens when posting. Git commits can use per-agent author (-c user.name).
+- **.env.example**: Placeholder for per-agent tokens
+
+### feat(skills): Agent task assignment; parallel spawn; nothing hanging
+
+- **agent-task-assignment**: New skill — Assign every task to an agent. Spawn in parallel when independent. Nothing unassigned.
+- **EvidenceReviewer**: New optional agent (Phase 3, evidence-proof, five-agent) — ten-pass pass 3
+- **settings.json**: Guidance changed from "3+ tasks" to "spawn when phase runs; parallel; nothing hanging"
+- **e2e-orchestrator**: Phase 3 spawns CodeReviewer, APIValidator, EvidenceReviewer, QAReviewer, Critic ALL in parallel
+- **five-agent-verification**: ReviewRunner spawns all 5 in parallel (no sequential)
+- **plan-and-execute**: Spawn multiple TaskExecutors when checklist has independent items (no file overlap)
+- **CLAUDE.md**: Spawn when phase runs; parallel by default
+- **SKILLSETS.md**: agent-task-assignment added; agent assignment updated
+
+### feat(skills): Run critiques in parallel; merge promptly; don't leave PRs hanging
+
+- **ten-pass-verification**: Run passes 1–5, 6+7+10, 8+9 in parallel. Time-bound: complete within 15 min. Merge immediately when done.
+- **consensus-gates**: "Do NOT leave PRs hanging" — merge when gates pass, same session. Target: merge within 1 hour of PR ready.
+- **pr-push-merge**: Phase 5 — merge immediately when consensus; no indefinite wait.
+- **parallel-execution**: Ten-pass runs critiques in parallel; no sequential bottleneck.
+- **Peers critiquing peers**: 10 passes = 10 different perspectives; all comment on PR; run together for speed.
+
+### feat(skills): Product-centric naming convention
+
+- **naming-convention-product**: New skill — Branches, commits, PR titles must reflect core product and use cases (diagnosis, pipeline, api, evidence, ui). Do NOT use rule/process names.
+- **Product domains**: diagnosis, pipeline, api, batch, webhook, evidence, audit, ui, export
+- **Use cases**: api-latency, database, auth-5xx, payments, oncall-sre, ci-flaky, microservices
+- **Mapping**: Rule/process changes → map to closest product domain (e.g. consensus → diagnosis, ten-pass → pipeline)
+- **guardrails.md**, **pr-push-merge**: Product-centric naming enforced
+- **SKILLSETS.md**: naming-convention-product added
+
+### fix(skills): Ten-pass critiques MUST comment on PR; merge only after 10 comments
+
+- **Root cause**: Ten-pass and five-agent produced output internally but never ran `gh pr comment`. PRs had no comments because no skill required posting.
+- **ten-pass-verification**: HARD rule — each of 10 passes MUST run `gh pr comment` with result and push-back. Merge blocked until all 10 have commented.
+- **five-agent-verification**: HARD rule — each of 5 agents MUST post PR comment with result. ReviewRunner must post per-agent.
+- **consensus-gates**: 10 ten-pass comments required on PR before merge; critiques must push back on PR.
+- **pr-push-merge**: Phase 5 — block merge until 10 ten-pass comments exist. New status: `awaiting_10_pass_comments`.
+- **pr-comments-live**: Added ten-pass and five-agent to When to Comment; integration with ten-pass.
+- **Rule**: Merge only AFTER 10-pass critiques have commented and pushed back. Never before.
+
 ### feat(skills): Reinforce everything → skillset; keep updating
 
 - **user-feedback-to-skillset**: Added "Everything. Always." rule; "Keep updating the skill set" and "Everything needs to go to the skill set" to When User Says; fixed .claude/SKILLSETS.md path

@@ -2,6 +2,7 @@
 
 ## Hard Rules (Branch Workflow)
 - **All changes through branches** — Never commit directly to main. If on main, run `git checkout -b feature/<name>` first. All commits go to feature/*. Merge to main only via PR. No exceptions.
+- **Product-centric naming** — Branch and commit names must reflect core product and use cases (diagnosis, pipeline, api, evidence, ui). Do NOT use rule/process names (e.g. consensus-gates, ten-pass). See `naming-convention-product` skill.
 - **No merge without consensus** — Multiple comments (2+ from skills, agents, sub-agents, reviewers). 100% approval. Do NOT merge without. See `consensus-gates` skill.
 - **No idea/project/task without consensus** — Do not create ideas, projects, or tasks without consensus of all relevant stakeholders.
 

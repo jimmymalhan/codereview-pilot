@@ -145,6 +145,7 @@ When `run-the-business` is invoked, start live monitoring:
 - `git push origin main`
 - `git branch -d feature/<branch>`
 - Use `conflict-resolution` if main moved ahead
+- **After merge**: Invoke `branch-cleanup` (clean merged branches). Invoke `skills-self-update` (learn from fixes). Invoke `repository-audit-to-skillset` (upgrade skills). See `full-cycle-automation`.
 
 ---
 

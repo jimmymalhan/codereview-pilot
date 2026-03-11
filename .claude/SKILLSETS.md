@@ -113,6 +113,11 @@
 | **pr-comments-live** | Post PR comment at same time as every commit/push/update; never work in silence | pr-push-merge, all delivery flows |
 | **parallel-execution** | Do multiple things at once; not one thing at a time | pr-push-merge, Plan, General-Purpose |
 | **consensus-gates** | PR: multiple comments + 100% consensus; idea/project/task: stakeholder consensus | pr-push-merge, Plan, General-Purpose |
+| **naming-convention-product** | Branches, commits, PR titles: product/use-case based; never rule/process names | pr-push-merge, Plan, General-Purpose |
+| **agent-task-assignment** | Assign every task to agent; spawn in parallel; nothing hanging | Plan, General-Purpose, e2e-orchestrator |
+| **github-agent-identities** | Each agent has own GitHub identity; per-agent GH token for PR comments; convince in threads | ten-pass, five-agent, pr-comments-live, consensus-gates |
+| **full-cycle-automation** | Branch cleanup → PR comments → merge → learn → upgrade; all skills have agents; all agents 4-5 phases | run-the-business, default loop |
+| **branch-cleanup** | Delete merged branches, close stale PRs; 5 phases, sub-agent owners | full-cycle-automation, pr-push-merge |
 
 ---
 
@@ -267,7 +272,7 @@ Invoke `/e2e-orchestrator` to run the whole business end-to-end.
 
 1. **Plan** – `plan-and-execute`: checklist, sub-tasks, skip completed
 2. **Break work** – Multiple sub-tasks; run in parallel where possible
-3. **Agents** – 1 lead + 4 (explore, plan, reviewer, qa); optional frontend/backend/qa
+3. **Agents** – Assign every task. Spawn CodeReviewer, APIValidator, EvidenceReviewer, QAReviewer, Critic in parallel (Phase 3). Spawn frontend/backend/qa in parallel when scope touches FE+BE+test. See `agent-task-assignment`.
 4. **Branches** – Work on feature branch; never main; use `conflict-resolution` when main moves
 5. **Tests** – Local (`npm test`) + CI (`npm run test:ci`); must pass before push
 6. **Feedback** – `stakeholder-feedback`; `feedback-log` for common patterns

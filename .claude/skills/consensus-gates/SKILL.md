@@ -11,18 +11,24 @@ description: PR merge requires multiple comments and 100% consensus. Idea, proje
 
 ## PR Merge Gate (HARD)
 
-- **Multiple comments required** — PR must have comments from skill sets, agents, sub-agents, or reviewers. At least 2+ distinct commenters (or 2+ agent/role reviews).
+- **10-pass comments required** — PR must have comments from all 10 ten-pass verification passes ON THE PR. Each pass must run `gh pr comment` with its result and any push-back. Merge blocked until all 10 have commented.
+- **Multiple comments required** — In addition: PR must have comments from skill sets, agents, sub-agents, or reviewers. At least 2+ distinct commenters (or 2+ agent/role reviews).
 - **100% consensus required** — All reviewers must approve. No objections. No "request changes" unresolved.
 - **Do NOT merge without consensus** — If any reviewer has not approved, block merge. If any objection exists, block merge.
-- **Sources of comments**: Skill sets, agents, sub-agents, human reviewers, five-agent verification, ten-pass verification outputs. All count.
+- **Critiques must push back on PR** — Ten-pass and five-agent outputs MUST be posted as PR comments. No silent verification.
+- **Multiple contributors** — Each agent posts with its own GitHub identity (per-agent GH token). PR must show different commenters. See `github-agent-identities`.
+- **Convince before merge** — When agent BLOCKs, author fixes. Agent re-checks, posts follow-up (PASS or still BLOCK). No merge until all agents are convinced.
 
 ### Merge Checklist
 - [ ] CI green (npm test, lint, etc.)
+- [ ] **10 ten-pass comments on PR** — All 10 passes have run `gh pr comment` with their result
 - [ ] Multiple comments on PR (2+ from agents, skills, or reviewers)
 - [ ] 100% consensus — all have approved; no outstanding objections
 - [ ] Ten-pass verification passed (where applicable)
 
-**Rule**: Never merge a PR without satisfying all of the above. Consensus overrides auto-merge.
+**Rule**: Never merge a PR without satisfying all of the above. **Merge only AFTER 10-pass critiques have commented.** Consensus overrides auto-merge.
+
+**Do NOT leave PRs hanging** — Once all gates pass (10 comments, consensus), merge immediately. Don't wait for "later" or add artificial delays. Run critiques in parallel to finish quickly. Target: merge within 1 hour of PR ready.
 
 ---
 
@@ -46,12 +52,15 @@ description: PR merge requires multiple comments and 100% consensus. Idea, proje
 ```
 PR ready to merge
        ↓
-Multiple comments? (2+ from skills, agents, sub-agents, reviewers)
+Run ten-pass in PARALLEL — all critiques post comments quickly (target: <15 min)
        ↓
-100% consensus? (all approved, no objections)
+10 ten-pass comments on PR? Multiple comments? 100% consensus?
        ↓
-Yes → Proceed to merge
-No  → Block. Get more comments. Resolve objections. Re-check consensus.
+Yes → Merge immediately. Do NOT leave PR hanging.
+No  → Fix, re-run failed critiques, resolve objections. Merge as soon as gates pass.
+```
+
+**Merge promptly** — When all gates pass, merge the same session. No "PR approved, will merge tomorrow."
 
 Idea / Project / Task proposed
        ↓

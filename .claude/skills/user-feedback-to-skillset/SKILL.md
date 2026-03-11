@@ -48,6 +48,7 @@ Never create docs/<new-feedback>.md
 | "Keep updating the skill set" | Reinforce: everything → skillset. Update this skill. | Ignore or defer |
 | "Everything needs to go to the skill set" | Same. Every user input → skill. No exceptions. | Create docs, leave out |
 | "Check PRs, branches, commits" | Run `repository-audit-to-skillset`; use data to update skills | Create standalone audit doc |
+| "Naming convention", "branch names", "commit format" | Update `naming-convention-product` skill | Create docs/naming.md |
 
 ---
 

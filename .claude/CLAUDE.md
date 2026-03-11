@@ -118,21 +118,22 @@
 - **backend-engineer** (Phase 2) – Skills: backend-engineer, backend-reliability
 - **qa-engineer** (Phase 3) – Skills: qa-engineer, critic
 
-**Guidance:** Use specialized agents only when you have **3+ independent tasks** that can run in parallel. For most work, core subagents are sufficient.
+**Guidance:** Assign every task to an agent. Spawn optional agents when their phase runs. Run in parallel when tasks are independent. Nothing left unassigned. See `agent-task-assignment` skill.
 
 ### When to Spawn Agents (and When NOT to)
 
 ✅ **DO spawn agents when:**
-- Need parallel research on different topics
-- Code review or testing needs to happen while you code
-- Specialized expertise required (security, performance, UX)
-- 3+ independent tasks with no dependencies
+- Phase runs (Phase 2: frontend + backend + qa; Phase 3: CodeReviewer + APIValidator + EvidenceReviewer + QAReviewer + Critic)
+- Checklist has 2+ independent items (no file overlap) → spawn multiple TaskExecutors in parallel
+- Ten-pass runs → spawn all 5 five-agent in parallel
+- Need parallel research, code review, or specialized expertise
 
 ❌ **DON'T spawn agents when:**
-- Single straightforward task
-- Work is sequential (one thing depends on another)
+- Single straightforward task (1 file, 1 edit)
 - Agent would duplicate your work
 - You're just researching a quick answer
+
+**Parallel by default**: When tasks are independent, spawn agents simultaneously. Do NOT sequence when parallel is possible.
 
 ### Agent Communication
 - Use SendMessage for direct communication with agents
