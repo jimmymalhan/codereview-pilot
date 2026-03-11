@@ -4,7 +4,7 @@
 
 ---
 
-## Pending Checkpoints (1)
+## Pending Checkpoints (0) — 1.0.0 COMPLETE
 
 - [x] LS-001 Skeleton component
 - [x] LS-006 StepProgressBar component
@@ -12,7 +12,7 @@
 - [x] PUI-002 Wire StepProgressBar into App (LoadingOverlay)
 - [x] FC-010 WCAG AA (accessibility.css, axe-core tests)
 - [x] DT-010 Document design tokens in CLAUDE.md
-- [ ] FC-007 Lighthouse ≥90 (CI job commits lighthouse-score.json when ≥90)
+- [x] FC-007 Lighthouse ≥90 (90/94 perf/a11y via CI)
 
 ---
 
